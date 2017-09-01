@@ -1,0 +1,135 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{90533C51-8B80-4D39-9722-4CD89BFCB84C}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Library - Common", "SharedProject1\_Library - Common.shproj", "{C96CFE92-41D3-47DF-8A4A-C17A71C8E459}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group Renamer", "Group Renamer\Group Renamer.csproj", "{CC0335A2-8809-4A3B-A480-EC10767619FA}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Logging", "_Module - Logging\_Module - Logging.shproj", "{5A5BCC5C-0965-4CF1-B4C0-9F4925F33878}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Door Closer", "_Module - Door Closer\_Module - Door Closer.shproj", "{CE1D6A6C-A380-4FA8-A306-2F81AA4A7E33}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Time Interval", "_Module - Time Interval\_Module - Time Interval.shproj", "{243C42A9-6084-40C4-A1C4-5D0D61A5F1E1}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Custom Data Config", "_Module - Custom Data Config\_Module - Custom Data Config.shproj", "{DD940528-1A03-4AB3-9504-3AA93571E5EC}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Profiler", "_Module - Profiler\_Module - Profiler.shproj", "{7AD7003F-2C7C-4F0A-900A-279E82EF75E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{591BAD6C-F186-44B8-8076-DB35211A3B9A}"
+	ProjectSection(SolutionItems) = preProject
+		Block Actions.txt = Block Actions.txt
+		Block Properties.txt = Block Properties.txt
+	EndProjectSection
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - LCDs", "_Helper - LCDs\_Helper - LCDs.shproj", "{EC64A080-A572-41F9-A535-6152D0A647F3}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Compass", "_Module - Compass\_Module - Compass.shproj", "{61D703EE-85BA-47E5-B1B7-E512B20D7203}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Gas Tanks", "_Helper - Gas Tanks\_Helper - Gas Tanks.shproj", "{35BBB9DE-40B9-4E5A-AA79-49394BFA1435}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Group Renamer", "_Module - Group Renamer\_Module - Group Renamer.shproj", "{AFF70F69-CE5D-4D97-8288-41F3F8C3FC65}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Thrusters", "_Helper - Thrusters\_Helper - Thrusters.shproj", "{B924BA87-9A65-42F6-A761-BB86C9D713FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ship Dock-Secure", "Ship Dock-Secure\Ship Dock-Secure.csproj", "{055B7D17-D6EB-49BA-B45D-715A83A40F92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TWR Calculator", "TWR Calculator\TWR Calculator.csproj", "{503D7DE1-28C9-468F-8CD8-4BEC3EA05A64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - COMMs Reciever", "SpaceElevator - COMMs Reviever\SpaceElevator - COMMs Reciever.csproj", "{07280390-4C98-4B20-A2EB-F4DBE5713CEF}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SpaceElevator - Common", "SpaceElevator - COMMs Messages\SpaceElevator - Common.shproj", "{0A117477-6C2A-40AC-A8EB-FDCD2DFE11BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Carriage", "SpaceElevator - Carriage\SpaceElevator - Carriage.csproj", "{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Maintenance Carriage", "SpaceElevator - Maintenance Carriage\SpaceElevator - Maintenance Carriage.csproj", "{E86815B1-6E4C-48A4-B4AE-41F80675C68B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Station", "SpaceElevator - Station\SpaceElevator - Station.csproj", "{7668C9B9-78DE-4B35-A141-D528F0704D4A}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SpaceElevator - Carriages", "SpaceElevator - Carriages\SpaceElevator - Carriages.shproj", "{6E984321-53BC-42D1-96A1-F33860DC1E59}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Vector Align", "_Module - Vector Align\_Module - Vector Align.shproj", "{7204DD88-D4C2-4FE4-BBF8-E632497B7EFE}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
+		_Module - Time Interval\_Module - Time Interval.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
+		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
+		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
+		_Module - Logging\_Module - Logging.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
+		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{0a117477-6c2a-40ac-a8eb-fdcd2dfe11ba}*SharedItemsImports = 13
+		_Module - Time Interval\_Module - Time Interval.projitems*{243c42a9-6084-40c4-a1c4-5d0d61a5f1e1}*SharedItemsImports = 13
+		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{35bbb9de-40b9-4e5a-aa79-49394bfa1435}*SharedItemsImports = 13
+		SharedProject1\SharedProject1.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
+		_Helper - Thrusters\_Helper - Thrusters.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
+		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
+		_Module - Logging\_Module - Logging.projitems*{5a5bcc5c-0965-4cf1-b4c0-9f4925f33878}*SharedItemsImports = 13
+		_Module - Compass\_Module - Compass.projitems*{61d703ee-85ba-47e5-b1b7-e512b20d7203}*SharedItemsImports = 13
+		SpaceElevator - Carriages\SpaceElevator - Carriages.projitems*{6e984321-53bc-42d1-96a1-f33860dc1e59}*SharedItemsImports = 13
+		_Module - Vector Align\_Module - Vector Align.projitems*{7204dd88-d4c2-4fe4-bbf8-e632497b7efe}*SharedItemsImports = 13
+		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
+		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
+		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
+		_Module - Door Closer\_Module - Door Closer.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
+		_Module - Logging\_Module - Logging.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
+		_Module - Time Interval\_Module - Time Interval.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
+		_Module - Profiler\_Module - Profiler.projitems*{7ad7003f-2c7c-4f0a-900a-279e82ef75e4}*SharedItemsImports = 13
+		_Helper - LCDs\_Helper - LCDs.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
+		_Module - Logging\_Module - Logging.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
+		_Module - Group Renamer\_Module - Group Renamer.projitems*{aff70f69-ce5d-4d97-8288-41f3f8c3fc65}*SharedItemsImports = 13
+		_Helper - Thrusters\_Helper - Thrusters.projitems*{b924ba87-9a65-42f6-a761-bb86c9d713fa}*SharedItemsImports = 13
+		SharedProject1\SharedProject1.projitems*{c96cfe92-41d3-47df-8a4a-c17a71c8e459}*SharedItemsImports = 13
+		_Module - Group Renamer\_Module - Group Renamer.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
+		_Module - Door Closer\_Module - Door Closer.projitems*{ce1d6a6c-a380-4fa8-a306-2f81aa4a7e33}*SharedItemsImports = 13
+		SharedProject1\SharedProject1.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		SpaceElevator - Carriages\SpaceElevator - Carriages.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		_Helper - Thrusters\_Helper - Thrusters.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		_Module - Door Closer\_Module - Door Closer.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		_Module - Logging\_Module - Logging.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		_Module - Time Interval\_Module - Time Interval.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{dd940528-1a03-4ab3-9504-3aa93571e5ec}*SharedItemsImports = 13
+		SharedProject1\SharedProject1.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
+		SpaceElevator - Carriages\SpaceElevator - Carriages.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
+		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
+		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
+		_Helper - Thrusters\_Helper - Thrusters.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
+		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
+		_Module - Door Closer\_Module - Door Closer.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
+		_Module - Logging\_Module - Logging.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
+		_Module - Time Interval\_Module - Time Interval.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
+		_Helper - LCDs\_Helper - LCDs.projitems*{ec64a080-a572-41f9-a535-6152d0a647f3}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90533C51-8B80-4D39-9722-4CD89BFCB84C}.Debug|x64.ActiveCfg = Debug|x64
+		{90533C51-8B80-4D39-9722-4CD89BFCB84C}.Debug|x64.Build.0 = Debug|x64
+		{CC0335A2-8809-4A3B-A480-EC10767619FA}.Debug|x64.ActiveCfg = Debug|x64
+		{CC0335A2-8809-4A3B-A480-EC10767619FA}.Debug|x64.Build.0 = Debug|x64
+		{055B7D17-D6EB-49BA-B45D-715A83A40F92}.Debug|x64.ActiveCfg = Debug|x64
+		{055B7D17-D6EB-49BA-B45D-715A83A40F92}.Debug|x64.Build.0 = Debug|x64
+		{503D7DE1-28C9-468F-8CD8-4BEC3EA05A64}.Debug|x64.ActiveCfg = Debug|x64
+		{503D7DE1-28C9-468F-8CD8-4BEC3EA05A64}.Debug|x64.Build.0 = Debug|x64
+		{07280390-4C98-4B20-A2EB-F4DBE5713CEF}.Debug|x64.ActiveCfg = Debug|x64
+		{07280390-4C98-4B20-A2EB-F4DBE5713CEF}.Debug|x64.Build.0 = Debug|x64
+		{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}.Debug|x64.ActiveCfg = Debug|x64
+		{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}.Debug|x64.Build.0 = Debug|x64
+		{E86815B1-6E4C-48A4-B4AE-41F80675C68B}.Debug|x64.ActiveCfg = Debug|x64
+		{E86815B1-6E4C-48A4-B4AE-41F80675C68B}.Debug|x64.Build.0 = Debug|x64
+		{7668C9B9-78DE-4B35-A141-D528F0704D4A}.Debug|x64.ActiveCfg = Debug|x64
+		{7668C9B9-78DE-4B35-A141-D528F0704D4A}.Debug|x64.Build.0 = Debug|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {04B8FC1C-4D20-4A72-B309-3DA655C5FF20}
+	EndGlobalSection
+EndGlobal

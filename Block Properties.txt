@@ -1,0 +1,18 @@
+Light
+BlinkInterval   "Blink Interval"
+BlinkLength     "Blink Lenght"
+BlinkOffset     "Blink Offset"
+Color           "Color"
+Falloff         "Falloff"
+Intensity       "Intensity"
+Radius          "Radius"
+
+Rotor
+Velocity        "Velocity"
+
+TextPanel
+Font            "Font"
+FontSize        "FontSize"
+
+Thruster
+Override        "Override"
