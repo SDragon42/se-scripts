@@ -42,37 +42,37 @@ namespace IngameScript
                 if (loweredGroupName.StartsWith(GROUP_NAME_RenameTo))
                 {
                     thisObj.Echo(groupName);
-                    cnt = RenameTo(groupName, _groupBlocks);
+                    cnt = RenameTo(_groupBlocks, groupName);
                 }
 
                 else if (loweredGroupName.StartsWith(GROUP_NAME_NumberRenameTo))
                 {
                     thisObj.Echo(groupName);
-                    cnt = NumberRenameTo(groupName, _groupBlocks);
+                    cnt = NumberRenameTo(_groupBlocks, groupName);
                 }
 
                 else if (loweredGroupName.StartsWith(GROUP_NAME_PrefixWith))
                 {
                     thisObj.Echo(groupName);
-                    cnt = PrefixWith(groupName, _groupBlocks);
+                    cnt = PrefixWith(_groupBlocks, groupName);
                 }
 
                 else if (loweredGroupName.StartsWith(GROUP_NAME_SuffixWith))
                 {
                     thisObj.Echo(groupName);
-                    cnt = SuffixWith(groupName, _groupBlocks);
+                    cnt = SuffixWith(_groupBlocks, groupName);
                 }
 
                 else if (loweredGroupName.StartsWith(GROUP_NAME_RemovePrefix))
                 {
                     thisObj.Echo(groupName);
-                    cnt = RemovePrefix(groupName, _groupBlocks);
+                    cnt = RemovePrefix(_groupBlocks, groupName);
                 }
 
                 else if (loweredGroupName.StartsWith(GROUP_NAME_RemoveSuffix))
                 {
                     thisObj.Echo(groupName);
-                    cnt = RemoveSuffix(groupName, _groupBlocks);
+                    cnt = RemoveSuffix(_groupBlocks, groupName);
                 }
                 else continue;
 
@@ -80,7 +80,7 @@ namespace IngameScript
             }
         }
 
-        private int RenameTo(string groupName, IList<IMyTerminalBlock> groupBlocks)
+        private int RenameTo(IList<IMyTerminalBlock> groupBlocks, string groupName)
         {
             var cnt = 0;
             var baseName = groupName.Substring(GROUP_NAME_RenameTo.Length).Trim();
@@ -92,7 +92,7 @@ namespace IngameScript
 
             return cnt;
         }
-        private int NumberRenameTo(string groupName, IList<IMyTerminalBlock> groupBlocks)
+        private int NumberRenameTo(IList<IMyTerminalBlock> groupBlocks, string groupName)
         {
             var cnt = 0;
             var baseName = groupName.Substring(GROUP_NAME_NumberRenameTo.Length).Trim();
@@ -106,7 +106,7 @@ namespace IngameScript
 
             return cnt;
         }
-        private int PrefixWith(string groupName, IList<IMyTerminalBlock> groupBlocks)
+        private int PrefixWith(IList<IMyTerminalBlock> groupBlocks, string groupName)
         {
             var cnt = 0;
             var prefix = groupName.Substring(GROUP_NAME_PrefixWith.Length);
@@ -121,7 +121,7 @@ namespace IngameScript
 
             return cnt;
         }
-        private int SuffixWith(string groupName, IList<IMyTerminalBlock> groupBlocks)
+        private int SuffixWith(IList<IMyTerminalBlock> groupBlocks, string groupName)
         {
             var cnt = 0;
             var suffix = groupName.Substring(GROUP_NAME_SuffixWith.Length);
@@ -136,7 +136,7 @@ namespace IngameScript
 
             return cnt;
         }
-        private int RemovePrefix(string groupName, IList<IMyTerminalBlock> groupBlocks)
+        private int RemovePrefix(IList<IMyTerminalBlock> groupBlocks, string groupName)
         {
             var cnt = 0;
             var prefix = groupName.Substring(GROUP_NAME_RemovePrefix.Length);
@@ -151,7 +151,7 @@ namespace IngameScript
 
             return cnt;
         }
-        private int RemoveSuffix(string groupName, IList<IMyTerminalBlock> groupBlocks)
+        private int RemoveSuffix(IList<IMyTerminalBlock> groupBlocks, string groupName)
         {
             var cnt = 0;
             var suffix = groupName.Substring(GROUP_NAME_RemoveSuffix.Length);
