@@ -90,10 +90,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MDKUtilities">
-      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\sdtarh1w.mhq\MDKUtilities.dll</HintPath>
+      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\utfhggj2.4zi\MDKUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\sdtarh1w.mhq\Analyzers\MDKAnalyzer.dll" />
+    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\utfhggj2.4zi\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MDK\Bootstrapper.cs" />
@@ -104,9 +104,7 @@
     <Compile Include="1ShipDockSecure.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
-    <AdditionalFiles Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\sdtarh1w.mhq\Analyzers\whitelist.cache">
-      <Link>MDK\whitelist.cache</Link>
-    </AdditionalFiles>
+    <AdditionalFiles Include="MDK\whitelist.cache" />
   </ItemGroup>
   <Import Project="..\_Module - Time Interval\_Module - Time Interval.projitems" Label="Shared" />
   <Import Project="..\_Module - Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
