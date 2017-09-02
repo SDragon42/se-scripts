@@ -1,8 +1,41 @@
-﻿/*
- *   R e a d m e
- *   -----------
+﻿/* Renames all blocks in a group.
  * 
- *   In this file you can include any instructions or other comments you want to have injected onto the 
- *   top of your final script. You can safely delete this file if you do not want any such comments.
+ * ----------------------------------------------------------
  * 
+ * Usage:
+ * Select all the blocks you want to have renamed, and create 
+ * a new group in the format of
+ *   <rename type>:<rename text>
+ * 
+ * ----------------------------------------------------------
+ * 
+ * Rename Types:
+ * 
+ *   rename to
+ *       - Renames all the blocks.
+ *   
+ *   num rename to
+ *       - Renames all the blocks, adding number to the end of the name
+ *   
+ *   prefix with
+ *       - Adds a prefix to the begining of the block name (if it doesn't have the prefix already).
+ *   
+ *   remove prefix
+ *       - removes the prefix from the begining of the block name.
+ *   
+ *   suffix with
+ *       - Adds a suffix to the end of the block name (if it doesn't have the suffix already).
+ *   
+ *   remove suffix
+ *       - removes the suffix from the end of the block name.
+ * 
+ * ----------------------------------------------------------
+ * 
+ * Example:
+ *   If you have the group name
+ *       rename to:Ion Thruster
+ *   with five blocks in it, they will all be renamed to
+ *       Ion Thruster
+ * 
+ * ----------------------------------------------------------
  */

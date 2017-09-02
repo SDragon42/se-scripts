@@ -18,154 +18,45 @@ namespace IngameScript
 {
     class GroupRenamer
     {
-        const string GROUP_NAME_RenameTo = "rename to:";
-        const string GROUP_NAME_NumberRenameTo = "num rename to:";
-        const string GROUP_NAME_PrefixWith = "prefix with:";
-        const string GROUP_NAME_RemovePrefix = "remove prefix:";
-        const string GROUP_NAME_SuffixWith = "suffix with:";
-        const string GROUP_NAME_RemoveSuffix = "remove suffix:";
+        delegate int RenameMethodSig(List<IMyTerminalBlock> blocks, string content);
+        readonly Dictionary<string, RenameMethodSig> _renameMethods = new Dictionary<string, RenameMethodSig>();
+        public GroupRenamer()
+        {
+            _renameMethods.Add("rename to:", RenameMethods.RenameTo);
+            _renameMethods.Add("num rename to:", RenameMethods.NumberRenameTo);
+            _renameMethods.Add("prefix with:", RenameMethods.PrefixWith);
+            _renameMethods.Add("remove prefix:", RenameMethods.RemovePrefix);
+            _renameMethods.Add("suffix with:", RenameMethods.SuffixWith);
+            _renameMethods.Add("remove suffix:", RenameMethods.RemoveSuffix);
+        }
 
-        readonly List<IMyBlockGroup> _allGroups = new List<IMyBlockGroup>();
         readonly List<IMyTerminalBlock> _groupBlocks = new List<IMyTerminalBlock>();
 
-        public void RenameAllBlocksInGroups(MyGridProgram thisObj)
+        public bool IsRenameGroup(IMyBlockGroup g)
         {
-            thisObj.GridTerminalSystem.GetBlockGroups(_allGroups);
+            return _renameMethods
+                .Where(b => g.Name.StartsWith(b.Key, StringComparison.CurrentCultureIgnoreCase))
+                .Any();
+        }
 
-            foreach (var currentGroup in _allGroups)
+        public string RenameAllBlocksInGroups(List<IMyBlockGroup> _allGroups)
+        {
+            var log = new StringBuilder();
+
+            foreach (var currentGroup in _allGroups.Where(IsRenameGroup))
             {
                 currentGroup.GetBlocks(_groupBlocks);
-                var groupName = currentGroup.Name;
-                var loweredGroupName = groupName.ToLower();
-                var cnt = 0;
-
-                if (loweredGroupName.StartsWith(GROUP_NAME_RenameTo))
-                {
-                    thisObj.Echo(groupName);
-                    cnt = RenameTo(_groupBlocks, groupName);
-                }
-
-                else if (loweredGroupName.StartsWith(GROUP_NAME_NumberRenameTo))
-                {
-                    thisObj.Echo(groupName);
-                    cnt = NumberRenameTo(_groupBlocks, groupName);
-                }
-
-                else if (loweredGroupName.StartsWith(GROUP_NAME_PrefixWith))
-                {
-                    thisObj.Echo(groupName);
-                    cnt = PrefixWith(_groupBlocks, groupName);
-                }
-
-                else if (loweredGroupName.StartsWith(GROUP_NAME_SuffixWith))
-                {
-                    thisObj.Echo(groupName);
-                    cnt = SuffixWith(_groupBlocks, groupName);
-                }
-
-                else if (loweredGroupName.StartsWith(GROUP_NAME_RemovePrefix))
-                {
-                    thisObj.Echo(groupName);
-                    cnt = RemovePrefix(_groupBlocks, groupName);
-                }
-
-                else if (loweredGroupName.StartsWith(GROUP_NAME_RemoveSuffix))
-                {
-                    thisObj.Echo(groupName);
-                    cnt = RemoveSuffix(_groupBlocks, groupName);
-                }
-                else continue;
-
-                thisObj.Echo("# Blocks :" + cnt.ToString());
-            }
-        }
-
-        private int RenameTo(IList<IMyTerminalBlock> groupBlocks, string groupName)
-        {
-            var cnt = 0;
-            var baseName = groupName.Substring(GROUP_NAME_RenameTo.Length).Trim();
-            for (var x = 0; x < groupBlocks.Count; x++)
-            {
-                groupBlocks[x].CustomName = baseName;
-                cnt++;
+                var methodKeyPair = _renameMethods
+                    .Where(b => currentGroup.Name.StartsWith(b.Key, StringComparison.CurrentCultureIgnoreCase))
+                    .FirstOrDefault();
+                var content = currentGroup.Name.Substring(methodKeyPair.Key.Length);
+                var count = methodKeyPair.Value.Invoke(_groupBlocks, content);
+                log.AppendLine(currentGroup.Name);
+                log.AppendLine($"# Blocks : {count:N0}");
             }
 
-            return cnt;
+            return log.ToString();
         }
-        private int NumberRenameTo(IList<IMyTerminalBlock> groupBlocks, string groupName)
-        {
-            var cnt = 0;
-            var baseName = groupName.Substring(GROUP_NAME_NumberRenameTo.Length).Trim();
-            var numDigits = groupBlocks.Count.ToString().Length;
-            for (var x = 0; x < groupBlocks.Count; x++)
-            {
-                var num = (x + 1).ToString();
-                groupBlocks[x].CustomName = baseName + " " + num.PadLeft(numDigits, '0');
-                cnt++;
-            }
-
-            return cnt;
-        }
-        private int PrefixWith(IList<IMyTerminalBlock> groupBlocks, string groupName)
-        {
-            var cnt = 0;
-            var prefix = groupName.Substring(GROUP_NAME_PrefixWith.Length);
-            for (var x = 0; x < groupBlocks.Count; x++)
-            {
-                if (!groupBlocks[x].CustomName.ToLower().StartsWith(prefix.ToLower()))
-                {
-                    groupBlocks[x].CustomName = (prefix + groupBlocks[x].CustomName).Trim();
-                    cnt++;
-                }
-            }
-
-            return cnt;
-        }
-        private int SuffixWith(IList<IMyTerminalBlock> groupBlocks, string groupName)
-        {
-            var cnt = 0;
-            var suffix = groupName.Substring(GROUP_NAME_SuffixWith.Length);
-            for (var x = 0; x < groupBlocks.Count; x++)
-            {
-                if (!groupBlocks[x].CustomName.ToLower().EndsWith(suffix.ToLower()))
-                {
-                    groupBlocks[x].CustomName = (groupBlocks[x].CustomName + suffix).Trim();
-                    cnt++;
-                }
-            }
-
-            return cnt;
-        }
-        private int RemovePrefix(IList<IMyTerminalBlock> groupBlocks, string groupName)
-        {
-            var cnt = 0;
-            var prefix = groupName.Substring(GROUP_NAME_RemovePrefix.Length);
-            for (var x = 0; x < groupBlocks.Count; x++)
-            {
-                if (groupBlocks[x].CustomName.ToLower().StartsWith(prefix.ToLower()))
-                {
-                    groupBlocks[x].CustomName = groupBlocks[x].CustomName.Substring(prefix.Length).Trim();
-                    cnt++;
-                }
-            }
-
-            return cnt;
-        }
-        private int RemoveSuffix(IList<IMyTerminalBlock> groupBlocks, string groupName)
-        {
-            var cnt = 0;
-            var suffix = groupName.Substring(GROUP_NAME_RemoveSuffix.Length);
-            for (var x = 0; x < groupBlocks.Count; x++)
-            {
-                if (groupBlocks[x].CustomName.ToLower().EndsWith(suffix.ToLower()))
-                {
-                    var tmp = groupBlocks[x].CustomName.Substring(0, groupBlocks[x].CustomName.Length - suffix.Length);
-                    groupBlocks[x].CustomName = tmp.Trim();
-                    cnt++;
-                }
-            }
-            return cnt;
-        }
-
+        
     }
 }

@@ -19,10 +19,12 @@ namespace IngameScript
     partial class Program : MyGridProgram
     {
         readonly GroupRenamer _renamer = new GroupRenamer();
-
+        readonly List<IMyBlockGroup> _groups = new List<IMyBlockGroup>();
         public void Main(string argument)
         {
-            _renamer.RenameAllBlocksInGroups(this);
+            GridTerminalSystem.GetBlockGroups(_groups, _renamer.IsRenameGroup);
+            var results = _renamer.RenameAllBlocksInGroups(_groups);
+            Echo(results);
         }
     }
 }
