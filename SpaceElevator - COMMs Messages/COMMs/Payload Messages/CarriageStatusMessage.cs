@@ -29,15 +29,14 @@ namespace IngameScript
         private CarriageStatusMessage() : base(TYPE) { }
         public CarriageStatusMessage(string mode, Vector3D pos, double vertSpeed, float fuelLevel, double cargoMass, double rangeToGround, double rangeToDestination) : base(TYPE)
         {
-            _msgParts = new string[]
-            {
-            mode,
-            Vector3DtoGPS(pos),
-            vertSpeed.ToString(),
-            fuelLevel.ToString(),
-            cargoMass.ToString(),
-            rangeToGround.ToString(),
-            rangeToDestination.ToString()
+            _msgParts = new string[] {
+                mode,
+                Vector3DtoGPS(pos),
+                vertSpeed.ToString(),
+                fuelLevel.ToString(),
+                cargoMass.ToString(),
+                rangeToGround.ToString(),
+                rangeToDestination.ToString()
             };
         }
 

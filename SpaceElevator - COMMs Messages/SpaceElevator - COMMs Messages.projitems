@@ -11,7 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\CommMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\COMMsModule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\BasePayloadMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)COMMs\BasePayloadMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\CarriageGotoMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\CarriageRequestMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\CarriageStatusMessage.cs" />
