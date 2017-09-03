@@ -53,6 +53,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SpaceElevator - Carriages",
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Vector Align", "_Module - Vector Align\_Module - Vector Align.shproj", "{7204DD88-D4C2-4FE4-BBF8-E632497B7EFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Initialize Blocks", "Initialize Blocks\Initialize Blocks.csproj", "{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
@@ -84,6 +86,7 @@ Global
 		SharedProject1\SharedProject1.projitems*{c96cfe92-41d3-47df-8a4a-c17a71c8e459}*SharedItemsImports = 13
 		_Module - Group Renamer\_Module - Group Renamer.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
 		_Module - Door Closer\_Module - Door Closer.projitems*{ce1d6a6c-a380-4fa8-a306-2f81aa4a7e33}*SharedItemsImports = 13
+		_Module - Group Renamer\_Module - Group Renamer.projitems*{d29a0752-9c90-49ab-b1cc-3228eca57f3f}*SharedItemsImports = 4
 		SharedProject1\SharedProject1.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		SpaceElevator - Carriages\SpaceElevator - Carriages.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
@@ -125,6 +128,8 @@ Global
 		{E86815B1-6E4C-48A4-B4AE-41F80675C68B}.Debug|x64.Build.0 = Debug|x64
 		{7668C9B9-78DE-4B35-A141-D528F0704D4A}.Debug|x64.ActiveCfg = Debug|x64
 		{7668C9B9-78DE-4B35-A141-D528F0704D4A}.Debug|x64.Build.0 = Debug|x64
+		{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}.Debug|x64.ActiveCfg = Debug|x64
+		{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

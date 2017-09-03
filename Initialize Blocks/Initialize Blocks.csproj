@@ -4,29 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{90533C51-8B80-4D39-9722-4CD89BFCB84C}</ProjectGuid>
+    <ProjectGuid>{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>IngameScript</RootNamespace>
-    <AssemblyName>Testing</AssemblyName>
+    <AssemblyName>Initialize Blocks</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -111,32 +96,17 @@
     <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\utfhggj2.4zi\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlockTypes\BlockTypes.cs" />
-    <Compile Include="LCDTesting\LCDTesting.cs" />
+    <Compile Include="BasicBlockNames.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <Compile Include="Testing.cs" />
-    <AdditionalFiles Include="thumb.png" />
+    <Compile Include="InitializeBlocks.cs" />
     <Compile Include="Readme.cs" />
+    <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
-    <Compile Include="TestingBase.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <Import Project="..\_Helper - LCDs\_Helper - LCDs.projitems" Label="Shared" />
-  <Import Project="..\_Module - Logging\_Module - Logging.projitems" Label="Shared" />
+  <Import Project="..\_Module - Group Renamer\_Module - Group Renamer.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />

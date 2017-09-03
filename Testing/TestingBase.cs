@@ -16,25 +16,21 @@ using VRageMath;
 
 namespace IngameScript
 {
-    partial class Program : MyGridProgram
+    class TestingBase
     {
-        TestingBase _testingCode;
-        public Program()
+        public MyGridProgram thisObj { get; private set; }
+
+        public IMyGridTerminalSystem GridTerminalSystem { get { return thisObj.GridTerminalSystem; } }
+        public Action<string> Echo { get { return this.thisObj.Echo; } }
+
+        public void Init(MyGridProgram thisObj)
         {
-            //_testingCode = new BlockTypes();
-            _testingCode = new LCDTesting();
+            this.thisObj = thisObj;
         }
 
-        public void Save()
+        public virtual void Main(string argument)
         {
+
         }
-
-        public void Main(string argument)
-        {
-            _testingCode.Init(this);
-            _testingCode.Main(argument);
-        }
-
-
     }
 }
