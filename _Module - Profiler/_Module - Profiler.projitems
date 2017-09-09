@@ -6,7 +6,7 @@
     <SharedGUID>7ad7003f-2c7c-4f0a-900a-279e82ef75e4</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>_Module___Profiler</Import_RootNamespace>
+    <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ProfilerModule.cs" />
