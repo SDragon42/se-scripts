@@ -75,5 +75,10 @@ namespace IngameScript
 
             UpdateDisplay(panel, sb.ToString());
         }
+
+        void DrawAllCarriagesDisplay(List<IMyTextPanel> panels)
+        {
+
+        }
     }
 }

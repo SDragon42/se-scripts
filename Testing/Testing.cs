@@ -22,7 +22,8 @@ namespace IngameScript
         public Program()
         {
             //_testingCode = new BlockTypes();
-            _testingCode = new LCDTesting();
+            //_testingCode = new LCDTesting();
+            _testingCode = new CameraRanging();
         }
 
         public void Save()
