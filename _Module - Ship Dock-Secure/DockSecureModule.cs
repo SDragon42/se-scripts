@@ -19,7 +19,8 @@ namespace IngameScript
     class DockSecureModule
     {
         readonly List<IMyFunctionalBlock> _buffer = new List<IMyFunctionalBlock>();
-        readonly List<IMyTerminalBlock> _landingGearAndConnectors = new List<IMyTerminalBlock>();
+        readonly List<IMyLandingGear> _landingGears = new List<IMyLandingGear>();
+        readonly List<IMyShipConnector> _connectors = new List<IMyShipConnector>();
 
         bool _wasLockedLastRun = false;
         MyGridProgram thisObj;
@@ -40,7 +41,8 @@ namespace IngameScript
         public void Init(MyGridProgram thisObj)
         {
             this.thisObj = thisObj;
-            thisObj.GridTerminalSystem.GetBlocksOfType(_landingGearAndConnectors, IsConnectorOrLandingGear);
+            thisObj.GridTerminalSystem.GetBlocksOfType(_landingGears, IsOnThisGrid);
+            thisObj.GridTerminalSystem.GetBlocksOfType(_connectors, IsOnThisGrid);
         }
         public void AutoDockUndock()
         {
@@ -53,18 +55,26 @@ namespace IngameScript
             else if (!isDockedNow && Auto_On)
                 TurnOnSystems();
         }
+        public void DockUndock()
+        {
+            if (IsDocked())
+                UnDock();
+            else
+                Dock();
+        }
         public void Dock()
         {
-            if (IsDocked()) return;
-            if (!IsReadyToDock()) return;
+            var good2Go = IsDocked() || IsReadyToDock();
+            if (!good2Go) return;
             TurnOffSystems();
-            _landingGearAndConnectors.ForEach(b => b.ApplyAction("Lock"));
+            _landingGears.ForEach(b => b.Lock());
+            _connectors.ForEach(b => b.Connect());
         }
         public void UnDock()
         {
-            if (!IsDocked()) return;
             TurnOnSystems();
-            _landingGearAndConnectors.ForEach(b => b.ApplyAction("Unlock"));
+            _landingGears.ForEach(b => b.Unlock());
+            _connectors.ForEach(b => b.Disconnect());
         }
 
 
@@ -79,25 +89,20 @@ namespace IngameScript
             _buffer.ForEach(b => b.Enabled = true);
         }
 
-        bool IsConnectorOrLandingGear(IMyTerminalBlock b)
-        {
-            if (!IsOnThisGrid(b)) return false;
-            if (b is IMyLandingGear) return true;
-            if (b is IMyShipConnector) return true;
-            return false;
-        }
+
         bool IsDocked()
         {
-            return _landingGearAndConnectors
-                .Where(b => IsLandingGearLocked(b) || IsConnectorConnected(b))
-                .Any();
+            var docked = _landingGears.Where(IsLandingGearLocked).Any();
+            docked |= _connectors.Where(IsConnectorConnected).Any();
+            return docked;
         }
         bool IsReadyToDock()
         {
-            return _landingGearAndConnectors
-                .Where(b => IsLandingGearReadyToLock(b) || IsConnectorConnectable(b))
-                .Any();
+            var ready = _landingGears.Where(IsLandingGearReadyToLock).Any();
+            ready |= _connectors.Where(IsConnectorConnectable).Any();
+            return ready;
         }
+
         bool IsBlock2TurnON(IMyTerminalBlock b)
         {
             if (!IsOnThisGrid(b)) return false;
@@ -117,30 +122,28 @@ namespace IngameScript
             if (Spotlights_Off && (b is IMyReflectorLight)) return true;
             return false;
         }
-        bool IsOnThisGrid(IMyTerminalBlock b) { return thisObj.Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
-        bool IsConnectorConnectable(IMyTerminalBlock b)
+
+        bool IsOnThisGrid(IMyTerminalBlock b)
         {
-            var c = b as IMyShipConnector;
-            if (c == null) return false;
-            return (c.Status == MyShipConnectorStatus.Connectable);
+            return thisObj.Me.CubeGrid.EntityId == b.CubeGrid.EntityId;
         }
-        bool IsConnectorConnected(IMyTerminalBlock b)
+
+        bool IsConnectorConnectable(IMyShipConnector b)
         {
-            var c = b as IMyShipConnector;
-            if (c == null) return false;
-            return (c.Status == MyShipConnectorStatus.Connected);
+            return (b.Status == MyShipConnectorStatus.Connectable);
         }
-        bool IsLandingGearReadyToLock(IMyTerminalBlock b)
+        bool IsConnectorConnected(IMyShipConnector b)
         {
-            var lg = b as IMyLandingGear;
-            if (lg == null) return false;
-            return ((int)lg.LockMode == 1); //TODO: ReadyToLock - Workaround this this is fixed
+            return (b.Status == MyShipConnectorStatus.Connected);
         }
-        bool IsLandingGearLocked(IMyTerminalBlock b)
+
+        bool IsLandingGearReadyToLock(IMyLandingGear b)
         {
-            var lg = b as IMyLandingGear;
-            if (lg == null) return false;
-            return ((int)lg.LockMode == 2); //TODO: Locked - Workaround this this is fixed
+            return ((int)b.LockMode == 1); //TODO: ReadyToLock - Workaround this this is fixed
+        }
+        bool IsLandingGearLocked(IMyLandingGear b)
+        {
+            return ((int)b.LockMode == 2); //TODO: Locked - Workaround this this is fixed
         }
     }
 }

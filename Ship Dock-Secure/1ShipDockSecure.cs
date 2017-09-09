@@ -20,6 +20,7 @@ namespace IngameScript
     {
         const string CMD_DOCK = "dock";
         const string CMD_UNDOCK = "undock";
+        const string CMD_TOGGLE = "toggle-dock";
 
         readonly RunningSymbolModule _runSymbol;
         readonly TimeIntervalModule _executionInterval;
@@ -39,7 +40,7 @@ namespace IngameScript
 
         public void Main(string argument)
         {
-            Echo("Dock-Secure " + _runSymbol.GetSymbol(this.Runtime));
+            Echo("Dock-Secure v1.3 " + _runSymbol.GetSymbol(this.Runtime));
             _executionInterval.RecordTime(this.Runtime);
 
             var keepRunning = false;
@@ -57,6 +58,7 @@ namespace IngameScript
                 {
                     case CMD_DOCK: _dockSecure.Dock(); return;
                     case CMD_UNDOCK: _dockSecure.UnDock(); return;
+                    case CMD_TOGGLE: _dockSecure.DockUndock(); return;
                     default: return;
                 }
             }
