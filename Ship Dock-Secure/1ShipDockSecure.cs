@@ -42,7 +42,10 @@ namespace IngameScript
             Echo("Dock-Secure " + _runSymbol.GetSymbol(this.Runtime));
             _executionInterval.RecordTime(this.Runtime);
 
-            if (!_executionInterval.AtNextInterval() && argument?.Length == 0) return;
+            var keepRunning = false;
+            keepRunning |= argument?.Length > 0;
+            keepRunning |= _executionInterval.AtNextInterval();
+            if (!keepRunning) return;
 
             _settings.LoadConfig(Me, _dockSecure, SetExecutionInterval);
 
