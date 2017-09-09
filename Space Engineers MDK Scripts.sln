@@ -55,9 +55,12 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Vector Align", "_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Initialize Blocks", "Initialize Blocks\Initialize Blocks.csproj", "{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Ship Dock-Secure", "_Module - Ship Dock-Secure\_Module - Ship Dock-Secure.shproj", "{A55A9841-6A1A-4C62-937F-E2B471E894ED}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
+		_Module - Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		_Module - Time Interval\_Module - Time Interval.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
@@ -82,6 +85,7 @@ Global
 		_Helper - LCDs\_Helper - LCDs.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		_Module - Logging\_Module - Logging.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		_Module - Time Interval\_Module - Time Interval.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
+		_Module - Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{a55a9841-6a1a-4c62-937f-e2b471e894ed}*SharedItemsImports = 13
 		_Module - Group Renamer\_Module - Group Renamer.projitems*{aff70f69-ce5d-4d97-8288-41f3f8c3fc65}*SharedItemsImports = 13
 		_Helper - Thrusters\_Helper - Thrusters.projitems*{b924ba87-9a65-42f6-a761-bb86c9d713fa}*SharedItemsImports = 13
 		SharedProject1\SharedProject1.projitems*{c96cfe92-41d3-47df-8a4a-c17a71c8e459}*SharedItemsImports = 13

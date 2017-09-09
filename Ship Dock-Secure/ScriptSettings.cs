@@ -18,18 +18,6 @@ namespace IngameScript
 {
     class ScriptSettings
     {
-        public bool Auto_On { get; private set; }
-        public bool Auto_Off { get; private set; }
-
-        public bool Thrusters_OnOff { get; private set; }
-        public bool Gyros_OnOff { get; private set; }
-        public bool Lights_OnOff { get; private set; }
-        public bool Beacons_OnOff { get; private set; }
-        public bool RadioAntennas_OnOff { get; private set; }
-        public bool Sensors_OnOff { get; private set; }
-        public bool OreDetectors_OnOff { get; private set; }
-        public bool Spotlights_Off { get; private set; }
-
         public int RunInterval { get; private set; }
 
 
@@ -48,7 +36,7 @@ namespace IngameScript
         readonly CustomDataConfigModule _config = new CustomDataConfigModule();
         int _configHashCode = 0;
 
-        public void InitConfig(IMyProgrammableBlock me, Action postLoadAction = null)
+        public void InitConfig(IMyProgrammableBlock me, DockSecureModule dsm, Action postLoadAction = null)
         {
             _config.AddKey(KEY_AUTO_OFF,
                 description: "This will turn off systems automactically when the ship docks via a\nconnector or landing gear.",
@@ -75,9 +63,9 @@ namespace IngameScript
                 description: "This are the block types to only turn off.",
                 defaultValue: bool.TrueString);
 
-            LoadConfig(me, postLoadAction);
+            LoadConfig(me, dsm, postLoadAction);
         }
-        public void LoadConfig(IMyProgrammableBlock me, Action postLoadAction = null)
+        public void LoadConfig(IMyProgrammableBlock me, DockSecureModule dsm, Action postLoadAction = null)
         {
             if (_configHashCode == me.CustomData.GetHashCode())
                 return;
@@ -85,16 +73,16 @@ namespace IngameScript
             _config.SaveToCustomData(me);
             _configHashCode = me.CustomData.GetHashCode();
 
-            Auto_On = _config.GetBoolean(KEY_AUTO_ON);
-            Auto_Off = _config.GetBoolean(KEY_AUTO_OFF);
-            Thrusters_OnOff = _config.GetBoolean(KEY_ToggleThrusters);
-            Gyros_OnOff = _config.GetBoolean(KEY_ToggleGyros);
-            Lights_OnOff = _config.GetBoolean(KEY_ToggleLights);
-            Beacons_OnOff = _config.GetBoolean(KEY_ToggleBeacons);
-            RadioAntennas_OnOff = _config.GetBoolean(KEY_ToggleRadioAntennas);
-            Sensors_OnOff = _config.GetBoolean(KEY_ToggleSensors);
-            OreDetectors_OnOff = _config.GetBoolean(KEY_ToggleOreDetectors);
-            Spotlights_Off = _config.GetBoolean(KEY_TurnOffSpotLights);
+            dsm.Auto_On = _config.GetBoolean(KEY_AUTO_ON);
+            dsm.Auto_Off = _config.GetBoolean(KEY_AUTO_OFF);
+            dsm.Thrusters_OnOff = _config.GetBoolean(KEY_ToggleThrusters);
+            dsm.Gyros_OnOff = _config.GetBoolean(KEY_ToggleGyros);
+            dsm.Lights_OnOff = _config.GetBoolean(KEY_ToggleLights);
+            dsm.Beacons_OnOff = _config.GetBoolean(KEY_ToggleBeacons);
+            dsm.RadioAntennas_OnOff = _config.GetBoolean(KEY_ToggleRadioAntennas);
+            dsm.Sensors_OnOff = _config.GetBoolean(KEY_ToggleSensors);
+            dsm.OreDetectors_OnOff = _config.GetBoolean(KEY_ToggleOreDetectors);
+            dsm.Spotlights_Off = _config.GetBoolean(KEY_TurnOffSpotLights);
             RunInterval = _config.GetInt(KEY_RunInterval);
 
             postLoadAction?.Invoke();
