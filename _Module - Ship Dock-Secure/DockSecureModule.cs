@@ -18,38 +18,30 @@ namespace IngameScript
 {
     class DockSecureModule
     {
-        public const string CMD_DOCK = "dock";
-        public const string CMD_UNDOCK = "undock";
-
-        public bool Auto_On { get; private set; }
-        public bool Auto_Off { get; private set; }
-
-        public bool Thrusters_OnOff { get; private set; }
-        public bool Gyros_OnOff { get; private set; }
-        public bool Lights_OnOff { get; private set; }
-        public bool Beacons_OnOff { get; private set; }
-        public bool RadioAntennas_OnOff { get; private set; }
-        public bool Sensors_OnOff { get; private set; }
-        public bool OreDetectors_OnOff { get; private set; }
-        public bool Spotlights_Off { get; private set; }
-
         readonly List<IMyFunctionalBlock> _buffer = new List<IMyFunctionalBlock>();
         readonly List<IMyTerminalBlock> _landingGearAndConnectors = new List<IMyTerminalBlock>();
 
         bool _wasLockedLastRun = false;
-
-        public DockSecureModule()
-        {
-        }
-
         MyGridProgram thisObj;
+
+        public bool Auto_On { get; set; }
+        public bool Auto_Off { get; set; }
+        public bool Thrusters_OnOff { get; set; }
+        public bool Gyros_OnOff { get; set; }
+        public bool Lights_OnOff { get; set; }
+        public bool Beacons_OnOff { get; set; }
+        public bool RadioAntennas_OnOff { get; set; }
+        public bool Sensors_OnOff { get; set; }
+        public bool OreDetectors_OnOff { get; set; }
+        public bool Spotlights_Off { get; set; }
+
+
 
         public void Init(MyGridProgram thisObj)
         {
             this.thisObj = thisObj;
             thisObj.GridTerminalSystem.GetBlocksOfType(_landingGearAndConnectors, IsConnectorOrLandingGear);
         }
-
         public void AutoDockUndock()
         {
             var isDockedNow = IsDocked();
@@ -61,7 +53,6 @@ namespace IngameScript
             else if (!isDockedNow && Auto_On)
                 TurnOnSystems();
         }
-
         public void Dock()
         {
             if (IsDocked()) return;
@@ -75,6 +66,7 @@ namespace IngameScript
             TurnOnSystems();
             _landingGearAndConnectors.ForEach(b => b.ApplyAction("Unlock"));
         }
+
 
         void TurnOffSystems()
         {
