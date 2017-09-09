@@ -25,6 +25,7 @@ namespace IngameScript
         readonly List<IMyTerminalBlock> _landingGearAndConnectors = new List<IMyTerminalBlock>();
         readonly RunningSymbolModule _runSymbol;
         readonly TimeIntervalModule _executionInterval;
+        readonly DockSecureModule _dockSecure;
         readonly ScriptSettings _settings = new ScriptSettings();
 
         bool _wasLockedLastRun = false;
@@ -35,6 +36,7 @@ namespace IngameScript
 
             _runSymbol = new RunningSymbolModule();
             _executionInterval = new TimeIntervalModule();
+            _dockSecure = new DockSecureModule();
 
             _settings.InitConfig(Me, SetExecutionInterval);
         }
