@@ -39,7 +39,7 @@ namespace IngameScript
 
         public Program()
         {
-            //Echo = (t) => { }; // Disable Echo
+            Echo = (t) => { }; // Disable Echo
             _log = new LogModule();
 
             _custConfig.AddKey(KEY_ProgramBlockName,
