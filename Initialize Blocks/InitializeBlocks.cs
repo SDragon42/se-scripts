@@ -40,6 +40,9 @@ namespace IngameScript
         void BasicRename()
         {
             Echo("BasicRename()");
+            GridTerminalSystem.GetBlocks(_tmp);
+            _tmp.ForEach(b => b.ShowInTerminal = true);
+
             GridTerminalSystem.GetBlocksOfType(_tmp, b => BasicBlockNames.GetName(b).Length > 0);
             //GridTerminalSystem.GetBlocksOfType(_tmp);
             Echo($"Num Blocks: {_tmp.Count:N0}");
