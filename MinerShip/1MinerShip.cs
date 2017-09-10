@@ -56,7 +56,7 @@ namespace IngameScript
             _settings.LoadConfig(Me, _dockSecure, _proximity, SetExecutionInterval);
 
             _dockSecure.Init(this);
-            _proximity.Init(this);
+            //_proximity.Init(this);
 
             if (argument?.Length > 0)
             {
