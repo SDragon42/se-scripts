@@ -69,6 +69,7 @@ namespace IngameScript
             _debug = new DebugModule(this);
             //_debug.SetEnabled(false);
             _debug.SetEchoMessages(false);
+            _debug.SetEnabled(false);
 
             _log = new LogModule();
 
