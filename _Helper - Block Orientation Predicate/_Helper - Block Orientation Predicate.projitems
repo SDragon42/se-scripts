@@ -3,16 +3,12 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>c96cfe92-41d3-47df-8a4a-c17a71c8e459</SharedGUID>
+    <SharedGUID>eed1e4ac-d5ca-447a-bf3c-34c0e9b961fe</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CargoHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CollectHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CollectPredicates.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DirectionConst.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BlocksByOrientation.cs" />
   </ItemGroup>
 </Project>

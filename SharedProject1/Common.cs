@@ -108,5 +108,8 @@ namespace IngameScript
             }
             return (cnt > 0) ? val / cnt : 0.0;
         }
+
+
+        
     }
 }

@@ -118,7 +118,7 @@
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <Compile Include="Testing.cs" />
+    <Compile Include="01Testing.cs" />
     <AdditionalFiles Include="thumb.png" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
@@ -139,6 +139,7 @@
   <Import Project="..\_Helper - LCDs\_Helper - LCDs.projitems" Label="Shared" />
   <Import Project="..\_Module - Logging\_Module - Logging.projitems" Label="Shared" />
   <Import Project="..\_Module - Time Interval\_Module - Time Interval.projitems" Label="Shared" />
+  <Import Project="..\_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />
