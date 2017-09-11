@@ -135,7 +135,7 @@ namespace IngameScript
                 return (accelDir == dirVector);
             });
         }
-        public static void GetThrustersInDirection(IMyGridTerminalSystem gts, List<IMyThrust> thrusters, IMyShipController sc, int direction, Func<IMyTerminalBlock, bool> collect = null)
+        public static void GetThrustersInDirection(IMyGridTerminalSystem gts, IMyShipController sc, List<IMyThrust> thrusters, int direction, Func<IMyTerminalBlock, bool> collect = null)
         {
             if (sc == null || thrusters == null) return;
             var dirVector = GetDirectionVector(direction);
@@ -157,7 +157,7 @@ namespace IngameScript
         public static List<IMyThrust> GetThrustersInDirection(IMyGridTerminalSystem gts, IMyShipController sc, int direction, Func<IMyTerminalBlock, bool> collect = null)
         {
             var thrusters = new List<IMyThrust>();
-            GetThrustersInDirection(gts, thrusters, sc, direction, collect);
+            GetThrustersInDirection(gts, sc, thrusters, direction, collect);
             return thrusters;
         }
 
