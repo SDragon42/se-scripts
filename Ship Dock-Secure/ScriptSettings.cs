@@ -31,7 +31,9 @@ namespace IngameScript
         const string KEY_ToggleRadioAntennas = "Radio Antennas On/Off";
         const string KEY_ToggleSensors = "Sensors On/Off";
         const string KEY_ToggleOreDetectors = "Ore Detectors On/Off";
+        
         const string KEY_TurnOffSpotLights = "Spotlights Off";
+        const string KEY_TurnOffSorters = "Sorters Off";
 
         readonly CustomDataConfigModule _config = new CustomDataConfigModule();
         int _configHashCode = 0;
@@ -62,6 +64,7 @@ namespace IngameScript
             _config.AddKey(KEY_TurnOffSpotLights,
                 description: "This are the block types to only turn off.",
                 defaultValue: bool.TrueString);
+            _config.AddKey(KEY_TurnOffSorters, defaultValue: bool.TrueString);
 
             LoadConfig(me, dsm, postLoadAction);
         }
@@ -83,6 +86,7 @@ namespace IngameScript
             dsm.Sensors_OnOff = _config.GetBoolean(KEY_ToggleSensors);
             dsm.OreDetectors_OnOff = _config.GetBoolean(KEY_ToggleOreDetectors);
             dsm.Spotlights_Off = _config.GetBoolean(KEY_TurnOffSpotLights);
+            dsm.Sorters_Off = _config.GetBoolean(KEY_TurnOffSorters);
             RunInterval = _config.GetInt(KEY_RunInterval);
 
             postLoadAction?.Invoke();

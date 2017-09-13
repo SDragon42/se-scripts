@@ -40,7 +40,7 @@ namespace IngameScript
 
         public void Main(string argument)
         {
-            Echo("Dock-Secure v1.3 " + _runSymbol.GetSymbol(this.Runtime));
+            Echo("Dock-Secure v1.3.1 " + _runSymbol.GetSymbol(this.Runtime));
             _executionInterval.RecordTime(this.Runtime);
 
             var keepRunning = false;
