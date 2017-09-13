@@ -105,10 +105,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MDKUtilities">
-      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\ujywj0hs.3j0\MDKUtilities.dll</HintPath>
+      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\cupms2ev.deu\MDKUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\ujywj0hs.3j0\Analyzers\MDKAnalyzer.dll" />
+    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\cupms2ev.deu\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockTypes\BlockTypes.cs" />
@@ -140,6 +140,7 @@
   <Import Project="..\_Module - Logging\_Module - Logging.projitems" Label="Shared" />
   <Import Project="..\_Module - Time Interval\_Module - Time Interval.projitems" Label="Shared" />
   <Import Project="..\_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems" Label="Shared" />
+  <Import Project="..\_Module - Proximity\_Module - Proximity.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />

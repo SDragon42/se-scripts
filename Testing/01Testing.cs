@@ -21,6 +21,7 @@ namespace IngameScript
         //TestingBase _testingCode;
         readonly List<IMyTerminalBlock> _buffer = new List<IMyTerminalBlock>();
         readonly BlocksByOrientation _orientation;
+        readonly ProximityModule _proximity;
 
         public Program()
         {
