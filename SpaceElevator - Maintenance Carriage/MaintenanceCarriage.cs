@@ -69,7 +69,7 @@ namespace IngameScript
         //readonly List<IMyAirVent> _airVents = new List<IMyAirVent>();
         //readonly List<IMyGasTank> _o2Tanks = new List<IMyGasTank>();
         readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
-        //readonly List<IMyTerminalBlock> _displays = new List<IMyTerminalBlock>();
+        //readonly List<IMyTextPanel> _displays = new List<IMyTextPanel>();
         readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
         readonly List<IMyMotorStator> _maintCarrageRamps = new List<IMyMotorStator>();
         IMyGravityGenerator _maintGravGen;
@@ -423,8 +423,8 @@ namespace IngameScript
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) b.Enabled = true;
                     foreach (var b in _landingGears) b.AutoLock = false;
-                    ThrusterHelper.SetThrusterOverride2All(_descentThrusters, 0f);
-                    ThrusterHelper.SetThrusterOverride2All(_ascentThrusters, 0f);
+                    foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
+                    foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
                     _destination = null;
                     _travelDirection = TravelDirection.None;
                     break;
@@ -447,8 +447,8 @@ namespace IngameScript
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) b.Enabled = true;
                     foreach (var b in _landingGears) b.AutoLock = false;
-                    ThrusterHelper.SetThrusterOverride2All(_descentThrusters, 0f);
-                    ThrusterHelper.SetThrusterOverride2All(_ascentThrusters, 0f);
+                    foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
+                    foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
                     break;
 
                 case CarriageMode.Transit_Slow2Approach:
@@ -457,8 +457,8 @@ namespace IngameScript
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) b.Enabled = true;
                     foreach (var b in _landingGears) b.AutoLock = false;
-                    ThrusterHelper.SetThrusterOverride2All(_descentThrusters, 0f);
-                    ThrusterHelper.SetThrusterOverride2All(_ascentThrusters, 0f);
+                    foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
+                    foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
                     break;
 
                 case CarriageMode.Transit_Docking:
@@ -466,8 +466,8 @@ namespace IngameScript
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) b.Enabled = true;
                     foreach (var b in _landingGears) b.AutoLock = false;
-                    ThrusterHelper.SetThrusterOverride2All(_descentThrusters, 0f);
-                    ThrusterHelper.SetThrusterOverride2All(_ascentThrusters, 0f);
+                    foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
+                    foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
                     _connectorLockDelayRemaining = _settings.GetConnectorLockDelay();
                     break;
 
@@ -477,8 +477,8 @@ namespace IngameScript
                     foreach (var b in _allThrusters) b.Enabled = false;
                     foreach (var b in _landingGears) b.Enabled = false;
                     foreach (var b in _landingGears) b.AutoLock = false;
-                    ThrusterHelper.SetThrusterOverride2All(_descentThrusters, 0f);
-                    ThrusterHelper.SetThrusterOverride2All(_ascentThrusters, 0f);
+                    foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
+                    foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
                     break;
             }
         }
@@ -723,8 +723,8 @@ namespace IngameScript
             _debug.AppendLine("Ascent Override %: {0:N1}", ascentOverridePower);
             _debug.AppendLine("Decent Override %: {0:N1}", decentOverridePower);
 
-            ThrusterHelper.SetThrusterOverride2All(_ascentThrusters, ascentOverridePower);
-            ThrusterHelper.SetThrusterOverride2All(_descentThrusters, decentOverridePower);
+            foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, ascentOverridePower);
+            foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, decentOverridePower);
         }
         double CalcBrakeDistance(double maxthrust, double gravForceOnShip)
         {
