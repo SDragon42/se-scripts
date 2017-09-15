@@ -61,17 +61,17 @@ namespace IngameScript
         IMyRemoteControl _rc;
         IMyRadioAntenna _antenna;
         readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _ascentThrusters = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _descentThrusters = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _allThrusters = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _connectors = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _landingGears = new List<IMyTerminalBlock>();
-        //readonly List<IMyTerminalBlock> _airVents = new List<IMyTerminalBlock>();
-        //readonly List<IMyTerminalBlock> _o2Tanks = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _h2Tanks = new List<IMyTerminalBlock>();
+        readonly List<IMyThrust> _ascentThrusters = new List<IMyThrust>();
+        readonly List<IMyThrust> _descentThrusters = new List<IMyThrust>();
+        readonly List<IMyThrust> _allThrusters = new List<IMyThrust>();
+        readonly List<IMyShipConnector> _connectors = new List<IMyShipConnector>();
+        readonly List<IMyLandingGear> _landingGears = new List<IMyLandingGear>();
+        //readonly List<IMyAirVent> _airVents = new List<IMyAirVent>();
+        //readonly List<IMyGasTank> _o2Tanks = new List<IMyGasTank>();
+        readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
         //readonly List<IMyTerminalBlock> _displays = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _autoCloseDoors = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _maintCarrageRamps = new List<IMyTerminalBlock>();
+        readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
+        readonly List<IMyMotorStator> _maintCarrageRamps = new List<IMyMotorStator>();
         IMyGravityGenerator _maintGravGen;
 
         //  Flight calculations
@@ -184,21 +184,21 @@ namespace IngameScript
                 _antenna = (IMyRadioAntenna)_tempList[0];
 
             _orientation.Init(_rc);
-            GridTerminalSystem.GetBlocksOfType<IMyThrust>(_ascentThrusters, b => IsTaggedBlockOnThisGrid(b) && _orientation.IsDown(b));
-            GridTerminalSystem.GetBlocksOfType<IMyThrust>(_descentThrusters, b => IsTaggedBlockOnThisGrid(b) && _orientation.IsUp(b));
-            GridTerminalSystem.GetBlocksOfType<IMyThrust>(_allThrusters, IsOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(_ascentThrusters, b => IsTaggedBlockOnThisGrid(b) && _orientation.IsDown(b));
+            GridTerminalSystem.GetBlocksOfType(_descentThrusters, b => IsTaggedBlockOnThisGrid(b) && _orientation.IsUp(b));
+            GridTerminalSystem.GetBlocksOfType(_allThrusters, IsOnThisGrid);
 
-            CollectHelper.GetblocksOfTypeWithFirst<IMyShipConnector>(GridTerminalSystem, _connectors, IsTaggedBlockOnThisGrid, IsOnThisGrid);
-            CollectHelper.GetblocksOfTypeWithFirst<IMyLandingGear>(GridTerminalSystem, _landingGears, IsTaggedBlockOnThisGrid, IsOnThisGrid);
-            //GridTerminalSystem.GetBlocksOfType<IMyAirVent>(_airVents, IsTaggedBlockOnThisGrid);
-            //GridTerminalSystem.GetBlocksOfType<IMyGasTank>(_o2Tanks, b => IsTaggedBlockOnThisGrid(b) && IsOxygenTank(b));
+            CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _connectors, IsTaggedBlockOnThisGrid, IsOnThisGrid);
+            CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _landingGears, IsTaggedBlockOnThisGrid, IsOnThisGrid);
+            //GridTerminalSystem.GetBlocksOfType(_airVents, IsTaggedBlockOnThisGrid);
+            //GridTerminalSystem.GetBlocksOfType(_o2Tanks, b => IsTaggedBlockOnThisGrid(b) && IsOxygenTank(b));
 
-            GridTerminalSystem.GetBlocksOfType<IMyGasTank>(_h2Tanks, b => IsOnThisGrid(b) && GasTankHelper.IsHydrogenTank(b));
-            //GridTerminalSystem.GetBlocksOfType<IMyTextPanel>(_displays, IsTaggedBlockOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && GasTankHelper.IsHydrogenTank(b));
+            //GridTerminalSystem.GetBlocksOfType(_displays, IsTaggedBlockOnThisGrid);
 
-            GridTerminalSystem.GetBlocksOfType<IMyDoor>(_autoCloseDoors, IsTaggedBlockOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, IsTaggedBlockOnThisGrid);
 
-            GridTerminalSystem.GetBlocksOfType<IMyMotorStator>(_maintCarrageRamps, IsTaggedBlockOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(_maintCarrageRamps, IsTaggedBlockOnThisGrid);
 
             CollectHelper.GetblocksOfTypeWithFirst<IMyGravityGenerator>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
             if (_tempList.Count > 0)
@@ -249,7 +249,7 @@ namespace IngameScript
             _verticalSpeed = ((_rangeToGround - _rangeToGroundLast) >= 0)
                 ? _rc.GetShipSpeed()
                 : _rc.GetShipSpeed() * -1;
-            var totalMaxBreakingThrust = Common.SumPropertyFloatToDouble<IMyThrust>(_ascentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
+            var totalMaxBreakingThrust = Common.SumPropertyFloatToDouble(_ascentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
             var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, _gravityForceOnShip);
 
             _h2TankFilledPercent = GasTankHelper.GetTanksFillPercentage(_h2Tanks);
@@ -419,10 +419,10 @@ namespace IngameScript
                 case CarriageMode.Manual_Control:
                     ClearAutopilot(true);
                     _activateSpeedLimiter = false;
-                    foreach (var b in _h2Tanks) ((IMyGasTank)b).Stockpile = false;
-                    foreach (var b in _allThrusters) ((IMyThrust)b).Enabled = true;
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).Enabled = true;
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).AutoLock = false;
+                    foreach (var b in _h2Tanks) b.Stockpile = false;
+                    foreach (var b in _allThrusters) b.Enabled = true;
+                    foreach (var b in _landingGears) b.Enabled = true;
+                    foreach (var b in _landingGears) b.AutoLock = false;
                     ThrusterHelper.SetThrusterOverride2All(_descentThrusters, 0f);
                     ThrusterHelper.SetThrusterOverride2All(_ascentThrusters, 0f);
                     _destination = null;
@@ -432,40 +432,40 @@ namespace IngameScript
                 case CarriageMode.Transit_Powered:
                     ClearAutopilot(false);
                     _activateSpeedLimiter = false;
-                    foreach (var b in _h2Tanks) ((IMyGasTank)b).Stockpile = false;
-                    foreach (var b in _allThrusters) ((IMyThrust)b).Enabled = true;
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).Enabled = true;
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).Unlock();
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).AutoLock = false;
-                    foreach (var b in _connectors) ((IMyShipConnector)b).Disconnect();
+                    foreach (var b in _h2Tanks) b.Stockpile = false;
+                    foreach (var b in _allThrusters) b.Enabled = true;
+                    foreach (var b in _landingGears) b.Enabled = true;
+                    foreach (var b in _landingGears) b.Unlock();
+                    foreach (var b in _landingGears) b.AutoLock = false;
+                    foreach (var b in _connectors) b.Disconnect();
                     break;
 
                 case CarriageMode.Transit_Coast:
                     ClearAutopilot(false);
                     _activateSpeedLimiter = false;
-                    foreach (var b in _h2Tanks) ((IMyGasTank)b).Stockpile = false;
-                    foreach (var b in _allThrusters) ((IMyThrust)b).Enabled = true;
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).Enabled = true;
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).AutoLock = false;
+                    foreach (var b in _h2Tanks) b.Stockpile = false;
+                    foreach (var b in _allThrusters) b.Enabled = true;
+                    foreach (var b in _landingGears) b.Enabled = true;
+                    foreach (var b in _landingGears) b.AutoLock = false;
                     ThrusterHelper.SetThrusterOverride2All(_descentThrusters, 0f);
                     ThrusterHelper.SetThrusterOverride2All(_ascentThrusters, 0f);
                     break;
 
                 case CarriageMode.Transit_Slow2Approach:
                     ClearAutopilot(false);
-                    foreach (var b in _h2Tanks) ((IMyGasTank)b).Stockpile = false;
-                    foreach (var b in _allThrusters) ((IMyThrust)b).Enabled = true;
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).Enabled = true;
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).AutoLock = false;
+                    foreach (var b in _h2Tanks) b.Stockpile = false;
+                    foreach (var b in _allThrusters) b.Enabled = true;
+                    foreach (var b in _landingGears) b.Enabled = true;
+                    foreach (var b in _landingGears) b.AutoLock = false;
                     ThrusterHelper.SetThrusterOverride2All(_descentThrusters, 0f);
                     ThrusterHelper.SetThrusterOverride2All(_ascentThrusters, 0f);
                     break;
 
                 case CarriageMode.Transit_Docking:
-                    foreach (var b in _h2Tanks) ((IMyGasTank)b).Stockpile = false;
-                    foreach (var b in _allThrusters) ((IMyThrust)b).Enabled = true;
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).Enabled = true;
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).AutoLock = false;
+                    foreach (var b in _h2Tanks) b.Stockpile = false;
+                    foreach (var b in _allThrusters) b.Enabled = true;
+                    foreach (var b in _landingGears) b.Enabled = true;
+                    foreach (var b in _landingGears) b.AutoLock = false;
                     ThrusterHelper.SetThrusterOverride2All(_descentThrusters, 0f);
                     ThrusterHelper.SetThrusterOverride2All(_ascentThrusters, 0f);
                     _connectorLockDelayRemaining = _settings.GetConnectorLockDelay();
@@ -473,10 +473,10 @@ namespace IngameScript
 
                 case CarriageMode.Docked:
                     ClearAutopilot(true);
-                    foreach (var b in _h2Tanks) ((IMyGasTank)b).Stockpile = true;
-                    foreach (var b in _allThrusters) ((IMyThrust)b).Enabled = false;
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).Enabled = false;
-                    foreach (var b in _landingGears) ((IMyLandingGear)b).AutoLock = false;
+                    foreach (var b in _h2Tanks) b.Stockpile = true;
+                    foreach (var b in _allThrusters) b.Enabled = false;
+                    foreach (var b in _landingGears) b.Enabled = false;
+                    foreach (var b in _landingGears) b.AutoLock = false;
                     ThrusterHelper.SetThrusterOverride2All(_descentThrusters, 0f);
                     ThrusterHelper.SetThrusterOverride2All(_ascentThrusters, 0f);
                     break;
@@ -535,8 +535,7 @@ namespace IngameScript
         {
             if (_rc.GetShipSpeed() > 0.1) return;
 
-            foreach (var g in _landingGears)
-                ((IMyLandingGear)g).Lock();
+            _landingGears.ForEach(b => b.Lock());
 
             var anyLocked = Common.IsAny(_landingGears, CollectPredicates.IsLandingGearLocked);
             if (anyLocked)
@@ -553,9 +552,7 @@ namespace IngameScript
             _rampsClear = true;
             if (_maintCarrageRamps.Count == 0) return;
 
-            Common.ExecuteForAll(
-                _maintCarrageRamps,
-                rotor => _rampsClear &= Rotate2Limit(rotor, false));
+            _maintCarrageRamps.ForEach(rotor => _rampsClear &= Rotate2Limit(rotor, false));
 
             if (_maintGravGen != null) _maintGravGen.FieldSize = new Vector3(GRAV_RANGE_Rampsup, _maintGravGen.FieldSize.Y, _maintGravGen.FieldSize.Z);
         }
@@ -566,9 +563,7 @@ namespace IngameScript
                 return;
 
             _rampsClear = false;
-            Common.ExecuteForAll(
-                _maintCarrageRamps,
-                rotor => Rotate2Limit(rotor, true));
+            _maintCarrageRamps.ForEach(rotor => Rotate2Limit(rotor, true));
 
             if (_maintGravGen != null) _maintGravGen.FieldSize = new Vector3(GRAV_RANGE_RampsDown, _maintGravGen.FieldSize.Y, _maintGravGen.FieldSize.Z);
         }
@@ -586,9 +581,8 @@ namespace IngameScript
             }
             return true;
         }
-        bool IsRotated2Limit(IMyTerminalBlock b, bool rotateToMax)
+        bool IsRotated2Limit(IMyMotorStator rotor, bool rotateToMax)
         {
-            var rotor = b as IMyMotorStator;
             if (rotor == null) return true;
             var currAngle = Math.Round(rotor.Angle, ElevatorConst.RADIAN_ROUND_DIGITS);
             var angleLimiit = rotateToMax ? rotor.UpperLimit : rotor.LowerLimit;
@@ -600,14 +594,10 @@ namespace IngameScript
         {
             var allRaised = true;
             var allLowered = true;
-            Common.ExecuteForAll(
-                _maintCarrageRamps,
-                rotor => allRaised &= IsRotated2Limit(rotor, false));
-            Common.ExecuteForAll(
-                _maintCarrageRamps,
-                rotor => allLowered &= IsRotated2Limit(rotor, true));
+            _maintCarrageRamps.ForEach(rotor => allRaised &= IsRotated2Limit(rotor, false));
+            _maintCarrageRamps.ForEach(rotor => allLowered &= IsRotated2Limit(rotor, true));
             if (!(allRaised || allLowered)) return;
-            Common.ExecuteForAll(_maintCarrageRamps, b => ((IMyMotorStator)b).SafetyLock = true);
+            _maintCarrageRamps.ForEach(rotor => rotor.SafetyLock = true);
             _rampsClear = allRaised;
         }
 
@@ -617,7 +607,7 @@ namespace IngameScript
             // attempt to compensate for the changing gravity force on the ship
             var gravityForceChangeCompensation = (_gravityForceOnShip / 2) * -1;
 
-            var totalMaxBreakingThrust = Common.SumPropertyFloatToDouble<IMyThrust>(_descentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
+            var totalMaxBreakingThrust = Common.SumPropertyFloatToDouble(_descentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
             var rangeToTarget = (_rc.GetPosition() - _destination.GetLocation()).Length();
             var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, gravityForceChangeCompensation);
             var coastRange = CalcBrakeDistance(0.0, gravityForceChangeCompensation);
@@ -654,7 +644,7 @@ namespace IngameScript
         void DecentModeOps()
         {
             _rc.DampenersOverride = false;
-            var totalMaxBreakingThrust = Common.SumPropertyFloatToDouble<IMyThrust>(_ascentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
+            var totalMaxBreakingThrust = Common.SumPropertyFloatToDouble(_ascentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
             var rangeToTarget = (_rc.GetPosition() - _destination.GetLocation()).Length();
             var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, _gravityForceOnShip);
 
@@ -694,8 +684,8 @@ namespace IngameScript
         void MaintainSpeed(double targetVertSpeed)
         {
 
-            var ascentMaxEffectiveThrust = Common.SumPropertyFloatToDouble<IMyThrust>(_ascentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
-            var decentMaxEffectiveThrust = Common.SumPropertyFloatToDouble<IMyThrust>(_descentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
+            var ascentMaxEffectiveThrust = Common.SumPropertyFloatToDouble(_ascentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
+            var decentMaxEffectiveThrust = Common.SumPropertyFloatToDouble(_descentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
 
             float hoverOverridePower = _inNaturalGravity
                 ? Convert.ToSingle((_gravityForceOnShip / ascentMaxEffectiveThrust) * 100)
