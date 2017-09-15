@@ -30,37 +30,44 @@ namespace IngameScript
         public double GetNumSecondsToLeaveDoorOpen() { return _numSecondsToLeaveDoorOpen; }
         public void SetNumSecondsToLeaveDoorOpen(double value) { _numSecondsToLeaveDoorOpen = value; }
 
-        public void CloseOpenDoors(TimeSpan timeSinceLastCall, IList<IMyTerminalBlock> doors)
+        TimeSpan _timeSinceLastCall;
+
+        public void CloseOpenDoors(TimeSpan timeSinceLastCall, List<IMyTerminalBlock> doors)
         {
-            for (int i = 0; i < doors.Count; i++)
+            _timeSinceLastCall = timeSinceLastCall;
+            doors.ForEach(b => ProcessDoor(b as IMyDoor));
+        }
+        public void CloseOpenDoors(TimeSpan timeSinceLastCall, List<IMyDoor> doors)
+        {
+            _timeSinceLastCall = timeSinceLastCall;
+            doors.ForEach(ProcessDoor);
+        }
+        void ProcessDoor(IMyDoor door)
+        {
+            if (door == null) return;
+            if (_openDoors.ContainsKey(door))
             {
-                var door = (IMyDoor)doors[i];
-
-                if (_openDoors.ContainsKey(door))
+                switch (door.Status)
                 {
-                    switch (door.Status)
-                    {
-                        case DoorStatus.Closed: _openDoors.Remove(door); break;
-                        case DoorStatus.Closing: _openDoors.Remove(door); break;
-                        case DoorStatus.Open:
-                            double doorTime;
-                            _openDoors.TryGetValue(door, out doorTime);
-                            doorTime -= timeSinceLastCall.TotalSeconds;
-                            _openDoors.Remove(door);
+                    case DoorStatus.Closed: _openDoors.Remove(door); break;
+                    case DoorStatus.Closing: _openDoors.Remove(door); break;
+                    case DoorStatus.Open:
+                        double doorTime;
+                        _openDoors.TryGetValue(door, out doorTime);
+                        doorTime -= _timeSinceLastCall.TotalSeconds;
+                        _openDoors.Remove(door);
 
-                            if (doorTime > 0.0)
-                                _openDoors.Add(door, doorTime);
-                            else
-                                door.CloseDoor();
-                            break;
-                    }
+                        if (doorTime > 0.0)
+                            _openDoors.Add(door, doorTime);
+                        else
+                            door.CloseDoor();
+                        break;
                 }
-                else
-                {
-                    if (door.Status == DoorStatus.Open)
-                        _openDoors.Add(door, _numSecondsToLeaveDoorOpen);
-                }
-
+            }
+            else
+            {
+                if (door.Status == DoorStatus.Open)
+                    _openDoors.Add(door, _numSecondsToLeaveDoorOpen);
             }
         }
 
