@@ -1,8 +1,27 @@
-﻿/*
- *   R e a d m e
- *   -----------
- * 
- *   In this file you can include any instructions or other comments you want to have injected onto the 
- *   top of your final script. You can safely delete this file if you do not want any such comments.
- * 
- */
+﻿/********************************************************************************
+---------------------------------------------------------------------------------
+Ship Thrust to Weight Ratio calculator
+Script by: SDragon 42 
+Uses code from Wico craft controller (http://steamcommunity.com/sharedfiles/filedetails/?id=571364878)
+
+----------------------------------------
+This will calculate the thrust to weight ratio (T/W = R) for your small ship.
+
+----------------------------------------
+Configuration is handled in the "Custom Data" of the program block.
+
+Ship Ctrl Name
+(required) This is the name of the Cockpit, Fighter Cockpit, or Remote Control block to use as a reference for the ships direction
+
+Display Name
+(optional) This is name of the LCD / Text Panel to display the results of the TWR calculation. The results are always displayed in the block info section regardless.
+
+Ignore Mass
+(optional) This specifies how much of the grid mass you want the calculations to ignore. It is defaulted to 0.
+
+
+----------------------------------------
+Run the program, specifying the direction as an argument:
+forward, backward, up, down, left, right
+
+********************************************************************************/
