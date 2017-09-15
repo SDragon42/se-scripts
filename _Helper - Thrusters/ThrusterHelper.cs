@@ -101,67 +101,6 @@ namespace IngameScript
 
         public static double ConvertMass2Newtons(int mass_kg) { return (mass_kg / 0.101971621); }
 
-        //static readonly Matrix __ThrusterIdentityMatrix = new Matrix(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-        //public static Vector3 GetDirectionVector(int direction)
-        //{
-        //    switch (direction)
-        //    {
-        //        case DirectionConst.Forward: return __ThrusterIdentityMatrix.Forward;
-        //        case DirectionConst.Backward: return __ThrusterIdentityMatrix.Backward;
-        //        case DirectionConst.Up: return __ThrusterIdentityMatrix.Up;
-        //        case DirectionConst.Down: return __ThrusterIdentityMatrix.Down;
-        //        case DirectionConst.Left: return __ThrusterIdentityMatrix.Left;
-        //        case DirectionConst.Right: return __ThrusterIdentityMatrix.Right;
-        //        default: return Vector3.Invalid;
-        //    }
-        //}
-
-        //public static void GetThrustersInDirection(IMyGridTerminalSystem gts, IMyShipController sc, List<IMyTerminalBlock> thrusters, int direction, Func<IMyTerminalBlock, bool> collect = null)
-        //{
-        //    if (sc == null || thrusters == null) return;
-        //    var dirVector = GetDirectionVector(direction);
-        //    if (dirVector == Vector3.Invalid) return;
-
-        //    Matrix scMatrix;
-        //    sc.Orientation.GetMatrix(out scMatrix);
-        //    Matrix.Transpose(ref scMatrix, out scMatrix);
-
-        //    gts.GetBlocksOfType<IMyThrust>(thrusters, b =>
-        //    {
-        //        if (collect != null && !collect(b)) return false;
-        //        Matrix thrusterMatrix;
-        //        b.Orientation.GetMatrix(out thrusterMatrix);
-        //        var accelDir = Vector3.Transform(thrusterMatrix.Backward, scMatrix);
-        //        return (accelDir == dirVector);
-        //    });
-        //}
-        //public static void GetThrustersInDirection(IMyGridTerminalSystem gts, IMyShipController sc, List<IMyThrust> thrusters, int direction, Func<IMyTerminalBlock, bool> collect = null)
-        //{
-        //    if (sc == null || thrusters == null) return;
-        //    var dirVector = GetDirectionVector(direction);
-        //    if (dirVector == Vector3.Invalid) return;
-
-        //    Matrix scMatrix;
-        //    sc.Orientation.GetMatrix(out scMatrix);
-        //    Matrix.Transpose(ref scMatrix, out scMatrix);
-
-        //    gts.GetBlocksOfType(thrusters, b =>
-        //    {
-        //        if (collect != null && !collect(b)) return false;
-        //        Matrix thrusterMatrix;
-        //        b.Orientation.GetMatrix(out thrusterMatrix);
-        //        var accelDir = Vector3.Transform(thrusterMatrix.Backward, scMatrix);
-        //        return (accelDir == dirVector);
-        //    });
-        //}
-        //public static List<IMyThrust> GetThrustersInDirection(IMyGridTerminalSystem gts, IMyShipController sc, int direction, Func<IMyTerminalBlock, bool> collect = null)
-        //{
-        //    var thrusters = new List<IMyThrust>();
-        //    GetThrustersInDirection(gts, sc, thrusters, direction, collect);
-        //    return thrusters;
-        //}
-
-
         public static float GetMaxThrust(IMyTerminalBlock b) { return GetMaxThrust(b as IMyThrust); }
         public static float GetMaxThrust(IMyThrust thruster)
         {
