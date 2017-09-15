@@ -24,15 +24,15 @@ namespace IngameScript
 
         readonly CustomDataConfigModule _config;
         readonly List<IMyThrust> _thrusters = new List<IMyThrust>();
-        readonly List<int> _calcDirections = new List<int>();
-        readonly int[] _allDirections = new int[]
+        readonly List<Direction> _calcDirections = new List<Direction>();
+        readonly Direction[] _allDirections = new Direction[]
         {
-            DirectionConst.Forward,
-            DirectionConst.Backward,
-            DirectionConst.Left,
-            DirectionConst.Right,
-            DirectionConst.Up,
-            DirectionConst.Down
+            Direction.Forward,
+            Direction.Backward,
+            Direction.Left,
+            Direction.Right,
+            Direction.Up,
+            Direction.Down
         };
 
         IMyTextPanel _twrDisplay;
@@ -70,7 +70,7 @@ namespace IngameScript
 
             _calcDirections.Clear();
             if (argument.Length > 0)
-                _calcDirections.Add(DirectionConst.GetDirectionFromString(argument));
+                _calcDirections.Add(DirectionHelper.GetDirectionFromString(argument));
             else
                 _calcDirections.AddArray(_allDirections);
 
@@ -98,33 +98,33 @@ namespace IngameScript
             Echo(resultText.ToString());
         }
 
-        TwrInfo CalcTwrInDirection(int totalMass, int mass2Ignore, int direction)
+        TwrInfo CalcTwrInDirection(int totalMass, int mass2Ignore, Direction direction)
         {
             var info = new TwrInfo();
             Func<IMyTerminalBlock, bool> isDirection;
             switch (direction)
             {
-                case DirectionConst.Forward:
+                case Direction.Forward:
                     info.Thrust_Direction = "Forward";
                     isDirection = _orientation.IsBackward;
                     break;
-                case DirectionConst.Backward:
+                case Direction.Backward:
                     info.Thrust_Direction = "Backward";
                     isDirection = _orientation.IsForward;
                     break;
-                case DirectionConst.Left:
+                case Direction.Left:
                     info.Thrust_Direction = "Left";
                     isDirection = _orientation.IsRight;
                     break;
-                case DirectionConst.Right:
+                case Direction.Right:
                     info.Thrust_Direction = "Right";
                     isDirection = _orientation.IsLeft;
                     break;
-                case DirectionConst.Up:
+                case Direction.Up:
                     info.Thrust_Direction = "Up";
                     isDirection = _orientation.IsDown;
                     break;
-                case DirectionConst.Down:
+                case Direction.Down:
                     info.Thrust_Direction = "Down";
                     isDirection = _orientation.IsUp;
                     break;
