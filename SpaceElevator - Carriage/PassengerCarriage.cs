@@ -235,7 +235,7 @@ namespace IngameScript
             _verticalSpeed = ((_rangeToGround - _rangeToGroundLast) >= 0)
                 ? _rc.GetShipSpeed()
                 : _rc.GetShipSpeed() * -1;
-            var totalMaxBreakingThrust = Common.SumPropertyFloatToDouble(_ascentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
+            var totalMaxBreakingThrust = _ascentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
             var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, _gravityForceOnShip);
 
             _h2TankFilledPercent = GasTankHelper.GetTanksFillPercentage(_h2Tanks);
@@ -516,7 +516,7 @@ namespace IngameScript
 
             _landingGears.ForEach(b => b.Lock());
 
-            var anyLocked = Common.IsAny(_landingGears, CollectPredicates.IsLandingGearLocked);
+            var anyLocked = _landingGears.Any(CollectPredicates.IsLandingGearLocked);
             if (anyLocked)
             {
                 SetMode(CarriageMode.Docked);
@@ -532,7 +532,7 @@ namespace IngameScript
             // attempt to compensate for the changing gravity force on the ship
             var gravityForceChangeCompensation = (_gravityForceOnShip / 2) * -1;
 
-            var totalMaxBreakingThrust = Common.SumPropertyFloatToDouble(_descentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
+            var totalMaxBreakingThrust = _descentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
             var rangeToTarget = (_rc.GetPosition() - _destination.GetLocation()).Length();
             var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, gravityForceChangeCompensation);
             var coastRange = CalcBrakeDistance(0.0, gravityForceChangeCompensation);
@@ -569,7 +569,7 @@ namespace IngameScript
         void DecentModeOps()
         {
             _rc.DampenersOverride = false;
-            var totalMaxBreakingThrust = Common.SumPropertyFloatToDouble(_ascentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
+            var totalMaxBreakingThrust = _ascentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
             var rangeToTarget = (_rc.GetPosition() - _destination.GetLocation()).Length();
             var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, _gravityForceOnShip);
 
@@ -608,9 +608,8 @@ namespace IngameScript
         }
         void MaintainSpeed(double targetVertSpeed)
         {
-
-            var ascentMaxEffectiveThrust = Common.SumPropertyFloatToDouble(_ascentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
-            var decentMaxEffectiveThrust = Common.SumPropertyFloatToDouble(_descentThrusters, ThrusterHelper.GetMaxEffectiveThrust);
+            var ascentMaxEffectiveThrust = _ascentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
+            var decentMaxEffectiveThrust = _descentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
 
             float hoverOverridePower = _inNaturalGravity
                 ? Convert.ToSingle((_gravityForceOnShip / ascentMaxEffectiveThrust) * 100)

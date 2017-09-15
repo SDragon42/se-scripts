@@ -136,10 +136,10 @@ namespace IngameScript
             GridTerminalSystem.GetBlocksOfType(_thrusters, b => IsOnThisGrid(b) && isDirection(b));
 
             info.NumThrusters = _thrusters.Count;
-            info.Thrust = Common.SumPropertyFloatToDouble(_thrusters, ThrusterHelper.GetMaxThrust);
+            info.Thrust = _thrusters.Sum(b => ThrusterHelper.GetMaxThrust(b));
             info.TWR = info.Thrust / ThrusterHelper.ConvertMass2Newtons(totalMass);
 
-            info.EffectiveThrust = Common.SumPropertyFloatToDouble(_thrusters, ThrusterHelper.GetMaxEffectiveThrust);
+            info.EffectiveThrust = _thrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
             info.EffectiveTWR = info.EffectiveThrust / ThrusterHelper.ConvertMass2Newtons(totalMass);
 
             return info;
