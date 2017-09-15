@@ -40,5 +40,14 @@ namespace IngameScript
                 ? totalPercent / tankCount
                 : 0f;
         }
+        public static float GetTanksFillPercentage(List<IMyGasTank> tankList)
+        {
+            var totalPercent = tankList.Sum(t => t.FilledRatio);
+            return (tankList.Count > 0)
+                ? totalPercent / tankList.Count
+                : 0f;
+        }
+
+        
     }
 }
