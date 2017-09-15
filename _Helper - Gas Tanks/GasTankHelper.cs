@@ -22,7 +22,7 @@ namespace IngameScript
         public static bool IsOxygenTank(IMyTerminalBlock b) { return (IsGasTank(b) && !b.BlockDefinition.SubtypeId.Contains("Hydro")); }
         public static bool IsHydrogenTank(IMyTerminalBlock b) { return (IsGasTank(b) && b.BlockDefinition.SubtypeId.Contains("Hydro")); }
 
-        public static float GetTanksFillPercentage(IList<IMyTerminalBlock> tankList)
+        public static float GetTanksFillPercentage(List<IMyTerminalBlock> tankList)
         {
             var totalPercent = 0f;
             var tankCount = 0;
