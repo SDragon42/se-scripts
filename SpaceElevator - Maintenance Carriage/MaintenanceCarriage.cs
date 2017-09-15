@@ -53,6 +53,7 @@ namespace IngameScript
         readonly COMMsModule _comms;
         readonly CustomDataConfigModule _custConfig;
         readonly ScriptSettingsModule _settings;
+        BlocksByOrientation _orientation = new BlocksByOrientation();
         int _lastCustomDataHash;
 
         // Block Lists
@@ -182,8 +183,9 @@ namespace IngameScript
             if (_tempList.Count > 0)
                 _antenna = (IMyRadioAntenna)_tempList[0];
 
-            ThrusterHelper.GetThrustersInDirection(GridTerminalSystem, _rc, _ascentThrusters, DirectionConst.Up, IsTaggedBlockOnThisGrid);
-            ThrusterHelper.GetThrustersInDirection(GridTerminalSystem, _rc, _descentThrusters, DirectionConst.Down, IsTaggedBlockOnThisGrid);
+            _orientation.Init(_rc);
+            GridTerminalSystem.GetBlocksOfType<IMyThrust>(_ascentThrusters, b => IsTaggedBlockOnThisGrid(b) && _orientation.IsDown(b));
+            GridTerminalSystem.GetBlocksOfType<IMyThrust>(_descentThrusters, b => IsTaggedBlockOnThisGrid(b) && _orientation.IsUp(b));
             GridTerminalSystem.GetBlocksOfType<IMyThrust>(_allThrusters, IsOnThisGrid);
 
             CollectHelper.GetblocksOfTypeWithFirst<IMyShipConnector>(GridTerminalSystem, _connectors, IsTaggedBlockOnThisGrid, IsOnThisGrid);
