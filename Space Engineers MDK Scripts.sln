@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{90533C51-8B80-4D39-9722-4CD89BFCB84C}"
 EndProject
@@ -84,6 +84,7 @@ Global
 		_Module - Logging\_Module - Logging.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4
 		_Module - Time Interval\_Module - Time Interval.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4
 		SharedProject1\SharedProject1.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
+		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
 		_Helper - Thrusters\_Helper - Thrusters.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
 		_Module - Logging\_Module - Logging.projitems*{5a5bcc5c-0965-4cf1-b4c0-9f4925f33878}*SharedItemsImports = 13
@@ -99,6 +100,7 @@ Global
 		_Module - Time Interval\_Module - Time Interval.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		_Module - Profiler\_Module - Profiler.projitems*{7ad7003f-2c7c-4f0a-900a-279e82ef75e4}*SharedItemsImports = 13
 		SharedProject1\SharedProject1.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
+		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		_Module - Proximity\_Module - Proximity.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		_Module - Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
@@ -107,6 +109,7 @@ Global
 		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		_Helper - LCDs\_Helper - LCDs.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		_Module - Logging\_Module - Logging.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
+		_Module - Proximity\_Module - Proximity.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		_Module - Time Interval\_Module - Time Interval.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		SpaceElevator - Stations\SpaceElevator - Stations.projitems*{a5452a2d-e9c0-4155-9de9-d54928ee22d3}*SharedItemsImports = 13
 		_Module - Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{a55a9841-6a1a-4c62-937f-e2b471e894ed}*SharedItemsImports = 13
@@ -119,6 +122,7 @@ Global
 		SharedProject1\SharedProject1.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		SpaceElevator - Carriages\SpaceElevator - Carriages.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Helper - Thrusters\_Helper - Thrusters.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
@@ -129,6 +133,7 @@ Global
 		SharedProject1\SharedProject1.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
 		SpaceElevator - Carriages\SpaceElevator - Carriages.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
+		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
 		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
 		_Helper - Thrusters\_Helper - Thrusters.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4

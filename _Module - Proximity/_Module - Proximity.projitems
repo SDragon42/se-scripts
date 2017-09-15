@@ -10,5 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ProximityModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProximityResults.cs" />
   </ItemGroup>
 </Project>

@@ -29,6 +29,7 @@ namespace IngameScript
             //_testingCode = new LCDTesting();
             //_testingCode = new CameraRanging();
             _orientation = new BlocksByOrientation();
+            _proximity = new ProximityModule();
         }
 
         public void Save()

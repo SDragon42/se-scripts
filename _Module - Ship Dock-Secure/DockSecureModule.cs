@@ -34,6 +34,7 @@ namespace IngameScript
         public bool RadioAntennas_OnOff { get; set; }
         public bool Sensors_OnOff { get; set; }
         public bool OreDetectors_OnOff { get; set; }
+        public bool Sorters_Off { get; set; }
         public bool Spotlights_Off { get; set; }
 
 
@@ -120,6 +121,7 @@ namespace IngameScript
             if (!IsOnThisGrid(b)) return false;
             if (IsBlock2TurnON(b)) return true;
             if (Spotlights_Off && (b is IMyReflectorLight)) return true;
+            if (Sorters_Off && (b is IMyConveyorSorter)) return true;
             return false;
         }
 
