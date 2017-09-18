@@ -48,6 +48,5 @@ namespace IngameScript
                 : 0f;
         }
 
-        
     }
 }
