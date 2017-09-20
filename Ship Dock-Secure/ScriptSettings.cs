@@ -31,7 +31,7 @@ namespace IngameScript
         const string KEY_ToggleRadioAntennas = "Radio Antennas On/Off";
         const string KEY_ToggleSensors = "Sensors On/Off";
         const string KEY_ToggleOreDetectors = "Ore Detectors On/Off";
-        
+
         const string KEY_TurnOffSpotLights = "Spotlights Off";
         const string KEY_TurnOffSorters = "Sorters Off";
 

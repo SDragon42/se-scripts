@@ -36,6 +36,7 @@ namespace IngameScript
 
         const string KEY_ProximityInterval = "Proximity Interval";
         const string KEY_ProximityRange = "Proximity Range";
+        const string KEY_ProximityTag = "Proximity Camera Tag";
 
         readonly CustomDataConfigModule _config = new CustomDataConfigModule();
         int _configHashCode = 0;
@@ -65,10 +66,12 @@ namespace IngameScript
 
             _config.AddKey(KEY_ProximityInterval,
                 description: "The number of times/second to get the proximity ranges.",
-                defaultValue: "4");
+                defaultValue: "2");
             _config.AddKey(KEY_ProximityRange,
                 description: "The range in meters to scan.",
                 defaultValue: "100");
+            _config.AddKey(KEY_ProximityTag,
+                defaultValue: "");
 
             LoadConfig(me, dsm, pm, postLoadAction);
         }
@@ -91,9 +94,10 @@ namespace IngameScript
             dsm.Sensors_OnOff = _config.GetBoolean(KEY_ToggleSensors);
             dsm.OreDetectors_OnOff = _config.GetBoolean(KEY_ToggleOreDetectors);
             dsm.Spotlights_Off = _config.GetBoolean(KEY_TurnOffSpotLights);
-            
-            ProximityInterval = _config.GetInt(KEY_DockSecureInterval);
-            //TODO: Proximity module settings here
+
+            ProximityInterval = _config.GetInt(KEY_ProximityInterval);
+            pm.ProximityTag = _config.GetString(KEY_ProximityTag);
+            pm.ScanRange = _config.GetDouble(KEY_ProximityRange);
 
             postLoadAction?.Invoke();
         }
