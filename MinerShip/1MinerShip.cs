@@ -29,6 +29,8 @@ namespace IngameScript
         readonly ProximityModule _proximity;
         readonly ScriptSettings _settings = new ScriptSettings();
 
+        readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
+
         public Program()
         {
             //Echo = (t) => { }; // Disable Echo
@@ -69,7 +71,8 @@ namespace IngameScript
                 }
             }
 
-            _dockSecure.AutoDockUndock();
+            if (_dockSecureInterval.AtNextInterval()) _dockSecure.AutoDockUndock();
+            if (_proximityInterval.AtNextInterval()) RunProximityCheck();
         }
 
         void SetExecutionInterval()
@@ -77,5 +80,28 @@ namespace IngameScript
             _dockSecureInterval.SetNumIntervalsPerSecond(_settings.DockSecureInterval);
             _proximityInterval.SetNumIntervalsPerSecond(_settings.ProximityInterval);
         }
+
+        void RunProximityCheck()
+        {
+            var sc = GetShipControler();
+            _proximity.RunScan(this, sc);
+        }
+
+        IMyShipController GetShipControler()
+        {
+            GridTerminalSystem.GetBlocksOfType<IMyCockpit>(_tmp, IsOnThisGrid);
+            if (_tmp.Count > 0) return _tmp[0] as IMyShipController;
+            GridTerminalSystem.GetBlocksOfType<IMyRemoteControl>(_tmp, IsOnThisGrid);
+            if (_tmp.Count > 0) return _tmp[0] as IMyShipController;
+            return null;
+        }
+        IMyTextPanel GetProximityDisplay()
+        {
+            GridTerminalSystem.GetBlocksOfType<IMyTextPanel>(_tmp, b => IsOnThisGrid(b) && b.CustomName.ToLower().Contains(_proximity.ProximityTag.ToLower()));
+            if (_tmp.Count > 0) return _tmp[0] as IMyTextPanel;
+            return null;
+        }
+
+        bool IsOnThisGrid(IMyTerminalBlock b) { return b.CubeGrid.EntityId == Me.CubeGrid.EntityId; }
     }
 }

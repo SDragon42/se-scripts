@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{90533C51-8B80-4D39-9722-4CD89BFCB84C}"
 EndProject
@@ -69,6 +69,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Block Orientation
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Direction", "_Helper - Direction\_Helper - Direction.shproj", "{7E912F4A-7C61-4AEA-82E1-259FE4357B0B}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Cargo and Inventory", "_Helper - Cargo and Inventory\_Helper - Cargo and Inventory.shproj", "{4E20775E-FE3C-4AE3-8E2D-A7B43EE30ED4}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
@@ -85,6 +87,7 @@ Global
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4
 		_Module - Logging\_Module - Logging.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4
 		_Module - Time Interval\_Module - Time Interval.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4
+		_Helper - Cargo and Inventory\_Helper - Cargo and Inventory.projitems*{4e20775e-fe3c-4ae3-8e2d-a7b43ee30ed4}*SharedItemsImports = 13
 		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
 		_Helper - Direction\_Helper - Direction.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
 		_Helper - Thrusters\_Helper - Thrusters.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4

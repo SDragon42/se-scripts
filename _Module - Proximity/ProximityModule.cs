@@ -14,28 +14,40 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-// IngameScript
 namespace IngameScript
 {
     class ProximityModule
     {
-        readonly List<IMyCameraBlock> _camFront = new List<IMyCameraBlock>();
-        readonly List<IMyCameraBlock> _camBack = new List<IMyCameraBlock>();
-        readonly List<IMyCameraBlock> _camLeft = new List<IMyCameraBlock>();
-        readonly List<IMyCameraBlock> _camRight = new List<IMyCameraBlock>();
-        readonly List<IMyCameraBlock> _camUp = new List<IMyCameraBlock>();
-        readonly List<IMyCameraBlock> _camDown = new List<IMyCameraBlock>();
+        const double SCAN_RANGE = 100.0;
 
-        readonly Dictionary<int, double?> _ranges = new Dictionary<int, double?>();
+        readonly List<IMyCameraBlock> _cameras = new List<IMyCameraBlock>();
 
         BlocksByOrientation _orientation;
         IMyShipController _sc;
+
         string _proximityTag = string.Empty;
+        public string ProximityTag { get { return _proximityTag; } set { _proximityTag = value?.Trim() ?? string.Empty; } }
+
+        double _scanRange = SCAN_RANGE;
+        public double ScanRange { get { return _scanRange; } set { _scanRange = value; } }
 
 
+        public double? Forward { get; private set; }
+        public double? Backward { get; private set; }
+        public double? Left { get; private set; }
+        public double? Right { get; private set; }
+        public double? Up { get; private set; }
+        public double? Down { get; private set; }
 
         public void RunScan(MyGridProgram thisObj, IMyShipController sc)
         {
+            Forward = null;
+            Backward = null;
+            Left = null;
+            Right = null;
+            Up = null;
+            Down = null;
+
             if (_sc != sc)
             {
                 _sc = sc;
@@ -44,13 +56,32 @@ namespace IngameScript
 
             if (_orientation != null)
             {
-                thisObj.GridTerminalSystem.GetBlocksOfType(_camFront, b => IsTaggedBlock(b) && _orientation.IsForward(b));
-                thisObj.GridTerminalSystem.GetBlocksOfType(_camBack, b => IsTaggedBlock(b) && _orientation.IsBackward(b));
-                thisObj.GridTerminalSystem.GetBlocksOfType(_camLeft, b => IsTaggedBlock(b) && _orientation.IsLeft(b));
-                thisObj.GridTerminalSystem.GetBlocksOfType(_camRight, b => IsTaggedBlock(b) && _orientation.IsRight(b));
-                thisObj.GridTerminalSystem.GetBlocksOfType(_camUp, b => IsTaggedBlock(b) && _orientation.IsUp(b));
-                thisObj.GridTerminalSystem.GetBlocksOfType(_camDown, b => IsTaggedBlock(b) && _orientation.IsDown(b));
+                Forward = GetMinimumRange(thisObj, _orientation.IsForward);
+                Backward = GetMinimumRange(thisObj, _orientation.IsBackward);
+                Left = GetMinimumRange(thisObj, _orientation.IsLeft);
+                Right = GetMinimumRange(thisObj, _orientation.IsRight);
+                Up = GetMinimumRange(thisObj, _orientation.IsUp);
+                Down = GetMinimumRange(thisObj, _orientation.IsDown);
             }
+        }
+
+        double? GetMinimumRange(MyGridProgram thisObj, Func<IMyTerminalBlock, bool> directionMethod)
+        {
+            thisObj.GridTerminalSystem.GetBlocksOfType(_cameras, b => IsTaggedBlock(b) && directionMethod(b));
+
+            var range = ScanRange;
+            _cameras.ForEach(camera =>
+            {
+                camera.EnableRaycast = true;
+                if (!camera.CanScan(ScanRange)) return;
+                var info = camera.Raycast(ScanRange, 0, 0);
+                if (!info.HitPosition.HasValue) return;
+                var thisRange = Vector3D.Distance(camera.GetPosition(), info.HitPosition.Value);
+                if (thisRange < range)
+                    range = thisRange;
+            });
+
+            return range < ScanRange ? range : (double?)null;
         }
 
 
