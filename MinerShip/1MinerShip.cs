@@ -40,6 +40,8 @@ namespace IngameScript
             _proximityInterval = new TimeIntervalModule();
             _dockSecure = new DockSecureModule();
 
+            _proximity = new ProximityModule();
+
             _settings.InitConfig(Me, _dockSecure, _proximity, SetExecutionInterval);
         }
 
@@ -58,7 +60,6 @@ namespace IngameScript
             _settings.LoadConfig(Me, _dockSecure, _proximity, SetExecutionInterval);
 
             _dockSecure.Init(this);
-            //_proximity.Init(this);
 
             if (argument?.Length > 0)
             {
@@ -84,7 +85,25 @@ namespace IngameScript
         void RunProximityCheck()
         {
             var sc = GetShipControler();
+            var display = GetProximityDisplay();
+            if (sc == null || display == null) return;
             _proximity.RunScan(this, sc);
+            LCDHelper.SetFont_Monospaced(display);
+            LCDHelper.SetFontSize(display, 1.7f);
+
+            var txtUp = FormatRange2Text(_proximity.Up);
+            var txtDown = FormatRange2Text(_proximity.Down);
+            var txtLeft = FormatRange2Text(_proximity.Left);
+            var txtRight = FormatRange2Text(_proximity.Right);
+            var txtBack = FormatRange2Text(_proximity.Backward);
+
+            display.WritePublicText($"Prox  {txtUp}\n {txtLeft}<{txtBack}>{txtRight}\n      {txtDown}");
+            display.ShowPublicTextOnScreen();
+        }
+        string FormatRange2Text(double? range)
+        {
+            if (!range.HasValue) return "----";
+            return $"{range,4:N1}";
         }
 
         IMyShipController GetShipControler()

@@ -69,7 +69,7 @@ namespace IngameScript
                 defaultValue: "2");
             _config.AddKey(KEY_ProximityRange,
                 description: "The range in meters to scan.",
-                defaultValue: "100");
+                defaultValue: "99");
             _config.AddKey(KEY_ProximityTag,
                 defaultValue: "");
 
