@@ -29,7 +29,6 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         //  CONSTANTS
         //-------------------------------------------------------------------------------
-        const string VERSION = "v1.7";
         const double SWITCH_TO_AUTOPILOT_RANGE = 1;
         const double DOCKED_AT_STATION_RANGE = 25.0;
 
@@ -81,7 +80,7 @@ namespace IngameScript
         float _h2TankFilledPercent;
 
         GpsInfo _destination;
-        string _travelDirection = TravelDirection.None;
+        TravelDirection _travelDirection = TravelDirection.None;
 
 
         //-------------------------------------------------------------------------------
@@ -89,7 +88,7 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         public Program()
         {
-            Echo = (t) => { }; // Disable Echo
+            //Echo = (t) => { }; // Disable Echo
             _debug = new DebugModule(this);
             //_debug.SetEnabled(false);
             _debug.SetEchoMessages(false);
@@ -100,7 +99,8 @@ namespace IngameScript
 
             _lastCustomDataHash = -1;
 
-            _mode_SpecialUseOnly = (!string.IsNullOrWhiteSpace(Storage)) ? Storage : CarriageMode.Manual_Control;
+            //_mode_SpecialUseOnly = (!string.IsNullOrWhiteSpace(Storage)) ? Storage : CarriageMode.Manual_Control;
+            _mode_SpecialUseOnly = CarriageModeHelper.GetFromString(Storage);
 
 
             _runSymbol = new RunningSymbolModule();
@@ -123,7 +123,7 @@ namespace IngameScript
         {
             try
             {
-                Echo("Carriage Control " + VERSION + ": " + _runSymbol.GetSymbol(this.Runtime));
+                Echo("Carriage Control " + _runSymbol.GetSymbol(this.Runtime));
                 Echo("DEBUG " + (_debug.GetEnabled() ? "enabled" : "disabled"));
 
                 _executionInterval.RecordTime(this.Runtime);
@@ -159,8 +159,7 @@ namespace IngameScript
             }
             finally
             {
-                if (_debug != null)
-                    _debug.UpdateDisplay();
+                _debug.UpdateDisplay();
             }
         }
 
@@ -389,14 +388,14 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         //  MODE OPERATIONS
         //-------------------------------------------------------------------------------
-        string _mode_SpecialUseOnly;
-        string GetMode() { return _mode_SpecialUseOnly; }
-        void SetMode(string value)
+        CarriageMode _mode_SpecialUseOnly;
+        CarriageMode GetMode() { return _mode_SpecialUseOnly; }
+        void SetMode(CarriageMode value)
         {
             if (_mode_SpecialUseOnly == value && value != CarriageMode.Manual_Control) return;
             _mode_SpecialUseOnly = value;
 
-            if (!CarriageMode.IsValidModeValue(_mode_SpecialUseOnly))
+            if (!CarriageModeHelper.IsValidModeValue(_mode_SpecialUseOnly))
                 _mode_SpecialUseOnly = CarriageMode.Manual_Control;
 
             switch (_mode_SpecialUseOnly)
