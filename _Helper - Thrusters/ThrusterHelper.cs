@@ -24,18 +24,9 @@ namespace IngameScript
     /// </remarks>
     static class ThrusterHelper
     {
-        public static void SetThrusterOverride(IMyTerminalBlock thruster, double powerPercentage)
-        {
-            SetThrusterOverride(thruster as IMyThrust, Convert.ToSingle(powerPercentage));
-        }
-        public static void SetThrusterOverride(IMyTerminalBlock thruster, float powerPercentage)
-        {
-            SetThrusterOverride(thruster as IMyThrust, powerPercentage);
-        }
-        public static void SetThrusterOverride(IMyThrust thruster, double powerPercentage)
-        {
-            SetThrusterOverride(thruster, Convert.ToSingle(powerPercentage));
-        }
+        public static void SetThrusterOverride(IMyTerminalBlock thruster, double powerPercentage) { SetThrusterOverride(thruster as IMyThrust, Convert.ToSingle(powerPercentage)); }
+        public static void SetThrusterOverride(IMyTerminalBlock thruster, float powerPercentage) { SetThrusterOverride(thruster as IMyThrust, powerPercentage); }
+        public static void SetThrusterOverride(IMyThrust thruster, double powerPercentage) { SetThrusterOverride(thruster, Convert.ToSingle(powerPercentage)); }
         public static void SetThrusterOverride(IMyThrust thruster, float powerPercentage)
         {
             if (thruster == null) return;
@@ -43,10 +34,7 @@ namespace IngameScript
             thruster.SetValue("Override", powerPercentage);
         }
 
-        public static float GetThrusterOveridePercentage(IMyTerminalBlock thruster)
-        {
-            return GetThrusterOveridePercentage(thruster as IMyThrust);
-        }
+        public static float GetThrusterOveridePercentage(IMyTerminalBlock thruster) { return GetThrusterOveridePercentage(thruster as IMyThrust); }
         public static float GetThrusterOveridePercentage(IMyThrust thruster)
         {
             if (thruster == null) return 0f;
@@ -55,20 +43,6 @@ namespace IngameScript
                 ? (thruster.ThrustOverride / maxThrust) * 100f
                 : 0f;
         }
-
-
-        //public static void AdjustThrottle(
-        //        List<IMyTerminalBlock> thrusterList,
-        //        double lowerSpeedTarget, double upperSpeedTarget, double currSpeed, double currAccel,
-        //        float overrideAjustAmount, float currOverride)
-        //{
-        //    var newOverride = currOverride;
-        //    if (currSpeed < lowerSpeedTarget) newOverride = newOverride + overrideAjustAmount;
-        //    if (currSpeed > upperSpeedTarget && currAccel > 0) newOverride = newOverride - overrideAjustAmount;
-        //    if (newOverride > 100) newOverride = 100;
-        //    if (newOverride < 0) newOverride = 0;
-        //    if (newOverride != currOverride) foreach (var b in thrusterList) SetThrusterOverride(b, newOverride);
-        //}
 
 
         public static double ConvertMass2Newtons(int mass_kg) { return (mass_kg / 0.101971621); }
