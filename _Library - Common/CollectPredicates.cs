@@ -49,28 +49,7 @@ namespace IngameScript
             return (b.Status == MyShipConnectorStatus.Unconnected);
         }
 
-        public static bool IsDoor(IMyTerminalBlock b) { return b is IMyDoor; }
-        public static bool IsBasicDoor_depricated(IMyTerminalBlock b)
-        {
-            return (IsDoor(b) && b.BlockDefinition.TypeIdString.Contains("_Door"));
-        }
-        public static bool IsBasicDoor(IMyTerminalBlock b)
-        {
-            if (b is IMyAirtightSlideDoor) return false;
-            if (b is IMyAirtightHangarDoor) return false;
-            return true;
-        }
-        public static bool IsHangarDoor_depricated(IMyTerminalBlock b)
-        {
-            return (IsDoor(b) && b.BlockDefinition.TypeIdString.Contains("_AirtightHangarDoor"));
-        }
-        public static bool IsHangarDoor(IMyTerminalBlock b) { return (b is IMyAirtightHangarDoor); }
-        public static bool IsSlidingDoor_depricated(IMyTerminalBlock b)
-        {
-            return (IsDoor(b) && b.BlockDefinition.TypeIdString.Contains("_AirtightSlideDoor"));
-        }
-        public static bool IsSlidingDoor(IMyTerminalBlock b) { return (b is IMyAirtightSlideDoor); }
-        public static bool IsHumanDoor(IMyTerminalBlock b) { return (IsDoor(b) && !IsHangarDoor(b)); }
+        
 
         public static bool IsLandingGear(IMyTerminalBlock b) { return b is IMyLandingGear; }
         public static bool IsLandingGearUnlocked(IMyTerminalBlock b) { return IsLandingGearUnlocked(b as IMyLandingGear); }
