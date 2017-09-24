@@ -514,7 +514,7 @@ namespace IngameScript
 
             _landingGears.ForEach(b => b.Lock());
 
-            var anyLocked = _landingGears.Any(CollectPredicates.IsLandingGearLocked);
+            var anyLocked = _landingGears.Any(LandingGearHelper.IsLandingGearLocked);
             if (anyLocked)
             {
                 SetMode(CarriageMode.Docked);

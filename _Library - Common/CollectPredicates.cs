@@ -29,46 +29,10 @@ namespace IngameScript
             return (i == j);
         }
 
-        public static bool IsConnector(IMyTerminalBlock b) { return b is IMyShipConnector; }
-        public static bool IsConnectorConnectable(IMyTerminalBlock b) { return IsConnectorConnectable(b as IMyShipConnector); }
-        public static bool IsConnectorConnectable(IMyShipConnector b)
-        {
-            if (b == null) return false;
-            return (b.Status == MyShipConnectorStatus.Connectable);
-        }
-        public static bool IsConnectorConnected(IMyTerminalBlock b) { return IsConnectorConnected(b as IMyShipConnector); }
-        public static bool IsConnectorConnected(IMyShipConnector b)
-        {
-            if (b == null) return false;
-            return (b.Status == MyShipConnectorStatus.Connected);
-        }
-        public static bool IsConnectorUnconnected(IMyTerminalBlock b) { return IsConnectorUnconnected(b as IMyShipConnector); }
-        public static bool IsConnectorUnconnected(IMyShipConnector b)
-        {
-            if (b == null) return false;
-            return (b.Status == MyShipConnectorStatus.Unconnected);
-        }
+        
 
         
 
-        public static bool IsLandingGear(IMyTerminalBlock b) { return b is IMyLandingGear; }
-        public static bool IsLandingGearUnlocked(IMyTerminalBlock b) { return IsLandingGearUnlocked(b as IMyLandingGear); }
-        public static bool IsLandingGearUnlocked(IMyLandingGear b)
-        {
-            if (b == null) return false;
-            return ((int)b.LockMode == 0); //TODO: Unlocked - Workaround this this is fixed
-        }
-        public static bool IsLandingGearReadyToLock(IMyTerminalBlock b) { return IsLandingGearReadyToLock(b as IMyLandingGear); }
-        public static bool IsLandingGearReadyToLock(IMyLandingGear b)
-        {
-            if (b == null) return false;
-            return ((int)b.LockMode == 1); //TODO: ReadyToLock - Workaround this this is fixed
-        }
-        public static bool IsLandingGearLocked(IMyTerminalBlock b) { return IsLandingGearLocked(b as IMyLandingGear); }
-        public static bool IsLandingGearLocked(IMyLandingGear b)
-        {
-            if (b == null) return false;
-            return ((int)b.LockMode == 2); //TODO: Locked - Workaround this this is fixed
-        }
+        
     }
 }

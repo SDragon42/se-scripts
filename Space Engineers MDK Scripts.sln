@@ -77,6 +77,10 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Cargo and Invento
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Doors", "_Helper - Doors\_Helper - Doors.shproj", "{E503BEBE-817D-4BED-9072-7BFCB95415B8}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Connectors", "_Helper - Connectors\_Helper - Connectors.shproj", "{5401FCB1-DDDD-4AB5-B78D-0C3AE14D202C}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Landing Gears", "_Helper - Landing Gears\_Helper - Landing Gears.shproj", "{2AC28B0A-1F4D-4423-B244-64FBF8A94354}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		_Library - Common\_Library - Common.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
@@ -89,6 +93,7 @@ Global
 		_Module - Logging\_Module - Logging.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{0a117477-6c2a-40ac-a8eb-fdcd2dfe11ba}*SharedItemsImports = 13
 		_Module - Time Interval\_Module - Time Interval.projitems*{243c42a9-6084-40c4-a1c4-5d0d61a5f1e1}*SharedItemsImports = 13
+		_Helper - Landing Gears\_Helper - Landing Gears.projitems*{2ac28b0a-1f4d-4423-b244-64fbf8a94354}*SharedItemsImports = 13
 		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{35bbb9de-40b9-4e5a-aa79-49394bfa1435}*SharedItemsImports = 13
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4
 		SpaceElevator - Stations\SpaceElevator - Stations.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4
@@ -101,6 +106,7 @@ Global
 		_Helper - Thrusters\_Helper - Thrusters.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
 		_Library - Common\_Library - Common.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
+		_Helper - Connectors\_Helper - Connectors.projitems*{5401fcb1-dddd-4ab5-b78d-0c3ae14d202c}*SharedItemsImports = 13
 		_Module - Logging\_Module - Logging.projitems*{5a5bcc5c-0965-4cf1-b4c0-9f4925f33878}*SharedItemsImports = 13
 		_Module - Compass\_Module - Compass.projitems*{61d703ee-85ba-47e5-b1b7-e512b20d7203}*SharedItemsImports = 13
 		SpaceElevator - Carriages\SpaceElevator - Carriages.projitems*{6e984321-53bc-42d1-96a1-f33860dc1e59}*SharedItemsImports = 13
@@ -136,6 +142,7 @@ Global
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		_Helper - Landing Gears\_Helper - Landing Gears.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Helper - Thrusters\_Helper - Thrusters.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Library - Common\_Library - Common.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
@@ -148,6 +155,7 @@ Global
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
 		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
 		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
+		_Helper - Landing Gears\_Helper - Landing Gears.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
 		_Helper - Thrusters\_Helper - Thrusters.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
 		_Library - Common\_Library - Common.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
