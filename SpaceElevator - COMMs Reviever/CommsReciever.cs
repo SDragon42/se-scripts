@@ -62,9 +62,9 @@ namespace IngameScript
                 Echo("COMMS Reciever " + VERSION);
                 ReloadConfig();
 
-                _targetProgram = GetBlockWithName<IMyProgrammableBlock>(_custConfig.GetString(KEY_ProgramBlockName));
-                _timer = GetBlockWithName<IMyTimerBlock>(_custConfig.GetString(KEY_TimerBlockName));
-                _display = GetBlockWithName<IMyTextPanel>(_custConfig.GetString(KEY_LogDisplayName));
+                _targetProgram = GetBlockWithName<IMyProgrammableBlock>(_custConfig.GetValue(KEY_ProgramBlockName));
+                _timer = GetBlockWithName<IMyTimerBlock>(_custConfig.GetValue(KEY_TimerBlockName));
+                _display = GetBlockWithName<IMyTextPanel>(_custConfig.GetValue(KEY_LogDisplayName));
 
                 if (_targetProgram == null) Echo("No target Program Block found.");
                 if (_timer == null) Echo("No timer block found.");
@@ -116,7 +116,7 @@ namespace IngameScript
             _custConfig.ReadFromCustomData(Me);
             _custConfig.SaveToCustomData(Me);
             _configHash = Me.CustomData.GetHashCode();
-            _log.SetMaxTextLinesToKeep(_custConfig.GetInt(KEY_LogLinesToShow, 10));
+            _log.SetMaxTextLinesToKeep(_custConfig.GetValue(KEY_LogLinesToShow).ToInt(10));
         }
 
 

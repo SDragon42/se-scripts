@@ -79,15 +79,15 @@ namespace IngameScript
         }
         public void LoadFromSettingDict(CustomDataConfigModule config)
         {
-            _inventoryMultiplier = config.GetInt(KEY_InvMultiplier, DEFAULT_WorldInventoryMultiplier);
-            _travelSpeed = config.GetDouble(KEY_TravelSpeed, DEFAULT_TravelSpeed);
-            _DockSpeed = config.GetDouble(KEY_DockSpeed, DEFAULT_DockSpeed);
-            _ConnectorLockDelay = config.GetDouble(KEY_LockDelay, DEFAULT_ConnectorLockDelay);
-            _ApproachDistance = config.GetDouble(KEY_ApproachDist, DEFAULT_ApproachDistence);
-            _GravityDescelEnabled = config.GetBoolean(KEY_GravityDescelEnabled, DEFAULT_GravityDescelEnabled);
-            _BlockTag = config.GetString(KEY_BlockTag, DEFAULT_BlockTag);
-            _DoorCloseDelay = config.GetDouble(KEY_TimeToLeaveDoorOpen, DEFAULT_DoorCloseDelay);
-            _SendStatusMessages = config.GetBoolean(KEY_SendStatusMessages, DEFAULT_SendStatusMessages);
+            _inventoryMultiplier = config.GetValue(KEY_InvMultiplier).ToInt(DEFAULT_WorldInventoryMultiplier);
+            _travelSpeed = config.GetValue(KEY_TravelSpeed).ToDouble(DEFAULT_TravelSpeed);
+            _DockSpeed = config.GetValue(KEY_DockSpeed).ToDouble(DEFAULT_DockSpeed);
+            _ConnectorLockDelay = config.GetValue(KEY_LockDelay).ToDouble(DEFAULT_ConnectorLockDelay);
+            _ApproachDistance = config.GetValue(KEY_ApproachDist).ToDouble(DEFAULT_ApproachDistence);
+            _GravityDescelEnabled = config.GetValue(KEY_GravityDescelEnabled).ToBoolean(DEFAULT_GravityDescelEnabled);
+            _BlockTag = config.GetValue(KEY_BlockTag, DEFAULT_BlockTag);
+            _DoorCloseDelay = config.GetValue(KEY_TimeToLeaveDoorOpen).ToDouble(DEFAULT_DoorCloseDelay);
+            _SendStatusMessages = config.GetValue(KEY_SendStatusMessages).ToBoolean(DEFAULT_SendStatusMessages);
 
             _gpsPoints.Clear();
             var i = 1;
@@ -96,7 +96,7 @@ namespace IngameScript
                 var key = KEY_GpsPoint + i.ToString();
                 i++;
                 if (!config.ContainsKey(key)) break;
-                _gpsPoints.Add(new GpsInfo(config.GetString(key)));
+                _gpsPoints.Add(new GpsInfo(config.GetValue(key)));
             }
         }
         public void BuidSettingDict(CustomDataConfigModule config)

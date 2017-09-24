@@ -90,68 +90,11 @@ namespace IngameScript
             if (!_items.ContainsKey(sKey)) return;
             _items[sKey].SetValue((val != null) ? val.ToString() : string.Empty);
         }
-        public string GetString(object key, string defVal = "")
+        public string GetValue(object key, string defVal = "")
         {
             var sKey = key.ToString();
             if (!_items.ContainsKey(sKey)) return defVal;
             return _items[sKey].GetValue();
-        }
-        public int GetInt(object key, int defVal = 0)
-        {
-            var sKey = key.ToString();
-            if (!_items.ContainsKey(sKey)) return defVal;
-            int val;
-            if (!int.TryParse(_items[sKey].GetValue(), out val))
-                val = defVal;
-            return val;
-        }
-        public float GetFloat(object key, float defVal = 0f)
-        {
-            var sKey = key.ToString();
-            if (!_items.ContainsKey(sKey)) return defVal;
-            float val;
-            if (!float.TryParse(_items[sKey].GetValue(), out val))
-                val = defVal;
-            return val;
-        }
-        public double GetDouble(object key, double defVal = 0.0)
-        {
-            var sKey = key.ToString();
-            if (!_items.ContainsKey(sKey)) return defVal;
-            double val;
-            if (!double.TryParse(_items[sKey].GetValue(), out val))
-                val = defVal;
-            return val;
-        }
-        public bool GetBoolean(object key, bool defVal = false)
-        {
-            var sKey = key.ToString();
-            if (!_items.ContainsKey(sKey)) return defVal;
-            bool val;
-            if (!bool.TryParse(_items[sKey].GetValue(), out val))
-                val = defVal;
-            return val;
-        }
-        public bool GetBoolean2(object key, bool defVal = false)
-        {
-            var sKey = key.ToString();
-            if (!_items.ContainsKey(sKey)) return defVal;
-            var sVal = _items[sKey].GetValue().ToLower();
-            bool val;
-            if (bool.TryParse(_items[sKey].GetValue(), out val)) return val;
-            if (sVal == "t") return true;
-            if (sVal == "y") return true;
-            if (sVal == "yes") return true;
-            if (sVal == "1") return true;
-            return false;
-        }
-        public T GetEnum<T>(object key, T defVal = default(T)) where T : struct
-        {
-            var sKey = key.ToString();
-            if (!_items.ContainsKey(sKey)) return defVal;
-            T val;
-            if (!Enum.TryParse(_items[sKey].GetValue(), out val)) return defVal;
-            return val;
         }
 
     }

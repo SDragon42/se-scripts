@@ -20,11 +20,6 @@ namespace IngameScript
     {
         public static bool IsOnSameGrid(IMyTerminalBlock sourceBlock, IMyTerminalBlock b) { return (b != null) ? (sourceBlock.CubeGrid == b.CubeGrid) : false; }
 
-        public static bool IsAirVent(IMyTerminalBlock b) { return b is IMyAirVent; }
-        public static bool IsArtificialMass(IMyTerminalBlock b) { return b is IMyArtificialMassBlock; }
-        public static bool IsBeacon(IMyTerminalBlock b) { return b is IMyBeacon; }
-        public static bool IsRadioAntenna(IMyTerminalBlock b) { return b is IMyRadioAntenna; }
-        public static bool IsShipMerge(IMyTerminalBlock b) { return b is IMyShipMergeBlock; }
         public static bool IsOrientedForward(IMyTerminalBlock b)
         {
             if (b == null)
@@ -96,21 +91,5 @@ namespace IngameScript
             if (b == null) return false;
             return ((int)b.LockMode == 2); //TODO: Locked - Workaround this this is fixed
         }
-
-        public static bool IsCargoContainer(IMyTerminalBlock b) { return b is IMyCargoContainer; }
-
-        //public static bool IsGasTank(IMyTerminalBlock b) { return b is IMyGasTank; }
-        //public static bool IsOxygenTank(IMyTerminalBlock b) { return (IsGasTank(b) && !b.BlockDefinition.SubtypeId.Contains("Hydro")); }
-        //public static bool IsHydrogenTank(IMyTerminalBlock b) { return (IsGasTank(b) && b.BlockDefinition.SubtypeId.Contains("Hydro")); }
-
-        //public static bool IsThruster(IMyTerminalBlock b) { return b is IMyThrust; }
-        //public static bool IsThrusterIon(IMyTerminalBlock b) { return (IsThruster(b) && !IsThrusterHydrogen(b) && !IsThrusterAtmospheric(b)); }
-        //public static bool IsThrusterHydrogen(IMyTerminalBlock b) { return (IsThruster(b) && b.BlockDefinition.SubtypeId.Contains("Hydro")); }
-        //public static bool IsThrusterAtmospheric(IMyTerminalBlock b) { return (IsThruster(b) && b.BlockDefinition.SubtypeId.Contains("Atmo")); }
-
-        public static bool IsGyro(IMyTerminalBlock b) { return b is IMyGyro; }
-        public static bool IsInteriorLight(IMyTerminalBlock b) { return b is IMyInteriorLight; }
-        public static bool IsSensor(IMyTerminalBlock b) { return b is IMySensorBlock; }
-        public static bool IsOreDetector(IMyTerminalBlock b) { return b is IMyOreDetector; }
     }
 }

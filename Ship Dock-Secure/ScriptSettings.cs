@@ -76,18 +76,18 @@ namespace IngameScript
             _config.SaveToCustomData(me);
             _configHashCode = me.CustomData.GetHashCode();
 
-            dsm.Auto_On = _config.GetBoolean(KEY_AUTO_ON);
-            dsm.Auto_Off = _config.GetBoolean(KEY_AUTO_OFF);
-            dsm.Thrusters_OnOff = _config.GetBoolean(KEY_ToggleThrusters);
-            dsm.Gyros_OnOff = _config.GetBoolean(KEY_ToggleGyros);
-            dsm.Lights_OnOff = _config.GetBoolean(KEY_ToggleLights);
-            dsm.Beacons_OnOff = _config.GetBoolean(KEY_ToggleBeacons);
-            dsm.RadioAntennas_OnOff = _config.GetBoolean(KEY_ToggleRadioAntennas);
-            dsm.Sensors_OnOff = _config.GetBoolean(KEY_ToggleSensors);
-            dsm.OreDetectors_OnOff = _config.GetBoolean(KEY_ToggleOreDetectors);
-            dsm.Spotlights_Off = _config.GetBoolean(KEY_TurnOffSpotLights);
-            dsm.Sorters_Off = _config.GetBoolean(KEY_TurnOffSorters);
-            RunInterval = _config.GetInt(KEY_RunInterval);
+            dsm.Auto_On = _config.GetValue(KEY_AUTO_ON).ToBoolean();
+            dsm.Auto_Off = _config.GetValue(KEY_AUTO_OFF).ToBoolean();
+            dsm.Thrusters_OnOff = _config.GetValue(KEY_ToggleThrusters).ToBoolean();
+            dsm.Gyros_OnOff = _config.GetValue(KEY_ToggleGyros).ToBoolean();
+            dsm.Lights_OnOff = _config.GetValue(KEY_ToggleLights).ToBoolean();
+            dsm.Beacons_OnOff = _config.GetValue(KEY_ToggleBeacons).ToBoolean();
+            dsm.RadioAntennas_OnOff = _config.GetValue(KEY_ToggleRadioAntennas).ToBoolean();
+            dsm.Sensors_OnOff = _config.GetValue(KEY_ToggleSensors).ToBoolean();
+            dsm.OreDetectors_OnOff = _config.GetValue(KEY_ToggleOreDetectors).ToBoolean();
+            dsm.Spotlights_Off = _config.GetValue(KEY_TurnOffSpotLights).ToBoolean();
+            dsm.Sorters_Off = _config.GetValue(KEY_TurnOffSorters).ToBoolean();
+            RunInterval = _config.GetValue(KEY_RunInterval).ToInt();
 
             postLoadAction?.Invoke();
         }

@@ -16,21 +16,21 @@ using VRageMath;
 
 namespace IngameScript
 {
+    interface ITestingBase
+    {
+        void Main(string argument);
+    }
+
     class TestingBase
     {
-        public MyGridProgram thisObj { get; private set; }
+        protected readonly MyGridProgram thisObj;
+        protected Action<string> Echo;
+        protected IMyGridTerminalSystem GridTerminalSystem { get { return thisObj.GridTerminalSystem; } }
 
-        public IMyGridTerminalSystem GridTerminalSystem { get { return thisObj.GridTerminalSystem; } }
-        public Action<string> Echo { get { return this.thisObj.Echo; } }
-
-        public void Init(MyGridProgram thisObj)
+        public TestingBase(MyGridProgram thisObj)
         {
             this.thisObj = thisObj;
-        }
-
-        public virtual void Main(string argument)
-        {
-
+            Echo = thisObj.Echo;
         }
     }
 }

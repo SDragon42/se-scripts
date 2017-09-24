@@ -30,38 +30,7 @@ namespace IngameScript
         public const long MaxVolume_LgBlock_SmContainer = 15625000;
         public const long MaxVolume_LgBlock_LgContainer = 421000000;
 
-        //[Obsolete("Replaced", true)]
-        //public static int GetInventoryMultiplier(IMyGridTerminalSystem gts, MyGridProgram _this)
-        //{
-        //    var tmp = new List<IMyTerminalBlock>();
-        //    gts.GetBlocksOfType<IMyCargoContainer>(tmp);
-
-        //    for (var i = 0; i < tmp.Count; i++)
-        //    {
-        //        var maxVolume = GetInventoryTotals(tmp[i], GetInventoryMaxVolume);
-        //        var defMaxVolume = 0L;
-        //        switch (tmp[i].BlockDefinition.SubtypeId)
-        //        {
-        //            case SUBTYPE_SmBlock_SmContainer: defMaxVolume = MaxVolume_SmBlock_SmContainer; break;
-        //            case SUBTYPE_SmBlock_MdContainer: defMaxVolume = MaxVolume_SmBlock_MdContainer; break;
-        //            case SUBTYPE_SmBlock_LgContainer: defMaxVolume = MaxVolume_SmBlock_LgContainer; break;
-        //            case SUBTYPE_LgBlock_SmContainer: defMaxVolume = MaxVolume_LgBlock_SmContainer; break;
-        //            case SUBTYPE_LgBlock_LgContainer: defMaxVolume = MaxVolume_LgBlock_LgContainer; break;
-        //        }
-        //        if (maxVolume == long.MaxValue)
-        //        {
-        //            _this.Echo("Can't determine multiplier.\nAppears to be a creative world.");
-        //            return 0;
-        //        }
-        //        if (defMaxVolume > 0)
-        //            return Convert.ToInt32(maxVolume / defMaxVolume);
-        //    }
-
-        //    _this.Echo("Can't determine multiplier.\nNo Vanilla cargo containers found.");
-        //    return 0;
-        //}
-
-        public static int GetInventoryMultiplier(IList<IMyCargoContainer> blockList)
+        public static int GetInventoryMultiplier(List<IMyCargoContainer> blockList)
         {
             if (blockList == null || blockList.Count <= 0) return 0;
             foreach (var b in blockList)
@@ -94,32 +63,12 @@ namespace IngameScript
         }
 
 
-        //private static bool IsSmallBlockSmallCargoContainer(IMyTerminalBlock block)
-        //{
-        //    return IsVanillaCargoContainer(block, SUBTYPE_SmBlock_SmContainer);
-        //}
-        //private static bool IsSmallBlockMediumCargoContainer(IMyTerminalBlock block)
-        //{
-        //    return IsVanillaCargoContainer(block, SUBTYPE_SmBlock_MdContainer);
-        //}
-        //private static bool IsSmallBlockLargeCargoContainer(IMyTerminalBlock block)
-        //{
-        //    return IsVanillaCargoContainer(block, SUBTYPE_SmBlock_LgContainer);
-        //}
-        //private static bool IsLargeBlockSmallCargoContainer(IMyTerminalBlock block)
-        //{
-        //    return IsVanillaCargoContainer(block, SUBTYPE_LgBlock_SmContainer);
-        //}
-        //private static bool IsLargeBlockLargeCargoContainer(IMyTerminalBlock block)
-        //{
-        //    return IsVanillaCargoContainer(block, SUBTYPE_LgBlock_LgContainer);
-        //}
-
-        //private static bool IsVanillaCargoContainer(IMyTerminalBlock block, string subtypeId)
-        //{
-        //    if (!CollectPredicates.IsCargoContainer(block)) return false;
-        //    return (block.BlockDefinition.SubtypeId == subtypeId);
-        //}
+        public static bool IsCargoContainer(IMyTerminalBlock b) { return b is IMyCargoContainer; }
+        public static bool IsSmallBlockSmallCargoContainer(IMyTerminalBlock b) { return (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SUBTYPE_SmBlock_SmContainer); }
+        public static bool IsSmallBlockMediumCargoContainer(IMyTerminalBlock b) { return (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SUBTYPE_SmBlock_MdContainer); }
+        public static bool IsSmallBlockLargeCargoContainer(IMyTerminalBlock b) { return (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SUBTYPE_SmBlock_LgContainer); }
+        public static bool IsLargeBlockSmallCargoContainer(IMyTerminalBlock b) { return (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SUBTYPE_LgBlock_SmContainer); }
+        public static bool IsLargeBlockLargeCargoContainer(IMyTerminalBlock b) { return (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SUBTYPE_LgBlock_LgContainer); }
 
 
 

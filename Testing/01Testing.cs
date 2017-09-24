@@ -18,18 +18,12 @@ namespace IngameScript
 {
     partial class Program : MyGridProgram
     {
-        //TestingBase _testingCode;
+        ITestingBase _testingCode;
         readonly List<IMyTerminalBlock> _buffer = new List<IMyTerminalBlock>();
-        readonly BlocksByOrientation _orientation;
-        readonly ProximityModule _proximity;
 
         public Program()
         {
-            //_testingCode = new BlockTypes();
-            //_testingCode = new LCDTesting();
-            //_testingCode = new CameraRanging();
-            _orientation = new BlocksByOrientation();
-            _proximity = new ProximityModule();
+            _testingCode = new MonospaceChars(this);
         }
 
         public void Save()
@@ -38,36 +32,8 @@ namespace IngameScript
 
         public void Main(string argument)
         {
-            //_testingCode.Init(this);
-            //_testingCode.Main(argument);
-
-            GridTerminalSystem.GetBlocksOfType<IMyCockpit>(_buffer);
-            var sc = _buffer.FirstOrDefault() as IMyShipController;
-            _orientation.Init(sc);
-
-            GridTerminalSystem.GetBlocksOfType(_cameras, _orientation.IsUp);
-            Echo("UP");
-            _cameras.ForEach(b => Echo(b.CustomName));
-            Echo("");
-
-            GridTerminalSystem.GetBlocksOfType(_cameras, _orientation.IsDown);
-            Echo("Down");
-            _cameras.ForEach(b => Echo(b.CustomName));
-            Echo("");
-
-            GridTerminalSystem.GetBlocksOfType(_cameras, _orientation.IsLeft);
-            Echo("Left");
-            _cameras.ForEach(b => Echo(b.CustomName));
-            Echo("");
-
-            GridTerminalSystem.GetBlocksOfType(_cameras, _orientation.IsRight);
-            Echo("Right");
-            _cameras.ForEach(b => Echo(b.CustomName));
+            _testingCode.Main(argument);
         }
-
-
-        readonly List<IMyCameraBlock> _cameras = new List<IMyCameraBlock>();
-
 
 
     }

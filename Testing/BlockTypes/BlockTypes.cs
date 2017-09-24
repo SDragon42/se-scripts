@@ -16,11 +16,13 @@ using VRageMath;
 
 namespace IngameScript
 {
-    class BlockTypes : TestingBase
+    class BlockTypes : TestingBase, ITestingBase
     {
+        public BlockTypes(MyGridProgram thisObj) : base(thisObj) { }
+
         readonly List<IMyTerminalBlock> blocks = new List<IMyTerminalBlock>();
-        
-        public override void Main(string argument)
+
+        public void Main(string argument)
         {
             var output = GridTerminalSystem.GetBlockWithName("DEBUG") as IMyTextPanel;
             GridTerminalSystem.GetBlocks(blocks);
@@ -28,15 +30,11 @@ namespace IngameScript
             var q = blocks
                 .Where(b => b.CustomName != "DEBUG")
                 .Select(b => new { block = b, key = b.BlockDefinition.TypeIdString + ":" + b.BlockDefinition.SubtypeId })
-                .OrderBy(i => i.key)
-                ;
+                .OrderBy(i => i.key);
 
             var sb = new StringBuilder();
             foreach (var item in q)
-            {
-                //Echo(item.key);
                 sb.AppendLine(item.key);
-            }
 
             Echo(sb.ToString());
             output.WritePublicText(sb.ToString());

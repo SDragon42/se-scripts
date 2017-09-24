@@ -83,21 +83,21 @@ namespace IngameScript
             _config.SaveToCustomData(me);
             _configHashCode = me.CustomData.GetHashCode();
 
-            DockSecureInterval = _config.GetInt(KEY_DockSecureInterval);
-            dsm.Auto_On = _config.GetBoolean(KEY_AUTO_ON);
-            dsm.Auto_Off = _config.GetBoolean(KEY_AUTO_OFF);
-            dsm.Thrusters_OnOff = _config.GetBoolean(KEY_ToggleThrusters);
-            dsm.Gyros_OnOff = _config.GetBoolean(KEY_ToggleGyros);
-            dsm.Lights_OnOff = _config.GetBoolean(KEY_ToggleLights);
-            dsm.Beacons_OnOff = _config.GetBoolean(KEY_ToggleBeacons);
-            dsm.RadioAntennas_OnOff = _config.GetBoolean(KEY_ToggleRadioAntennas);
-            dsm.Sensors_OnOff = _config.GetBoolean(KEY_ToggleSensors);
-            dsm.OreDetectors_OnOff = _config.GetBoolean(KEY_ToggleOreDetectors);
-            dsm.Spotlights_Off = _config.GetBoolean(KEY_TurnOffSpotLights);
+            DockSecureInterval = _config.GetValue(KEY_DockSecureInterval).ToInt();
+            dsm.Auto_On = _config.GetValue(KEY_AUTO_ON).ToBoolean();
+            dsm.Auto_Off = _config.GetValue(KEY_AUTO_OFF).ToBoolean();
+            dsm.Thrusters_OnOff = _config.GetValue(KEY_ToggleThrusters).ToBoolean();
+            dsm.Gyros_OnOff = _config.GetValue(KEY_ToggleGyros).ToBoolean();
+            dsm.Lights_OnOff = _config.GetValue(KEY_ToggleLights).ToBoolean();
+            dsm.Beacons_OnOff = _config.GetValue(KEY_ToggleBeacons).ToBoolean();
+            dsm.RadioAntennas_OnOff = _config.GetValue(KEY_ToggleRadioAntennas).ToBoolean();
+            dsm.Sensors_OnOff = _config.GetValue(KEY_ToggleSensors).ToBoolean();
+            dsm.OreDetectors_OnOff = _config.GetValue(KEY_ToggleOreDetectors).ToBoolean();
+            dsm.Spotlights_Off = _config.GetValue(KEY_TurnOffSpotLights).ToBoolean();
 
-            ProximityInterval = _config.GetInt(KEY_ProximityInterval);
-            pm.ProximityTag = _config.GetString(KEY_ProximityTag);
-            pm.ScanRange = _config.GetDouble(KEY_ProximityRange);
+            ProximityInterval = _config.GetValue(KEY_ProximityInterval).ToInt();
+            pm.ProximityTag = _config.GetValue(KEY_ProximityTag);
+            pm.ScanRange = _config.GetValue(KEY_ProximityRange).ToDouble();
 
             postLoadAction?.Invoke();
         }

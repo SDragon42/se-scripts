@@ -35,35 +35,35 @@ namespace IngameScript
             }
         }
 
-        public static IEnumerable<IMyTerminalBlock> GetBlocksInList(List<IMyTerminalBlock> blockList, Func<IMyTerminalBlock, bool> collect)
-        {
-            foreach (var b in blockList)
-                if (collect(b)) yield return b;
-        }
-        public static IEnumerable<T> GetBlocksInList<T>(List<IMyTerminalBlock> blockList, Func<IMyTerminalBlock, bool> collect) where T : class
-        {
-            foreach (var b in blockList)
-            {
-                if (!(b is T)) continue;
-                if (collect(b)) yield return (T)b;
-            }
-        }
+        //public static IEnumerable<IMyTerminalBlock> GetBlocksInList(List<IMyTerminalBlock> blockList, Func<IMyTerminalBlock, bool> collect)
+        //{
+        //    foreach (var b in blockList)
+        //        if (collect(b)) yield return b;
+        //}
+        //public static IEnumerable<T> GetBlocksInList<T>(List<IMyTerminalBlock> blockList, Func<IMyTerminalBlock, bool> collect) where T : class
+        //{
+        //    foreach (var b in blockList)
+        //    {
+        //        if (!(b is T)) continue;
+        //        if (collect(b)) yield return (T)b;
+        //    }
+        //}
 
-        public static IMyTerminalBlock GetFirstBlockInList(List<IMyTerminalBlock> blockList, Func<IMyTerminalBlock, bool> collect)
-        {
-            foreach (var b in blockList)
-                if (collect(b)) return b;
-            return null;
-        }
-        public static T GetFirstBlockInList<T>(List<IMyTerminalBlock> blockList, Func<IMyTerminalBlock, bool> collect) where T : class
-        {
-            foreach (var b in blockList)
-            {
-                if (!(b is T)) continue;
-                if (collect(b)) return (T)b;
-            }
-            return null;
-        }
+        //public static IMyTerminalBlock GetFirstBlockInList(List<IMyTerminalBlock> blockList, Func<IMyTerminalBlock, bool> collect)
+        //{
+        //    foreach (var b in blockList)
+        //        if (collect(b)) return b;
+        //    return null;
+        //}
+        //public static T GetFirstBlockInList<T>(List<IMyTerminalBlock> blockList, Func<IMyTerminalBlock, bool> collect) where T : class
+        //{
+        //    foreach (var b in blockList)
+        //    {
+        //        if (!(b is T)) continue;
+        //        if (collect(b)) return (T)b;
+        //    }
+        //    return null;
+        //}
 
     }
 }

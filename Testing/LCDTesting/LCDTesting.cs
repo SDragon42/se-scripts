@@ -16,7 +16,7 @@ using VRageMath;
 
 namespace IngameScript
 {
-    class LCDTesting : TestingBase
+    class LCDTesting : TestingBase, ITestingBase
     {
         readonly char blk = LCDHelper.ColorChar(0, 0, 0);
         readonly char grn = LCDHelper.ColorChar(1, 2, 1);
@@ -24,15 +24,11 @@ namespace IngameScript
         readonly char red = LCDHelper.ColorChar(4, 0, 0);
 
         readonly List<IMyTextPanel> _displays = new List<IMyTextPanel>();
-        //readonly DebugModule _debug;
 
-        public LCDTesting() : base()
-        {
-        }
+        public LCDTesting(MyGridProgram thisObj) : base(thisObj) { }
 
-        public override void Main(string argument)
+        public void Main(string argument)
         {
-            //_debug.Clear();
             GridTerminalSystem.GetBlocksOfType(_displays, b => b.CustomName != "DEBUG");
             if (_displays.Count == 0) return;
 
@@ -43,12 +39,9 @@ namespace IngameScript
             foreach (var panel in _displays)
             {
                 DrawDots(panel, 52, 52);
-                //_debug.AppendLine($"{num,2}: {panel.CustomName}\n{panel.BlockDefinition.TypeIdString}\n");
                 Echo($"{num,2}: {panel.CustomName} | {panel.BlockDefinition.TypeIdString}");
                 num++;
             }
-
-            //_debug.UpdateDisplay();
         }
 
         void UpdateDisplay(IMyTextPanel panel, string text)

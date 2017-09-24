@@ -30,10 +30,10 @@ namespace IngameScript
         }
         public void LoadFromSettingDict(CustomDataConfigModule config)
         {
-            _StationTag = config.GetString(KEY_StationTag, DEFAULT_StationTag);
-            _TerminalTag = config.GetString(KEY_TerminalTag, DEFAULT_TerminalTag);
-            _TransferTag = config.GetString(KEY_TransferTag, DEFAULT_TransferTag);
-            _DoorCloseDelay = config.GetDouble(KEY_TimeToLeaveDoorOpen, DEFAULT_DoorCloseDelay);
+            _StationTag = config.GetValue(KEY_StationTag, DEFAULT_StationTag);
+            _TerminalTag = config.GetValue(KEY_TerminalTag, DEFAULT_TerminalTag);
+            _TransferTag = config.GetValue(KEY_TransferTag, DEFAULT_TransferTag);
+            _DoorCloseDelay = config.GetValue(KEY_TimeToLeaveDoorOpen).ToDouble(DEFAULT_DoorCloseDelay);
         }
         public void BuidSettingDict(CustomDataConfigModule config)
         {

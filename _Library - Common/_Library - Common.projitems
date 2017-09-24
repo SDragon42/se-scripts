@@ -12,5 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)CollectHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectPredicates.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StringExtensions.cs" />
   </ItemGroup>
 </Project>

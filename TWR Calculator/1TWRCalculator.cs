@@ -59,11 +59,11 @@ namespace IngameScript
             _config.ReadFromCustomData(Me, true);
             _config.SaveToCustomData(Me);
 
-            _sc = GridTerminalSystem.GetBlockWithName(_config.GetString(KeyRCName)) as IMyShipController;
-            _twrDisplay = GridTerminalSystem.GetBlockWithName(_config.GetString(KeyDisplayName)) as IMyTextPanel;
+            _sc = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyRCName)) as IMyShipController;
+            _twrDisplay = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyDisplayName)) as IMyTextPanel;
             if (_sc == null)
             {
-                Echo("config '" + KeyRCName + "' with name '" + _config.GetString(KeyRCName) + "' was not found.");
+                Echo("config '" + KeyRCName + "' with name '" + _config.GetValue(KeyRCName) + "' was not found.");
                 return;
             }
             _orientation.Init(_sc);
@@ -74,7 +74,7 @@ namespace IngameScript
             else
                 _calcDirections.AddArray(_allDirections);
 
-            int mass2Ignore = _config.GetInt(KeyMass2Ignore);
+            int mass2Ignore = _config.GetValue(KeyMass2Ignore).ToInt();
             int totalMass = _sc.CalculateShipMass().TotalMass - mass2Ignore;
 
             var resultText = new StringBuilder();
