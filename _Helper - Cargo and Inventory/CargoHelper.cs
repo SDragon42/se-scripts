@@ -32,11 +32,11 @@ namespace IngameScript
 
         public static int GetInventoryMultiplier(List<IMyCargoContainer> blockList)
         {
-            if (blockList == null || blockList.Count <= 0) return 0;
+            if (blockList == null) return 0;
             foreach (var b in blockList)
             {
-                var result = GetInventoryMultiplier(b);
-                if (result > 0) return result;
+                var mult = GetInventoryMultiplier(b);
+                if (mult > 0) return mult;
             }
             return 0;
         }
@@ -50,45 +50,28 @@ namespace IngameScript
         }
         public static long GetDefaultMaxVolume(IMyCargoContainer b)
         {
-            if (b != null) return 0;
-            switch (b.BlockDefinition.SubtypeId)
-            {
-                case SUBTYPE_SmBlock_SmContainer: return MaxVolume_SmBlock_SmContainer;
-                case SUBTYPE_SmBlock_MdContainer: return MaxVolume_SmBlock_MdContainer;
-                case SUBTYPE_SmBlock_LgContainer: return MaxVolume_SmBlock_LgContainer;
-                case SUBTYPE_LgBlock_SmContainer: return MaxVolume_LgBlock_SmContainer;
-                case SUBTYPE_LgBlock_LgContainer: return MaxVolume_LgBlock_LgContainer;
-            }
+            if (b != null)
+                switch (b.BlockDefinition.SubtypeId)
+                {
+                    case SUBTYPE_SmBlock_SmContainer: return MaxVolume_SmBlock_SmContainer;
+                    case SUBTYPE_SmBlock_MdContainer: return MaxVolume_SmBlock_MdContainer;
+                    case SUBTYPE_SmBlock_LgContainer: return MaxVolume_SmBlock_LgContainer;
+                    case SUBTYPE_LgBlock_SmContainer: return MaxVolume_LgBlock_SmContainer;
+                    case SUBTYPE_LgBlock_LgContainer: return MaxVolume_LgBlock_LgContainer;
+                }
             return 0;
         }
 
         public static long GetInventoryTotals(IMyTerminalBlock b, Func<IMyInventory, long> propMethod)
         {
-            if (b == null) return 0;
-            if (propMethod == null) return 0;
             var val = 0L;
-            if (b.HasInventory)
-            {
+            if (b != null && b.HasInventory && propMethod != null)
                 for (var i = 0; i < b.InventoryCount; i++)
                     val += propMethod(b.GetInventory(i));
-            }
             return val;
         }
-        public static long GetInventoryMaxVolume(IMyInventory inv)
-        {
-            if (inv == null) return 0;
-            return inv.MaxVolume.RawValue;
-        }
-        public static long GetInventoryCurrentVolume(IMyInventory inv)
-        {
-            if (inv == null) return 0;
-            return inv.CurrentVolume.RawValue;
-        }
-        public static long GetInventoryCurrentMass(IMyInventory inv)
-        {
-            if (inv == null) return 0;
-            return inv.CurrentMass.RawValue;
-        }
-
+        public static long GetInventoryMaxVolume(IMyInventory inv) { return inv?.MaxVolume.RawValue ?? 0; }
+        public static long GetInventoryCurrentVolume(IMyInventory inv) { return inv?.CurrentVolume.RawValue ?? 0; }
+        public static long GetInventoryCurrentMass(IMyInventory inv) { return inv?.CurrentMass.RawValue ?? 0; }
     }
 }
