@@ -125,27 +125,12 @@ namespace IngameScript
             return false;
         }
 
-        bool IsOnThisGrid(IMyTerminalBlock b)
-        {
-            return thisObj.Me.CubeGrid.EntityId == b.CubeGrid.EntityId;
-        }
+        bool IsOnThisGrid(IMyTerminalBlock b) { return thisObj.Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
 
-        bool IsConnectorConnectable(IMyShipConnector b)
-        {
-            return (b.Status == MyShipConnectorStatus.Connectable);
-        }
-        bool IsConnectorConnected(IMyShipConnector b)
-        {
-            return (b.Status == MyShipConnectorStatus.Connected);
-        }
+        bool IsConnectorConnectable(IMyShipConnector b) { return (b.Status == MyShipConnectorStatus.Connectable); }
+        bool IsConnectorConnected(IMyShipConnector b) { return (b.Status == MyShipConnectorStatus.Connected); }
 
-        bool IsLandingGearReadyToLock(IMyLandingGear b)
-        {
-            return ((int)b.LockMode == 1); //TODO: ReadyToLock - Workaround this this is fixed
-        }
-        bool IsLandingGearLocked(IMyLandingGear b)
-        {
-            return ((int)b.LockMode == 2); //TODO: Locked - Workaround this this is fixed
-        }
+        bool IsLandingGearReadyToLock(IMyLandingGear b) { return ((int)b.LockMode == 1); } //TODO: ReadyToLock - workaround until this is fixed
+        bool IsLandingGearLocked(IMyLandingGear b) { return ((int)b.LockMode == 2); } //TODO: Locked - workaround until this is fixed
     }
 }
