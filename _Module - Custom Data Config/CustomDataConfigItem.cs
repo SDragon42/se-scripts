@@ -20,16 +20,13 @@ namespace IngameScript
     {
         public CustomDataConfigItem(string description, string val)
         {
-            _description = description ?? string.Empty;
-            SetValue(val);
+            Description = description ?? string.Empty;
+            Value = val;
         }
 
-        readonly string _description;
-        public string GetDescription() { return _description; }
+        public string Description { get; private set; }
 
         string _value;
-        public string GetValue() { return _value; }
-        public void SetValue(string value) { _value = value ?? string.Empty; }
-
+        public string Value { get { return _value; } set { _value = value ?? string.Empty; } }
     }
 }

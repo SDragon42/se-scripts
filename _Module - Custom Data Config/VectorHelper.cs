@@ -40,10 +40,5 @@ namespace IngameScript
                 double.Parse(gpsParts[3]),
                 double.Parse(gpsParts[4]));
         }
-
-        //public static string ConvertToGPS(string name, Vector3D location)
-        //{
-        //    return string.Empty;
-        //}
     }
 }

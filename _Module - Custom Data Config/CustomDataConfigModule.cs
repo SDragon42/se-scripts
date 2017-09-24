@@ -47,10 +47,10 @@ namespace IngameScript
         }
 
 
-        public void ReadFromCustomData(IMyTerminalBlock block, bool addIfMissing = false)
+        public void ReadFromCustomData(IMyTerminalBlock b, bool addIfMissing = false)
         {
-            if (block == null) return;
-            var datalines = block.CustomData.Split(SepNewLine, StringSplitOptions.None);
+            if (b == null) return;
+            var datalines = b.CustomData.Split(SepNewLine, StringSplitOptions.None);
             foreach (var line in datalines)
             {
                 if (line.Length <= 0) continue;
@@ -67,20 +67,20 @@ namespace IngameScript
                     AddKey(readKey);
                 }
 
-                _items[readKey].SetValue(settingParts[1].Trim());
+                _items[readKey].Value = settingParts[1].Trim();
             }
         }
-        public void SaveToCustomData(IMyTerminalBlock block)
+        public void SaveToCustomData(IMyTerminalBlock b)
         {
-            if (block == null) return;
+            if (b == null) return;
             var sb = new StringBuilder();
             foreach (var sKey in _items.Keys)
             {
-                if (_items[sKey].GetDescription().Length > 0)
-                    sb.Append("\n# " + _items[sKey].GetDescription().Replace("\n", "\n# ") + "\n");
-                sb.Append(sKey + " = " + _items[sKey].GetValue() + "\n");
+                if (_items[sKey].Description.Length > 0)
+                    sb.Append("\n# " + _items[sKey].Description.Replace("\n", "\n# ") + "\n");
+                sb.Append(sKey + " = " + _items[sKey].Value + "\n");
             }
-            block.CustomData = sb.ToString().Trim();
+            b.CustomData = sb.ToString().Trim();
         }
 
 
@@ -88,13 +88,13 @@ namespace IngameScript
         {
             var sKey = key.ToString();
             if (!_items.ContainsKey(sKey)) return;
-            _items[sKey].SetValue((val != null) ? val.ToString() : string.Empty);
+            _items[sKey].Value = (val != null) ? val.ToString() : string.Empty;
         }
         public string GetValue(object key, string defVal = "")
         {
             var sKey = key.ToString();
             if (!_items.ContainsKey(sKey)) return defVal;
-            return _items[sKey].GetValue();
+            return _items[sKey].Value;
         }
 
     }
