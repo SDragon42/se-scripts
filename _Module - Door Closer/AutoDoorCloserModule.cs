@@ -26,21 +26,21 @@ namespace IngameScript
     {
         readonly Dictionary<IMyDoor, double> _openDoors = new Dictionary<IMyDoor, double>();
 
-        double _numSecondsToLeaveDoorOpen = 2;
-        public double GetNumSecondsToLeaveDoorOpen() { return _numSecondsToLeaveDoorOpen; }
-        public void SetNumSecondsToLeaveDoorOpen(double value) { _numSecondsToLeaveDoorOpen = value; }
+        public AutoDoorCloserModule(double secondsToLeaveOpen = 4) { SecondsToLeaveOpen = secondsToLeaveOpen; }
+
+        public double SecondsToLeaveOpen { get; set; }
 
         TimeSpan _timeSinceLastCall;
 
-        public void CloseOpenDoors(TimeSpan timeSinceLastCall, List<IMyTerminalBlock> doors)
+        public void CloseOpenDoors(TimeSpan timeSinceLastCall, List<IMyTerminalBlock> doorList)
         {
             _timeSinceLastCall = timeSinceLastCall;
-            doors.ForEach(b => ProcessDoor(b as IMyDoor));
+            doorList.ForEach(b => ProcessDoor(b as IMyDoor));
         }
-        public void CloseOpenDoors(TimeSpan timeSinceLastCall, List<IMyDoor> doors)
+        public void CloseOpenDoors(TimeSpan timeSinceLastCall, List<IMyDoor> doorList)
         {
             _timeSinceLastCall = timeSinceLastCall;
-            doors.ForEach(ProcessDoor);
+            doorList.ForEach(ProcessDoor);
         }
         void ProcessDoor(IMyDoor door)
         {
@@ -67,7 +67,7 @@ namespace IngameScript
             else
             {
                 if (door.Status == DoorStatus.Open)
-                    _openDoors.Add(door, _numSecondsToLeaveDoorOpen);
+                    _openDoors.Add(door, SecondsToLeaveOpen);
             }
         }
 

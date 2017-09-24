@@ -114,7 +114,6 @@ namespace IngameScript
             _trasmitStatsDelay = new TimeIntervalModule(3.0);
 
             _doorManager = new AutoDoorCloserModule();
-            _doorManager.SetNumSecondsToLeaveDoorOpen(4);
 
             _comms = new COMMsModule(Me);
         }
@@ -285,7 +284,7 @@ namespace IngameScript
             _custConfig.SaveToCustomData(Me);
             _lastCustomDataHash = hash;
             _connectorLockDelay.SetIntervalInSeconds(_settings.GetConnectorLockDelay());
-            _doorManager.SetNumSecondsToLeaveDoorOpen(_settings.GetDoorCloseDelay());
+            _doorManager.SecondsToLeaveOpen = _settings.GetDoorCloseDelay();
         }
 
 

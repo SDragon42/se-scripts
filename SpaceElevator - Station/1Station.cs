@@ -101,7 +101,6 @@ namespace IngameScript
             _executionInterval = new TimeIntervalModule(10);
 
             _doorManager = new AutoDoorCloserModule();
-            _doorManager.SetNumSecondsToLeaveDoorOpen(4);
 
             _comms = new COMMsModule(Me);
         }
@@ -167,7 +166,7 @@ namespace IngameScript
             _settings.LoadFromSettingDict(_custConfig);
             _custConfig.SaveToCustomData(Me);
             _lastCustomDataHash = hash;
-            _doorManager.SetNumSecondsToLeaveDoorOpen(_settings.GetDoorCloseDelay());
+            _doorManager.SecondsToLeaveOpen = _settings.GetDoorCloseDelay();
         }
 
         void LoadBlockLists(bool forceLoad = false)
