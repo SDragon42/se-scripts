@@ -177,7 +177,7 @@ namespace IngameScript
             if (_tempList.Count > 0)
                 _antenna = (IMyRadioAntenna)_tempList[0];
 
-            GridTerminalSystem.GetBlocksOfType<IMyGasTank>(_h2Tanks, b => IsOnThisGrid(b) && GasTankHelper.IsHydrogenTank(b));
+            GridTerminalSystem.GetBlocksOfType<IMyGasTank>(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
             GridTerminalSystem.GetBlocksOfType<IMyDoor>(_autoCloseDoors, b => IsTaggedStationOnThisGrid(b) && !IsTaggedTerminal(b));
 
             _blocksLoaded = true;

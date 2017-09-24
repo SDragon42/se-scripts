@@ -191,7 +191,7 @@ namespace IngameScript
             //GridTerminalSystem.GetBlocksOfType(_airVents, IsTaggedBlockOnThisGrid);
             //GridTerminalSystem.GetBlocksOfType(_o2Tanks, b => IsTaggedBlockOnThisGrid(b) && IsOxygenTank(b));
 
-            GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && GasTankHelper.IsHydrogenTank(b));
+            GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
             //GridTerminalSystem.GetBlocksOfType(_displays, IsTaggedBlockOnThisGrid);
 
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, IsTaggedBlockOnThisGrid);
@@ -535,7 +535,7 @@ namespace IngameScript
 
             _landingGears.ForEach(b => b.Lock());
 
-            var anyLocked = _landingGears.Any(LandingGearHelper.IsLandingGearLocked);
+            var anyLocked = _landingGears.Any(Collect.IsLandingGearLocked);
             if (anyLocked)
             {
                 SetMode(CarriageMode.Docked);
@@ -736,7 +736,7 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         bool IsOnThisGrid(IMyTerminalBlock b)
         {
-            return CollectPredicates.IsOnSameGrid(Me, b);
+            return Collect.IsOnSameGrid(Me, b);
         }
         bool IsTaggedBlock(IMyTerminalBlock b)
         {

@@ -129,6 +129,7 @@ Global
 		_Module - Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		_Module - Time Interval\_Module - Time Interval.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		_Module - Proximity\_Module - Proximity.projitems*{86d47374-54d9-46f5-9fd4-fb21e53a1291}*SharedItemsImports = 13
+		_Helper - Cargo and Inventory\_Helper - Cargo and Inventory.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		_Helper - LCDs\_Helper - LCDs.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		SpaceElevator - Stations\SpaceElevator - Stations.projitems*{a5452a2d-e9c0-4155-9de9-d54928ee22d3}*SharedItemsImports = 13
 		_Module - Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{a55a9841-6a1a-4c62-937f-e2b471e894ed}*SharedItemsImports = 13

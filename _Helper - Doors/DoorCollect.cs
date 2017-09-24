@@ -16,7 +16,7 @@ using VRageMath;
 
 namespace IngameScript
 {
-    static class DoorHelper
+    static partial class Collect
     {
         public static bool IsDoor(IMyTerminalBlock b) { return b is IMyDoor; }
         public static bool IsBasicDoor(IMyTerminalBlock b) { return !(IsSlidingDoor(b) || IsHangarDoor(b)); }

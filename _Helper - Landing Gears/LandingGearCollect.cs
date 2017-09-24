@@ -16,7 +16,7 @@ using VRageMath;
 
 namespace IngameScript
 {
-    static class LandingGearHelper
+    static partial class Collect
     {
         public static bool IsLandingGear(IMyTerminalBlock b) { return b is IMyLandingGear; }
         public static bool IsLandingGearUnlocked(IMyTerminalBlock b) { return IsLandingGearUnlocked(b as IMyLandingGear); }

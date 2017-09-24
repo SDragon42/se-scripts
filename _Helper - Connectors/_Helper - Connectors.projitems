@@ -9,6 +9,6 @@
     <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ConnectorHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorCollect.cs" />
   </ItemGroup>
 </Project>

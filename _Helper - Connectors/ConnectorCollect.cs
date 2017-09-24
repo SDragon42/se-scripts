@@ -16,7 +16,7 @@ using VRageMath;
 
 namespace IngameScript
 {
-    static class ConnectorHelper
+    static partial class Collect
     {
         public static bool IsConnector(IMyTerminalBlock b) { return b is IMyShipConnector; }
         public static bool IsConnectorConnectable(IMyTerminalBlock b) { return IsConnectorConnectable(b as IMyShipConnector); }

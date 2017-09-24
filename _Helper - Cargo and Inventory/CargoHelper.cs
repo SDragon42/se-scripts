@@ -62,16 +62,6 @@ namespace IngameScript
             return 0;
         }
 
-
-        public static bool IsCargoContainer(IMyTerminalBlock b) { return b is IMyCargoContainer; }
-        public static bool IsSmallBlockSmallCargoContainer(IMyTerminalBlock b) { return (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SUBTYPE_SmBlock_SmContainer); }
-        public static bool IsSmallBlockMediumCargoContainer(IMyTerminalBlock b) { return (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SUBTYPE_SmBlock_MdContainer); }
-        public static bool IsSmallBlockLargeCargoContainer(IMyTerminalBlock b) { return (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SUBTYPE_SmBlock_LgContainer); }
-        public static bool IsLargeBlockSmallCargoContainer(IMyTerminalBlock b) { return (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SUBTYPE_LgBlock_SmContainer); }
-        public static bool IsLargeBlockLargeCargoContainer(IMyTerminalBlock b) { return (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SUBTYPE_LgBlock_LgContainer); }
-
-
-
         public static long GetInventoryTotals(IMyTerminalBlock b, Func<IMyInventory, long> propMethod)
         {
             if (b == null) return 0;

@@ -16,7 +16,7 @@ using VRageMath;
 
 namespace IngameScript
 {
-    static class CollectPredicates
+    static partial class Collect
     {
         public static bool IsOnSameGrid(IMyTerminalBlock sourceBlock, IMyTerminalBlock b) { return (b != null) ? (sourceBlock.CubeGrid == b.CubeGrid) : false; }
 
@@ -28,11 +28,5 @@ namespace IngameScript
             var j = VRageMath.Base6Directions.Direction.Forward;
             return (i == j);
         }
-
-        
-
-        
-
-        
     }
 }

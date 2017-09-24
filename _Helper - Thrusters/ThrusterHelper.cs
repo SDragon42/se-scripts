@@ -24,11 +24,6 @@ namespace IngameScript
     /// </remarks>
     static class ThrusterHelper
     {
-        public static bool IsThruster(IMyTerminalBlock b) { return b is IMyThrust; }
-        public static bool IsThrusterIon(IMyTerminalBlock b) { return (IsThruster(b) && !IsThrusterHydrogen(b) && !IsThrusterAtmospheric(b)); }
-        public static bool IsThrusterHydrogen(IMyTerminalBlock b) { return (IsThruster(b) && b.BlockDefinition.SubtypeId.Contains("Hydro")); }
-        public static bool IsThrusterAtmospheric(IMyTerminalBlock b) { return (IsThruster(b) && b.BlockDefinition.SubtypeId.Contains("Atmo")); }
-
         public static void SetThrusterOverride(IMyTerminalBlock thruster, double powerPercentage)
         {
             SetThrusterOverride(thruster as IMyThrust, Convert.ToSingle(powerPercentage));

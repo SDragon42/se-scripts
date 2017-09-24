@@ -18,10 +18,6 @@ namespace IngameScript
 {
     static class GasTankHelper
     {
-        public static bool IsGasTank(IMyTerminalBlock b) { return b is IMyGasTank; }
-        public static bool IsOxygenTank(IMyTerminalBlock b) { return (IsGasTank(b) && !b.BlockDefinition.SubtypeId.Contains("Hydro")); }
-        public static bool IsHydrogenTank(IMyTerminalBlock b) { return (IsGasTank(b) && b.BlockDefinition.SubtypeId.Contains("Hydro")); }
-
         public static float GetTanksFillPercentage(List<IMyTerminalBlock> tankList)
         {
             var totalPercent = 0f;
@@ -47,6 +43,5 @@ namespace IngameScript
                 ? totalPercent / tankList.Count
                 : 0f;
         }
-
     }
 }

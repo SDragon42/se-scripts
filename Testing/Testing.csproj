@@ -137,6 +137,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="..\_Helper - LCDs\_Helper - LCDs.projitems" Label="Shared" />
+  <Import Project="..\_Helper - Cargo and Inventory\_Helper - Cargo and Inventory.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />
