@@ -734,10 +734,7 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         //  Collection Methods
         //-------------------------------------------------------------------------------
-        bool IsOnThisGrid(IMyTerminalBlock b)
-        {
-            return Collect.IsOnSameGrid(Me, b);
-        }
+        bool IsOnThisGrid(IMyTerminalBlock b) { return Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
         bool IsTaggedBlock(IMyTerminalBlock b)
         {
             if (string.IsNullOrWhiteSpace(_settings.GetBlockTag()))

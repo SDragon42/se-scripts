@@ -18,8 +18,6 @@ namespace IngameScript
 {
     static partial class Collect
     {
-        public static bool IsOnSameGrid(IMyTerminalBlock sourceBlock, IMyTerminalBlock b) { return (b != null) ? (sourceBlock.CubeGrid == b.CubeGrid) : false; }
-
         public static bool IsOrientedForward(IMyTerminalBlock b)
         {
             if (b == null)

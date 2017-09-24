@@ -96,14 +96,8 @@ namespace IngameScript
 
         T GetBlockWithName<T>(string blockName) where T : class
         {
-            GridTerminalSystem.GetBlocksOfType<T>(_blocks, b => {
-                if (!IsOnSameGrid(b)) return false;
-                return (string.Compare(b.CustomName, blockName, true) == 0);
-            });
-
-            if (_blocks.Count > 0)
-                return _blocks[0] as T;
-            return default(T);
+            GridTerminalSystem.GetBlocksOfType<T>(_blocks, b => IsOnThisGrid(b) && (string.Compare(b.CustomName, blockName, true) == 0));
+            return (_blocks.Count > 0) ? (T)_blocks[0] : null;
         }
 
 
@@ -192,7 +186,7 @@ namespace IngameScript
         }
 
 
-        public bool IsOnSameGrid(IMyTerminalBlock b) { return (b != null) ? (Me.CubeGrid == b.CubeGrid) : false; }
+        bool IsOnThisGrid(IMyTerminalBlock b) { return Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
 
     }
 }
