@@ -20,6 +20,7 @@ namespace IngameScript
     {
         public LogModule(int maxLines2Keep = 10)
         {
+            Enabled = true;
             MaxTextLinesToKeep = maxLines2Keep;
         }
 
