@@ -37,8 +37,8 @@ namespace IngameScript
         {
             Echo = (t) => { }; // Disable Echo
             _debug = new DebugModule(this);
-            //_debug.SetEnabled(false);
-            _debug.SetEchoMessages(false);
+            //_debug.Enabled = false;
+            _debug.EchoMessages = false;
 
             _log = new LogModule();
 

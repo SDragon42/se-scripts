@@ -20,20 +20,15 @@ namespace IngameScript
     {
         public LogModule(int maxLines2Keep = 10)
         {
-            SetMaxTextLinesToKeep(maxLines2Keep);
+            MaxTextLinesToKeep = maxLines2Keep;
         }
 
         protected readonly List<string> _lines = new List<string>();
 
         string _lineBuffer = string.Empty;
 
-        bool _enabled = true;
-        public bool GetEnabled() { return _enabled; }
-        public void SetEnabled(bool value) { _enabled = value; }
-
-        int _maxTextLinesToKeep;
-        public int GetMaxTextLinesToKeep() { return _maxTextLinesToKeep; }
-        public void SetMaxTextLinesToKeep(int value) { _maxTextLinesToKeep = value; }
+        public bool Enabled { get; set; }
+        public int MaxTextLinesToKeep { get; set; }
 
 
         public virtual void Clear()
@@ -44,7 +39,7 @@ namespace IngameScript
 
         public void Append(string text, params object[] args)
         {
-            if (!_enabled) return;
+            if (!Enabled) return;
             _lineBuffer += string.Format(text, args);
         }
 
@@ -54,7 +49,7 @@ namespace IngameScript
         }
         public void AppendLine(string text, params object[] args)
         {
-            if (!_enabled) return;
+            if (!Enabled) return;
             Append(text, args);
             _lines.Add(_lineBuffer);
             _lineBuffer = string.Empty;
@@ -62,10 +57,10 @@ namespace IngameScript
 
         public string GetLogText()
         {
-            if (!_enabled) return string.Empty;
-            if (_maxTextLinesToKeep > 0)
+            if (!Enabled) return string.Empty;
+            if (MaxTextLinesToKeep > 0)
             {
-                while (_lines.Count > _maxTextLinesToKeep)
+                while (_lines.Count > MaxTextLinesToKeep)
                     _lines.RemoveAt(0);
             }
             var sb = new StringBuilder();

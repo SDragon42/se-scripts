@@ -110,7 +110,7 @@ namespace IngameScript
             _custConfig.ReadFromCustomData(Me);
             _custConfig.SaveToCustomData(Me);
             _configHash = Me.CustomData.GetHashCode();
-            _log.SetMaxTextLinesToKeep(_custConfig.GetValue(KEY_LogLinesToShow).ToInt(10));
+            _log.MaxTextLinesToKeep = _custConfig.GetValue(KEY_LogLinesToShow).ToInt(10);
         }
 
 

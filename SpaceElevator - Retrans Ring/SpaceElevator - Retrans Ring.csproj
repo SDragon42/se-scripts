@@ -110,6 +110,7 @@
   <Import Project="..\SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems" Label="Shared" />
   <Import Project="..\_Module - Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
   <Import Project="..\SpaceElevator - Stations\SpaceElevator - Stations.projitems" Label="Shared" />
+  <Import Project="..\_Module - Debug\_Module - Debug.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />

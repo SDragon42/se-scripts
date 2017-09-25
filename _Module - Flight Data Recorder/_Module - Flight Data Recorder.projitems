@@ -3,12 +3,12 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>5a5bcc5c-0965-4cf1-b4c0-9f4925f33878</SharedGUID>
+    <SharedGUID>0f7f7179-f8cb-4376-940c-d9047e7d1fb3</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)LogModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FlightDataRecorder.cs" />
   </ItemGroup>
 </Project>

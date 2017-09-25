@@ -96,8 +96,8 @@ namespace IngameScript
         {
             //Echo = (t) => { }; // Disable Echo
             _debug = new DebugModule(this);
-            //_debug.SetEnabled(false);
-            _debug.SetEchoMessages(false);
+            //_debug.Enabled = false;
+            _debug.EchoMessages = false;
 
             _custConfig = new CustomDataConfigModule();
             _settings = new ScriptSettingsModule();
@@ -128,7 +128,7 @@ namespace IngameScript
             try
             {
                 Echo("Maint. Carriage Control " + _runSymbol.GetSymbol(this.Runtime));
-                Echo("DEBUG " + (_debug.GetEnabled() ? "enabled" : "disabled"));
+                Echo("DEBUG " + (_debug.Enabled ? "enabled" : "disabled"));
 
                 _executionInterval.RecordTime(this.Runtime);
                 _connectorLockDelay.RecordTime(this.Runtime);

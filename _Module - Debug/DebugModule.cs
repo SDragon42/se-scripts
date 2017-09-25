@@ -30,15 +30,13 @@ namespace IngameScript
         {
             _thisObj = thisObj;
             _debugDisplayName = string.IsNullOrWhiteSpace(debugDisplayName) ? DefaultDebugPanelName : debugDisplayName;
-            SetMaxTextLinesToKeep(-1);
+            MaxTextLinesToKeep = -1;
         }
 
 
         IMyTextPanel _display;
 
-        bool _echoMessages = true;
-        public bool GetEchoMessages() { return _echoMessages; }
-        public void SetEchoMessages(bool value) { _echoMessages = value; }
+        public bool EchoMessages { get; set; }
 
 
         private void Init()
@@ -54,7 +52,7 @@ namespace IngameScript
         public override void Clear()
         {
             base.Clear();
-            if (!GetEnabled()) return;
+            if (!Enabled) return;
             Init();
             if (_display == null) return;
             _display.WritePublicText(string.Empty);
@@ -63,12 +61,12 @@ namespace IngameScript
 
         public void UpdateDisplay()
         {
-            if (!GetEnabled()) return;
+            if (!Enabled) return;
 
             var text = GetLogText();
 
             Init();
-            if (_echoMessages) _thisObj.Echo(text);
+            if (EchoMessages) _thisObj.Echo(text);
             if (_display == null) return;
             _display.WritePublicText(text, false);
         }
