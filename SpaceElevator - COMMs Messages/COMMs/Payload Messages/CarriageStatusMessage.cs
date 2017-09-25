@@ -31,7 +31,7 @@ namespace IngameScript
         {
             _msgParts = new string[] {
                 mode,
-                Vector3DtoGPS(pos),
+                VectorHelper.VectortoGps(pos),
                 vertSpeed.ToString(),
                 fuelLevel.ToString(),
                 cargoMass.ToString(),
@@ -40,12 +40,12 @@ namespace IngameScript
             };
         }
 
-        public string GetMode() { return _msgParts[0]; }
-        public Vector3D GetPosition() { return GetVector3D(1); }
-        public double GetVerticalSpeed() { return GetDouble(2); }
-        public float GetFuelLevel() { return GetFloat(3); }
-        public double GetCargoMass() { return GetDouble(4); }
-        public double GetRangeToGroundStation() { return GetDouble(5); }
-        public double GetRangeToDestination() { return GetDouble(6); }
+        public string Mode { get { return _msgParts[0]; } }
+        public Vector3D Position { get { return VectorHelper.GpsToVector(_msgParts[1]); } }
+        public double VerticalSpeed { get { return _msgParts[2].ToDouble(); } }
+        public float FuelLevel { get { return _msgParts[3].ToFloat(); } }
+        public double CargoMass { get { return _msgParts[4].ToDouble(); } }
+        public double RangeToGroundStation { get { return _msgParts[5].ToDouble(); } }
+        public double RangeToDestination { get { return _msgParts[6].ToDouble(); } }
     }
 }

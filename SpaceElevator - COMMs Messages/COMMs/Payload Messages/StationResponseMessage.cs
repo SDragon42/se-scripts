@@ -34,6 +34,6 @@ namespace IngameScript
             _msgParts = new string[] { response };
         }
 
-        public string GetResponse() { return _msgParts[0]; }
+        public string Response { get { return _msgParts[0]; } }
     }
 }

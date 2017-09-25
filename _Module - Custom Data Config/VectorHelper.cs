@@ -31,7 +31,7 @@ namespace IngameScript
             name = string.Empty;
             position = Vector3D.Zero;
 
-            var gpsParts = gpsCoordinate.Split(new char[] { ':' });
+            var gpsParts = gpsCoordinate.Split(':');
             if (gpsParts == null || gpsParts.Length < 5) return;
 
             name = gpsParts[1];
@@ -39,6 +39,11 @@ namespace IngameScript
                 double.Parse(gpsParts[2]),
                 double.Parse(gpsParts[3]),
                 double.Parse(gpsParts[4]));
+        }
+
+        public static string VectortoGps(Vector3D v)
+        {
+            return $"GPS:Position:{v.X}:{v.Y}:{v.Z}:";
         }
     }
 }

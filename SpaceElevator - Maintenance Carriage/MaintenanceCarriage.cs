@@ -327,18 +327,17 @@ namespace IngameScript
             if (CommMessage.TryParse(argument, out msg))
             {
                 // COMMs messages
-                switch (msg.GetPayloadType())
+                switch (msg.PayloadType)
                 {
                     case StationResponseMessage.TYPE:
-                        var responseMsg = StationResponseMessage.CreateFromPayload(msg.GetPayload());
-                        //if (responseMsg == null) break;
-                        if (responseMsg?.GetResponse() == StationResponseMessage.RESPONSE_DEPARTURE_OK)
+                        var responseMsg = StationResponseMessage.CreateFromPayload(msg.Payload);
+                        if (responseMsg?.Response == StationResponseMessage.RESPONSE_DEPARTURE_OK)
                             SetMode(CarriageMode.Awaiting_CarriageReady2Depart);
                         break;
                     case SendCarriageToMessage.TYPE:
-                        var sendToMsg = SendCarriageToMessage.CreateFromPayload(msg.GetPayload());
+                        var sendToMsg = SendCarriageToMessage.CreateFromPayload(msg.Payload);
                         if (sendToMsg == null) break;
-                        var destination = _settings.GetGpsInfo(sendToMsg.GetDestination());
+                        var destination = _settings.GetGpsInfo(sendToMsg.Destination);
                         SetDeparture(destination);
                         break;
                 }

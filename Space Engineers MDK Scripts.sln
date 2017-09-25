@@ -103,6 +103,7 @@ Global
 		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{35bbb9de-40b9-4e5a-aa79-49394bfa1435}*SharedItemsImports = 13
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4
 		SpaceElevator - Stations\SpaceElevator - Stations.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4
+		_Library - Common\_Library - Common.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4
 		_Module - Debug\_Module - Debug.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4
 		_Module - Logging\_Module - Logging.projitems*{43cf6af1-f28b-4106-85da-479b8a967b03}*SharedItemsImports = 4

@@ -133,7 +133,7 @@ namespace IngameScript
                     text += "Invalid Msg";
                     return;
                 }
-                text += msg.GetSenderGridName() + " | " + msg.GetPayloadType();
+                text += msg.SenderGridName + " | " + msg.PayloadType;
                 _messageQueue.Enqueue(msg);
             }
             finally
@@ -159,15 +159,15 @@ namespace IngameScript
                 _log.AppendLine("Null Msg from queue");
                 return;
             }
-            if (Me.CubeGrid.EntityId == msg.GetSenderGridEntityId())
+            if (Me.CubeGrid.EntityId == msg.SenderGridEntityId)
             {
                 _log.AppendLine("Discarded - Sent by me");
                 return;
             }
 
-            if (msg.GetTargetGridName().Length > 0)
+            if (msg.TargetGridName.Length > 0)
             {
-                if (string.Compare(msg.GetTargetGridName(), Me.CubeGrid.CustomName, true) != 0)
+                if (string.Compare(msg.TargetGridName, Me.CubeGrid.CustomName, true) != 0)
                 {
                     _log.AppendLine("Discarded - Not for me");
                     return;

@@ -21,29 +21,23 @@ namespace IngameScript
         private CommMessage() { }
         public CommMessage(IMyProgrammableBlock me, string targetGridName, string payloadType, string payload)
         {
-            _senderGridEntityId = me.CubeGrid.EntityId;
-            _senderGridName = me.CubeGrid.DisplayName ?? string.Empty;
-            _targetGridName = targetGridName ?? string.Empty;
-            _payloadType = payloadType ?? string.Empty;
-            _payload = payload ?? string.Empty;
+            SenderGridEntityId = me.CubeGrid.EntityId;
+            SenderGridName = me.CubeGrid.DisplayName ?? string.Empty;
+            TargetGridName = targetGridName ?? string.Empty;
+            PayloadType = payloadType ?? string.Empty;
+            Payload = payload ?? string.Empty;
         }
 
-        long _senderGridEntityId;
-        string _senderGridName;
-        string _targetGridName;
-        string _payloadType;
-        string _payload;
-
-        public long GetSenderGridEntityId() { return _senderGridEntityId; }
-        public string GetSenderGridName() { return _senderGridName; }
-        public string GetTargetGridName() { return _targetGridName; }
-        public string GetPayloadType() { return _payloadType; }
-        public string GetPayload() { return _payload; }
+        public long SenderGridEntityId { get; private set; }
+        public string SenderGridName { get; private set; }
+        public string TargetGridName { get; private set; }
+        public string PayloadType { get; private set; }
+        public string Payload { get; private set; }
 
         public bool IsValid()
         {
-            if (GetSenderGridEntityId() <= 0) return false;
-            if (string.IsNullOrWhiteSpace(GetSenderGridName())) return false;
+            if (SenderGridEntityId <= 0) return false;
+            if (string.IsNullOrWhiteSpace(SenderGridName)) return false;
             return true;
         }
 
@@ -54,11 +48,11 @@ namespace IngameScript
         public override string ToString()
         {
             return HEADER_START + DELIMITER +
-                GetSenderGridEntityId().ToString() + DELIMITER +
-                GetSenderGridName() + DELIMITER +
-                GetTargetGridName() + DELIMITER +
-                GetPayloadType() + DELIMITER +
-                GetPayload();
+                SenderGridEntityId.ToString() + DELIMITER +
+                SenderGridName + DELIMITER +
+                TargetGridName + DELIMITER +
+                PayloadType + DELIMITER +
+                Payload;
         }
         public static bool TryParse(string messageText, out CommMessage message)
         {
@@ -71,11 +65,13 @@ namespace IngameScript
             var tmpMsg = new CommMessage();
 
             if (parts[0] != HEADER_START) return false;
-            if (!long.TryParse(parts[1], out tmpMsg._senderGridEntityId)) return false;
-            tmpMsg._senderGridName = parts[2] ?? string.Empty;
-            tmpMsg._targetGridName = parts[3] ?? string.Empty;
-            tmpMsg._payloadType = parts[4] ?? string.Empty;
-            tmpMsg._payload = parts[5] ?? string.Empty;
+            long senderId;
+            if (!long.TryParse(parts[1], out senderId)) return false;
+            tmpMsg.SenderGridEntityId = senderId;
+            tmpMsg.SenderGridName = parts[2] ?? string.Empty;
+            tmpMsg.TargetGridName = parts[3] ?? string.Empty;
+            tmpMsg.PayloadType = parts[4] ?? string.Empty;
+            tmpMsg.Payload = parts[5] ?? string.Empty;
 
             message = tmpMsg;
             return true;

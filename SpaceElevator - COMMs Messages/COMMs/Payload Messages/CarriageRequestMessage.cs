@@ -34,7 +34,7 @@ namespace IngameScript
             _msgParts = new string[] { carriageName, request };
         }
 
-        public string GetCarriageName() { return _msgParts[0]; }
-        public string GetRequest() { return _msgParts[1]; }
+        public string CarriageName { get { return _msgParts[0]; } }
+        public string Request { get { return _msgParts[1]; } }
     }
 }

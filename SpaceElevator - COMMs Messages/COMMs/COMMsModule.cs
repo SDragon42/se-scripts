@@ -33,7 +33,7 @@ namespace IngameScript
                 recievers = new string[] { string.Empty };
             foreach (var reciever in recievers)
             {
-                var message = new CommMessage(_prog, reciever, payload.GetMessageType(), payload.ToString());
+                var message = new CommMessage(_prog, reciever, payload.MessageType, payload.ToString());
                 _messageQueue.Enqueue(message);
             }
         }

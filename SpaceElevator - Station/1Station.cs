@@ -231,13 +231,13 @@ namespace IngameScript
             CommMessage msg = null;
             if (CommMessage.TryParse(argument, out msg))
             {
-                _log.AppendLine("MSG: " + msg.GetPayloadType());
-                switch (msg.GetPayloadType())
+                _log.AppendLine("MSG: " + msg.PayloadType);
+                switch (msg.PayloadType)
                 {
                     //case CarriageStatusMessage.TYPE:
                     //    break;
                     case CarriageRequestMessage.TYPE:
-                        CarriageRequestProcessing(msg.GetPayload());
+                        CarriageRequestProcessing(msg.Payload);
                         break;
                 }
             }
@@ -268,12 +268,12 @@ namespace IngameScript
             if (message == null) return;
             _log.AppendLine("Valid MSG");
 
-            var carriage = GetCarriageVar(message.GetCarriageName());
+            var carriage = GetCarriageVar(message.CarriageName);
             if (carriage == null) return;
             _log.AppendLine("Found Carriage VARs");
-            _log.AppendLine("Request: " + message.GetRequest());
+            _log.AppendLine("Request: " + message.Request);
 
-            switch (message.GetRequest())
+            switch (message.Request)
             {
                 case CarriageRequestMessage.REQUEST_DOCK:
                     carriage.SetConnect(true);

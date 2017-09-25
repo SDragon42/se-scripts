@@ -32,7 +32,7 @@ namespace IngameScript
             _msgParts = new string[] { carriageName, destination };
         }
 
-        public string GetCarriageName() { return _msgParts[0]; }
-        public string GetDestination() { return _msgParts[1]; }
+        public string CarriageName { get { return _msgParts[0]; } }
+        public string Destination { get { return _msgParts[1]; } }
     }
 }
