@@ -31,7 +31,7 @@ namespace IngameScript
             if (_time < 1.2) return "[   | ]";
             if (_time < 1.4) return "[  |  ]";
             if (_time < 1.6) return "[ |   ]";
-            _time = 0.0;
+            _time = 0;
             return "[|    ]";
         }
     }

@@ -151,7 +151,7 @@ namespace IngameScript
                     SaveLastValues();
                     SendStatsMessage();
                     _comms.TransmitQueue(_antenna);
-                    _doorManager.CloseOpenDoors(_executionInterval.GetTime(), _autoCloseDoors);
+                    _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
                     if (_maintGravGen != null) { _maintGravGen.Enabled = (_gravVec.Length() < 9.81 / 2); }
                 }
 

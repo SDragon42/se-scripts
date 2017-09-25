@@ -21,44 +21,44 @@ namespace IngameScript
         public TimeIntervalModule(double intervalInSeconds)
         {
             SetIntervalInSeconds(intervalInSeconds);
+            Reset();
         }
         public TimeIntervalModule(int numIntervalsPerSecond = 10)
         {
             SetNumIntervalsPerSecond(numIntervalsPerSecond);
+            Reset();
         }
 
         bool _resetTime = false;
 
-        TimeSpan _time = new TimeSpan();
-        public TimeSpan GetTime() { return _time; }
+        public TimeSpan Time { get; private set; }
+        public double IntervalInSeconds { get; private set; }
 
-        double _intervalInSeconds = 0.0;
-        public double GetIntervalInSeconds() { return _intervalInSeconds; }
         public void SetIntervalInSeconds(double intervalInSeconds)
         {
             if (intervalInSeconds < 0) intervalInSeconds = 0;
-            _intervalInSeconds = intervalInSeconds;
+            IntervalInSeconds = intervalInSeconds;
         }
         public void SetNumIntervalsPerSecond(int numIntervalsPerSecond)
         {
             numIntervalsPerSecond = MathHelper.Clamp(numIntervalsPerSecond, 1, 60);
-            _intervalInSeconds = (1.0 / numIntervalsPerSecond);
+            IntervalInSeconds = (1.0 / numIntervalsPerSecond);
         }
 
         public void RecordTime(IMyGridProgramRuntimeInfo runtime)
         {
             if (_resetTime) Reset();
-            _time += runtime.TimeSinceLastRun;
-            if (_time.TotalSeconds < _intervalInSeconds) return;
+            Time += runtime.TimeSinceLastRun;
+            if (Time.TotalSeconds < IntervalInSeconds) return;
             _resetTime = true;
         }
         public bool AtNextInterval()
         {
-            return (_time.TotalSeconds >= _intervalInSeconds);
+            return (Time.TotalSeconds >= IntervalInSeconds);
         }
         public void Reset()
         {
-            _time = new TimeSpan();
+            Time = new TimeSpan();
             _resetTime = false;
         }
     }

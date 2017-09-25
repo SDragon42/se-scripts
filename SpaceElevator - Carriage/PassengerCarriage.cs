@@ -146,7 +146,7 @@ namespace IngameScript
                     SaveLastValues();
                     SendStatsMessage();
                     _comms.TransmitQueue(_antenna);
-                    _doorManager.CloseOpenDoors(_executionInterval.GetTime(), _autoCloseDoors);
+                    _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
                 }
 
             }

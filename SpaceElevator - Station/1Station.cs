@@ -133,7 +133,7 @@ namespace IngameScript
                 {
                     _debug.Clear();
                     _comms.TransmitQueue(_antenna);
-                    _doorManager.CloseOpenDoors(_executionInterval.GetTime(), _autoCloseDoors);
+                    _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
 
                     RunActions(TAG_A1, _A1);
                     RunActions(TAG_A2, _A2);
