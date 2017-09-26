@@ -462,10 +462,6 @@ namespace IngameScript
                     foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
                     foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
                     break;
-
-                default:
-                    _mode_SpecialUseOnly = CarriageMode.Manual_Control;
-                    goto case CarriageMode.Manual_Control;
             }
         }
 
