@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CarriageMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ScriptSettingsModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TravelDirection.cs" />
   </ItemGroup>
 </Project>

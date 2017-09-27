@@ -74,8 +74,7 @@ namespace IngameScript
         double _actualMass;
         double _cargoMass;
         double _gravityForceOnShip;
-        double _rangeToGround, _rangeToGroundLast;
-        double _rangeToDestination;
+        double _rangeToGround, _rangeToGroundLast, _rangeToSpace, _rangeToDestination;
         double _verticalSpeed;
         float _h2TankFilledPercent;
 
@@ -223,13 +222,16 @@ namespace IngameScript
             var baseMass = _rc.CalculateShipMass().BaseMass;
             _cargoMass = totalMass - baseMass;
             // the mass the game uses for physics calculation
-            _actualMass = baseMass + (_cargoMass / _settings.GetInventoryMultiplier());
+            _actualMass = baseMass + (_cargoMass / _settings.InventoryMultiplier);
             // the gravity "thrust" applied to the carriage
             _gravityForceOnShip = _actualMass * _gravMS2;
 
+            var pos = _rc.GetPosition();
             if (_destination != null)
-                _rangeToDestination = (_rc.GetPosition() - _destination.GetLocation()).Length();
-            _rangeToGround = (_rc.GetPosition() - _settings.GetGpsPointList()[0].GetLocation()).Length();
+                _rangeToGround = Vector3D.Distance(pos, _destination.GetLocation());
+            _rangeToGround = Vector3D.Distance(pos, _settings.GetBottomPoint());
+            _rangeToSpace = Vector3D.Distance(pos, _settings.GetTopPoint());
+
             _verticalSpeed = ((_rangeToGround - _rangeToGroundLast) >= 0)
                 ? _rc.GetShipSpeed()
                 : _rc.GetShipSpeed() * -1;
@@ -269,8 +271,8 @@ namespace IngameScript
             _settings.LoadFromSettingDict(_custConfig);
             _custConfig.SaveToCustomData(Me);
             _lastCustomDataHash = hash;
-            _connectorLockDelay.SetIntervalInSeconds(_settings.GetConnectorLockDelay());
-            _doorManager.SecondsToLeaveOpen = _settings.GetDoorCloseDelay();
+            _connectorLockDelay.SetIntervalInSeconds(_settings.ConnectorLockDelay);
+            _doorManager.SecondsToLeaveOpen = _settings.DoorCloseDelay;
         }
 
 
@@ -279,7 +281,7 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         void SendStatsMessage()
         {
-            if (!_settings.GetSendStatusMessages()) return;
+            if (!_settings.SendStatusMessages) return;
             if (_antenna == null) return;
             if (!_trasmitStatsDelay.AtNextInterval()) return;
 
@@ -375,7 +377,7 @@ namespace IngameScript
         private GpsInfo GetDockedPoint(double range)
         {
             var loc = _rc.GetPosition();
-            foreach (var gps in _settings.GetGpsPointList())
+            foreach (var gps in _settings.GpsPoints)
             {
                 if ((loc - gps.GetLocation()).Length() < range)
                     return gps;
@@ -450,7 +452,7 @@ namespace IngameScript
                     foreach (var b in _landingGears) b.AutoLock = false;
                     foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
                     foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
-                    _connectorLockDelayRemaining = _settings.GetConnectorLockDelay();
+                    _connectorLockDelayRemaining = _settings.ConnectorLockDelay;
                     break;
 
                 case CarriageMode.Docked:
@@ -479,7 +481,7 @@ namespace IngameScript
             _rc.AddWaypoint(target, "Destination");
             _rc.SetValueBool("DockingMode", true); // Activate Precision mode.
             _rc.SetValue<long>("FlightMode", 2); // Sets Flight mode to "One way". 2 is index of "One way" in combobox. (0 = Patrol, 1 = Circle)
-            _rc.SetValue<float>("SpeedLimit", Convert.ToSingle(_settings.GetDockSpeed()));
+            _rc.SetValue<float>("SpeedLimit", Convert.ToSingle(_settings.DockSpeed));
             _rc.SetAutoPilotEnabled(true);
         }
 
@@ -533,8 +535,8 @@ namespace IngameScript
             _debug.AppendLine("Break Range: {0:N2}", brakeingRange);
             _debug.AppendLine("Coast Range: {0:N2}", coastRange);
 
-            var inCoastRange = (rangeToTarget <= coastRange + _settings.GetApproachDistance());
-            var inBrakeRange = (rangeToTarget <= brakeingRange + _settings.GetApproachDistance());
+            var inCoastRange = (rangeToTarget <= coastRange + _settings.ApproachDistance);
+            var inBrakeRange = (rangeToTarget <= brakeingRange + _settings.ApproachDistance);
             var inDockRange = Math.Abs(rangeToTarget - brakeingRange) < SWITCH_TO_AUTOPILOT_RANGE;
 
             if (inDockRange)
@@ -544,7 +546,7 @@ namespace IngameScript
             }
             else if (!inCoastRange && !inBrakeRange && GetMode() != CarriageMode.Transit_Powered)
                 SetMode(CarriageMode.Transit_Powered);
-            else if (_settings.GetGravityDescelEnabled() && inCoastRange && !inBrakeRange && GetMode() != CarriageMode.Transit_Coast)
+            else if (_settings.GravityDescelEnabled && inCoastRange && !inBrakeRange && GetMode() != CarriageMode.Transit_Coast)
                 SetMode(CarriageMode.Transit_Coast);
             else if (inBrakeRange && GetMode() != CarriageMode.Transit_Slow2Approach)
                 SetMode(CarriageMode.Transit_Slow2Approach);
@@ -552,10 +554,10 @@ namespace IngameScript
             switch (GetMode())
             {
                 case CarriageMode.Transit_Powered:
-                    MaintainSpeed(_settings.GetTravelSpeed());
+                    MaintainSpeed(_settings.TravelSpeed);
                     break;
                 case CarriageMode.Transit_Slow2Approach:
-                    MaintainSpeed(_settings.GetDockSpeed());
+                    MaintainSpeed(_settings.DockSpeed);
                     break;
             }
         }
@@ -569,9 +571,9 @@ namespace IngameScript
             _debug.AppendLine("Break Range: {0:N2}", brakeingRange);
             _debug.AppendLine("Target Break Diff: {0:N2}", rangeToTarget - brakeingRange);
 
-            var inBrakeRange = (rangeToTarget <= brakeingRange + _settings.GetApproachDistance());
+            var inBrakeRange = (rangeToTarget <= brakeingRange + _settings.ApproachDistance);
             var inDockRange = Math.Abs(rangeToTarget - brakeingRange) < SWITCH_TO_AUTOPILOT_RANGE;
-            var inCoastZone = (!inBrakeRange && _rc.GetShipSpeed() >= _settings.GetTravelSpeed() - 5.0);
+            var inCoastZone = (!inBrakeRange && _rc.GetShipSpeed() >= _settings.TravelSpeed - 5.0);
 
             if (inCoastZone)
                 SetMode(CarriageMode.Transit_Coast);
@@ -586,10 +588,10 @@ namespace IngameScript
             switch (GetMode())
             {
                 case CarriageMode.Transit_Powered:
-                    MaintainSpeed(_settings.GetTravelSpeed() * -1);
+                    MaintainSpeed(_settings.TravelSpeed * -1);
                     break;
                 case CarriageMode.Transit_Slow2Approach:
-                    MaintainSpeed(_settings.GetDockSpeed() * -1);
+                    MaintainSpeed(_settings.DockSpeed * -1);
                     break;
                 case CarriageMode.Transit_Coast:
                     if (rangeToTarget - brakeingRange < 300
@@ -658,9 +660,9 @@ namespace IngameScript
 
         bool IsTaggedBlock(IMyTerminalBlock b)
         {
-            if (string.IsNullOrWhiteSpace(_settings.GetBlockTag()))
+            if (string.IsNullOrWhiteSpace(_settings.BlockTag))
                 return true;
-            return (b.CustomName.Contains(_settings.GetBlockTag()));
+            return (b.CustomName.Contains(_settings.BlockTag));
         }
         bool IsTaggedBlockOnThisGrid(IMyTerminalBlock b)
         {

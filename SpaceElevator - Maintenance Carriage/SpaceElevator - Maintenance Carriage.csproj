@@ -103,7 +103,6 @@
     <Compile Include="MaintenanceCarriage.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
-    <Compile Include="ScriptSettingsModule.cs" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
   </ItemGroup>
   <Import Project="..\_Helper - Gas Tanks\_Helper - Gas Tanks.projitems" Label="Shared" />
