@@ -228,7 +228,7 @@ namespace IngameScript
 
             var pos = _rc.GetPosition();
             if (_destination != null)
-                _rangeToGround = Vector3D.Distance(pos, _destination.GetLocation());
+                _rangeToDestination = Vector3D.Distance(pos, _destination.GetLocation());
             _rangeToGround = Vector3D.Distance(pos, _settings.GetBottomPoint());
             _rangeToSpace = Vector3D.Distance(pos, _settings.GetTopPoint());
 
@@ -292,7 +292,7 @@ namespace IngameScript
                 _h2TankFilledPercent,
                 _cargoMass,
                 _rangeToGround,
-                _rangeToDestination);
+                _rangeToSpace);
             _comms.AddMessageToQueue(payload);
         }
         void SendDockedMessage(string stationName)
