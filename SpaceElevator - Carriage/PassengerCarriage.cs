@@ -25,7 +25,6 @@ namespace IngameScript
         const string CMD_Goto = "goto";
 
 
-
         //-------------------------------------------------------------------------------
         //  CONSTANTS
         //-------------------------------------------------------------------------------
@@ -66,6 +65,7 @@ namespace IngameScript
         readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
         //readonly List<IMyTextPanel> _displays = new List<IMyTextPanel>();
         readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
+        IMyGravityGenerator _maintGravGen;
 
         //  Flight calculations
         Vector3D _gravVec;
@@ -100,7 +100,6 @@ namespace IngameScript
 
             //_mode_SpecialUseOnly = (!string.IsNullOrWhiteSpace(Storage)) ? Storage : CarriageMode.Manual_Control;
             _mode_SpecialUseOnly = CarriageModeHelper.GetFromString(Storage);
-
 
             _runSymbol = new RunningSymbolModule();
             _executionInterval = new TimeIntervalModule(10);
@@ -146,6 +145,7 @@ namespace IngameScript
                     SendStatsMessage();
                     _comms.TransmitQueue(_antenna);
                     _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
+                    if (_maintGravGen != null) { _maintGravGen.Enabled = (_gravVec.Length() < 9.81 / 2); }
                 }
 
             }
@@ -160,6 +160,7 @@ namespace IngameScript
                 _debug.UpdateDisplay();
             }
         }
+
 
         void LoadBlockLists(bool forceLoad = false)
         {
@@ -184,9 +185,13 @@ namespace IngameScript
             //GridTerminalSystem.GetBlocksOfType(_o2Tanks, b => IsTaggedBlockOnThisGrid(b) && IsOxygenTank(b));
 
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
-            //GridTerminalSystem.GetBlocksOfType<IMyTextPanel>(_displays, IsTaggedBlockOnThisGrid);
+            //GridTerminalSystem.GetBlocksOfType(_displays, IsTaggedBlockOnThisGrid);
 
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, IsTaggedBlockOnThisGrid);
+
+            CollectHelper.GetblocksOfTypeWithFirst<IMyGravityGenerator>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
+            if (_tempList.Count > 0)
+                _maintGravGen = (IMyGravityGenerator)_tempList[0];
 
             _blocksLoaded = true;
         }
@@ -262,7 +267,6 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         //  Custom Config
         //-------------------------------------------------------------------------------
-
         void LoadConfigSettings()
         {
             var hash = Me.CustomData.GetHashCode();
@@ -320,7 +324,7 @@ namespace IngameScript
                     case StationResponseMessage.TYPE:
                         var responseMsg = StationResponseMessage.CreateFromPayload(msg.Payload);
                         if (responseMsg?.Response == StationResponseMessage.RESPONSE_DEPARTURE_OK)
-                            SetMode(CarriageMode.Transit_Powered);
+                            SetMode(CarriageMode.Awaiting_CarriageReady2Depart);
                         break;
                     case SendCarriageToMessage.TYPE:
                         var sendToMsg = SendCarriageToMessage.CreateFromPayload(msg.Payload);
@@ -367,7 +371,7 @@ namespace IngameScript
                 : TravelDirection.Descent;
 
             if (dockedStation == null || !dockedStation.GetNeedsClearance())
-                SetMode(CarriageMode.Transit_Powered);
+                SetMode(CarriageMode.Awaiting_CarriageReady2Depart);
             else
             {
                 SetMode(CarriageMode.Awaiting_DepartureClearance);
@@ -493,15 +497,17 @@ namespace IngameScript
             else if (_travelDirection == TravelDirection.Descent)
                 travelMethod = DecentModeOps;
 
-            if (travelMethod != null)
+            switch (GetMode())
             {
-                switch (GetMode())
-                {
-                    case CarriageMode.Transit_Powered: travelMethod(); break;
-                    case CarriageMode.Transit_Coast: travelMethod(); break;
-                    case CarriageMode.Transit_Slow2Approach: travelMethod(); break;
-                    case CarriageMode.Transit_Docking: LockConnectorsWhenStopped(); break;
-                }
+                case CarriageMode.Awaiting_CarriageReady2Depart:
+                    if (travelMethod != null)
+                        SetMode(CarriageMode.Transit_Powered);
+                    break;
+                //case CarriageMode.Awaiting_DepartureClearance: goto case CarriageMode.Transit_Powered;
+                case CarriageMode.Transit_Powered: travelMethod?.Invoke(); break;
+                case CarriageMode.Transit_Coast: travelMethod?.Invoke(); break;
+                case CarriageMode.Transit_Slow2Approach: travelMethod?.Invoke(); break;
+                case CarriageMode.Transit_Docking: LockConnectorsWhenStopped(); break;
             }
         }
 
@@ -657,18 +663,13 @@ namespace IngameScript
         //  Collection Methods
         //-------------------------------------------------------------------------------
         bool IsOnThisGrid(IMyTerminalBlock b) { return Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
-
         bool IsTaggedBlock(IMyTerminalBlock b)
         {
             if (string.IsNullOrWhiteSpace(_settings.BlockTag))
                 return true;
             return (b.CustomName.Contains(_settings.BlockTag));
         }
-        bool IsTaggedBlockOnThisGrid(IMyTerminalBlock b)
-        {
-            return (IsOnThisGrid(b) && IsTaggedBlock(b));
-        }
-
+        bool IsTaggedBlockOnThisGrid(IMyTerminalBlock b) { return (IsOnThisGrid(b) && IsTaggedBlock(b)); }
 
     }
 }

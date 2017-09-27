@@ -18,13 +18,11 @@ namespace IngameScript
 {
     partial class Program : MyGridProgram
     {
-
         //-------------------------------------------------------------------------------
         //  SCRIPT COMMANDS
         //-------------------------------------------------------------------------------
         const string CMD_Reset = "reset";
         const string CMD_Goto = "goto";
-
 
 
         //-------------------------------------------------------------------------------
@@ -87,6 +85,7 @@ namespace IngameScript
         GpsInfo _destination;
         TravelDirection _travelDirection = TravelDirection.None;
         bool _rampsClear = false;
+
 
         //-------------------------------------------------------------------------------
         //  MAIN CONTROL FLOW
@@ -163,7 +162,7 @@ namespace IngameScript
             }
             finally
             {
-                if (_debug != null) _debug.UpdateDisplay();
+                _debug.UpdateDisplay();
             }
         }
 
@@ -262,7 +261,6 @@ namespace IngameScript
             _debug.AppendLine("Speed: {1}  {0:N1}", Math.Abs(_verticalSpeed), speedDir);
             _debug.AppendLine("Lift T/W r: {0:N2}", totalMaxBreakingThrust / _gravityForceOnShip);
             _debug.AppendLine("Brake Dist: {0:N2}", brakeingRange);
-            //_debug.AppendLine("Gravity: {0:N2}", _gravVec.Length());
             _debug.AppendLine("");
             if (_destination != null)
                 _debug.AppendLine("Range to destination: {0:N2} m", _rangeToDestination);
@@ -515,18 +513,12 @@ namespace IngameScript
                     if (_rampsClear && travelMethod != null)
                         SetMode(CarriageMode.Transit_Powered);
                     break;
-                case CarriageMode.Awaiting_DepartureClearance: goto case CarriageMode.Transit_Powered;
-                case CarriageMode.Transit_Powered:
-                    travelMethod?.Invoke();
-                    break;
-                case CarriageMode.Transit_Coast: goto case CarriageMode.Transit_Powered;
-                case CarriageMode.Transit_Slow2Approach: goto case CarriageMode.Transit_Powered;
-                case CarriageMode.Transit_Docking:
-                    LockConnectorsWhenStopped();
-                    break;
-                case CarriageMode.Docked:
-                    LowerRamps();
-                    break;
+                //case CarriageMode.Awaiting_DepartureClearance: goto case CarriageMode.Transit_Powered;
+                case CarriageMode.Transit_Powered: travelMethod?.Invoke(); break;
+                case CarriageMode.Transit_Coast: travelMethod?.Invoke(); break;
+                case CarriageMode.Transit_Slow2Approach: travelMethod?.Invoke(); break;
+                case CarriageMode.Transit_Docking: LockConnectorsWhenStopped(); break;
+                case CarriageMode.Docked: LowerRamps(); break;
             }
         }
 
@@ -550,9 +542,7 @@ namespace IngameScript
         {
             _rampsClear = true;
             if (_maintCarrageRamps.Count == 0) return;
-
             _maintCarrageRamps.ForEach(rotor => _rampsClear &= Rotate2Limit(rotor, false));
-
             if (_maintGravGen != null) _maintGravGen.FieldSize = new Vector3(GRAV_RANGE_Rampsup, _maintGravGen.FieldSize.Y, _maintGravGen.FieldSize.Z);
         }
         void LowerRamps()
@@ -560,25 +550,17 @@ namespace IngameScript
             if (_maintCarrageRamps.Count == 0) return;
             if (GetMode() != CarriageMode.Docked && GetMode() != CarriageMode.Manual_Control)
                 return;
-
             _rampsClear = false;
             _maintCarrageRamps.ForEach(rotor => Rotate2Limit(rotor, true));
-
             if (_maintGravGen != null) _maintGravGen.FieldSize = new Vector3(GRAV_RANGE_RampsDown, _maintGravGen.FieldSize.Y, _maintGravGen.FieldSize.Z);
         }
-        bool Rotate2Limit(IMyTerminalBlock b, bool rotateToMax)
+        bool Rotate2Limit(IMyMotorStator rotor, bool rotateToMax)
         {
-            var rotor = b as IMyMotorStator;
-            if (rotor == null) return true;
-            var notAtTarget = !IsRotated2Limit(rotor, rotateToMax);
-            if (notAtTarget)
-            {
-                rotor.SafetyLock = false;
-                var velocity = rotateToMax ? ElevatorConst.ROTOR_VELOCITY : ElevatorConst.ROTOR_VELOCITY * -1;
-                rotor.SetValueFloat("Velocity", velocity);
-                return false; // not in position yet
-            }
-            return true;
+            if (IsRotated2Limit(rotor, rotateToMax)) return true;
+            rotor.SafetyLock = false;
+            var velocity = rotateToMax ? ElevatorConst.ROTOR_VELOCITY : ElevatorConst.ROTOR_VELOCITY * -1;
+            rotor.SetValueFloat("Velocity", velocity);
+            return false; // not in position yet
         }
         bool IsRotated2Limit(IMyMotorStator rotor, bool rotateToMax)
         {
@@ -591,10 +573,8 @@ namespace IngameScript
         }
         void CheckRampsAtLimits()
         {
-            var allRaised = true;
-            var allLowered = true;
-            _maintCarrageRamps.ForEach(rotor => allRaised &= IsRotated2Limit(rotor, false));
-            _maintCarrageRamps.ForEach(rotor => allLowered &= IsRotated2Limit(rotor, true));
+            var allRaised = _maintCarrageRamps.All(rotor => IsRotated2Limit(rotor, false));
+            var allLowered = _maintCarrageRamps.All(rotor => IsRotated2Limit(rotor, true));
             if (!(allRaised || allLowered)) return;
             _maintCarrageRamps.ForEach(rotor => rotor.SafetyLock = true);
             _rampsClear = allRaised;
@@ -742,10 +722,7 @@ namespace IngameScript
                 return true;
             return (b.CustomName.Contains(_settings.BlockTag));
         }
-        bool IsTaggedBlockOnThisGrid(IMyTerminalBlock b)
-        {
-            return (IsOnThisGrid(b) && IsTaggedBlock(b));
-        }
+        bool IsTaggedBlockOnThisGrid(IMyTerminalBlock b) { return (IsOnThisGrid(b) && IsTaggedBlock(b)); }
 
     }
 }
