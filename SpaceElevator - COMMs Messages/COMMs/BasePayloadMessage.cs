@@ -14,26 +14,21 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    public abstract class BasePayloadMessage
-    {
+namespace IngameScript {
+    public abstract class BasePayloadMessage {
         protected const char DELIMITER = '\n';
         protected string[] _msgParts;
 
-        protected BasePayloadMessage(string messageType)
-        {
+        protected BasePayloadMessage(string messageType) {
             MessageType = messageType;
         }
-        public void LoadFromPayload(string message)
-        {
+        public void LoadFromPayload(string message) {
             _msgParts = message.Split(DELIMITER);
         }
 
         public string MessageType { get; private set; }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return string.Join(DELIMITER.ToString(), _msgParts);
         }
     }

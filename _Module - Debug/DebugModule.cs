@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class DebugModule : LogModule
-    {
+namespace IngameScript {
+    class DebugModule : LogModule {
         public const string DefaultDebugPanelName = "DEBUG";
 
         readonly List<IMyTerminalBlock> tmp = new List<IMyTerminalBlock>();
@@ -26,8 +24,7 @@ namespace IngameScript
         readonly string _debugDisplayName;
 
 
-        public DebugModule(MyGridProgram thisObj, string debugDisplayName = null)
-        {
+        public DebugModule(MyGridProgram thisObj, string debugDisplayName = null) {
             _thisObj = thisObj;
             _debugDisplayName = string.IsNullOrWhiteSpace(debugDisplayName) ? DefaultDebugPanelName : debugDisplayName;
             MaxTextLinesToKeep = -1;
@@ -39,8 +36,7 @@ namespace IngameScript
         public bool EchoMessages { get; set; }
 
 
-        private void Init()
-        {
+        private void Init() {
             _thisObj.GridTerminalSystem.SearchBlocksOfName(_debugDisplayName, tmp, b => b.CubeGrid.EntityId == _thisObj.Me.CubeGrid.EntityId);
             if (tmp.Count <= 0) return;
             _display = tmp[0] as IMyTextPanel;
@@ -49,8 +45,7 @@ namespace IngameScript
             _display.ShowPublicTextOnScreen();
         }
 
-        public override void Clear()
-        {
+        public override void Clear() {
             base.Clear();
             if (!Enabled) return;
             Init();
@@ -59,8 +54,7 @@ namespace IngameScript
         }
 
 
-        public void UpdateDisplay()
-        {
+        public void UpdateDisplay() {
             if (!Enabled) return;
 
             var text = GetLogText();

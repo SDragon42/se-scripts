@@ -14,20 +14,16 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    static class VectorHelper
-    {
-        public static Vector3D GpsToVector(string gpsCoordinate)
-        {
+namespace IngameScript {
+    static class VectorHelper {
+        public static Vector3D GpsToVector(string gpsCoordinate) {
             string name;
             Vector3D position;
             GpsToVector(gpsCoordinate, out name, out position);
             return position;
         }
 
-        public static void GpsToVector(string gpsCoordinate, out string name, out Vector3D position)
-        {
+        public static void GpsToVector(string gpsCoordinate, out string name, out Vector3D position) {
             name = string.Empty;
             position = Vector3D.Zero;
 
@@ -41,8 +37,7 @@ namespace IngameScript
                 double.Parse(gpsParts[4]));
         }
 
-        public static string VectortoGps(Vector3D v)
-        {
+        public static string VectortoGps(Vector3D v) {
             return $"GPS:Position:{v.X}:{v.Y}:{v.Z}:";
         }
     }

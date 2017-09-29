@@ -14,8 +14,7 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
+namespace IngameScript {
     /********************************************************************************
     **  Module: LCDs
     **  3rd Party Credits:
@@ -23,8 +22,7 @@ namespace IngameScript
     alex-thatradarguy: for the xbox character codes
     http://steamcommunity.com/sharedfiles/filedetails/?id=627416824
     ********************************************************************************/
-    static class LCDHelper
-    {
+    static class LCDHelper {
         //COLOR CONSTANTS: Do not change!!! 
         public const string LCD_green = "\uE001";
         public const string LCD_blue = "\uE002";
@@ -50,8 +48,7 @@ namespace IngameScript
         public static void SetFontSize(IMyTextPanel panel, float size) { panel.SetValue("FontSize", size); }
 
 
-        public static char ColorChar(int r, int g, int b)
-        {
+        public static char ColorChar(int r, int g, int b) {
             return (char)(0xE100 + (MathHelper.Clamp(r, 0, 7) << 6) + (MathHelper.Clamp(g, 0, 7) << 3) + MathHelper.Clamp(b, 0, 7));
         }
     }

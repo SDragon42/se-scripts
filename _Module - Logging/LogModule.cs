@@ -14,12 +14,9 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class LogModule
-    {
-        public LogModule(int maxLines2Keep = 10)
-        {
+namespace IngameScript {
+    class LogModule {
+        public LogModule(int maxLines2Keep = 10) {
             Enabled = true;
             MaxTextLinesToKeep = maxLines2Keep;
         }
@@ -32,35 +29,29 @@ namespace IngameScript
         public int MaxTextLinesToKeep { get; set; }
 
 
-        public virtual void Clear()
-        {
+        public virtual void Clear() {
             _lines.Clear();
             _lineBuffer = string.Empty;
         }
 
-        public void Append(string text, params object[] args)
-        {
+        public void Append(string text, params object[] args) {
             if (!Enabled) return;
             _lineBuffer += string.Format(text, args);
         }
 
-        public void AppendLine()
-        {
+        public void AppendLine() {
             AppendLine(string.Empty);
         }
-        public void AppendLine(string text, params object[] args)
-        {
+        public void AppendLine(string text, params object[] args) {
             if (!Enabled) return;
             Append(text, args);
             _lines.Add(_lineBuffer);
             _lineBuffer = string.Empty;
         }
 
-        public string GetLogText()
-        {
+        public string GetLogText() {
             if (!Enabled) return string.Empty;
-            if (MaxTextLinesToKeep > 0)
-            {
+            if (MaxTextLinesToKeep > 0) {
                 while (_lines.Count > MaxTextLinesToKeep)
                     _lines.RemoveAt(0);
             }

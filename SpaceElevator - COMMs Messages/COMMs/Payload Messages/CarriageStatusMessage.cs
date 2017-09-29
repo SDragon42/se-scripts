@@ -14,21 +14,17 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    public class CarriageStatusMessage : BasePayloadMessage
-    {
+namespace IngameScript {
+    public class CarriageStatusMessage : BasePayloadMessage {
         public const string TYPE = "CarriageStats";
-        public static CarriageStatusMessage CreateFromPayload(string message)
-        {
+        public static CarriageStatusMessage CreateFromPayload(string message) {
             var obj = new CarriageStatusMessage();
             obj.LoadFromPayload(message);
             return obj;
         }
 
         private CarriageStatusMessage() : base(TYPE) { }
-        public CarriageStatusMessage(string mode, Vector3D pos, double vertSpeed, float fuelLevel, double cargoMass, double range2Bottom, double range2Top) : base(TYPE)
-        {
+        public CarriageStatusMessage(string mode, Vector3D pos, double vertSpeed, float fuelLevel, double cargoMass, double range2Bottom, double range2Top) : base(TYPE) {
             _msgParts = new string[] {
                 mode,
                 VectorHelper.VectortoGps(pos),

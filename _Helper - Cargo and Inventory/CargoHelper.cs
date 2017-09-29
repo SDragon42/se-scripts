@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    static class CargoHelper
-    {
+namespace IngameScript {
+    static class CargoHelper {
         public const string SUBTYPE_SmBlock_SmContainer = "SmallBlockSmallContainer";
         public const string SUBTYPE_SmBlock_MdContainer = "SmallBlockMediumContainer";
         public const string SUBTYPE_SmBlock_LgContainer = "SmallBlockLargeContainer";
@@ -30,29 +28,24 @@ namespace IngameScript
         public const long MaxVolume_LgBlock_SmContainer = 15625000;
         public const long MaxVolume_LgBlock_LgContainer = 421000000;
 
-        public static int GetInventoryMultiplier(List<IMyCargoContainer> blockList)
-        {
+        public static int GetInventoryMultiplier(List<IMyCargoContainer> blockList) {
             if (blockList == null) return 0;
-            foreach (var b in blockList)
-            {
+            foreach (var b in blockList) {
                 var mult = GetInventoryMultiplier(b);
                 if (mult > 0) return mult;
             }
             return 0;
         }
-        public static int GetInventoryMultiplier(IMyCargoContainer b)
-        {
+        public static int GetInventoryMultiplier(IMyCargoContainer b) {
             var defMaxVolume = GetDefaultMaxVolume(b);
             if (defMaxVolume <= 0) return 0;
             var maxVolume = b.GetInventory().MaxVolume.RawValue;
             if (maxVolume == long.MaxValue) return 0; // infinite volume
             return Convert.ToInt32(maxVolume / defMaxVolume);
         }
-        public static long GetDefaultMaxVolume(IMyCargoContainer b)
-        {
+        public static long GetDefaultMaxVolume(IMyCargoContainer b) {
             if (b != null)
-                switch (b.BlockDefinition.SubtypeId)
-                {
+                switch (b.BlockDefinition.SubtypeId) {
                     case SUBTYPE_SmBlock_SmContainer: return MaxVolume_SmBlock_SmContainer;
                     case SUBTYPE_SmBlock_MdContainer: return MaxVolume_SmBlock_MdContainer;
                     case SUBTYPE_SmBlock_LgContainer: return MaxVolume_SmBlock_LgContainer;
@@ -62,8 +55,7 @@ namespace IngameScript
             return 0;
         }
 
-        public static long GetInventoryTotals(IMyTerminalBlock b, Func<IMyInventory, long> propMethod)
-        {
+        public static long GetInventoryTotals(IMyTerminalBlock b, Func<IMyInventory, long> propMethod) {
             var val = 0L;
             if (b != null && b.HasInventory && propMethod != null)
                 for (var i = 0; i < b.InventoryCount; i++)

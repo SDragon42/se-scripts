@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IngameScript
-{
-    class CarriageVars
-    {
-        public CarriageVars(string gridName)
-        {
+namespace IngameScript {
+    class CarriageVars {
+        public CarriageVars(string gridName) {
             _gridName = gridName ?? string.Empty;
         }
 
@@ -30,15 +27,13 @@ namespace IngameScript
         public void SetGateState(int value) { _gateState = value; }
 
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return _connect.ToString() + ":" +
                 _sendResponseMsg.ToString() + ":" +
                 _gateState.ToString();
         }
 
-        public void FromString(string stateData)
-        {
+        public void FromString(string stateData) {
             if (string.IsNullOrWhiteSpace(stateData)) return;
             var parts = stateData.Split(':');
 

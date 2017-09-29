@@ -14,23 +14,19 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    public class StationResponseMessage : BasePayloadMessage
-    {
+namespace IngameScript {
+    public class StationResponseMessage : BasePayloadMessage {
         public const string TYPE = "StationRequestMessage";
         public const string RESPONSE_DEPARTURE_OK = "Departure OK";
         public const string RESPONSE_DOCKING_COMPLETE = "Docking Complete";
-        public static StationResponseMessage CreateFromPayload(string message)
-        {
+        public static StationResponseMessage CreateFromPayload(string message) {
             var obj = new StationResponseMessage();
             obj.LoadFromPayload(message);
             return obj;
         }
 
         private StationResponseMessage() : base(TYPE) { }
-        public StationResponseMessage(string response) : base(TYPE)
-        {
+        public StationResponseMessage(string response) : base(TYPE) {
             _msgParts = new string[] { response };
         }
 

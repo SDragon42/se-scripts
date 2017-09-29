@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    partial class Program : MyGridProgram
-    {
+namespace IngameScript {
+    partial class Program : MyGridProgram {
         //-------------------------------------------------------------------------------
         //  SCRIPT COMMANDS
         //-------------------------------------------------------------------------------
@@ -85,8 +83,7 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         //  MAIN CONTROL FLOW
         //-------------------------------------------------------------------------------
-        public Program()
-        {
+        public Program() {
             //Echo = (t) => { }; // Disable Echo
             _debug = new DebugModule(this);
             //_debug.Enabled = false;
@@ -111,15 +108,12 @@ namespace IngameScript
             _comms = new COMMsModule(Me);
         }
 
-        public void Save()
-        {
+        public void Save() {
             this.Storage = GetMode().ToString();
         }
 
-        public void Main(string argument)
-        {
-            try
-            {
+        public void Main(string argument) {
+            try {
                 Echo("Carriage Control " + _runSymbol.GetSymbol(this.Runtime));
                 Echo("DEBUG " + (_debug.Enabled ? "enabled" : "disabled"));
 
@@ -131,13 +125,11 @@ namespace IngameScript
                 LoadBlockLists();
                 EchoBlockLists();
 
-                if (!string.IsNullOrEmpty(argument))
-                {
+                if (!string.IsNullOrEmpty(argument)) {
                     RunCommand(argument);
                 }
 
-                if (_executionInterval.AtNextInterval())
-                {
+                if (_executionInterval.AtNextInterval()) {
                     _debug.Clear();
                     LoadCalculations();
                     RunModeActions();
@@ -145,25 +137,21 @@ namespace IngameScript
                     SendStatsMessage();
                     _comms.TransmitQueue(_antenna);
                     _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
-                    if (_maintGravGen != null) { _maintGravGen.Enabled = (_gravVec.Length() < 9.81 / 2); }
+                    if (_maintGravGen != null)
+                        _maintGravGen.Enabled = (_gravVec.Length() < 9.81 / 2);
                 }
 
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 _debug.AppendLine(ex.Message);
                 _debug.AppendLine(ex.StackTrace);
                 throw ex;
-            }
-            finally
-            {
+            } finally {
                 _debug.UpdateDisplay();
             }
         }
 
 
-        void LoadBlockLists(bool forceLoad = false)
-        {
+        void LoadBlockLists(bool forceLoad = false) {
             if (_blocksLoaded && !forceLoad) return;
 
             CollectHelper.GetblocksOfTypeWithFirst<IMyRemoteControl>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
@@ -195,8 +183,7 @@ namespace IngameScript
 
             _blocksLoaded = true;
         }
-        void EchoBlockLists()
-        {
+        void EchoBlockLists() {
             Echo(string.Format("Ascent Thrusters: {0}", _ascentThrusters.Count));
             Echo(string.Format("Descent Thrusters: {0}", _descentThrusters.Count));
             if (_connectors.Count > 0) Echo(string.Format("Connectors: {0}", _connectors.Count));
@@ -210,8 +197,7 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         //  Flight calculations
         //-------------------------------------------------------------------------------
-        void LoadCalculations()
-        {
+        void LoadCalculations() {
             _gravVec = _rc.GetNaturalGravity();
             //gravity in m/s^2
             _gravMS2 = Math.Sqrt(
@@ -259,16 +245,14 @@ namespace IngameScript
             _debug.AppendLine("Range to Ground: {0:N2} m", _rangeToGround);
             _debug.AppendLine("MODE: {0}", GetMode());
         }
-        void SaveLastValues()
-        {
+        void SaveLastValues() {
             _rangeToGroundLast = _rangeToGround;
         }
 
         //-------------------------------------------------------------------------------
         //  Custom Config
         //-------------------------------------------------------------------------------
-        void LoadConfigSettings()
-        {
+        void LoadConfigSettings() {
             var hash = Me.CustomData.GetHashCode();
             if (hash == _lastCustomDataHash) return;
             _custConfig.ReadFromCustomData(Me);
@@ -283,8 +267,7 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         //  COMMs
         //-------------------------------------------------------------------------------
-        void SendStatsMessage()
-        {
+        void SendStatsMessage() {
             if (!_settings.SendStatusMessages) return;
             if (_antenna == null) return;
             if (!_trasmitStatsDelay.AtNextInterval()) return;
@@ -299,13 +282,11 @@ namespace IngameScript
                 _rangeToSpace);
             _comms.AddMessageToQueue(payload);
         }
-        void SendDockedMessage(string stationName)
-        {
+        void SendDockedMessage(string stationName) {
             var payload = new CarriageRequestMessage(Me.CubeGrid.CustomName, CarriageRequestMessage.REQUEST_DOCK);
             _comms.AddMessageToQueue(payload, stationName);
         }
-        void SendRequestDepartureClearance(string stationName)
-        {
+        void SendRequestDepartureClearance(string stationName) {
             var payload = new CarriageRequestMessage(Me.CubeGrid.CustomName, CarriageRequestMessage.REQUEST_DEPART);
             _comms.AddMessageToQueue(payload, stationName);
         }
@@ -313,14 +294,11 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         //  COMMAND OPERATIONS
         //-------------------------------------------------------------------------------
-        void RunCommand(string argument)
-        {
+        void RunCommand(string argument) {
             CommMessage msg = null;
-            if (CommMessage.TryParse(argument, out msg))
-            {
+            if (CommMessage.TryParse(argument, out msg)) {
                 // COMMs messages
-                switch (msg.PayloadType)
-                {
+                switch (msg.PayloadType) {
                     case StationResponseMessage.TYPE:
                         var responseMsg = StationResponseMessage.CreateFromPayload(msg.Payload);
                         if (responseMsg?.Response == StationResponseMessage.RESPONSE_DEPARTURE_OK)
@@ -337,8 +315,7 @@ namespace IngameScript
             }
 
             var cmdParts = argument.Split(new char[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
-            switch (cmdParts[0])
-            {
+            switch (cmdParts[0]) {
                 case CMD_Reset:
                     LoadBlockLists(true);
                     SetMode(CarriageMode.Manual_Control);
@@ -352,8 +329,7 @@ namespace IngameScript
             }
         }
 
-        void SetDeparture(GpsInfo destination)
-        {
+        void SetDeparture(GpsInfo destination) {
             _destination = null;
             _travelDirection = TravelDirection.None;
 
@@ -372,17 +348,14 @@ namespace IngameScript
 
             if (dockedStation == null || !dockedStation.GetNeedsClearance())
                 SetMode(CarriageMode.Awaiting_CarriageReady2Depart);
-            else
-            {
+            else {
                 SetMode(CarriageMode.Awaiting_DepartureClearance);
                 SendRequestDepartureClearance(dockedStation.GetName());
             }
         }
-        private GpsInfo GetDockedPoint(double range)
-        {
+        private GpsInfo GetDockedPoint(double range) {
             var loc = _rc.GetPosition();
-            foreach (var gps in _settings.GpsPoints)
-            {
+            foreach (var gps in _settings.GpsPoints) {
                 if ((loc - gps.GetLocation()).Length() < range)
                     return gps;
             }
@@ -394,16 +367,14 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         CarriageMode _mode_SpecialUseOnly;
         CarriageMode GetMode() { return _mode_SpecialUseOnly; }
-        void SetMode(CarriageMode value)
-        {
+        void SetMode(CarriageMode value) {
             if (_mode_SpecialUseOnly == value && value != CarriageMode.Manual_Control) return;
             _mode_SpecialUseOnly = value;
 
             if (!CarriageModeHelper.IsValidModeValue(_mode_SpecialUseOnly))
                 _mode_SpecialUseOnly = CarriageMode.Manual_Control;
 
-            switch (_mode_SpecialUseOnly)
-            {
+            switch (_mode_SpecialUseOnly) {
                 case CarriageMode.Manual_Control:
                     ClearAutopilot(true);
                     _activateSpeedLimiter = false;
@@ -471,15 +442,13 @@ namespace IngameScript
             }
         }
 
-        void ClearAutopilot(bool enableDampeners)
-        {
+        void ClearAutopilot(bool enableDampeners) {
             _rc.SetAutoPilotEnabled(false);
             _rc.DampenersOverride = enableDampeners;
             _rc.ClearWaypoints();
         }
 
-        void ActivateAutopilot(Vector3D target)
-        {
+        void ActivateAutopilot(Vector3D target) {
             _rc.DampenersOverride = true;
             _rc.ClearWaypoints();
             _rc.AddWaypoint(target, "Destination");
@@ -489,16 +458,14 @@ namespace IngameScript
             _rc.SetAutoPilotEnabled(true);
         }
 
-        void RunModeActions()
-        {
+        void RunModeActions() {
             Action travelMethod = null;
             if (_travelDirection == TravelDirection.Ascent)
                 travelMethod = AscentModeOps;
             else if (_travelDirection == TravelDirection.Descent)
                 travelMethod = DecentModeOps;
 
-            switch (GetMode())
-            {
+            switch (GetMode()) {
                 case CarriageMode.Awaiting_CarriageReady2Depart:
                     if (travelMethod != null)
                         SetMode(CarriageMode.Transit_Powered);
@@ -511,15 +478,13 @@ namespace IngameScript
             }
         }
 
-        void LockConnectorsWhenStopped()
-        {
+        void LockConnectorsWhenStopped() {
             if (_rc.GetShipSpeed() > 0.1) return;
 
             _landingGears.ForEach(b => b.Lock());
 
             var anyLocked = _landingGears.Any(Collect.IsLandingGearLocked);
-            if (anyLocked)
-            {
+            if (anyLocked) {
                 SetMode(CarriageMode.Docked);
                 SendDockedMessage(_destination.GetName());
                 _travelDirection = TravelDirection.None;
@@ -527,8 +492,7 @@ namespace IngameScript
             }
         }
 
-        void AscentModeOps()
-        {
+        void AscentModeOps() {
             _rc.DampenersOverride = false;
             // attempt to compensate for the changing gravity force on the ship
             var gravityForceChangeCompensation = (_gravityForceOnShip / 2) * -1;
@@ -545,20 +509,17 @@ namespace IngameScript
             var inBrakeRange = (rangeToTarget <= brakeingRange + _settings.ApproachDistance);
             var inDockRange = Math.Abs(rangeToTarget - brakeingRange) < SWITCH_TO_AUTOPILOT_RANGE;
 
-            if (inDockRange)
-            {
+            if (inDockRange) {
                 SetMode(CarriageMode.Transit_Docking);
                 ActivateAutopilot(_destination.GetLocation());
-            }
-            else if (!inCoastRange && !inBrakeRange && GetMode() != CarriageMode.Transit_Powered)
+            } else if (!inCoastRange && !inBrakeRange && GetMode() != CarriageMode.Transit_Powered)
                 SetMode(CarriageMode.Transit_Powered);
             else if (_settings.GravityDescelEnabled && inCoastRange && !inBrakeRange && GetMode() != CarriageMode.Transit_Coast)
                 SetMode(CarriageMode.Transit_Coast);
             else if (inBrakeRange && GetMode() != CarriageMode.Transit_Slow2Approach)
                 SetMode(CarriageMode.Transit_Slow2Approach);
 
-            switch (GetMode())
-            {
+            switch (GetMode()) {
                 case CarriageMode.Transit_Powered:
                     MaintainSpeed(_settings.TravelSpeed);
                     break;
@@ -567,8 +528,7 @@ namespace IngameScript
                     break;
             }
         }
-        void DecentModeOps()
-        {
+        void DecentModeOps() {
             _rc.DampenersOverride = false;
             var totalMaxBreakingThrust = _ascentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
             var rangeToTarget = (_rc.GetPosition() - _destination.GetLocation()).Length();
@@ -583,16 +543,13 @@ namespace IngameScript
 
             if (inCoastZone)
                 SetMode(CarriageMode.Transit_Coast);
-            else if (inDockRange)
-            {
+            else if (inDockRange) {
                 SetMode(CarriageMode.Transit_Docking);
                 ActivateAutopilot(_destination.GetLocation());
-            }
-            else if (inBrakeRange && GetMode() != CarriageMode.Transit_Slow2Approach)
+            } else if (inBrakeRange && GetMode() != CarriageMode.Transit_Slow2Approach)
                 SetMode(CarriageMode.Transit_Slow2Approach);
 
-            switch (GetMode())
-            {
+            switch (GetMode()) {
                 case CarriageMode.Transit_Powered:
                     MaintainSpeed(_settings.TravelSpeed * -1);
                     break;
@@ -607,8 +564,7 @@ namespace IngameScript
                     break;
             }
         }
-        void MaintainSpeed(double targetVertSpeed)
-        {
+        void MaintainSpeed(double targetVertSpeed) {
             var ascentMaxEffectiveThrust = _ascentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
             var decentMaxEffectiveThrust = _descentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
 
@@ -623,24 +579,15 @@ namespace IngameScript
             _debug.AppendLine("");
             _debug.AppendLine("S.Diff: {0:N1}", speedDiff);
 
-            if (speedDiff > -0.5f && speedDiff < 0.5f)
-            {
+            if (speedDiff > -0.5f && speedDiff < 0.5f) {
                 ascentOverridePower = hoverOverridePower;
-            }
-            else if (speedDiff > 2)
-            {
+            } else if (speedDiff > 2) {
                 ascentOverridePower = 100f;
-            }
-            else if (speedDiff > 0)
-            {
+            } else if (speedDiff > 0) {
                 ascentOverridePower = hoverOverridePower + ((100f - hoverOverridePower) / 2);
-            }
-            else if (speedDiff < -2)
-            {
+            } else if (speedDiff < -2) {
                 decentOverridePower = 100f;
-            }
-            else if (speedDiff < 0)
-            {
+            } else if (speedDiff < 0) {
                 ascentOverridePower = hoverOverridePower;
                 decentOverridePower = 2f;
             }
@@ -651,8 +598,7 @@ namespace IngameScript
             foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, ascentOverridePower);
             foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, decentOverridePower);
         }
-        double CalcBrakeDistance(double maxthrust, double gravForceOnShip)
-        {
+        double CalcBrakeDistance(double maxthrust, double gravForceOnShip) {
             var brakeForce = maxthrust - gravForceOnShip;
             if (brakeForce < 0.0) brakeForce = 0.0;
             var deceleration = brakeForce / _actualMass;
@@ -663,8 +609,7 @@ namespace IngameScript
         //  Collection Methods
         //-------------------------------------------------------------------------------
         bool IsOnThisGrid(IMyTerminalBlock b) { return Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
-        bool IsTaggedBlock(IMyTerminalBlock b)
-        {
+        bool IsTaggedBlock(IMyTerminalBlock b) {
             if (string.IsNullOrWhiteSpace(_settings.BlockTag))
                 return true;
             return (b.CustomName.Contains(_settings.BlockTag));

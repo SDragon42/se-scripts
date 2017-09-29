@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    static partial class Collect
-    {
+namespace IngameScript {
+    static partial class Collect {
         public static bool IsCargoContainer(IMyTerminalBlock b) { return b is IMyCargoContainer; }
         public static bool IsSmallBlockSmallCargoContainer(IMyTerminalBlock b) { return (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == CargoHelper.SUBTYPE_SmBlock_SmContainer); }
         public static bool IsSmallBlockMediumCargoContainer(IMyTerminalBlock b) { return (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == CargoHelper.SUBTYPE_SmBlock_MdContainer); }

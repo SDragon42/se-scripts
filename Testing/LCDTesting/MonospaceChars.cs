@@ -14,25 +14,20 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class MonospaceChars : TestingBase, ITestingBase
-    {
+namespace IngameScript {
+    class MonospaceChars : TestingBase, ITestingBase {
         public MonospaceChars(MyGridProgram thisObj) : base(thisObj) { }
 
-        public void Main(string argument)
-        {
+        public void Main(string argument) {
             var text = BuildAllCarrigesDisplay();
             //var text = BuildCharMap();
             UpdateDisplays(text);
         }
 
         readonly List<IMyTextPanel> _lcds = new List<IMyTextPanel>();
-        void UpdateDisplays(string text)
-        {
+        void UpdateDisplays(string text) {
             GridTerminalSystem.GetBlocksOfType(_lcds, b => b.CustomName == "All Chars");
-            foreach (var display in _lcds)
-            {
+            foreach (var display in _lcds) {
                 LCDHelper.SetFontSize(display, 1f);
                 LCDHelper.SetFont_Monospaced(display);
                 display.WritePublicText(text);
@@ -40,8 +35,7 @@ namespace IngameScript
             }
         }
 
-        string BuildCharMap()
-        {
+        string BuildCharMap() {
             var sb = new StringBuilder();
             var maxLen = 70;
 
@@ -77,13 +71,11 @@ namespace IngameScript
 
             return sb.ToString();
         }
-        void DrawRange(StringBuilder sb, int from, int? to = null, int lineLength = -1)
-        {
+        void DrawRange(StringBuilder sb, int from, int? to = null, int lineLength = -1) {
             if (!to.HasValue) to = from;
             //var max = to.Value;
 
-            while (from <= to.Value)
-            {
+            while (from <= to.Value) {
                 sb.Append(Convert.ToChar(from));
                 from++;
                 if (lineLength > 0 && from % lineLength == 0)
@@ -98,8 +90,7 @@ namespace IngameScript
         const string CHRS_Carriage_Red = "\uE050\uE03C";
         const string CHRS_Carriage_Green = "\uE051\uE03D";
         const string CHRS_Carriage_Blue = "\uE052\uE03E";
-        string BuildAllCarrigesDisplay()
-        {
+        string BuildAllCarrigesDisplay() {
             var sb = new StringBuilder();
             sb.AppendLine(" A1 A2     Maint    B1 B2");
             sb.AppendLine();
@@ -113,8 +104,7 @@ namespace IngameScript
 
             //for (var i = 0; i < 14; i++)
             var max = 13;
-            for (var i = max; i >= 0; i--)
-            {
+            for (var i = max; i >= 0; i--) {
                 var a1 = (i == 0) ? CHRS_Carriage_Green : "  ";
                 var a2 = (i == 13) ? CHRS_Carriage_Green : "  ";
                 var b1 = (i == 11) ? CHRS_Carriage_Blue : "  ";

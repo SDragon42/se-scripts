@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    partial class Program : MyGridProgram
-    {
+namespace IngameScript {
+    partial class Program : MyGridProgram {
         const string CMD_DOCK = "dock";
         const string CMD_UNDOCK = "undock";
         const string CMD_TOGGLE = "toggle-dock";
@@ -27,8 +25,7 @@ namespace IngameScript
         readonly DockSecureModule _dockSecure;
         readonly ScriptSettings _settings = new ScriptSettings();
 
-        public Program()
-        {
+        public Program() {
             //Echo = (t) => { }; // Disable Echo
 
             _runSymbol = new RunningSymbolModule();
@@ -38,8 +35,7 @@ namespace IngameScript
             _settings.InitConfig(Me, _dockSecure, SetExecutionInterval);
         }
 
-        public void Main(string argument)
-        {
+        public void Main(string argument) {
             Echo("Dock-Secure v1.3.1 " + _runSymbol.GetSymbol(this.Runtime));
             _executionInterval.RecordTime(this.Runtime);
 
@@ -52,10 +48,8 @@ namespace IngameScript
 
             _dockSecure.Init(this);
 
-            if (argument?.Length > 0)
-            {
-                switch (argument.ToLower())
-                {
+            if (argument?.Length > 0) {
+                switch (argument.ToLower()) {
                     case CMD_DOCK: _dockSecure.Dock(); return;
                     case CMD_UNDOCK: _dockSecure.UnDock(); return;
                     case CMD_TOGGLE: _dockSecure.DockUndock(); return;
@@ -66,8 +60,7 @@ namespace IngameScript
             _dockSecure.AutoDockUndock();
         }
 
-        void SetExecutionInterval()
-        {
+        void SetExecutionInterval() {
             _executionInterval.SetNumIntervalsPerSecond(_settings.RunInterval);
         }
     }

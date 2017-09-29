@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class ScriptSettingsModule
-    {
+namespace IngameScript {
+    class ScriptSettingsModule {
         const string DEFAULT_BlockTag = "[carriage]";
         const int DEFAULT_WorldInventoryMultiplier = 1;
         const double DEFAULT_TravelSpeed = 99.0;
@@ -40,8 +38,7 @@ namespace IngameScript
         const string KEY_GpsPoint = "GPS Point ";
 
 
-        public void InitializeConfig(CustomDataConfigModule config)
-        {
+        public void InitializeConfig(CustomDataConfigModule config) {
             config.Clear();
             config.AddKey(KEY_BlockTag,
                 description: "This is the name tag to add to the blocks so that the script can\ncontrol them.",
@@ -78,8 +75,7 @@ namespace IngameScript
             config.AddKey(KEY_GpsPoint + "2");
             config.AddKey(KEY_GpsPoint + "3");
         }
-        public void LoadFromSettingDict(CustomDataConfigModule config)
-        {
+        public void LoadFromSettingDict(CustomDataConfigModule config) {
             InventoryMultiplier = config.GetValue(KEY_InvMultiplier).ToInt(DEFAULT_WorldInventoryMultiplier);
             TravelSpeed = config.GetValue(KEY_TravelSpeed).ToDouble(DEFAULT_TravelSpeed);
             DockSpeed = config.GetValue(KEY_DockSpeed).ToDouble(DEFAULT_DockSpeed);
@@ -92,16 +88,14 @@ namespace IngameScript
 
             GpsPoints.Clear();
             var i = 1;
-            while (true)
-            {
+            while (true) {
                 var key = KEY_GpsPoint + i.ToString();
                 i++;
                 if (!config.ContainsKey(key)) break;
                 GpsPoints.Add(new GpsInfo(config.GetValue(key)));
             }
         }
-        public void BuidSettingDict(CustomDataConfigModule config)
-        {
+        public void BuidSettingDict(CustomDataConfigModule config) {
             config.SetValue(KEY_InvMultiplier, InventoryMultiplier.ToString());
             config.SetValue(KEY_TravelSpeed, TravelSpeed.ToString());
             config.SetValue(KEY_DockSpeed, DockSpeed.ToString());
@@ -129,24 +123,20 @@ namespace IngameScript
         public readonly List<GpsInfo> GpsPoints = new List<GpsInfo>();
 
 
-        public Vector3D GetBottomPoint()
-        {
+        public Vector3D GetBottomPoint() {
             return (GpsPoints.Count > 0)
                 ? GpsPoints[0].GetLocation()
                 : Vector3D.Zero;
         }
-        public Vector3D GetTopPoint()
-        {
+        public Vector3D GetTopPoint() {
             return (GpsPoints.Count > 0)
                 ? GpsPoints[GpsPoints.Count - 1].GetLocation()
                 : Vector3D.Zero;
         }
-        public Vector3D GetGpsPoint(string name)
-        {
+        public Vector3D GetGpsPoint(string name) {
             return GetGpsInfo(name)?.GetLocation() ?? Vector3D.Zero;
         }
-        public GpsInfo GetGpsInfo(string name)
-        {
+        public GpsInfo GetGpsInfo(string name) {
             foreach (var point in GpsPoints)
                 if (string.Compare(point.GetName(), name, true) == 0)
                     return point;

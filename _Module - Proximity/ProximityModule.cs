@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class ProximityModule
-    {
+namespace IngameScript {
+    class ProximityModule {
         const double SCAN_RANGE = 100.0;
 
         readonly List<IMyCameraBlock> _cameras = new List<IMyCameraBlock>();
@@ -39,8 +37,7 @@ namespace IngameScript
         public double? Up { get; private set; }
         public double? Down { get; private set; }
 
-        public void RunScan(MyGridProgram thisObj, IMyShipController sc)
-        {
+        public void RunScan(MyGridProgram thisObj, IMyShipController sc) {
             Forward = null;
             Backward = null;
             Left = null;
@@ -48,14 +45,12 @@ namespace IngameScript
             Up = null;
             Down = null;
 
-            if (_sc != sc)
-            {
+            if (_sc != sc) {
                 _sc = sc;
                 _orientation = new BlocksByOrientation(sc);
             }
 
-            if (_orientation != null)
-            {
+            if (_orientation != null) {
                 Forward = GetMinimumRange(thisObj, _orientation.IsForward);
                 Backward = GetMinimumRange(thisObj, _orientation.IsBackward);
                 Left = GetMinimumRange(thisObj, _orientation.IsLeft);
@@ -65,13 +60,11 @@ namespace IngameScript
             }
         }
 
-        double? GetMinimumRange(MyGridProgram thisObj, Func<IMyTerminalBlock, bool> directionMethod)
-        {
+        double? GetMinimumRange(MyGridProgram thisObj, Func<IMyTerminalBlock, bool> directionMethod) {
             thisObj.GridTerminalSystem.GetBlocksOfType(_cameras, b => IsTaggedBlock(b) && directionMethod(b));
 
             var range = ScanRange;
-            _cameras.ForEach(camera =>
-            {
+            _cameras.ForEach(camera => {
                 camera.EnableRaycast = true;
                 if (!camera.CanScan(ScanRange)) return;
                 var info = camera.Raycast(ScanRange, 0, 0);
@@ -85,8 +78,7 @@ namespace IngameScript
         }
 
 
-        bool IsTaggedBlock(IMyTerminalBlock b)
-        {
+        bool IsTaggedBlock(IMyTerminalBlock b) {
             if (_proximityTag.Length == 0) return true;
             return b.CustomName.ToLower().Contains(_proximityTag);
         }

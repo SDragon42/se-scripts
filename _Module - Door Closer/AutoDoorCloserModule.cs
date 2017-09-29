@@ -14,16 +14,14 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
+namespace IngameScript {
     /// <summary>Automatically will close doors after a set amount of time
     /// </summary>
     /// <remarks>
     /// Whiplash's : Whip's Auto Door and Airlock Script
     /// http://steamcommunity.com/sharedfiles/filedetails/?id=416932930
     /// </remarks>
-    class AutoDoorCloserModule
-    {
+    class AutoDoorCloserModule {
         readonly Dictionary<IMyDoor, double> _openDoors = new Dictionary<IMyDoor, double>();
 
         public AutoDoorCloserModule(double secondsToLeaveOpen = 4) { SecondsToLeaveOpen = secondsToLeaveOpen; }
@@ -32,23 +30,18 @@ namespace IngameScript
 
         TimeSpan _timeSinceLastCall;
 
-        public void CloseOpenDoors(TimeSpan timeSinceLastCall, List<IMyTerminalBlock> doorList)
-        {
+        public void CloseOpenDoors(TimeSpan timeSinceLastCall, List<IMyTerminalBlock> doorList) {
             _timeSinceLastCall = timeSinceLastCall;
             doorList.ForEach(b => ProcessDoor(b as IMyDoor));
         }
-        public void CloseOpenDoors(TimeSpan timeSinceLastCall, List<IMyDoor> doorList)
-        {
+        public void CloseOpenDoors(TimeSpan timeSinceLastCall, List<IMyDoor> doorList) {
             _timeSinceLastCall = timeSinceLastCall;
             doorList.ForEach(ProcessDoor);
         }
-        void ProcessDoor(IMyDoor door)
-        {
+        void ProcessDoor(IMyDoor door) {
             if (door == null) return;
-            if (_openDoors.ContainsKey(door))
-            {
-                switch (door.Status)
-                {
+            if (_openDoors.ContainsKey(door)) {
+                switch (door.Status) {
                     case DoorStatus.Closed: _openDoors.Remove(door); break;
                     case DoorStatus.Closing: _openDoors.Remove(door); break;
                     case DoorStatus.Open:
@@ -63,9 +56,7 @@ namespace IngameScript
                             door.CloseDoor();
                         break;
                 }
-            }
-            else
-            {
+            } else {
                 if (door.Status == DoorStatus.Open)
                     _openDoors.Add(door, SecondsToLeaveOpen);
             }

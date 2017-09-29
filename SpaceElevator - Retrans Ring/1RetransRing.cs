@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    partial class Program : MyGridProgram
-    {
+namespace IngameScript {
+    partial class Program : MyGridProgram {
         //-------------------------------------------------------------------------------
         //  SCRIPT COMMANDS
         //-------------------------------------------------------------------------------
@@ -33,8 +31,7 @@ namespace IngameScript
         readonly TimeIntervalModule _executionInterval;
         readonly Queue<CommMessage> _messageQueue = new Queue<CommMessage>();
 
-        public Program()
-        {
+        public Program() {
             Echo = (t) => { }; // Disable Echo
             _debug = new DebugModule(this);
             //_debug.Enabled = false;
@@ -47,11 +44,9 @@ namespace IngameScript
             //_settings.InitConfig(_custConfig);
 
             _Maintenance = new CarriageVars("Maint Carriage");
-            if (!String.IsNullOrWhiteSpace(Storage))
-            {
+            if (!String.IsNullOrWhiteSpace(Storage)) {
                 var gateStates = Storage.Split('\n');
-                if (gateStates.Length == 5)
-                {
+                if (gateStates.Length == 5) {
                     _Maintenance.FromString(gateStates[4]);
                 }
             }
@@ -64,18 +59,15 @@ namespace IngameScript
             _comms = new COMMsModule(Me);
         }
 
-        public void Save()
-        {
+        public void Save() {
         }
 
-        public void Main(string argument)
-        {
+        public void Main(string argument) {
         }
 
 
         int _lastCustomDataHash;
-        void LoadConfigSettings()
-        {
+        void LoadConfigSettings() {
             var hash = Me.CustomData.GetHashCode();
             if (hash == _lastCustomDataHash) return;
             //_custConfig.ReadFromCustomData(Me);

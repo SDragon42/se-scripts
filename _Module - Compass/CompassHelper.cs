@@ -14,18 +14,15 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    static class CompassHelper
-    {
+namespace IngameScript {
+    static class CompassHelper {
         const double rad2deg = 180 / Math.PI; //constant to convert radians to degrees
         const string compassString = "N.W>-----<"
             + "N>-----<N.E>-----<E>-----<S.E>-----<S>-----<S.W>-----<W>-----<N.W>-----<"
             + "N>-----<N.E>-----<E>-----<S.E>-----<S>-----<S.W>-----<W>-----<N.W>-----<";
         static readonly Vector3D absoluteNorthVec = new Vector3D(0.342063708833718, -0.704407897782847, -0.621934025954579); //this was determined via Keen's code
 
-        public static double GetBearing(IMyShipController reference)
-        {
+        public static double GetBearing(IMyShipController reference) {
             var gravityVec = reference.GetNaturalGravity();
 
             //check if grav vector exists
@@ -51,20 +48,17 @@ namespace IngameScript
 
             return bearingAngle;
         }
-        private static Vector3D VectorProjection(Vector3D a, Vector3D b)
-        {
+        private static Vector3D VectorProjection(Vector3D a, Vector3D b) {
             var projection = a.Dot(b) / b.Length() / b.Length() * b;
             return projection;
         }
 
-        public static string GetCompassText(double bearingAngle)
-        {
+        public static string GetCompassText(double bearingAngle) {
             if (double.IsNaN(bearingAngle)) return string.Empty;
             var startIdx = (int)MathHelper.Clamp(Math.Round(bearingAngle / 5), 0, 359);
             return compassString.Substring(startIdx, 21) + "\n" + "          ^";
         }
-        public static string GetBearingText(double bearingAngle)
-        {
+        public static string GetBearingText(double bearingAngle) {
             if (double.IsNaN(bearingAngle)) return string.Empty;
 
             var strCardinalDirection = "";

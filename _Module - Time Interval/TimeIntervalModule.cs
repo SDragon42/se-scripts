@@ -14,17 +14,13 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class TimeIntervalModule
-    {
-        public TimeIntervalModule(double intervalInSeconds)
-        {
+namespace IngameScript {
+    class TimeIntervalModule {
+        public TimeIntervalModule(double intervalInSeconds) {
             SetIntervalInSeconds(intervalInSeconds);
             Reset();
         }
-        public TimeIntervalModule(int numIntervalsPerSecond = 10)
-        {
+        public TimeIntervalModule(int numIntervalsPerSecond = 10) {
             SetNumIntervalsPerSecond(numIntervalsPerSecond);
             Reset();
         }
@@ -34,30 +30,25 @@ namespace IngameScript
         public TimeSpan Time { get; private set; }
         public double IntervalInSeconds { get; private set; }
 
-        public void SetIntervalInSeconds(double intervalInSeconds)
-        {
+        public void SetIntervalInSeconds(double intervalInSeconds) {
             if (intervalInSeconds < 0) intervalInSeconds = 0;
             IntervalInSeconds = intervalInSeconds;
         }
-        public void SetNumIntervalsPerSecond(int numIntervalsPerSecond)
-        {
+        public void SetNumIntervalsPerSecond(int numIntervalsPerSecond) {
             numIntervalsPerSecond = MathHelper.Clamp(numIntervalsPerSecond, 1, 60);
             IntervalInSeconds = (1.0 / numIntervalsPerSecond);
         }
 
-        public void RecordTime(IMyGridProgramRuntimeInfo runtime)
-        {
+        public void RecordTime(IMyGridProgramRuntimeInfo runtime) {
             if (_resetTime) Reset();
             Time += runtime.TimeSinceLastRun;
             if (Time.TotalSeconds < IntervalInSeconds) return;
             _resetTime = true;
         }
-        public bool AtNextInterval()
-        {
+        public bool AtNextInterval() {
             return (Time.TotalSeconds >= IntervalInSeconds);
         }
-        public void Reset()
-        {
+        public void Reset() {
             Time = new TimeSpan();
             _resetTime = false;
         }

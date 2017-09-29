@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    partial class Program : MyGridProgram
-    {
+namespace IngameScript {
+    partial class Program : MyGridProgram {
         const string VERSION = "v1.0";
 
         readonly CustomDataConfigModule _custConfig = new CustomDataConfigModule();
@@ -37,8 +35,7 @@ namespace IngameScript
 
         readonly Queue<CommMessage> _messageQueue = new Queue<CommMessage>();
 
-        public Program()
-        {
+        public Program() {
             Echo = (t) => { }; // Disable Echo
             _log = new LogModule();
 
@@ -55,10 +52,8 @@ namespace IngameScript
             ReloadConfig();
         }
 
-        public void Main(string argument)
-        {
-            try
-            {
+        public void Main(string argument) {
+            try {
                 Echo("COMMS Reciever " + VERSION);
                 ReloadConfig();
 
@@ -77,25 +72,21 @@ namespace IngameScript
                 var logText = _log.GetLogText();
                 Echo(logText);
 
-                if (_display != null)
-                {
+                if (_display != null) {
                     _display.SetValue("FontSize", 0.6f); //for large grid
                     _display.SetValue<long>("Font", 1147350002);
                     _display.ShowTextureOnScreen();
                     _display.ShowPublicTextOnScreen();
                     _display.WritePublicText(logText);
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 Echo(ex.Message);
                 Echo(ex.StackTrace);
                 throw ex;
             }
         }
 
-        T GetBlockWithName<T>(string blockName) where T : class
-        {
+        T GetBlockWithName<T>(string blockName) where T : class {
             GridTerminalSystem.GetBlocksOfType<T>(_blocks, b => IsOnThisGrid(b) && (string.Compare(b.CustomName, blockName, true) == 0));
             return (_blocks.Count > 0) ? (T)_blocks[0] : null;
         }
@@ -103,8 +94,7 @@ namespace IngameScript
 
 
         //-------------------------------------------------------------------------------
-        void ReloadConfig()
-        {
+        void ReloadConfig() {
             if (_configHash == Me.CustomData.GetHashCode())
                 return;
             _custConfig.ReadFromCustomData(Me);
@@ -116,28 +106,22 @@ namespace IngameScript
 
 
         //-------------------------------------------------------------------------------
-        void ProcessArgument(string argument)
-        {
+        void ProcessArgument(string argument) {
             if (string.IsNullOrWhiteSpace(argument)) return;
             CommMessage msg = null;
             var text = DateTime.Now.ToLongTimeString() + " | ";
-            try
-            {
-                if (!CommMessage.TryParse(argument, out msg))
-                {
+            try {
+                if (!CommMessage.TryParse(argument, out msg)) {
                     text += "Malformed Msg";
                     return;
                 }
-                if (!msg.IsValid())
-                {
+                if (!msg.IsValid()) {
                     text += "Invalid Msg";
                     return;
                 }
                 text += msg.SenderGridName + " | " + msg.PayloadType;
                 _messageQueue.Enqueue(msg);
-            }
-            finally
-            {
+            } finally {
                 _log.AppendLine(text);
             }
         }
@@ -145,38 +129,31 @@ namespace IngameScript
 
 
         //-------------------------------------------------------------------------------
-        void ProcessQueue()
-        {
-            if (_messageQueue.Count <= 0)
-            {
+        void ProcessQueue() {
+            if (_messageQueue.Count <= 0) {
                 _log.AppendLine("No MSGs");
                 return;
             }
 
             var msg = _messageQueue.Dequeue();
-            if (msg == null)
-            {
+            if (msg == null) {
                 _log.AppendLine("Null Msg from queue");
                 return;
             }
-            if (Me.CubeGrid.EntityId == msg.SenderGridEntityId)
-            {
+            if (Me.CubeGrid.EntityId == msg.SenderGridEntityId) {
                 _log.AppendLine("Discarded - Sent by me");
                 return;
             }
 
-            if (msg.TargetGridName.Length > 0)
-            {
-                if (string.Compare(msg.TargetGridName, Me.CubeGrid.CustomName, true) != 0)
-                {
+            if (msg.TargetGridName.Length > 0) {
+                if (string.Compare(msg.TargetGridName, Me.CubeGrid.CustomName, true) != 0) {
                     _log.AppendLine("Discarded - Not for me");
                     return;
                 }
             }
 
             var arg = msg.ToString();
-            if (!_targetProgram.TryRun(arg))
-            {
+            if (!_targetProgram.TryRun(arg)) {
                 _messageQueue.Enqueue(msg);
                 _log.AppendLine("Re-Queued");
             }

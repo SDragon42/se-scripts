@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    partial class Program : MyGridProgram
-    {
+namespace IngameScript {
+    partial class Program : MyGridProgram {
         const string KeyRCName = "Ship Ctrl Name";
         const string KeyDisplayName = "Display Name";
         const string KeyMass2Ignore = "Ignore Mass";
@@ -39,8 +37,7 @@ namespace IngameScript
         IMyShipController _sc;
         BlocksByOrientation _orientation = new BlocksByOrientation();
 
-        public Program()
-        {
+        public Program() {
             _config = new CustomDataConfigModule();
 
             _config.AddKey(KeyRCName,
@@ -54,15 +51,13 @@ namespace IngameScript
                 defaultValue: "0");
         }
 
-        public void Main(string argument)
-        {
+        public void Main(string argument) {
             _config.ReadFromCustomData(Me, true);
             _config.SaveToCustomData(Me);
 
             _sc = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyRCName)) as IMyShipController;
             _twrDisplay = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyDisplayName)) as IMyTextPanel;
-            if (_sc == null)
-            {
+            if (_sc == null) {
                 Echo("config '" + KeyRCName + "' with name '" + _config.GetValue(KeyRCName) + "' was not found.");
                 return;
             }
@@ -81,8 +76,7 @@ namespace IngameScript
             resultText.AppendLine($"Mass: {totalMass - mass2Ignore:N0} kg");
             resultText.AppendLine();
 
-            foreach (var dir in _calcDirections)
-            {
+            foreach (var dir in _calcDirections) {
                 var info = CalcTwrInDirection(totalMass, mass2Ignore, dir);
 
                 // Display results
@@ -92,18 +86,16 @@ namespace IngameScript
                 resultText.AppendLine($"# Thrusters: {_thrusters.Count:N0}");
                 resultText.AppendLine();
             }
-            
+
             if (_twrDisplay != null)
                 _twrDisplay.WritePublicText(resultText.ToString());
             Echo(resultText.ToString());
         }
 
-        TwrInfo CalcTwrInDirection(int totalMass, int mass2Ignore, Direction direction)
-        {
+        TwrInfo CalcTwrInDirection(int totalMass, int mass2Ignore, Direction direction) {
             var info = new TwrInfo();
             Func<IMyTerminalBlock, bool> isDirection;
-            switch (direction)
-            {
+            switch (direction) {
                 case Direction.Forward:
                     info.Thrust_Direction = "Forward";
                     isDirection = _orientation.IsBackward;

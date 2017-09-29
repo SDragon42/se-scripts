@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    static partial class Collect
-    {
+namespace IngameScript {
+    static partial class Collect {
         public static bool IsThruster(IMyTerminalBlock b) { return b is IMyThrust; }
         public static bool IsThrusterIon(IMyTerminalBlock b) { return (IsThruster(b) && !IsThrusterHydrogen(b) && !IsThrusterAtmospheric(b)); }
         public static bool IsThrusterHydrogen(IMyTerminalBlock b) { return (IsThruster(b) && b.BlockDefinition.SubtypeId.Contains("Hydro")); }

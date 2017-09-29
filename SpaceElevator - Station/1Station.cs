@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    partial class Program : MyGridProgram
-    {
+namespace IngameScript {
+    partial class Program : MyGridProgram {
         //-------------------------------------------------------------------------------
         //  SCRIPT COMMANDS
         //-------------------------------------------------------------------------------
@@ -63,8 +61,7 @@ namespace IngameScript
         //readonly List<IMyTerminalBlock> _displays = new List<IMyTerminalBlock>();
         readonly List<IMyTerminalBlock> _autoCloseDoors = new List<IMyTerminalBlock>();
 
-        public Program()
-        {
+        public Program() {
             Echo = (t) => { }; // Disable Echo
             _debug = new DebugModule(this);
             //_debug.Enabled = false;
@@ -81,11 +78,9 @@ namespace IngameScript
             _B1 = new CarriageVars("Carriage B1");
             _B2 = new CarriageVars("Carriage B2");
             _Maintenance = new CarriageVars("Maint Carriage");
-            if (!String.IsNullOrWhiteSpace(Storage))
-            {
+            if (!String.IsNullOrWhiteSpace(Storage)) {
                 var gateStates = Storage.Split('\n');
-                if (gateStates.Length == 5)
-                {
+                if (gateStates.Length == 5) {
                     _A1.FromString(gateStates[0]);
                     _A2.FromString(gateStates[1]);
                     _B1.FromString(gateStates[2]);
@@ -104,8 +99,7 @@ namespace IngameScript
             _comms = new COMMsModule(Me);
         }
 
-        public void Save()
-        {
+        public void Save() {
             Storage = _A1.ToString() + "\n" +
                 _A2.ToString() + "\n" +
                 _B1.ToString() + "\n" +
@@ -113,10 +107,8 @@ namespace IngameScript
                 _Maintenance.ToString();
         }
 
-        public void Main(string argument)
-        {
-            try
-            {
+        public void Main(string argument) {
+            try {
                 Echo("Station Control " + VERSION + ": " + _runSymbol.GetSymbol(this.Runtime));
 
                 _executionInterval.RecordTime(this.Runtime);
@@ -128,8 +120,7 @@ namespace IngameScript
                 if (!string.IsNullOrEmpty(argument))
                     RunCommand(argument);
 
-                if (_executionInterval.AtNextInterval())
-                {
+                if (_executionInterval.AtNextInterval()) {
                     _debug.Clear();
                     _comms.TransmitQueue(_antenna);
                     _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
@@ -142,23 +133,18 @@ namespace IngameScript
 
                     _debug.AppendLine(_log.GetLogText());
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 _debug.AppendLine(ex.Message);
                 _debug.AppendLine(ex.StackTrace);
                 throw ex;
-            }
-            finally
-            {
+            } finally {
                 if (_debug != null)
                     _debug.UpdateDisplay();
             }
         }
 
         int _lastCustomDataHash;
-        void LoadConfigSettings()
-        {
+        void LoadConfigSettings() {
             var hash = Me.CustomData.GetHashCode();
             if (hash == _lastCustomDataHash) return;
             _custConfig.ReadFromCustomData(Me);
@@ -168,8 +154,7 @@ namespace IngameScript
             _doorManager.SecondsToLeaveOpen = _settings.GetDoorCloseDelay();
         }
 
-        void LoadBlockLists(bool forceLoad = false)
-        {
+        void LoadBlockLists(bool forceLoad = false) {
             if (_blocksLoaded && !forceLoad) return;
 
             GetblocksOfTypeWithFirst<IMyRadioAntenna>(_tempList, IsTaggedStationOnThisGrid, IsOnThisGrid);
@@ -181,28 +166,23 @@ namespace IngameScript
 
             _blocksLoaded = true;
         }
-        void EchoBlockLists()
-        {
+        void EchoBlockLists() {
             if (_h2Tanks.Count > 0) Echo(string.Format("H2 Tanks: {0}", _h2Tanks.Count));
             if (_autoCloseDoors.Count > 0) Echo(string.Format("Doors: {0}", _autoCloseDoors.Count));
         }
 
-        bool IsTaggedStation(IMyTerminalBlock b)
-        {
+        bool IsTaggedStation(IMyTerminalBlock b) {
             //if (string.IsNullOrWhiteSpace(_settings.GetStationTag())) return true;
             return (b.CustomName.Contains(_settings.GetStationTag()));
         }
-        bool IsTaggedStationOnThisGrid(IMyTerminalBlock b)
-        {
+        bool IsTaggedStationOnThisGrid(IMyTerminalBlock b) {
             return (IsOnThisGrid(b) && IsTaggedStation(b));
         }
-        bool IsTaggedTerminal(IMyTerminalBlock b)
-        {
+        bool IsTaggedTerminal(IMyTerminalBlock b) {
             //if (string.IsNullOrWhiteSpace(_settings.GetTerminalTag())) return true;
             return (b.CustomName.Contains(_settings.GetTerminalTag()));
         }
-        bool IsTaggedTransfer(IMyTerminalBlock b)
-        {
+        bool IsTaggedTransfer(IMyTerminalBlock b) {
             //if (string.IsNullOrWhiteSpace(_settings.GetTransferTag())) return true;
             return (b.CustomName.Contains(_settings.GetTransferTag()));
         }
@@ -210,14 +190,12 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         //  COMMs
         //-------------------------------------------------------------------------------
-        void SendDockingCompleteMessage(string carriageName)
-        {
+        void SendDockingCompleteMessage(string carriageName) {
             if (_antenna == null) return;
             var msgPayload = new StationResponseMessage(StationResponseMessage.RESPONSE_DOCKING_COMPLETE);
             _comms.AddMessageToQueue(msgPayload, carriageName);
         }
-        void SendGoForDepartureMessage(string carriageName)
-        {
+        void SendGoForDepartureMessage(string carriageName) {
             if (_antenna == null) return;
             var msgPayload = new StationResponseMessage(StationResponseMessage.RESPONSE_DEPARTURE_OK);
             _comms.AddMessageToQueue(msgPayload, carriageName);
@@ -226,34 +204,26 @@ namespace IngameScript
         //-------------------------------------------------------------------------------
         //  COMMAND OPERATIONS
         //-------------------------------------------------------------------------------
-        void RunCommand(string argument)
-        {
+        void RunCommand(string argument) {
             CommMessage msg = null;
-            if (CommMessage.TryParse(argument, out msg))
-            {
+            if (CommMessage.TryParse(argument, out msg)) {
                 _log.AppendLine("MSG: " + msg.PayloadType);
-                switch (msg.PayloadType)
-                {
+                switch (msg.PayloadType) {
                     //case CarriageStatusMessage.TYPE:
                     //    break;
                     case CarriageRequestMessage.TYPE:
                         CarriageRequestProcessing(msg.Payload);
                         break;
                 }
-            }
-            else
-            {
+            } else {
                 _log.AppendLine("CMD: " + argument);
 
-                if (argument.StartsWith(CMD_DockCarriage))
-                {
+                if (argument.StartsWith(CMD_DockCarriage)) {
                     argument = argument.Remove(0, CMD_DockCarriage.Length).Trim();
                     var carriage = GetCarriageVar(argument);
                     if (carriage != null)
                         carriage.SetConnect(true);
-                }
-                else if (argument.StartsWith(CMD_UndockCarriage))
-                {
+                } else if (argument.StartsWith(CMD_UndockCarriage)) {
                     argument = argument.Remove(0, CMD_UndockCarriage.Length).Trim();
                     var carriage = GetCarriageVar(argument);
                     if (carriage != null)
@@ -262,8 +232,7 @@ namespace IngameScript
             }
         }
 
-        void CarriageRequestProcessing(string msgPayload)
-        {
+        void CarriageRequestProcessing(string msgPayload) {
             var message = CarriageRequestMessage.CreateFromPayload(msgPayload);
             if (message == null) return;
             _log.AppendLine("Valid MSG");
@@ -273,8 +242,7 @@ namespace IngameScript
             _log.AppendLine("Found Carriage VARs");
             _log.AppendLine("Request: " + message.Request);
 
-            switch (message.Request)
-            {
+            switch (message.Request) {
                 case CarriageRequestMessage.REQUEST_DOCK:
                     carriage.SetConnect(true);
                     carriage.SetSendResponseMsg(true);
@@ -285,8 +253,7 @@ namespace IngameScript
                     break;
             }
         }
-        CarriageVars GetCarriageVar(string carriageName)
-        {
+        CarriageVars GetCarriageVar(string carriageName) {
             if (string.Compare(_A1.GetGridName(), carriageName, true) == 0) return _A1;
             if (string.Compare(_A2.GetGridName(), carriageName, true) == 0) return _A2;
             if (string.Compare(_B1.GetGridName(), carriageName, true) == 0) return _B1;
@@ -303,8 +270,7 @@ namespace IngameScript
         readonly List<IMyTerminalBlock> _armLights = new List<IMyTerminalBlock>();
         readonly List<IMyTerminalBlock> _terminalDoors = new List<IMyTerminalBlock>();
 
-        void RunActions(string gateTag, CarriageVars carriage)
-        {
+        void RunActions(string gateTag, CarriageVars carriage) {
 
             GridTerminalSystem.SearchBlocksOfName(gateTag, _gateBlocks, IsTaggedStation);
             GridTerminalSystem.SearchBlocksOfName(gateTag, _armLights, IsLightOnTransferArm);
@@ -326,13 +292,10 @@ namespace IngameScript
             var CanSendDisconnectedMessage = false;
 
             var newState = HookupState.Disconnecting;
-            if (carriage.GetConnect())
-            {
+            if (carriage.GetConnect()) {
                 var completed = ConnectArm(_armRotor, _armPiston, _armConnector, _terminalPiston) & ExtendRamp(_armRotor, _armPiston, _armConnector, _terminalPiston);
                 newState = (completed) ? HookupState.Connected : HookupState.Connecting;
-            }
-            else
-            {
+            } else {
                 var completed = DisconnectArm(_armRotor, _armPiston, _armConnector, _terminalPiston) & RetractRamp(_armRotor, _armPiston, _armConnector, _terminalPiston);
                 newState = (completed) ? HookupState.Disconnected : HookupState.Disconnecting;
             }
@@ -343,13 +306,11 @@ namespace IngameScript
                 CanSendDisconnectedMessage = true;
             carriage.SetGateState(newState);
 
-            if (CanSendConnectedMessage && carriage.GetSendResponseMsg())
-            {
+            if (CanSendConnectedMessage && carriage.GetSendResponseMsg()) {
                 SendDockingCompleteMessage(carriage.GetGridName());
                 carriage.SetSendResponseMsg(false);
             }
-            if (CanSendDisconnectedMessage && carriage.GetSendResponseMsg())
-            {
+            if (CanSendDisconnectedMessage && carriage.GetSendResponseMsg()) {
                 SendGoForDepartureMessage(carriage.GetGridName());
                 carriage.SetSendResponseMsg(false);
             }
@@ -362,21 +323,17 @@ namespace IngameScript
         bool IsDoorOnTerminal(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTerminal(b) && IsDoor(b); }
 
 
-        bool ConnectArm(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston)
-        {
+        bool ConnectArm(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston) {
             // turn on lights
-            foreach (var light in _armLights)
-            {
+            foreach (var light in _armLights) {
                 ((IMyFunctionalBlock)light).Enabled = true;
             }
 
             // rotate arm
-            if (_armRotor != null)
-            {
+            if (_armRotor != null) {
                 var currAngle = Math.Round(_armRotor.Angle, ElevatorConst.RADIAN_ROUND_DIGITS);
                 var maxAngle = Math.Round(_armRotor.UpperLimit, ElevatorConst.RADIAN_ROUND_DIGITS);
-                if (currAngle < maxAngle)
-                {
+                if (currAngle < maxAngle) {
                     _armRotor.SafetyLock = false;
                     _armRotor.SetValueFloat("Velocity", ElevatorConst.ROTOR_VELOCITY);
                     return false; // not in position yet
@@ -386,16 +343,12 @@ namespace IngameScript
 
             if (_armConnector == null) return false;
             // extend pistion - extends till the piston can connect
-            if (_armConnector.Status == MyShipConnectorStatus.Unconnected)
-            {
-                if (_armPiston != null)
-                {
+            if (_armConnector.Status == MyShipConnectorStatus.Unconnected) {
+                if (_armPiston != null) {
                     _armPiston.SafetyLock = false;
                     _armPiston.Extend();
                 }
-            }
-            else
-            {
+            } else {
                 if (_armPiston != null)
                     _armPiston.SafetyLock = true;
                 _armConnector.Connect();
@@ -403,15 +356,12 @@ namespace IngameScript
 
             return (_armConnector.Status == MyShipConnectorStatus.Connected);
         }
-        bool DisconnectArm(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston)
-        {
+        bool DisconnectArm(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston) {
             // retract piston
             if (_armConnector == null) return false;
             _armConnector.Disconnect();
-            if (_armPiston != null)
-            {
-                if (_armPiston.CurrentPosition > _armPiston.MinLimit)
-                {
+            if (_armPiston != null) {
+                if (_armPiston.CurrentPosition > _armPiston.MinLimit) {
                     _armPiston.SafetyLock = false;
                     _armPiston.Retract();
                     return false; // not fully retracted
@@ -420,12 +370,10 @@ namespace IngameScript
             }
 
             // rotate arm
-            if (_armRotor != null)
-            {
+            if (_armRotor != null) {
                 var currAngle = Math.Round(_armRotor.Angle, ElevatorConst.RADIAN_ROUND_DIGITS);
                 var minAngle = Math.Round(_armRotor.LowerLimit, ElevatorConst.RADIAN_ROUND_DIGITS);
-                if (currAngle > minAngle)
-                {
+                if (currAngle > minAngle) {
                     _armRotor.SafetyLock = false;
                     _armRotor.SetValueFloat("Velocity", ElevatorConst.ROTOR_VELOCITY * -1);
                     return false; // not fully retracted
@@ -434,31 +382,25 @@ namespace IngameScript
             }
 
             // turn off lights
-            foreach (var light in _armLights)
-            {
+            foreach (var light in _armLights) {
                 ((IMyFunctionalBlock)light).Enabled = false;
             }
 
             return true;
         }
 
-        bool ExtendRamp(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston)
-        {
+        bool ExtendRamp(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston) {
             // extend piston
-            if (_terminalPiston != null)
-            {
+            if (_terminalPiston != null) {
                 _terminalPiston.Extend();
                 if (_terminalPiston.CurrentPosition < _terminalPiston.MaxLimit) return false;
             }
 
             // open doors
-            if (_terminalDoors != null)
-            {
-                foreach (var b in _terminalDoors)
-                {
+            if (_terminalDoors != null) {
+                foreach (var b in _terminalDoors) {
                     var door = (IMyDoor)b;
-                    if (door.Status != DoorStatus.Open && door.Status != DoorStatus.Opening)
-                    {
+                    if (door.Status != DoorStatus.Open && door.Status != DoorStatus.Opening) {
                         door.Enabled = true;
                         door.OpenDoor();
                     }
@@ -467,30 +409,24 @@ namespace IngameScript
 
             return true;
         }
-        bool RetractRamp(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston)
-        {
+        bool RetractRamp(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston) {
             // Close doors
-            if (_terminalDoors != null)
-            {
-                foreach (var b in _terminalDoors)
-                {
+            if (_terminalDoors != null) {
+                foreach (var b in _terminalDoors) {
                     var door = (IMyDoor)b;
-                    if (door.Status != DoorStatus.Closing && door.Status != DoorStatus.Closed)
-                    {
+                    if (door.Status != DoorStatus.Closing && door.Status != DoorStatus.Closed) {
                         door.Enabled = true;
                         door.CloseDoor();
                     }
                 }
-                foreach (var b in _terminalDoors)
-                {
+                foreach (var b in _terminalDoors) {
                     var door = (IMyDoor)b;
                     if (door.Status != DoorStatus.Closed)
                         return false;
                 }
 
                 // lock doors
-                foreach (var b in _terminalDoors)
-                {
+                foreach (var b in _terminalDoors) {
                     var door = (IMyDoor)b;
                     if (door.Status == DoorStatus.Closed)
                         door.Enabled = false;
@@ -498,8 +434,7 @@ namespace IngameScript
             }
 
             // retract piston
-            if (_terminalPiston != null)
-            {
+            if (_terminalPiston != null) {
                 _terminalPiston.Retract();
                 return !(_terminalPiston.CurrentPosition > _terminalPiston.MinLimit);
             }
@@ -508,20 +443,16 @@ namespace IngameScript
         }
 
 
-        public void GetblocksOfTypeWithFirst<T>(List<IMyTerminalBlock> blockList, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class
-        {
+        public void GetblocksOfTypeWithFirst<T>(List<IMyTerminalBlock> blockList, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class {
             blockList.Clear();
-            foreach (var collect in collectMethods)
-            {
+            foreach (var collect in collectMethods) {
                 GridTerminalSystem.GetBlocksOfType<T>(blockList, collect);
                 if (blockList.Count > 0) return;
             }
         }
 
-        public static T GetFirstBlockInList<T>(List<IMyTerminalBlock> blockList, Func<IMyTerminalBlock, bool> collect) where T : class
-        {
-            foreach (var b in blockList)
-            {
+        public static T GetFirstBlockInList<T>(List<IMyTerminalBlock> blockList, Func<IMyTerminalBlock, bool> collect) where T : class {
+            foreach (var b in blockList) {
                 if (!(b is T)) continue;
                 if (collect(b)) return (T)b;
             }

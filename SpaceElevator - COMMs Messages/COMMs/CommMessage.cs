@@ -14,13 +14,10 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    public class CommMessage
-    {
+namespace IngameScript {
+    public class CommMessage {
         private CommMessage() { }
-        public CommMessage(IMyProgrammableBlock me, string targetGridName, string payloadType, string payload)
-        {
+        public CommMessage(IMyProgrammableBlock me, string targetGridName, string payloadType, string payload) {
             SenderGridEntityId = me.CubeGrid.EntityId;
             SenderGridName = me.CubeGrid.DisplayName ?? string.Empty;
             TargetGridName = targetGridName ?? string.Empty;
@@ -34,8 +31,7 @@ namespace IngameScript
         public string PayloadType { get; private set; }
         public string Payload { get; private set; }
 
-        public bool IsValid()
-        {
+        public bool IsValid() {
             if (SenderGridEntityId <= 0) return false;
             if (string.IsNullOrWhiteSpace(SenderGridName)) return false;
             return true;
@@ -45,8 +41,7 @@ namespace IngameScript
         const int NUM_HEADER_PARTS = 6;
         public const string HEADER_START = "MSG";
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return HEADER_START + DELIMITER +
                 SenderGridEntityId.ToString() + DELIMITER +
                 SenderGridName + DELIMITER +
@@ -54,8 +49,7 @@ namespace IngameScript
                 PayloadType + DELIMITER +
                 Payload;
         }
-        public static bool TryParse(string messageText, out CommMessage message)
-        {
+        public static bool TryParse(string messageText, out CommMessage message) {
             message = null;
             if (messageText == null) return false;
             var parts = messageText.Split(new char[] { DELIMITER }, NUM_HEADER_PARTS);

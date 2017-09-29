@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class LCDTesting : TestingBase, ITestingBase
-    {
+namespace IngameScript {
+    class LCDTesting : TestingBase, ITestingBase {
         readonly char blk = LCDHelper.ColorChar(0, 0, 0);
         readonly char grn = LCDHelper.ColorChar(1, 2, 1);
         readonly char blu = LCDHelper.ColorChar(1, 1, 2);
@@ -27,8 +25,7 @@ namespace IngameScript
 
         public LCDTesting(MyGridProgram thisObj) : base(thisObj) { }
 
-        public void Main(string argument)
-        {
+        public void Main(string argument) {
             GridTerminalSystem.GetBlocksOfType(_displays, b => b.CustomName != "DEBUG");
             if (_displays.Count == 0) return;
 
@@ -36,29 +33,24 @@ namespace IngameScript
 
 
             var num = 1;
-            foreach (var panel in _displays)
-            {
+            foreach (var panel in _displays) {
                 DrawDots(panel, 52, 52);
                 Echo($"{num,2}: {panel.CustomName} | {panel.BlockDefinition.TypeIdString}");
                 num++;
             }
         }
 
-        void UpdateDisplay(IMyTextPanel panel, string text)
-        {
+        void UpdateDisplay(IMyTextPanel panel, string text) {
             LCDHelper.SetFont_Monospaced(panel);
             panel.ShowPublicTextOnScreen();
             panel.WritePublicText(text);
         }
 
 
-        void DrawDots(IMyTextPanel panel, int maxX, int maxY)
-        {
+        void DrawDots(IMyTextPanel panel, int maxX, int maxY) {
             var sb = new StringBuilder();
-            for (var y = 0; y < maxY; y++)
-            {
-                for (var x = 0; x < maxX; x++)
-                {
+            for (var y = 0; y < maxY; y++) {
+                for (var x = 0; x < maxX; x++) {
                     var c = ((x % 2 == 0) && (y % 2 == 0)) ? red : blk;
                     if (x == y) c = grn;
                     sb.Append(c);
@@ -69,8 +61,7 @@ namespace IngameScript
             UpdateDisplay(panel, sb.ToString());
         }
 
-        void DrawAllCarriagesDisplay(List<IMyTextPanel> panels)
-        {
+        void DrawAllCarriagesDisplay(List<IMyTextPanel> panels) {
 
         }
     }

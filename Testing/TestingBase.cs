@@ -14,21 +14,17 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    interface ITestingBase
-    {
+namespace IngameScript {
+    interface ITestingBase {
         void Main(string argument);
     }
 
-    class TestingBase
-    {
+    class TestingBase {
         protected readonly MyGridProgram thisObj;
         protected Action<string> Echo;
         protected IMyGridTerminalSystem GridTerminalSystem { get { return thisObj.GridTerminalSystem; } }
 
-        public TestingBase(MyGridProgram thisObj)
-        {
+        public TestingBase(MyGridProgram thisObj) {
             this.thisObj = thisObj;
             Echo = thisObj.Echo;
         }

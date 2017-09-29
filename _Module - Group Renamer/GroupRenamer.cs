@@ -14,14 +14,11 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class GroupRenamer
-    {
+namespace IngameScript {
+    class GroupRenamer {
         delegate int RenameMethodSig(List<IMyTerminalBlock> blocks, string content);
         readonly Dictionary<string, RenameMethodSig> _renameMethods = new Dictionary<string, RenameMethodSig>();
-        public GroupRenamer()
-        {
+        public GroupRenamer() {
             _renameMethods.Add("rename to:", RenameMethods.RenameTo);
             _renameMethods.Add("num rename to:", RenameMethods.NumberRenameTo);
             _renameMethods.Add("prefix with:", RenameMethods.PrefixWith);
@@ -32,19 +29,16 @@ namespace IngameScript
 
         readonly List<IMyTerminalBlock> _groupBlocks = new List<IMyTerminalBlock>();
 
-        public bool IsRenameGroup(IMyBlockGroup g)
-        {
+        public bool IsRenameGroup(IMyBlockGroup g) {
             return _renameMethods
                 .Where(b => g.Name.StartsWith(b.Key, StringComparison.CurrentCultureIgnoreCase))
                 .Any();
         }
 
-        public string RenameAllBlocksInGroups(List<IMyBlockGroup> _allGroups)
-        {
+        public string RenameAllBlocksInGroups(List<IMyBlockGroup> _allGroups) {
             var log = new StringBuilder();
 
-            foreach (var currentGroup in _allGroups.Where(IsRenameGroup))
-            {
+            foreach (var currentGroup in _allGroups.Where(IsRenameGroup)) {
                 currentGroup.GetBlocks(_groupBlocks);
                 var methodKeyPair = _renameMethods
                     .Where(b => currentGroup.Name.StartsWith(b.Key, StringComparison.CurrentCultureIgnoreCase))
@@ -57,6 +51,6 @@ namespace IngameScript
 
             return log.ToString();
         }
-        
+
     }
 }

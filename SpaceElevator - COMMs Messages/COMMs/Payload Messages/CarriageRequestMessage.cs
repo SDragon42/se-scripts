@@ -14,23 +14,19 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    public class CarriageRequestMessage : BasePayloadMessage
-    {
+namespace IngameScript {
+    public class CarriageRequestMessage : BasePayloadMessage {
         public const string TYPE = "CarriageRequestMessage";
         public const string REQUEST_DOCK = "Dock";
         public const string REQUEST_DEPART = "Depart";
-        public static CarriageRequestMessage CreateFromPayload(string message)
-        {
+        public static CarriageRequestMessage CreateFromPayload(string message) {
             var obj = new CarriageRequestMessage();
             obj.LoadFromPayload(message);
             return obj;
         }
 
         private CarriageRequestMessage() : base(TYPE) { }
-        public CarriageRequestMessage(string carriageName, string request) : base(TYPE)
-        {
+        public CarriageRequestMessage(string carriageName, string request) : base(TYPE) {
             _msgParts = new string[] { carriageName, request };
         }
 

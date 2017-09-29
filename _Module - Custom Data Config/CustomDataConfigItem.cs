@@ -14,12 +14,9 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class CustomDataConfigItem
-    {
-        public CustomDataConfigItem(string description, string val)
-        {
+namespace IngameScript {
+    class CustomDataConfigItem {
+        public CustomDataConfigItem(string description, string val) {
             Description = description ?? string.Empty;
             Value = val;
         }

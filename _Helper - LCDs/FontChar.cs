@@ -14,12 +14,9 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class FontChar
-    {
-        public FontChar(int width, IList<int> points)
-        {
+namespace IngameScript {
+    class FontChar {
+        public FontChar(int width, IList<int> points) {
             Width = width;
             Points = points;
         }

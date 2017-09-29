@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class DockSecureModule
-    {
+namespace IngameScript {
+    class DockSecureModule {
         readonly List<IMyFunctionalBlock> _buffer = new List<IMyFunctionalBlock>();
         readonly List<IMyLandingGear> _landingGears = new List<IMyLandingGear>();
         readonly List<IMyShipConnector> _connectors = new List<IMyShipConnector>();
@@ -39,14 +37,12 @@ namespace IngameScript
 
 
 
-        public void Init(MyGridProgram thisObj)
-        {
+        public void Init(MyGridProgram thisObj) {
             this.thisObj = thisObj;
             thisObj.GridTerminalSystem.GetBlocksOfType(_landingGears, IsOnThisGrid);
             thisObj.GridTerminalSystem.GetBlocksOfType(_connectors, IsOnThisGrid);
         }
-        public void AutoDockUndock()
-        {
+        public void AutoDockUndock() {
             var isDockedNow = IsDocked();
             if (_wasLockedLastRun == isDockedNow) return;
             _wasLockedLastRun = isDockedNow;
@@ -56,56 +52,48 @@ namespace IngameScript
             else if (!isDockedNow && Auto_On)
                 TurnOnSystems();
         }
-        public void DockUndock()
-        {
+        public void DockUndock() {
             if (IsDocked())
                 UnDock();
             else
                 Dock();
         }
-        public void Dock()
-        {
+        public void Dock() {
             var good2Go = IsDocked() || IsReadyToDock();
             if (!good2Go) return;
             TurnOffSystems();
             _landingGears.ForEach(b => b.Lock());
             _connectors.ForEach(b => b.Connect());
         }
-        public void UnDock()
-        {
+        public void UnDock() {
             TurnOnSystems();
             _landingGears.ForEach(b => b.Unlock());
             _connectors.ForEach(b => b.Disconnect());
         }
 
 
-        void TurnOffSystems()
-        {
+        void TurnOffSystems() {
             thisObj.GridTerminalSystem.GetBlocksOfType(_buffer, IsBlock2TurnOFF);
             _buffer.ForEach(b => b.Enabled = false);
         }
-        void TurnOnSystems()
-        {
+        void TurnOnSystems() {
             thisObj.GridTerminalSystem.GetBlocksOfType(_buffer, IsBlock2TurnON);
             _buffer.ForEach(b => b.Enabled = true);
         }
 
 
-        bool IsDocked()
-        {
+        bool IsDocked() {
             var docked = _landingGears.Where(IsLandingGearLocked).Any();
             docked |= _connectors.Where(IsConnectorConnected).Any();
             return docked;
         }
-        bool IsReadyToDock()
-        {
+        bool IsReadyToDock() {
             var ready = _landingGears.Where(IsLandingGearReadyToLock).Any();
             ready |= _connectors.Where(IsConnectorConnectable).Any();
             return ready;
         }
 
-        bool IsBlock2TurnON(IMyTerminalBlock b)
-        {
+        bool IsBlock2TurnON(IMyTerminalBlock b) {
             if (!IsOnThisGrid(b)) return false;
             if (Thrusters_OnOff && b is IMyThrust) return true;
             if (Gyros_OnOff && b is IMyGyro) return true;
@@ -116,8 +104,7 @@ namespace IngameScript
             if (OreDetectors_OnOff && b is IMyOreDetector) return true;
             return false;
         }
-        bool IsBlock2TurnOFF(IMyTerminalBlock b)
-        {
+        bool IsBlock2TurnOFF(IMyTerminalBlock b) {
             if (!IsOnThisGrid(b)) return false;
             if (IsBlock2TurnON(b)) return true;
             if (Spotlights_Off && (b is IMyReflectorLight)) return true;
