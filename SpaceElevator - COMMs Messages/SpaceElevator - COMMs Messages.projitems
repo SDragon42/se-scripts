@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\CarriageRequestMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\CarriageStatusMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\StationResponseMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Displays.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ElevatorConst.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GpsInfo.cs" />
   </ItemGroup>
