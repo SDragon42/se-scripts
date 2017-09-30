@@ -57,9 +57,9 @@ namespace IngameScript {
         bool _blocksLoaded = false;
         IMyRadioAntenna _antenna;
         readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _h2Tanks = new List<IMyTerminalBlock>();
+        readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
         //readonly List<IMyTerminalBlock> _displays = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _autoCloseDoors = new List<IMyTerminalBlock>();
+        readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
 
         public Program() {
             Echo = (t) => { }; // Disable Echo
@@ -109,9 +109,9 @@ namespace IngameScript {
 
         public void Main(string argument) {
             try {
-                Echo("Station Control " + VERSION + ": " + _runSymbol.GetSymbol(this.Runtime));
+                Echo("Station Control " + VERSION + ": " + _runSymbol.GetSymbol(Runtime));
 
-                _executionInterval.RecordTime(this.Runtime);
+                _executionInterval.RecordTime(Runtime);
 
                 LoadConfigSettings();
                 LoadBlockLists();
@@ -161,8 +161,8 @@ namespace IngameScript {
             if (_tempList.Count > 0)
                 _antenna = (IMyRadioAntenna)_tempList[0];
 
-            GridTerminalSystem.GetBlocksOfType<IMyGasTank>(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
-            GridTerminalSystem.GetBlocksOfType<IMyDoor>(_autoCloseDoors, b => IsTaggedStationOnThisGrid(b) && !IsTaggedTerminal(b));
+            GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
+            GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsTaggedStationOnThisGrid(b) && !IsTaggedTerminal(b));
 
             _blocksLoaded = true;
         }

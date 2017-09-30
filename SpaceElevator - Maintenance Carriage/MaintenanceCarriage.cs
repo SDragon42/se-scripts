@@ -114,17 +114,17 @@ namespace IngameScript {
         }
 
         public void Save() {
-            this.Storage = GetMode().ToString();
+            Storage = GetMode().ToString();
         }
 
         public void Main(string argument) {
             try {
-                Echo("Maint. Carriage Control " + _runSymbol.GetSymbol(this.Runtime));
+                Echo("Maint. Carriage Control " + _runSymbol.GetSymbol(Runtime));
                 Echo("DEBUG " + (_debug.Enabled ? "enabled" : "disabled"));
 
-                _executionInterval.RecordTime(this.Runtime);
-                _connectorLockDelay.RecordTime(this.Runtime);
-                _trasmitStatsDelay.RecordTime(this.Runtime);
+                _executionInterval.RecordTime(Runtime);
+                _connectorLockDelay.RecordTime(Runtime);
+                _trasmitStatsDelay.RecordTime(Runtime);
 
                 LoadConfigSettings();
                 LoadBlockLists();
@@ -616,7 +616,7 @@ namespace IngameScript {
             var ascentMaxEffectiveThrust = _ascentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
             var decentMaxEffectiveThrust = _descentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
 
-            float hoverOverridePower = _inNaturalGravity
+            var hoverOverridePower = _inNaturalGravity
                 ? Convert.ToSingle((_gravityForceOnShip / ascentMaxEffectiveThrust) * 100)
                 : 0f;
 
