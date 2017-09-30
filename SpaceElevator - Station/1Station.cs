@@ -78,7 +78,7 @@ namespace IngameScript {
             _B1 = new CarriageVars("Carriage B1");
             _B2 = new CarriageVars("Carriage B2");
             _Maintenance = new CarriageVars("Maint Carriage");
-            if (!String.IsNullOrWhiteSpace(Storage)) {
+            if (!string.IsNullOrWhiteSpace(Storage)) {
                 var gateStates = Storage.Split('\n');
                 if (gateStates.Length == 5) {
                     _A1.FromString(gateStates[0]);
@@ -222,12 +222,12 @@ namespace IngameScript {
                     argument = argument.Remove(0, CMD_DockCarriage.Length).Trim();
                     var carriage = GetCarriageVar(argument);
                     if (carriage != null)
-                        carriage.SetConnect(true);
+                        carriage.Connect = true;
                 } else if (argument.StartsWith(CMD_UndockCarriage)) {
                     argument = argument.Remove(0, CMD_UndockCarriage.Length).Trim();
                     var carriage = GetCarriageVar(argument);
                     if (carriage != null)
-                        carriage.SetConnect(false);
+                        carriage.Connect = false;
                 }
             }
         }
@@ -244,21 +244,21 @@ namespace IngameScript {
 
             switch (message.Request) {
                 case CarriageRequestMessage.REQUEST_DOCK:
-                    carriage.SetConnect(true);
-                    carriage.SetSendResponseMsg(true);
+                    carriage.Connect = true;
+                    carriage.SendResponseMsg = true;
                     break;
                 case CarriageRequestMessage.REQUEST_DEPART:
-                    carriage.SetConnect(false);
-                    carriage.SetSendResponseMsg(true);
+                    carriage.Connect = false;
+                    carriage.SendResponseMsg = true;
                     break;
             }
         }
         CarriageVars GetCarriageVar(string carriageName) {
-            if (string.Compare(_A1.GetGridName(), carriageName, true) == 0) return _A1;
-            if (string.Compare(_A2.GetGridName(), carriageName, true) == 0) return _A2;
-            if (string.Compare(_B1.GetGridName(), carriageName, true) == 0) return _B1;
-            if (string.Compare(_B2.GetGridName(), carriageName, true) == 0) return _B2;
-            if (string.Compare(_Maintenance.GetGridName(), carriageName, true) == 0) return _Maintenance;
+            if (string.Compare(_A1.GridName, carriageName, true) == 0) return _A1;
+            if (string.Compare(_A2.GridName, carriageName, true) == 0) return _A2;
+            if (string.Compare(_B1.GridName, carriageName, true) == 0) return _B1;
+            if (string.Compare(_B2.GridName, carriageName, true) == 0) return _B2;
+            if (string.Compare(_Maintenance.GridName, carriageName, true) == 0) return _Maintenance;
             return null;
         }
 
@@ -292,7 +292,7 @@ namespace IngameScript {
             var CanSendDisconnectedMessage = false;
 
             var newState = HookupState.Disconnecting;
-            if (carriage.GetConnect()) {
+            if (carriage.Connect) {
                 var completed = ConnectArm(_armRotor, _armPiston, _armConnector, _terminalPiston) & ExtendRamp(_armRotor, _armPiston, _armConnector, _terminalPiston);
                 newState = (completed) ? HookupState.Connected : HookupState.Connecting;
             } else {
@@ -300,19 +300,19 @@ namespace IngameScript {
                 newState = (completed) ? HookupState.Disconnected : HookupState.Disconnecting;
             }
 
-            if (newState == HookupState.Connected && (carriage.GetGateState() == HookupState.Connecting || carriage.GetSendResponseMsg()))
+            if (newState == HookupState.Connected && (carriage.GateState == HookupState.Connecting || carriage.SendResponseMsg))
                 CanSendConnectedMessage = true;
-            if (newState == HookupState.Disconnected && (carriage.GetGateState() == HookupState.Disconnecting || carriage.GetSendResponseMsg()))
+            if (newState == HookupState.Disconnected && (carriage.GateState == HookupState.Disconnecting || carriage.SendResponseMsg))
                 CanSendDisconnectedMessage = true;
-            carriage.SetGateState(newState);
+            carriage.GateState = newState;
 
-            if (CanSendConnectedMessage && carriage.GetSendResponseMsg()) {
-                SendDockingCompleteMessage(carriage.GetGridName());
-                carriage.SetSendResponseMsg(false);
+            if (CanSendConnectedMessage && carriage.SendResponseMsg) {
+                SendDockingCompleteMessage(carriage.GridName);
+                carriage.SendResponseMsg = false;
             }
-            if (CanSendDisconnectedMessage && carriage.GetSendResponseMsg()) {
-                SendGoForDepartureMessage(carriage.GetGridName());
-                carriage.SetSendResponseMsg(false);
+            if (CanSendDisconnectedMessage && carriage.SendResponseMsg) {
+                SendGoForDepartureMessage(carriage.GridName);
+                carriage.SendResponseMsg = false;
             }
         }
 

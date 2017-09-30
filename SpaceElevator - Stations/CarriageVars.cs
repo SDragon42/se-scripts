@@ -1,52 +1,37 @@
-﻿using System;
+﻿using Sandbox.Game.EntityComponents;
+using Sandbox.ModAPI.Ingame;
+using Sandbox.ModAPI.Interfaces;
+using SpaceEngineers.Game.ModAPI.Ingame;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System;
+using VRage.Collections;
+using VRage.Game.Components;
+using VRage.Game.ModAPI.Ingame;
+using VRage.Game.ObjectBuilders.Definitions;
+using VRage.Game;
+using VRageMath;
 
 namespace IngameScript {
     class CarriageVars {
         public CarriageVars(string gridName) {
-            _gridName = gridName ?? string.Empty;
+            GridName = gridName ?? string.Empty;
+            GateState = HookupState.Disconnecting;
         }
 
-
-        private string _gridName = string.Empty;
-        public string GetGridName() { return _gridName; }
-
-        private bool _connect = false;
-        public bool GetConnect() { return _connect; }
-        public void SetConnect(bool value) { _connect = value; }
-
-        private bool _sendResponseMsg = false;
-        public bool GetSendResponseMsg() { return _sendResponseMsg; }
-        public void SetSendResponseMsg(bool value) { _sendResponseMsg = value; }
-
-        private int _gateState = HookupState.Disconnecting;
-        public int GetGateState() { return _gateState; }
-        public void SetGateState(int value) { _gateState = value; }
-
-
-        public override string ToString() {
-            return _connect.ToString() + ":" +
-                _sendResponseMsg.ToString() + ":" +
-                _gateState.ToString();
-        }
+        public string GridName { get; private set; }
+        public bool Connect { get; set; }
+        public bool SendResponseMsg { get; set; }
+        public HookupState GateState { get; set; }
 
         public void FromString(string stateData) {
             if (string.IsNullOrWhiteSpace(stateData)) return;
             var parts = stateData.Split(':');
-
-            bool boolVal;
-            if (bool.TryParse(parts[0], out boolVal))
-                _connect = boolVal;
-
-            if (bool.TryParse(parts[1], out boolVal))
-                _sendResponseMsg = boolVal;
-
-            int intVal;
-            if (int.TryParse(parts[2], out intVal))
-                _gateState = intVal;
+            Connect = parts[0].ToBoolean();
+            SendResponseMsg = parts[1].ToBoolean();
+            GateState = parts[2].ToEnum<HookupState>();
         }
     }
 }
