@@ -184,14 +184,14 @@ namespace IngameScript {
             _blocksLoaded = true;
         }
         void EchoBlockLists() {
-            Echo(string.Format("Ascent Thrusters: {0}", _ascentThrusters.Count));
-            Echo(string.Format("Descent Thrusters: {0}", _descentThrusters.Count));
-            if (_connectors.Count > 0) Echo(string.Format("Connectors: {0}", _connectors.Count));
-            if (_landingGears.Count > 0) Echo(string.Format("Locking Gears: {0}", _landingGears.Count));
-            //if (_airVents.Count > 0) Echo(string.Format("AirVents: {0}", _airVents.Count));
-            //if (_o2Tanks.Count > 0) Echo(string.Format("O2 Tanks: {0}", _o2Tanks.Count));
-            //if (_h2Tanks.Count > 0) Echo(string.Format("H2 Tanks: {0}", _h2Tanks.Count));
-            //if (_displays.Count > 0) Echo(string.Format("Displays: {0}", _displays.Count));
+            Echo($"Ascent Thrusters: {_ascentThrusters.Count}");
+            Echo($"Descent Thrusters: {_descentThrusters.Count}");
+            Echo($"Connectors: {_connectors.Count}");
+            Echo($"Locking Gears: {_landingGears.Count}");
+            //Echo($"AirVents: {_airVents.Count}");
+            //Echo($"O2 Tanks: {_o2Tanks.Count}");
+            //Echo($"H2 Tanks: {_h2Tanks.Count}");
+            //Echo($"Displays: {_displays.Count}");
         }
 
         //-------------------------------------------------------------------------------
