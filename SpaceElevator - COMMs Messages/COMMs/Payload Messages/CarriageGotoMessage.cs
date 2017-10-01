@@ -15,7 +15,7 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    public class SendCarriageToMessage : BasePayloadMessage {
+    class SendCarriageToMessage : BasePayloadMessage {
         public const string TYPE = "SendCarriageToMessage";
         public static SendCarriageToMessage CreateFromPayload(string message) {
             var obj = new SendCarriageToMessage();

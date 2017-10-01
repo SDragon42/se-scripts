@@ -15,7 +15,7 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    public class CarriageRequestMessage : BasePayloadMessage {
+    class CarriageRequestMessage : BasePayloadMessage {
         public const string TYPE = "CarriageRequestMessage";
         public const string REQUEST_DOCK = "Dock";
         public const string REQUEST_DEPART = "Depart";

@@ -15,7 +15,7 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    public class StationResponseMessage : BasePayloadMessage {
+    class StationResponseMessage : BasePayloadMessage {
         public const string TYPE = "StationRequestMessage";
         public const string RESPONSE_DEPARTURE_OK = "Departure OK";
         public const string RESPONSE_DOCKING_COMPLETE = "Docking Complete";

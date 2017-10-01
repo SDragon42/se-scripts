@@ -15,7 +15,7 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    public class CommMessage {
+    class CommMessage {
         private CommMessage() { }
         public CommMessage(IMyProgrammableBlock me, string targetGridName, string payloadType, string payload) {
             SenderGridEntityId = me.CubeGrid.EntityId;

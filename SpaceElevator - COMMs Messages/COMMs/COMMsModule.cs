@@ -15,7 +15,7 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    public class COMMsModule {
+    class COMMsModule {
 
         readonly Queue<CommMessage> _messageQueue = new Queue<CommMessage>();
         readonly IMyProgrammableBlock _prog;

@@ -15,7 +15,7 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    public abstract class BasePayloadMessage {
+    abstract class BasePayloadMessage {
         protected const char DELIMITER = '\n';
         protected string[] _msgParts;
 

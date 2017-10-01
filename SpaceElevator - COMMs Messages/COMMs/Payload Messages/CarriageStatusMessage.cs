@@ -15,7 +15,7 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    public class CarriageStatusMessage : BasePayloadMessage {
+    class CarriageStatusMessage : BasePayloadMessage {
         public const string TYPE = "CarriageStats";
         public static CarriageStatusMessage CreateFromPayload(string message) {
             var obj = new CarriageStatusMessage();
