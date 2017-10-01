@@ -112,7 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="01-Station-Constants.cs" />
-    <Compile Include="02-Station-Vars-Construct.cs" />
+    <Compile Include="02-Station-Vars-Constructor.cs" />
     <Compile Include="20-Station-COMMs.cs" />
     <Compile Include="30-Station-Displays.cs" />
     <Compile Include="50-Station-Actions.cs" />
