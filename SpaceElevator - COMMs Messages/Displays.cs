@@ -23,9 +23,13 @@ namespace IngameScript {
 
         const string CHR_UP = "↑↑"; //"\u2191\u2191";
         const string CHR_DOWN = "↓↓"; //"\u2193\u2193";
-        const string CHRS_Carriage_Red = "\uE050\uE03C";
-        const string CHRS_Carriage_Green = "\uE051\uE03D";
-        const string CHRS_Carriage_Blue = "\uE052\uE03E";
+        const string CHRS_Carriage_White = "";
+        const string CHRS_Carriage_Red = ""; //"\uE050\uE03C";
+        const string CHRS_Carriage_Green = ""; //"\uE051\uE03D";
+        const string CHRS_Carriage_Blue = ""; //"\uE052\uE03E";
+        const string CHRS_Carriage_Yellow = "";
+        const string CHRS_Carriage_Magenta = "";
+        const string CHRS_Carriage_Cyan = "";
 
 
         public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]"); }
@@ -66,10 +70,20 @@ namespace IngameScript {
         }
 
         static string GetDirectionArrows(CarriageStatusMessage carriage) {
-            return carriage.VerticalSpeed > 0 ? "↑↑" : carriage.VerticalSpeed < 0 ? "↓↓" : "  ";
+            return carriage.VerticalSpeed > 0 ? CHR_UP : carriage.VerticalSpeed < 0 ? CHR_DOWN : "  ";
         }
         static string GetCarriageIcon(CarriageStatusMessage carriage) {
-            return carriage.Mode == "Docked" ? CHRS_Carriage_Blue : CHRS_Carriage_Green;
+            switch (carriage.Mode) {
+                case CarriageMode.Manual_Control: return CHRS_Carriage_Magenta;
+                case CarriageMode.Awaiting_DepartureClearance: return CHRS_Carriage_Yellow;
+                case CarriageMode.Awaiting_CarriageReady2Depart: return CHRS_Carriage_Yellow;
+                case CarriageMode.Transit_Powered: return CHRS_Carriage_Yellow;
+                case CarriageMode.Transit_Coast: return CHRS_Carriage_Yellow;
+                case CarriageMode.Transit_Slow2Approach: return CHRS_Carriage_Yellow;
+                case CarriageMode.Transit_Docking: return CHRS_Carriage_Yellow;
+                case CarriageMode.Docked: return CHRS_Carriage_Green;
+                default: return CHRS_Carriage_White;
+            }
         }
         static int GetCarriagePositionIndex(CarriageStatusMessage carriage, int numLines) {
             var totalDist = carriage.Range2Bottom + carriage.Range2Top;

@@ -24,9 +24,9 @@ namespace IngameScript {
         }
 
         private CarriageStatusMessage() : base(TYPE) { }
-        public CarriageStatusMessage(string mode, Vector3D pos, double vertSpeed, float fuelLevel, double cargoMass, double range2Bottom, double range2Top) : base(TYPE) {
+        public CarriageStatusMessage(CarriageMode mode, Vector3D pos, double vertSpeed, float fuelLevel, double cargoMass, double range2Bottom, double range2Top) : base(TYPE) {
             _msgParts = new string[] {
-                mode,
+                mode.ToString(),
                 VectorHelper.VectortoGps(pos),
                 vertSpeed.ToString(),
                 fuelLevel.ToString(),
@@ -36,7 +36,7 @@ namespace IngameScript {
             };
         }
 
-        public string Mode { get { return _msgParts[0]; } }
+        public CarriageMode Mode { get { return _msgParts[0].ToEnum(defValue: CarriageMode.Manual_Control); } }
         public Vector3D Position { get { return VectorHelper.GpsToVector(_msgParts[1]); } }
         public double VerticalSpeed { get { return _msgParts[2].ToDouble(); } }
         public float FuelLevel { get { return _msgParts[3].ToFloat(); } }

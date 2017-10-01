@@ -95,8 +95,7 @@ namespace IngameScript {
 
             _lastCustomDataHash = -1;
 
-            //_mode_SpecialUseOnly = (!string.IsNullOrWhiteSpace(Storage)) ? Storage : CarriageMode.Manual_Control;
-            _mode_SpecialUseOnly = CarriageModeHelper.GetFromString(Storage);
+            _mode_SpecialUseOnly = Storage.ToEnum(defValue: CarriageMode.Manual_Control);
 
             _runSymbol = new RunningSymbolModule();
             _executionInterval = new TimeIntervalModule(0.1);
@@ -268,7 +267,7 @@ namespace IngameScript {
             //if (!_trasmitStatsDelay.AtNextInterval()) return;
 
             var payload = new CarriageStatusMessage(
-                GetMode().ToString(),
+                GetMode(),
                 _rc.GetPosition(),
                 _verticalSpeed,
                 _h2TankFilledPercent,
@@ -366,7 +365,7 @@ namespace IngameScript {
             if (_mode_SpecialUseOnly == value && value != CarriageMode.Manual_Control) return;
             _mode_SpecialUseOnly = value;
 
-            if (!CarriageModeHelper.IsValidModeValue(_mode_SpecialUseOnly))
+            if (!Enum.IsDefined(typeof(CarriageMode), value))
                 _mode_SpecialUseOnly = CarriageMode.Manual_Control;
 
             switch (_mode_SpecialUseOnly) {
