@@ -114,7 +114,7 @@ namespace IngameScript {
 
         public void Main(string argument) {
             try {
-                Echo("Carriage Control " + _runSymbol.GetSymbol(Runtime));
+                Echo("Carriage Control v1.8 " + _runSymbol.GetSymbol(Runtime));
                 Echo("DEBUG " + (_debug.Enabled ? "enabled" : "disabled"));
 
                 _executionInterval.RecordTime(Runtime);
@@ -134,11 +134,14 @@ namespace IngameScript {
                     LoadCalculations();
                     RunModeActions();
                     SaveLastValues();
-                    SendStatsMessage();
                     _comms.TransmitQueue(_antenna);
                     _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
                     if (_maintGravGen != null)
                         _maintGravGen.Enabled = (_gravVec.Length() < 9.81 / 2);
+                }
+
+                if (_trasmitStatsDelay.AtNextInterval()) {
+                    SendStatsMessage();
                 }
 
             } catch (Exception ex) {
@@ -270,7 +273,7 @@ namespace IngameScript {
         void SendStatsMessage() {
             if (!_settings.SendStatusMessages) return;
             if (_antenna == null) return;
-            if (!_trasmitStatsDelay.AtNextInterval()) return;
+            //if (!_trasmitStatsDelay.AtNextInterval()) return;
 
             var payload = new CarriageStatusMessage(
                 GetMode().ToString(),
