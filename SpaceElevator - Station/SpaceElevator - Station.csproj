@@ -117,6 +117,8 @@
     <Compile Include="30-Station-Displays.cs" />
     <Compile Include="50-Station-Actions.cs" />
     <Compile Include="60-Station-Collects.cs" />
+    <Compile Include="CarriageVars.cs" />
+    <Compile Include="HookupState.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -145,7 +147,6 @@
   <Import Project="..\_Module - Door Closer\_Module - Door Closer.projitems" Label="Shared" />
   <Import Project="..\SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems" Label="Shared" />
   <Import Project="..\_Helper - Gas Tanks\_Helper - Gas Tanks.projitems" Label="Shared" />
-  <Import Project="..\SpaceElevator - Stations\SpaceElevator - Stations.projitems" Label="Shared" />
   <Import Project="..\_Library - Common\_Library - Common.projitems" Label="Shared" />
   <Import Project="..\_Module - Debug\_Module - Debug.projitems" Label="Shared" />
   <Import Project="..\_Helper - LCDs\_Helper - LCDs.projitems" Label="Shared" />
