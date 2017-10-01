@@ -49,8 +49,8 @@ namespace IngameScript {
 
             var keepRunning = false;
             keepRunning |= argument?.Length > 0;
-            keepRunning |= _dockSecureInterval.AtNextInterval();
-            keepRunning |= _proximityInterval.AtNextInterval();
+            keepRunning |= _dockSecureInterval.AtNextInterval;
+            keepRunning |= _proximityInterval.AtNextInterval;
             if (!keepRunning) return;
 
             _settings.LoadConfig(Me, _dockSecure, _proximity, SetExecutionInterval);
@@ -66,8 +66,8 @@ namespace IngameScript {
                 }
             }
 
-            if (_dockSecureInterval.AtNextInterval()) _dockSecure.AutoDockUndock();
-            if (_proximityInterval.AtNextInterval()) RunProximityCheck();
+            if (_dockSecureInterval.AtNextInterval) _dockSecure.AutoDockUndock();
+            if (_proximityInterval.AtNextInterval) RunProximityCheck();
         }
 
         void SetExecutionInterval() {

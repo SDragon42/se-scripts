@@ -36,12 +36,12 @@ namespace IngameScript {
         }
 
         public void Main(string argument) {
-            Echo("Dock-Secure v1.3.1 " + _runSymbol.GetSymbol(this.Runtime));
-            _executionInterval.RecordTime(this.Runtime);
+            Echo("Dock-Secure v1.3.1 " + _runSymbol.GetSymbol(Runtime));
+            _executionInterval.RecordTime(Runtime);
 
             var keepRunning = false;
             keepRunning |= argument?.Length > 0;
-            keepRunning |= _executionInterval.AtNextInterval();
+            keepRunning |= _executionInterval.AtNextInterval;
             if (!keepRunning) return;
 
             _settings.LoadConfig(Me, _dockSecure, SetExecutionInterval);

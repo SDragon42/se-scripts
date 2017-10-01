@@ -25,6 +25,7 @@ namespace IngameScript {
 
         public TimeSpan Time { get; private set; }
         public double Interval { get; private set; }
+        public bool AtNextInterval => (Time.TotalSeconds >= Interval);
 
         public void SetInterval(double seconds) {
             Interval = (seconds >= 0) ? seconds : 0.0;
@@ -36,9 +37,7 @@ namespace IngameScript {
             if (Time.TotalSeconds < Interval) return;
             _resetTime = true;
         }
-        public bool AtNextInterval() {
-            return (Time.TotalSeconds >= Interval);
-        }
+
         public void Reset() {
             Time = new TimeSpan();
             _resetTime = false;

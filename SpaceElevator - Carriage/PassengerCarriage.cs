@@ -129,7 +129,7 @@ namespace IngameScript {
                     RunCommand(argument);
                 }
 
-                if (_executionInterval.AtNextInterval()) {
+                if (_executionInterval.AtNextInterval) {
                     _debug.Clear();
                     LoadCalculations();
                     RunModeActions();
@@ -140,7 +140,7 @@ namespace IngameScript {
                         _maintGravGen.Enabled = (_gravVec.Length() < 9.81 / 2);
                 }
 
-                if (_trasmitStatsDelay.AtNextInterval()) {
+                if (_trasmitStatsDelay.AtNextInterval) {
                     SendStatsMessage();
                 }
 
