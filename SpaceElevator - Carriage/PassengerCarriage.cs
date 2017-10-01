@@ -157,13 +157,9 @@ namespace IngameScript {
         void LoadBlockLists(bool forceLoad = false) {
             if (_blocksLoaded && !forceLoad) return;
 
-            CollectHelper.GetblocksOfTypeWithFirst<IMyRemoteControl>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
-            if (_tempList.Count > 0)
-                _rc = (IMyRemoteControl)_tempList[0];
-
-            CollectHelper.GetblocksOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
-            if (_tempList.Count > 0)
-                _antenna = (IMyRadioAntenna)_tempList[0];
+            _rc = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRemoteControl>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
+            _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
+            _maintGravGen = CollectHelper.GetFirstblockOfTypeWithFirst<IMyGravityGenerator>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
 
             _orientation.Init(_rc);
             GridTerminalSystem.GetBlocksOfType(_ascentThrusters, b => IsTaggedBlockOnThisGrid(b) && _orientation.IsDown(b));
@@ -179,10 +175,6 @@ namespace IngameScript {
             //GridTerminalSystem.GetBlocksOfType(_displays, IsTaggedBlockOnThisGrid);
 
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, IsTaggedBlockOnThisGrid);
-
-            CollectHelper.GetblocksOfTypeWithFirst<IMyGravityGenerator>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
-            if (_tempList.Count > 0)
-                _maintGravGen = (IMyGravityGenerator)_tempList[0];
 
             _blocksLoaded = true;
         }
