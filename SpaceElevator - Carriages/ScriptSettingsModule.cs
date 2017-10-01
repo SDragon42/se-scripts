@@ -92,7 +92,9 @@ namespace IngameScript {
                 var key = KEY_GpsPoint + i.ToString();
                 i++;
                 if (!config.ContainsKey(key)) break;
-                GpsPoints.Add(new GpsInfo(config.GetValue(key)));
+                var gps = new GpsInfo(config.GetValue(key));
+                if (gps.GetLocation() != Vector3D.Zero)
+                    GpsPoints.Add(gps);
             }
         }
         public void BuidSettingDict(CustomDataConfigModule config) {
@@ -133,13 +135,10 @@ namespace IngameScript {
                 ? GpsPoints[GpsPoints.Count - 1].GetLocation()
                 : Vector3D.Zero;
         }
-        public Vector3D GetGpsPoint(string name) {
-            return GetGpsInfo(name)?.GetLocation() ?? Vector3D.Zero;
-        }
         public GpsInfo GetGpsInfo(string name) {
-            foreach (var point in GpsPoints)
-                if (string.Compare(point.GetName(), name, true) == 0)
-                    return point;
+            foreach (var gps in GpsPoints)
+                if (string.Compare(gps.GetName(), name, true) == 0)
+                    return gps;
             return null;
         }
 
