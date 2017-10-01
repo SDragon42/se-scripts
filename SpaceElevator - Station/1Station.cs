@@ -26,8 +26,6 @@ namespace IngameScript {
         //-------------------------------------------------------------------------------
         //  CONSTANTS
         //-------------------------------------------------------------------------------
-        const string VERSION = "v1.1b";
-
         const string TAG_A1 = "[A1]";
         const string TAG_A2 = "[A2]";
         const string TAG_B1 = "[B1]";
@@ -58,11 +56,11 @@ namespace IngameScript {
         IMyRadioAntenna _antenna;
         readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
         readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
-        //readonly List<IMyTerminalBlock> _displays = new List<IMyTerminalBlock>();
+        readonly List<IMyTextPanel> _displays = new List<IMyTextPanel>();
         readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
 
         public Program() {
-            Echo = (t) => { }; // Disable Echo
+            //Echo = (t) => { }; // Disable Echo
             _debug = new DebugModule(this);
             //_debug.Enabled = false;
             _debug.EchoMessages = false;
@@ -109,7 +107,7 @@ namespace IngameScript {
 
         public void Main(string argument) {
             try {
-                Echo("Station Control " + VERSION + ": " + _runSymbol.GetSymbol(Runtime));
+                Echo("Station Control 1.2a: " + _runSymbol.GetSymbol(Runtime));
 
                 _executionInterval.RecordTime(Runtime);
 
@@ -124,12 +122,12 @@ namespace IngameScript {
                     _debug.Clear();
                     _comms.TransmitQueue(_antenna);
                     _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
-
-                    RunActions(TAG_A1, _A1);
-                    RunActions(TAG_A2, _A2);
-                    RunActions(TAG_B1, _B1);
-                    RunActions(TAG_B2, _B2);
-                    RunActions(TAG_MAINTENANCE, _Maintenance);
+                    UpdateDisplays();
+                    RunCarriageDockDepartureActions(TAG_A1, _A1);
+                    RunCarriageDockDepartureActions(TAG_A2, _A2);
+                    RunCarriageDockDepartureActions(TAG_B1, _B1);
+                    RunCarriageDockDepartureActions(TAG_B2, _B2);
+                    RunCarriageDockDepartureActions(TAG_MAINTENANCE, _Maintenance);
 
                     _debug.AppendLine(_log.GetLogText());
                 }
@@ -163,27 +161,26 @@ namespace IngameScript {
 
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsTaggedStationOnThisGrid(b) && !IsTaggedTerminal(b));
+            GridTerminalSystem.GetBlocksOfType(_displays, IsTaggedStationOnThisGrid);
 
             _blocksLoaded = true;
         }
         void EchoBlockLists() {
-            if (_h2Tanks.Count > 0) Echo(string.Format("H2 Tanks: {0}", _h2Tanks.Count));
-            if (_autoCloseDoors.Count > 0) Echo(string.Format("Doors: {0}", _autoCloseDoors.Count));
+            Echo($"H2 Tanks: {_h2Tanks.Count}");
+            Echo($"Doors: {_autoCloseDoors.Count}");
+            Echo($"Displays: {_displays.Count}");
         }
 
         bool IsTaggedStation(IMyTerminalBlock b) {
-            //if (string.IsNullOrWhiteSpace(_settings.GetStationTag())) return true;
             return (b.CustomName.Contains(_settings.GetStationTag()));
         }
         bool IsTaggedStationOnThisGrid(IMyTerminalBlock b) {
             return (IsOnThisGrid(b) && IsTaggedStation(b));
         }
         bool IsTaggedTerminal(IMyTerminalBlock b) {
-            //if (string.IsNullOrWhiteSpace(_settings.GetTerminalTag())) return true;
             return (b.CustomName.Contains(_settings.GetTerminalTag()));
         }
         bool IsTaggedTransfer(IMyTerminalBlock b) {
-            //if (string.IsNullOrWhiteSpace(_settings.GetTransferTag())) return true;
             return (b.CustomName.Contains(_settings.GetTransferTag()));
         }
 
@@ -207,17 +204,13 @@ namespace IngameScript {
         void RunCommand(string argument) {
             CommMessage msg = null;
             if (CommMessage.TryParse(argument, out msg)) {
-                _log.AppendLine("MSG: " + msg.PayloadType);
+                //_log.AppendLine("MSG: " + msg.PayloadType);
                 switch (msg.PayloadType) {
-                    //case CarriageStatusMessage.TYPE:
-                    //    break;
-                    case CarriageRequestMessage.TYPE:
-                        CarriageRequestProcessing(msg.Payload);
-                        break;
+                    case CarriageStatusMessage.TYPE: CarriageStatusProcessing(msg.SenderGridName, msg.Payload); break;
+                    case CarriageRequestMessage.TYPE: CarriageRequestProcessing(msg.SenderGridName, msg.Payload); break;
                 }
             } else {
-                _log.AppendLine("CMD: " + argument);
-
+                //_log.AppendLine("CMD: " + argument);
                 if (argument.StartsWith(CMD_DockCarriage)) {
                     argument = argument.Remove(0, CMD_DockCarriage.Length).Trim();
                     var carriage = GetCarriageVar(argument);
@@ -232,16 +225,11 @@ namespace IngameScript {
             }
         }
 
-        void CarriageRequestProcessing(string msgPayload) {
+        void CarriageRequestProcessing(string carriageName, string msgPayload) {
             var message = CarriageRequestMessage.CreateFromPayload(msgPayload);
-            if (message == null) return;
-            _log.AppendLine("Valid MSG");
-
-            var carriage = GetCarriageVar(message.CarriageName);
-            if (carriage == null) return;
-            _log.AppendLine("Found Carriage VARs");
+            var carriage = GetCarriageVar(carriageName);
+            if (message == null || carriage == null) return;
             _log.AppendLine("Request: " + message.Request);
-
             switch (message.Request) {
                 case CarriageRequestMessage.REQUEST_DOCK:
                     carriage.Connect = true;
@@ -252,6 +240,12 @@ namespace IngameScript {
                     carriage.SendResponseMsg = true;
                     break;
             }
+        }
+        void CarriageStatusProcessing(string carriageName, string msgPayload) {
+            var message = CarriageStatusMessage.CreateFromPayload(msgPayload);
+            var carriage = GetCarriageVar(carriageName);
+            if (message == null || carriage == null) return;
+            carriage.Status = message;
         }
         CarriageVars GetCarriageVar(string carriageName) {
             if (string.Compare(_A1.GridName, carriageName, true) == 0) return _A1;
@@ -270,7 +264,7 @@ namespace IngameScript {
         readonly List<IMyTerminalBlock> _armLights = new List<IMyTerminalBlock>();
         readonly List<IMyTerminalBlock> _terminalDoors = new List<IMyTerminalBlock>();
 
-        void RunActions(string gateTag, CarriageVars carriage) {
+        void RunCarriageDockDepartureActions(string gateTag, CarriageVars carriage) {
 
             GridTerminalSystem.SearchBlocksOfName(gateTag, _gateBlocks, IsTaggedStation);
             GridTerminalSystem.SearchBlocksOfName(gateTag, _armLights, IsLightOnTransferArm);
@@ -280,24 +274,16 @@ namespace IngameScript {
             var _terminalPiston = GetFirstBlockInList<IMyPistonBase>(_gateBlocks, IsOnTerminal);
             GridTerminalSystem.SearchBlocksOfName(gateTag, _terminalDoors, IsDoorOnTerminal);
 
-            _debug.AppendLine("{0} LoadBlocks()", gateTag);
-            /*_debug.AppendLine("   Lights: {0}", _armLights.Count);
-            _debug.AppendLine("   ArmRotor: {0}", _armRotor != null);
-            _debug.AppendLine("   ArmPiston: {0}", _armPiston != null);
-            _debug.AppendLine("   ArmConnector: {0}", _armConnector != null);
-            _debug.AppendLine("   TerminalPiston: {0}", _terminalPiston != null);
-            _debug.AppendLine("   Doors: {0}", _terminalDoors.Count);*/
-
             var CanSendConnectedMessage = false;
             var CanSendDisconnectedMessage = false;
 
             var newState = HookupState.Disconnecting;
             if (carriage.Connect) {
                 var completed = ConnectArm(_armRotor, _armPiston, _armConnector, _terminalPiston) & ExtendRamp(_armRotor, _armPiston, _armConnector, _terminalPiston);
-                newState = (completed) ? HookupState.Connected : HookupState.Connecting;
+                newState = completed ? HookupState.Connected : HookupState.Connecting;
             } else {
                 var completed = DisconnectArm(_armRotor, _armPiston, _armConnector, _terminalPiston) & RetractRamp(_armRotor, _armPiston, _armConnector, _terminalPiston);
-                newState = (completed) ? HookupState.Disconnected : HookupState.Disconnecting;
+                newState = completed ? HookupState.Disconnected : HookupState.Disconnecting;
             }
 
             if (newState == HookupState.Connected && (carriage.GateState == HookupState.Connecting || carriage.SendResponseMsg))
@@ -320,7 +306,7 @@ namespace IngameScript {
         bool IsLightOnTransferArm(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTransfer(b) && (b is IMyInteriorLight || b is IMyReflectorLight); }
 
         bool IsOnTerminal(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTerminal(b); }
-        bool IsDoorOnTerminal(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTerminal(b) && IsDoor(b); }
+        bool IsDoorOnTerminal(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTerminal(b) && Collect.IsHumanDoor(b); }
 
 
         bool ConnectArm(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston) {
@@ -462,7 +448,23 @@ namespace IngameScript {
 
         bool IsOnThisGrid(IMyTerminalBlock b) { return Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
 
-        public static bool IsDoor(IMyTerminalBlock b) { return b is IMyDoor; }
 
+        //-------------------------------------------------------------------------------
+        //  CARRIAGE DOCK OPERATIONS
+        //-------------------------------------------------------------------------------
+        void UpdateDisplays() {
+            _log.AppendLine($"   A2: {_A1?.Status?.Range2Bottom:N2} -- {_A1?.Status?.Range2Top:N2}");
+            _log.AppendLine($"Maint: {_Maintenance?.Status?.Range2Bottom:N2} -- {_Maintenance?.Status?.Range2Top:N2}");
+            var allCarriagesDisplay = Displays.BuildAllCarriagePositionSummary(_A1.Status, _A2.Status, _B1.Status, _B2.Status, _Maintenance.Status);
+            var allCarriagesWideDisplay = Displays.BuildAllCarriagePositionSummaryWide(_A1.Status, _A2.Status, _B1.Status, _B2.Status, _Maintenance.Status);
+
+            foreach (var d in _displays.Where(Displays.IsAllCarriagesDisplay)) { Write2MonospaceDisplay(d, allCarriagesDisplay, 1f); }
+            foreach (var d in _displays.Where(Displays.IsAllCarriagesWideDisplay)) { Write2MonospaceDisplay(d, allCarriagesWideDisplay, 1f); }
+        }
+        void Write2MonospaceDisplay(IMyTextPanel display, string text, float fontSize) {
+            LCDHelper.SetFont_Monospaced(display);
+            LCDHelper.SetFontSize(display, fontSize);
+            display.WritePublicText(text);
+        }
     }
 }

@@ -28,6 +28,9 @@ namespace IngameScript {
         const string CHRS_Carriage_Blue = "\uE052\uE03E";
 
 
+        public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]"); }
+        public static bool IsAllCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages-wide]"); }
+
         public static string BuildAllCarriagePositionSummary(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint) {
             const int max = 14;
             // Monospace, fontsize 1.0
@@ -49,7 +52,38 @@ namespace IngameScript {
                 var b2Text = (i == b2Info.VertPosNum) ? b2Info.Icon : "  ";
                 var maintText = (i == maintInfo.VertPosNum) ? maintInfo.Icon : "  ";
 
-                if (i == max)
+                if (i == max - 1)
+                    sb.AppendLine($"┌{a2Text}┬{a1Text}┐    ┌{maintText}┐    ┌{b1Text}┬{b2Text}┐");
+                else if (i == 0)
+                    sb.AppendLine($"└{a2Text}┴{a1Text}┘    └{maintText}┘    └{b1Text}┴{b2Text}┘");
+                else
+                    sb.AppendLine($"│{a2Text}│{a1Text}│    │{maintText}│    │{b1Text}│{b2Text}│");
+            }
+
+            return sb.ToString();
+        }
+        public static string BuildAllCarriagePositionSummaryWide(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint) {
+            const int max = 14;
+            // Monospace, fontsize 1.0
+
+            var a1Info = GetGraphInfo(a1, max);
+            var a2Info = GetGraphInfo(a2, max);
+            var b1Info = GetGraphInfo(b1, max);
+            var b2Info = GetGraphInfo(b2, max);
+            var maintInfo = GetGraphInfo(maint, max);
+
+            var sb = new StringBuilder();
+            sb.AppendLine(" A2 A1     Maint    B1 B2");
+            sb.AppendLine();
+            sb.AppendLine($" {a2Info.DirText} {a1Info.DirText}      {maintInfo.DirText}      {b1Info.DirText} {b2Info.DirText}");
+            for (var i = max - 1; i >= 0; i--) {
+                var a1Text = (i == a1Info.VertPosNum) ? a1Info.Icon : "  ";
+                var a2Text = (i == a2Info.VertPosNum) ? a2Info.Icon : "  ";
+                var b1Text = (i == b1Info.VertPosNum) ? b1Info.Icon : "  ";
+                var b2Text = (i == b2Info.VertPosNum) ? b2Info.Icon : "  ";
+                var maintText = (i == maintInfo.VertPosNum) ? maintInfo.Icon : "  ";
+
+                if (i == max - 1)
                     sb.AppendLine($"┌{a2Text}┬{a1Text}┐    ┌{maintText}┐    ┌{b1Text}┬{b2Text}┐");
                 else if (i == 0)
                     sb.AppendLine($"└{a2Text}┴{a1Text}┘    └{maintText}┘    └{b1Text}┴{b2Text}┘");
@@ -71,7 +105,7 @@ namespace IngameScript {
             return Convert.ToInt32(Math.Round(numLines * percent, 0));
         }
         static CarriageGraphInfo GetGraphInfo(CarriageStatusMessage carriage, int numLines) {
-            if (carriage == null) new CarriageGraphInfo();
+            if (carriage == null) return new CarriageGraphInfo();
             return new CarriageGraphInfo() {
                 DirText = GetDirectionArrows(carriage),
                 Icon = GetCarriageIcon(carriage),

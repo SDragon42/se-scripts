@@ -123,6 +123,7 @@ Global
 		_Module - Vector Align\_Module - Vector Align.projitems*{7204dd88-d4c2-4fe4-bbf8-e632497b7efe}*SharedItemsImports = 13
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		SpaceElevator - Stations\SpaceElevator - Stations.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
+		_Helper - Doors\_Helper - Doors.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		_Helper - LCDs\_Helper - LCDs.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		_Library - Common\_Library - Common.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
