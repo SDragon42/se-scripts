@@ -70,7 +70,8 @@ namespace IngameScript {
         }
 
         static string GetDirectionArrows(CarriageStatusMessage carriage) {
-            return carriage.VerticalSpeed > 0 ? CHR_UP : carriage.VerticalSpeed < 0 ? CHR_DOWN : "  ";
+            var vspeed = Math.Round(carriage.VerticalSpeed, 1);
+            return vspeed > 0 ? CHR_UP : vspeed < 0 ? CHR_DOWN : "  ";
         }
         static string GetCarriageIcon(CarriageStatusMessage carriage) {
             switch (carriage.Mode) {
