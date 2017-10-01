@@ -29,5 +29,10 @@ namespace IngameScript {
             }
         }
 
+        public static T GetFirstblockOfTypeWithFirst<T>(IMyGridTerminalSystem gts, List<IMyTerminalBlock> blockList, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class, IMyTerminalBlock {
+            GetblocksOfTypeWithFirst<T>(gts, blockList, collectMethods);
+            return (blockList.Count > 0) ? (T)blockList[0] : null;
+        }
+
     }
 }
