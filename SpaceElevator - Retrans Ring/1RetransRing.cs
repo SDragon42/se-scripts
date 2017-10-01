@@ -54,7 +54,7 @@ namespace IngameScript {
             _lastCustomDataHash = -1;
 
             _runSymbol = new RunningSymbolModule();
-            _executionInterval = new TimeIntervalModule(10);
+            _executionInterval = new TimeIntervalModule(0.1);
 
             _comms = new COMMsModule(Me);
         }

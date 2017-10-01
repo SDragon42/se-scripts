@@ -33,8 +33,8 @@ namespace IngameScript {
             //Echo = (t) => { }; // Disable Echo
 
             _runSymbol = new RunningSymbolModule();
-            _dockSecureInterval = new TimeIntervalModule();
-            _proximityInterval = new TimeIntervalModule();
+            _dockSecureInterval = new TimeIntervalModule(0.1);
+            _proximityInterval = new TimeIntervalModule(0.1);
             _dockSecure = new DockSecureModule();
 
             _proximity = new ProximityModule();
@@ -71,8 +71,8 @@ namespace IngameScript {
         }
 
         void SetExecutionInterval() {
-            _dockSecureInterval.SetNumIntervalsPerSecond(_settings.DockSecureInterval);
-            _proximityInterval.SetNumIntervalsPerSecond(_settings.ProximityInterval);
+            _dockSecureInterval.SetInterval(1.0 / _settings.DockSecureInterval);
+            _proximityInterval.SetInterval(1.0 / _settings.ProximityInterval);
         }
 
         void RunProximityCheck() {

@@ -29,7 +29,7 @@ namespace IngameScript {
             //Echo = (t) => { }; // Disable Echo
 
             _runSymbol = new RunningSymbolModule();
-            _executionInterval = new TimeIntervalModule();
+            _executionInterval = new TimeIntervalModule(0.1);
             _dockSecure = new DockSecureModule();
 
             _settings.InitConfig(Me, _dockSecure, SetExecutionInterval);
@@ -61,7 +61,7 @@ namespace IngameScript {
         }
 
         void SetExecutionInterval() {
-            _executionInterval.SetNumIntervalsPerSecond(_settings.RunInterval);
+            _executionInterval.SetInterval(1.0 / _settings.RunInterval);
         }
     }
 }

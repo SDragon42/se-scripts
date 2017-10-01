@@ -104,8 +104,8 @@ namespace IngameScript {
             _mode_SpecialUseOnly = CarriageModeHelper.GetFromString(Storage);
 
             _runSymbol = new RunningSymbolModule();
-            _executionInterval = new TimeIntervalModule(10);
-            _connectorLockDelay = new TimeIntervalModule();
+            _executionInterval = new TimeIntervalModule(0.1);
+            _connectorLockDelay = new TimeIntervalModule(0.1);
             _trasmitStatsDelay = new TimeIntervalModule(3.0);
 
             _doorManager = new AutoDoorCloserModule();
@@ -270,7 +270,7 @@ namespace IngameScript {
             _settings.LoadFromSettingDict(_custConfig);
             _custConfig.SaveToCustomData(Me);
             _lastCustomDataHash = hash;
-            _connectorLockDelay.SetIntervalInSeconds(_settings.ConnectorLockDelay);
+            _connectorLockDelay.SetInterval(_settings.ConnectorLockDelay);
             _doorManager.SecondsToLeaveOpen = _settings.DoorCloseDelay;
         }
 
