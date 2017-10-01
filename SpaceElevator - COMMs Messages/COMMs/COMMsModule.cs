@@ -36,7 +36,6 @@ namespace IngameScript {
         public void TransmitQueue(IMyRadioAntenna transmitter) {
             if (transmitter == null) return;
             if (_messageQueue.Count == 0) return;
-
             var message = _messageQueue.Dequeue();
             var success = transmitter.TransmitMessage(message.ToString());
             if (!success) _messageQueue.Enqueue(message);
