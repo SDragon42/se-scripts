@@ -15,10 +15,11 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
+
+    enum CarriageRequests { Dock, Depart }
+
     class CarriageRequestMessage : BasePayloadMessage {
         public const string TYPE = "CarriageRequestMessage";
-        public const string REQUEST_DOCK = "Dock";
-        public const string REQUEST_DEPART = "Depart";
         public static CarriageRequestMessage CreateFromPayload(string message) {
             var obj = new CarriageRequestMessage();
             obj.LoadFromPayload(message);
@@ -26,11 +27,11 @@ namespace IngameScript {
         }
 
         private CarriageRequestMessage() : base(TYPE) { }
-        public CarriageRequestMessage(string carriageName, string request) : base(TYPE) {
-            _msgParts = new string[] { carriageName, request };
+        public CarriageRequestMessage(string carriageName, CarriageRequests request) : base(TYPE) {
+            _msgParts = new string[] { carriageName, request.ToString() };
         }
 
         public string CarriageName { get { return _msgParts[0]; } }
-        public string Request { get { return _msgParts[1]; } }
+        public CarriageRequests Request { get { return _msgParts[1].ToEnum<CarriageRequests>(); } }
     }
 }

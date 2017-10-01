@@ -278,11 +278,11 @@ namespace IngameScript {
             _comms.AddMessageToQueue(payload);
         }
         void SendDockedMessage(string stationName) {
-            var payload = new CarriageRequestMessage(Me.CubeGrid.CustomName, CarriageRequestMessage.REQUEST_DOCK);
+            var payload = new CarriageRequestMessage(Me.CubeGrid.CustomName, CarriageRequests.Dock);
             _comms.AddMessageToQueue(payload, stationName);
         }
         void SendRequestDepartureClearance(string stationName) {
-            var payload = new CarriageRequestMessage(Me.CubeGrid.CustomName, CarriageRequestMessage.REQUEST_DEPART);
+            var payload = new CarriageRequestMessage(Me.CubeGrid.CustomName, CarriageRequests.Depart);
             _comms.AddMessageToQueue(payload, stationName);
         }
 
@@ -296,7 +296,7 @@ namespace IngameScript {
                 switch (msg.PayloadType) {
                     case StationResponseMessage.TYPE:
                         var responseMsg = StationResponseMessage.CreateFromPayload(msg.Payload);
-                        if (responseMsg?.Response == StationResponseMessage.RESPONSE_DEPARTURE_OK)
+                        if (responseMsg?.Response == StationResponses.DepartureOk)
                             SetMode(CarriageMode.Awaiting_CarriageReady2Depart);
                         break;
                     case SendCarriageToMessage.TYPE:

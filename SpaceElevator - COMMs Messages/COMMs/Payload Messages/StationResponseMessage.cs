@@ -15,10 +15,11 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
+
+    enum StationResponses { DepartureOk, DockingComplete }
+
     class StationResponseMessage : BasePayloadMessage {
         public const string TYPE = "StationRequestMessage";
-        public const string RESPONSE_DEPARTURE_OK = "Departure OK";
-        public const string RESPONSE_DOCKING_COMPLETE = "Docking Complete";
         public static StationResponseMessage CreateFromPayload(string message) {
             var obj = new StationResponseMessage();
             obj.LoadFromPayload(message);
@@ -26,10 +27,10 @@ namespace IngameScript {
         }
 
         private StationResponseMessage() : base(TYPE) { }
-        public StationResponseMessage(string response) : base(TYPE) {
-            _msgParts = new string[] { response };
+        public StationResponseMessage(StationResponses response) : base(TYPE) {
+            _msgParts = new string[] { response.ToString() };
         }
 
-        public string Response { get { return _msgParts[0]; } }
+        public StationResponses Response { get { return _msgParts[0].ToEnum<StationResponses>(); } }
     }
 }
