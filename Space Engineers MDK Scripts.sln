@@ -21,11 +21,13 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Profiler", "_Modu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{591BAD6C-F186-44B8-8076-DB35211A3B9A}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		bigblue_0.dds = bigblue_0.dds
 		bigblue_1.dds = bigblue_1.dds
 		bigblue_2.dds = bigblue_2.dds
 		Block Actions.txt = Block Actions.txt
 		Block Properties.txt = Block Properties.txt
+		..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SpaceEngineers\Content\Data\CubeBlocks.sbc = ..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SpaceEngineers\Content\Data\CubeBlocks.sbc
 		FontData.xml = FontData.xml
 	EndProjectSection
 EndProject
