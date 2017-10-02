@@ -61,7 +61,7 @@ namespace IngameScript {
             _settings.LoadFromSettingDict(_custConfig);
             _custConfig.SaveToCustomData(Me);
             _lastCustomDataHash = hash;
-            _doorManager.SecondsToLeaveOpen = _settings.GetDoorCloseDelay();
+            _doorManager.SecondsToLeaveOpen = _settings.DoorCloseDelay;
         }
 
         void LoadBlockLists(bool forceLoad = false) {

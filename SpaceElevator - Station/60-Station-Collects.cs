@@ -18,10 +18,10 @@ namespace IngameScript {
     partial class Program {
 
         bool IsOnThisGrid(IMyTerminalBlock b) { return Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
-        bool IsTaggedStation(IMyTerminalBlock b) { return (b.CustomName.Contains(_settings.GetStationTag())); }
+        bool IsTaggedStation(IMyTerminalBlock b) { return (b.CustomName.Contains(_settings.StationTag)); }
         bool IsTaggedStationOnThisGrid(IMyTerminalBlock b) { return (IsOnThisGrid(b) && IsTaggedStation(b)); }
-        bool IsTaggedTerminal(IMyTerminalBlock b) { return (b.CustomName.Contains(_settings.GetTerminalTag())); }
-        bool IsTaggedTransfer(IMyTerminalBlock b) { return (b.CustomName.Contains(_settings.GetTransferTag())); }
+        bool IsTaggedTerminal(IMyTerminalBlock b) { return (b.CustomName.Contains(_settings.TerminalTag)); }
+        bool IsTaggedTransfer(IMyTerminalBlock b) { return (b.CustomName.Contains(_settings.TransferTag)); }
         bool IsOnTransferArm(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTransfer(b); }
         bool IsLightOnTransferArm(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTransfer(b) && (b is IMyInteriorLight || b is IMyReflectorLight); }
         bool IsOnTerminal(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTerminal(b); }
