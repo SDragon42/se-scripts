@@ -55,7 +55,7 @@ namespace IngameScript {
             //_debug.Enabled = false;
             _debug.EchoMessages = false;
 
-            _log = new LogModule();
+            _log = new LogModule(20);
 
             _custConfig = new CustomDataConfigModule();
             _settings = new ScriptSettingsModule();

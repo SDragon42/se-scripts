@@ -21,8 +21,6 @@ namespace IngameScript {
         //  Displays
         //-------------------------------------------------------------------------------
         void UpdateDisplays() {
-            _log.AppendLine($"   A1: {_A1?.Status?.Range2Bottom:N2} -- {_A1?.Status?.Range2Top:N2}");
-            _log.AppendLine($"Maint: {_Maintenance?.Status?.Range2Bottom:N2} -- {_Maintenance?.Status?.Range2Top:N2}");
             var allCarriagesDisplay = Displays.BuildAllCarriagePositionSummary(_A1.Status, _A2.Status, _B1.Status, _B2.Status, _Maintenance.Status);
             //var allCarriagesWideDisplay = Displays.BuildAllCarriagePositionSummaryWide(_A1.Status, _A2.Status, _B1.Status, _B2.Status, _Maintenance.Status);
 

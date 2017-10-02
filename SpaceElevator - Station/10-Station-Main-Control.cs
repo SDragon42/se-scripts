@@ -107,7 +107,7 @@ namespace IngameScript {
             var message = CarriageRequestMessage.CreateFromPayload(msgPayload);
             var carriage = GetCarriageVar(carriageName);
             if (message == null || carriage == null) return;
-            _log.AppendLine("Request: " + message.Request);
+            _log.AppendLine($"{DateTime.Now.ToLongTimeString()} From {carriageName} | Request: {message.Request}");
             switch (message.Request) {
                 case CarriageRequests.Dock:
                     carriage.Connect = true;

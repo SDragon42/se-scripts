@@ -23,6 +23,7 @@ namespace IngameScript {
         void SendResponseMessage(string carriageName, StationResponses response) {
             if (_antenna == null) return;
             var msgPayload = new StationResponseMessage(response);
+            _log.AppendLine($"{DateTime.Now.ToLongTimeString()} To {carriageName} | Response: {response}");
             _comms.AddMessageToQueue(msgPayload, carriageName);
         }
 
