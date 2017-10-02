@@ -70,7 +70,7 @@ namespace IngameScript {
             _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList, IsTaggedStationOnThisGrid, IsOnThisGrid);
 
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
-            GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsTaggedStationOnThisGrid(b) && !IsTaggedTerminal(b));
+            GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsTaggedStationOnThisGrid(b) && IsDoorOnStationOnly(b));
             GridTerminalSystem.GetBlocksOfType(_displays, IsTaggedStationOnThisGrid);
 
             _blocksLoaded = true;

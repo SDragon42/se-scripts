@@ -18,14 +18,19 @@ namespace IngameScript {
     partial class Program {
 
         bool IsOnThisGrid(IMyTerminalBlock b) { return Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
+
         bool IsTaggedStation(IMyTerminalBlock b) { return (b.CustomName.Contains(_settings.StationTag)); }
         bool IsTaggedStationOnThisGrid(IMyTerminalBlock b) { return (IsOnThisGrid(b) && IsTaggedStation(b)); }
+        bool IsDoorOnStationOnly(IMyTerminalBlock b) { return IsTaggedStation(b) && !IsTaggedTerminal(b) && !IsTaggedTransfer(b) && Collect.IsHumanDoor(b); }
+
         bool IsTaggedTerminal(IMyTerminalBlock b) { return (b.CustomName.Contains(_settings.TerminalTag)); }
+        bool IsOnTerminal(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTerminal(b); }
+        bool IsDoorOnTerminal(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTerminal(b) && Collect.IsHumanDoor(b); }
+
         bool IsTaggedTransfer(IMyTerminalBlock b) { return (b.CustomName.Contains(_settings.TransferTag)); }
         bool IsOnTransferArm(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTransfer(b); }
         bool IsLightOnTransferArm(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTransfer(b) && (b is IMyInteriorLight || b is IMyReflectorLight); }
-        bool IsOnTerminal(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTerminal(b); }
-        bool IsDoorOnTerminal(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTerminal(b) && Collect.IsHumanDoor(b); }
+
 
     }
 }
