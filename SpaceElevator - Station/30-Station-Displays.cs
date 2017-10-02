@@ -21,13 +21,26 @@ namespace IngameScript {
         //  Displays
         //-------------------------------------------------------------------------------
         void UpdateDisplays() {
-            var allCarriagesDisplay = Displays.BuildAllCarriagePositionSummary(_A1.Status, _A2.Status, _B1.Status, _B2.Status, _Maintenance.Status);
-            //var allCarriagesWideDisplay = Displays.BuildAllCarriagePositionSummaryWide(_A1.Status, _A2.Status, _B1.Status, _B2.Status, _Maintenance.Status);
-
-            foreach (var d in _displays) {
-                if (Displays.IsAllCarriagesDisplay(d)) Write2MonospaceDisplay(d, allCarriagesDisplay, 0.97f);
-                //else if (Displays.IsAllCarriagesWideDisplay(d)) Write2MonospaceDisplay(d, allCarriagesWideDisplay, 0.97f);
+            if (_displaysAllCarriages.Count > 0) {
+                var text = Displays.BuildAllCarriageDisplayText(_A1.Status, _A2.Status, _B1.Status, _B2.Status, _Maintenance.Status);
+                _displaysAllCarriages.ForEach(d => Write2MonospaceDisplay(d, text, 0.97f));
             }
+
+            if (_displaysAllCarriagesWide.Count > 0) {
+                var text = Displays.BuildAllCarriageDisplayText(_A1.Status, _A2.Status, _B1.Status, _B2.Status, _Maintenance.Status, true);
+                _displaysAllCarriagesWide.ForEach(d => Write2MonospaceDisplay(d, text, 0.97f));
+            }
+
+            if (_displaysAllPassengerCarriages.Count > 0) {
+                var text = Displays.BuildAllPassengerCarriageDisplayText(_A1.Status, _A2.Status, _B1.Status, _B2.Status);
+                _displaysAllPassengerCarriages.ForEach(d => Write2MonospaceDisplay(d, text, 0.97f));
+            }
+
+            if (_displaysAllPassengerCarriagesWide.Count > 0) {
+                var text = Displays.BuildAllPassengerCarriageDisplayText(_A1.Status, _A2.Status, _B1.Status, _B2.Status, true);
+                _displaysAllPassengerCarriagesWide.ForEach(d => Write2MonospaceDisplay(d, text, 0.97f));
+            }
+
         }
         void Write2MonospaceDisplay(IMyTextPanel display, string text, float fontSize) {
             LCDHelper.SetFont_Monospaced(display);

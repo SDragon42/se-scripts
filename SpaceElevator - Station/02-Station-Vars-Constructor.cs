@@ -41,7 +41,12 @@ namespace IngameScript {
         IMyRadioAntenna _antenna;
         readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
         readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
-        readonly List<IMyTextPanel> _displays = new List<IMyTextPanel>();
+        //readonly List<IMyTextPanel> _displays = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysAllCarriages = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysAllCarriagesWide = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysAllPassengerCarriages = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysAllPassengerCarriagesWide = new List<IMyTextPanel>();
+
         readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
 
         readonly List<IMyTerminalBlock> _gateBlocks = new List<IMyTerminalBlock>();

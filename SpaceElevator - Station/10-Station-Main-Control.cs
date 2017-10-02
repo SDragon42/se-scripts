@@ -71,14 +71,21 @@ namespace IngameScript {
 
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsTaggedStationOnThisGrid(b) && IsDoorOnStationOnly(b));
-            GridTerminalSystem.GetBlocksOfType(_displays, IsTaggedStationOnThisGrid);
+            //GridTerminalSystem.GetBlocksOfType(_displays, IsTaggedStationOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllCarriagesDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllCarriagesWideDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllPassengerCarriagesDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllPassengerCarriagesWideDisplay(b));
 
             _blocksLoaded = true;
         }
         void EchoBlockLists() {
             Echo($"H2 Tanks: {_h2Tanks.Count}");
             Echo($"Doors: {_autoCloseDoors.Count}");
-            Echo($"Displays: {_displays.Count}");
+            Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
+            Echo($"Displays (All Carr): {_displaysAllCarriagesWide.Count}");
+            Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
+            Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
         }
 
         void RunCommand(string argument) {

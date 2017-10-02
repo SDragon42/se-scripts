@@ -32,12 +32,13 @@ namespace IngameScript {
         const string CHRS_Carriage_Cyan = "";
 
 
-        public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]"); }
-        //public static bool IsAllCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages-wide]"); }
+        public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]") && !Collect.IsWideLcd(b); }
+        public static bool IsAllCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]") && Collect.IsWideLcd(b); }
+        public static bool IsAllPassengerCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-passenger-carriages]") && !Collect.IsWideLcd(b); }
+        public static bool IsAllPassengerCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-passenger-carriages]") && Collect.IsWideLcd(b); }
 
-        public static string BuildAllCarriagePositionSummary(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint) {
+        public static string BuildAllCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint, bool wide = false) {
             const int max = 15;
-            // Monospace, fontsize 1.0
 
             var a1Info = GetGraphInfo(a1, max);
             var a2Info = GetGraphInfo(a2, max);
@@ -45,10 +46,17 @@ namespace IngameScript {
             var b2Info = GetGraphInfo(b2, max);
             var maintInfo = GetGraphInfo(maint, max);
 
+            IEnumerator<string> detailLines = (wide) ? GetCarriageDetails(a1, a2, b1, b2, maint).GetEnumerator() : null;
+            Func<string> GetNext;
+            if (wide)
+                GetNext = () => detailLines?.MoveNext() ?? false ? detailLines.Current : " │ ";
+            else
+                GetNext = () => string.Empty;
+
             var sb = new StringBuilder();
-            sb.AppendLine(" A2   A1   Maint  B1   B2");
-            sb.AppendLine($"{a2Info.Altitude} {a1Info.Altitude}  {maintInfo.Altitude}  {b1Info.Altitude} {b2Info.Altitude}");
-            sb.AppendLine($" {a2Info.DirText}   {a1Info.DirText}    {maintInfo.DirText}    {b1Info.DirText}   {b2Info.DirText}");
+            sb.AppendLine(" A2   A1   Maint  B1   B2 " + GetNext());
+            sb.AppendLine($"{a2Info.Altitude} {a1Info.Altitude}  {maintInfo.Altitude}  {b1Info.Altitude} {b2Info.Altitude}" + GetNext());
+            sb.AppendLine($" {a2Info.DirText}   {a1Info.DirText}    {maintInfo.DirText}    {b1Info.DirText}   {b2Info.DirText} " + GetNext());
             for (var i = max - 1; i >= 0; i--) {
                 var a1Text = (i == a1Info.VertPosNum) ? a1Info.Icon : "  ";
                 var a2Text = (i == a2Info.VertPosNum) ? a2Info.Icon : "  ";
@@ -57,19 +65,57 @@ namespace IngameScript {
                 var maintText = (i == maintInfo.VertPosNum) ? maintInfo.Icon : "  ";
 
                 if (i == max - 1)
-                    sb.AppendLine($"┌{a2Text}┐ ┌{a1Text}┐  ┌{maintText}┐  ┌{b1Text}┐ ┌{b2Text}┐");
+                    sb.AppendLine($"┌{a2Text}┐ ┌{a1Text}┐  ┌{maintText}┐  ┌{b1Text}┐ ┌{b2Text}┐" + GetNext());
                 else if (i == 0)
-                    sb.AppendLine($"└{a2Text}┘ └{a1Text}┘  └{maintText}┘  └{b1Text}┘ └{b2Text}┘");
+                    sb.AppendLine($"└{a2Text}┘ └{a1Text}┘  └{maintText}┘  └{b1Text}┘ └{b2Text}┘" + GetNext());
                 else if (i == max / 2)
-                    sb.AppendLine($"│{a2Text}│ │{a1Text}│  ├{maintText}┤  │{b1Text}│ │{b2Text}│");
+                    sb.AppendLine($"│{a2Text}│ │{a1Text}│  ├{maintText}┤  │{b1Text}│ │{b2Text}│" + GetNext());
                 else
-                    sb.AppendLine($"│{a2Text}│ │{a1Text}│  │{maintText}│  │{b1Text}│ │{b2Text}│");
+                    sb.AppendLine($"│{a2Text}│ │{a1Text}│  │{maintText}│  │{b1Text}│ │{b2Text}│" + GetNext());
+            }
+
+            return sb.ToString();
+        }
+        public static string BuildAllPassengerCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, bool wide = false) {
+            const int max = 15;
+
+            var a1Info = GetGraphInfo(a1, max);
+            var a2Info = GetGraphInfo(a2, max);
+            var b1Info = GetGraphInfo(b1, max);
+            var b2Info = GetGraphInfo(b2, max);
+
+            IEnumerator<string> detailLines = (wide) ? GetCarriageDetails(a1, a2, b1, b2).GetEnumerator() : null;
+            Func<string> GetNext;
+            if (wide)
+                GetNext = () => detailLines?.MoveNext() ?? false ? detailLines.Current : " │ ";
+            else
+                GetNext = () => string.Empty;
+
+            var sb = new StringBuilder();
+            sb.AppendLine(" A2     A1      B1     B2 " + GetNext());
+            sb.AppendLine($"{a2Info.Altitude}   {a1Info.Altitude}    {b1Info.Altitude}   {b2Info.Altitude}" + GetNext());
+            sb.AppendLine($" {a2Info.DirText}     {a1Info.DirText}      {b1Info.DirText}     {b2Info.DirText} " + GetNext());
+            for (var i = max - 1; i >= 0; i--) {
+                var a1Text = (i == a1Info.VertPosNum) ? a1Info.Icon : "  ";
+                var a2Text = (i == a2Info.VertPosNum) ? a2Info.Icon : "  ";
+                var b1Text = (i == b1Info.VertPosNum) ? b1Info.Icon : "  ";
+                var b2Text = (i == b2Info.VertPosNum) ? b2Info.Icon : "  ";
+
+                if (i == max - 1)
+                    sb.AppendLine($"┌{a2Text}┐   ┌{a1Text}┐    ┌{b1Text}┐   ┌{b2Text}┐" + GetNext());
+                else if (i == 0)
+                    sb.AppendLine($"└{a2Text}┘   └{a1Text}┘    └{b1Text}┘   └{b2Text}┘" + GetNext());
+                else if (i == max / 2)
+                    sb.AppendLine($"│{a2Text}│   │{a1Text}│    │{b1Text}│   │{b2Text}│" + GetNext());
+                else
+                    sb.AppendLine($"│{a2Text}│   │{a1Text}│    │{b1Text}│   │{b2Text}│" + GetNext());
             }
 
             return sb.ToString();
         }
 
         static string GetDirectionArrows(CarriageStatusMessage carriage) {
+            if (carriage == null) return "  ";
             var vspeed = Math.Round(carriage.VerticalSpeed, 1);
             return vspeed > 0 ? CHR_UP : vspeed < 0 ? CHR_DOWN : "  ";
         }
@@ -100,6 +146,37 @@ namespace IngameScript {
                 VertPosNum = GetCarriagePositionIndex(carriage, numLines)
             };
 
+        }
+
+        static IEnumerable<string> GetCarriageDetails(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2) {
+            yield return " │ ";
+            yield return " │ ";
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Carriage A2", a2)) yield return txt;
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Carriage A1", a1)) yield return txt;
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Carriage B1", b1)) yield return txt;
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Carriage B2", b2)) yield return txt;
+        }
+        static IEnumerable<string> GetCarriageDetails(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint) {
+            foreach (var txt in GetCarriageDetails("Carriage A2", a2)) yield return txt;
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Carriage A1", a1)) yield return txt;
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Maintenance Carriage", maint)) yield return txt;
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Carriage B1", b1)) yield return txt;
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Carriage B2", b2)) yield return txt;
+        }
+        static IEnumerable<string> GetCarriageDetails(string carriageName, CarriageStatusMessage status) {
+            var velocity = status != null ? $"{Math.Abs(status.VerticalSpeed),6:N1}" : " ---.-";
+            var altitude = status != null ? $"{status?.Range2Bottom,6:N0}" : "--,---";
+            yield return $" │ {carriageName}";
+            yield return $" │ Velocity: {velocity} m/s {GetDirectionArrows(status)[0]}";
+            yield return $" │ Altitude: {altitude} m";
         }
 
         class CarriageGraphInfo {
