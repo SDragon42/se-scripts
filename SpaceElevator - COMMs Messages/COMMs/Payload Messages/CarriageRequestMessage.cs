@@ -15,7 +15,6 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-
     enum CarriageRequests { Dock, Depart }
 
     class CarriageRequestMessage : BasePayloadMessage {

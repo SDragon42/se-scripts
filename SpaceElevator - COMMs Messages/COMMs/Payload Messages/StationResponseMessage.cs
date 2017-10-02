@@ -15,7 +15,6 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-
     enum StationResponses { DepartureOk, DockingComplete }
 
     class StationResponseMessage : BasePayloadMessage {

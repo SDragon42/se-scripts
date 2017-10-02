@@ -49,11 +49,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SpaceElevator - Common", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Carriage", "SpaceElevator - Carriage\SpaceElevator - Carriage.csproj", "{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Maintenance Carriage", "SpaceElevator - Maintenance Carriage\SpaceElevator - Maintenance Carriage.csproj", "{E86815B1-6E4C-48A4-B4AE-41F80675C68B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Station", "SpaceElevator - Station\SpaceElevator - Station.csproj", "{7668C9B9-78DE-4B35-A141-D528F0704D4A}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SpaceElevator - Carriages", "SpaceElevator - Carriages\SpaceElevator - Carriages.shproj", "{6E984321-53BC-42D1-96A1-F33860DC1E59}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Vector Align", "_Module - Vector Align\_Module - Vector Align.shproj", "{7204DD88-D4C2-4FE4-BBF8-E632497B7EFE}"
 EndProject
@@ -107,7 +103,6 @@ Global
 		_Helper - Connectors\_Helper - Connectors.projitems*{5401fcb1-dddd-4ab5-b78d-0c3ae14d202c}*SharedItemsImports = 13
 		_Module - Logging\_Module - Logging.projitems*{5a5bcc5c-0965-4cf1-b4c0-9f4925f33878}*SharedItemsImports = 13
 		_Module - Compass\_Module - Compass.projitems*{61d703ee-85ba-47e5-b1b7-e512b20d7203}*SharedItemsImports = 13
-		SpaceElevator - Carriages\SpaceElevator - Carriages.projitems*{6e984321-53bc-42d1-96a1-f33860dc1e59}*SharedItemsImports = 13
 		_Module - Vector Align\_Module - Vector Align.projitems*{7204dd88-d4c2-4fe4-bbf8-e632497b7efe}*SharedItemsImports = 13
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		_Helper - Doors\_Helper - Doors.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
@@ -158,7 +153,6 @@ Global
 		_Module - Group Renamer\_Module - Group Renamer.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
 		_Module - Door Closer\_Module - Door Closer.projitems*{ce1d6a6c-a380-4fa8-a306-2f81aa4a7e33}*SharedItemsImports = 13
 		_Module - Group Renamer\_Module - Group Renamer.projitems*{d29a0752-9c90-49ab-b1cc-3228eca57f3f}*SharedItemsImports = 4
-		SpaceElevator - Carriages\SpaceElevator - Carriages.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
@@ -173,19 +167,6 @@ Global
 		_Module - Time Interval\_Module - Time Interval.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{dd940528-1a03-4ab3-9504-3aa93571e5ec}*SharedItemsImports = 13
 		_Helper - Doors\_Helper - Doors.projitems*{e503bebe-817d-4bed-9072-7bfcb95415b8}*SharedItemsImports = 13
-		SpaceElevator - Carriages\SpaceElevator - Carriages.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
-		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
-		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
-		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
-		_Helper - Landing Gears\_Helper - Landing Gears.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
-		_Helper - LCDs\_Helper - LCDs.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
-		_Helper - Thrusters\_Helper - Thrusters.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
-		_Library - Common\_Library - Common.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
-		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
-		_Module - Debug\_Module - Debug.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
-		_Module - Door Closer\_Module - Door Closer.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
-		_Module - Logging\_Module - Logging.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
-		_Module - Time Interval\_Module - Time Interval.projitems*{e86815b1-6e4c-48a4-b4ae-41f80675c68b}*SharedItemsImports = 4
 		_Helper - LCDs\_Helper - LCDs.projitems*{ec64a080-a572-41f9-a535-6152d0a647f3}*SharedItemsImports = 13
 		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{eed1e4ac-d5ca-447a-bf3c-34c0e9b961fe}*SharedItemsImports = 13
 	EndGlobalSection
@@ -205,8 +186,6 @@ Global
 		{07280390-4C98-4B20-A2EB-F4DBE5713CEF}.Debug|x64.Build.0 = Debug|x64
 		{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}.Debug|x64.ActiveCfg = Debug|x64
 		{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}.Debug|x64.Build.0 = Debug|x64
-		{E86815B1-6E4C-48A4-B4AE-41F80675C68B}.Debug|x64.ActiveCfg = Debug|x64
-		{E86815B1-6E4C-48A4-B4AE-41F80675C68B}.Debug|x64.Build.0 = Debug|x64
 		{7668C9B9-78DE-4B35-A141-D528F0704D4A}.Debug|x64.ActiveCfg = Debug|x64
 		{7668C9B9-78DE-4B35-A141-D528F0704D4A}.Debug|x64.Build.0 = Debug|x64
 		{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}.Debug|x64.ActiveCfg = Debug|x64

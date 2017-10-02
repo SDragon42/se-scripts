@@ -96,17 +96,24 @@
     <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\cupms2ev.deu\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="01-Carriage-Constants.cs" />
+    <Compile Include="02-Carriage-Vars-Constructor.cs" />
+    <Compile Include="20-Carriage-COMMs.cs" />
+    <Compile Include="40-Carriage-Calculations.cs" />
+    <Compile Include="50-Carriage-Mode-Operations.cs" />
+    <Compile Include="60-Carriage-Collects.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <Compile Include="PassengerCarriage.cs" />
+    <Compile Include="10-Carriage-Main-Control.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
+    <Compile Include="ScriptSettingsModule.cs" />
+    <Compile Include="TravelDirection.cs" />
   </ItemGroup>
   <Import Project="..\_Module - Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
-  <Import Project="..\SpaceElevator - Carriages\SpaceElevator - Carriages.projitems" Label="Shared" />
   <Import Project="..\SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems" Label="Shared" />
   <Import Project="..\_Module - Door Closer\_Module - Door Closer.projitems" Label="Shared" />
   <Import Project="..\_Module - Logging\_Module - Logging.projitems" Label="Shared" />
