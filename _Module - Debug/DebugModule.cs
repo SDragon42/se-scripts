@@ -43,7 +43,7 @@ namespace IngameScript {
         }
         bool IsValidDebugDisplay(IMyTerminalBlock b) {
             if (b.CubeGrid != _thisObj.Me.CubeGrid) return false;
-            return (b.CustomName.ToLower() == _debugDisplayName);
+            return (string.Compare(b.CustomName, _debugDisplayName, true) == 0);
         }
 
 
