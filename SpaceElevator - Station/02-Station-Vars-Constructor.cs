@@ -46,6 +46,7 @@ namespace IngameScript {
         readonly List<IMyTextPanel> _displaysAllCarriagesWide = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysAllPassengerCarriages = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysAllPassengerCarriagesWide = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysSingleCarriages = new List<IMyTextPanel>();
 
         readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
 

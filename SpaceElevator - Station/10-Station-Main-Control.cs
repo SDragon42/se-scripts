@@ -77,6 +77,8 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllPassengerCarriagesDisplay(b));
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllPassengerCarriagesWideDisplay(b));
 
+            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsSingleCarriageDisplay(b));
+
             _blocksLoaded = true;
         }
         void EchoBlockLists() {

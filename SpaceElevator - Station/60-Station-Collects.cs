@@ -31,6 +31,10 @@ namespace IngameScript {
         bool IsOnTransferArm(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTransfer(b); }
         bool IsLightOnTransferArm(IMyTerminalBlock b) { return IsTaggedStation(b) && IsTaggedTransfer(b) && (b is IMyInteriorLight || b is IMyReflectorLight); }
 
-
+        bool IsGateA1(IMyTerminalBlock b) { return (b.CustomName.Contains(TAG_A1)); }
+        bool IsGateA2(IMyTerminalBlock b) { return (b.CustomName.Contains(TAG_A2)); }
+        bool IsGateB1(IMyTerminalBlock b) { return (b.CustomName.Contains(TAG_B1)); }
+        bool IsGateB2(IMyTerminalBlock b) { return (b.CustomName.Contains(TAG_B2)); }
+        bool IsGateMaint(IMyTerminalBlock b) { return (b.CustomName.Contains(TAG_MAINTENANCE)); }
     }
 }
