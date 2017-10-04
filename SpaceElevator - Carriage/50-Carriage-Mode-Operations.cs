@@ -170,17 +170,23 @@ namespace IngameScript {
         bool IsRotated2Limit(IMyMotorStator rotor, bool rotateToMax) {
             if (rotor == null) return true;
             var currAngle = Math.Round(rotor.Angle, ElevatorConst.RADIAN_ROUND_DIGITS);
-            var angleLimiit = rotateToMax ? rotor.UpperLimit : rotor.LowerLimit;
-            var targetAngle = Math.Round(angleLimiit, ElevatorConst.RADIAN_ROUND_DIGITS);
+            var angleLimit = rotateToMax ? rotor.UpperLimit : rotor.LowerLimit;
+            var targetAngle = Math.Round(angleLimit, ElevatorConst.RADIAN_ROUND_DIGITS);
             var notAtTarget = rotateToMax ? (currAngle < targetAngle) : (currAngle > targetAngle);
             return !notAtTarget;
         }
         void CheckRampsAtLimits() {
-            var allRaised = _boardingRamps.All(rotor => IsRotated2Limit(rotor, false));
-            var allLowered = _boardingRamps.All(rotor => IsRotated2Limit(rotor, true));
-            if (!(allRaised || allLowered)) return;
+
+            var atLimit = true;
+            var isRaised = true;
+            foreach (var r in _boardingRamps) {
+                var rotate2Max = r.TargetVelocity > 0;
+                atLimit &= IsRotated2Limit(r, rotate2Max);
+                isRaised &= !rotate2Max && atLimit;
+            }
+            _boardingRampsClear = isRaised;
+            if (!atLimit) return;
             _boardingRamps.ForEach(rotor => rotor.SafetyLock = true);
-            _boardingRampsClear = allRaised;
         }
 
         void AscentModeOps() {
@@ -289,8 +295,6 @@ namespace IngameScript {
             foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, ascentOverridePower);
             foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, decentOverridePower);
         }
-
-
 
     }
 }
