@@ -14,16 +14,13 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class BlockTypes : TestingBase, ITestingBase
-    {
+namespace IngameScript {
+    class BlockTypes : TestingBase, ITestingBase {
         public BlockTypes(MyGridProgram thisObj) : base(thisObj) { }
 
         readonly List<IMyTerminalBlock> blocks = new List<IMyTerminalBlock>();
 
-        public void Main(string argument)
-        {
+        public void Main(string argument) {
             var output = GridTerminalSystem.GetBlockWithName("DEBUG") as IMyTextPanel;
             GridTerminalSystem.GetBlocks(blocks);
 

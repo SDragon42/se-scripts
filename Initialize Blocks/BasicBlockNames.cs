@@ -14,16 +14,12 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    static class BasicBlockNames
-    {
-        public static string GetName(IMyTerminalBlock b)
-        {
+namespace IngameScript {
+    static class BasicBlockNames {
+        public static string GetName(IMyTerminalBlock b) {
             if (b == null) return string.Empty;
             var key = b.BlockDefinition.TypeIdString.Substring(16) + ":" + b.BlockDefinition.SubtypeId;
-            switch (key)
-            {
+            switch (key) {
                 default: return string.Empty;
                 case "AirtightHangarDoor:": return "Hangar Door";
                 case "AirtightSlideDoor:LargeBlockSlideDoor": return "Door";

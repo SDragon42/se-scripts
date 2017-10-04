@@ -14,16 +14,12 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class GpsInfo
-    {
-        public GpsInfo(string rawGPS)
-        {
+namespace IngameScript {
+    class GpsInfo {
+        public GpsInfo(string rawGPS) {
             _rawGPS = rawGPS;
             VectorHelper.GpsToVector(rawGPS, out _name, out _location);
-            if (_name.StartsWith("*"))
-            {
+            if (_name.StartsWith("*")) {
                 _needsClearance = false;
                 _name = _name.Substring(1);
             }

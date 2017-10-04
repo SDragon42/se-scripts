@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IngameScript
-{
-    class TwrInfo
-    {
+namespace IngameScript {
+    class TwrInfo {
         public string Thrust_Direction { get; set; }
 
         public double Thrust { get; set; }

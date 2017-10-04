@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IngameScript
-{
+namespace IngameScript {
     enum TravelDirection { None, Ascent, Descent }
 }

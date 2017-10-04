@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    static partial class Collect
-    {
+namespace IngameScript {
+    static partial class Collect {
         public static bool IsDoor(IMyTerminalBlock b) { return b is IMyDoor; }
         public static bool IsBasicDoor(IMyTerminalBlock b) { return !(IsSlidingDoor(b) || IsHangarDoor(b)); }
         public static bool IsHangarDoor(IMyTerminalBlock b) { return (b is IMyAirtightHangarDoor); }

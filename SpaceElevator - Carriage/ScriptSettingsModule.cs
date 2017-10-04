@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class ScriptSettingsModule
-    {
+namespace IngameScript {
+    class ScriptSettingsModule {
         const string DEFAULT_BlockTag = "[carriage]";
         const int DEFAULT_WorldInventoryMultiplier = 1;
         const double DEFAULT_TravelSpeed = 99.0;
@@ -39,8 +37,8 @@ namespace IngameScript
         const string KEY_SendStatusMessages = "Transmit Status";
         const string KEY_GpsPoint = "GPS Point ";
 
-        public void InitializeConfig(CustomDataConfigModule config)
-        {
+
+        public void InitializeConfig(CustomDataConfigModule config) {
             config.Clear();
             config.AddKey(KEY_BlockTag,
                 description: "This is the name tag to add to the blocks so that the script can\ncontrol them.",
@@ -77,95 +75,70 @@ namespace IngameScript
             config.AddKey(KEY_GpsPoint + "2");
             config.AddKey(KEY_GpsPoint + "3");
         }
-        public void LoadFromSettingDict(CustomDataConfigModule config)
-        {
-            _inventoryMultiplier = config.GetValue(KEY_InvMultiplier).ToInt(DEFAULT_WorldInventoryMultiplier);
-            _travelSpeed = config.GetValue(KEY_TravelSpeed).ToDouble(DEFAULT_TravelSpeed);
-            _DockSpeed = config.GetValue(KEY_DockSpeed).ToDouble(DEFAULT_DockSpeed);
-            _ConnectorLockDelay = config.GetValue(KEY_LockDelay).ToDouble(DEFAULT_ConnectorLockDelay);
-            _ApproachDistance = config.GetValue(KEY_ApproachDist).ToDouble(DEFAULT_ApproachDistence);
-            _GravityDescelEnabled = config.GetValue(KEY_GravityDescelEnabled).ToBoolean(DEFAULT_GravityDescelEnabled);
-            _BlockTag = config.GetValue(KEY_BlockTag, DEFAULT_BlockTag);
-            _DoorCloseDelay = config.GetValue(KEY_TimeToLeaveDoorOpen).ToDouble(DEFAULT_DoorCloseDelay);
-            _SendStatusMessages = config.GetValue(KEY_SendStatusMessages).ToBoolean(DEFAULT_SendStatusMessages);
+        public void LoadFromSettingDict(CustomDataConfigModule config) {
+            InventoryMultiplier = config.GetValue(KEY_InvMultiplier).ToInt(DEFAULT_WorldInventoryMultiplier);
+            TravelSpeed = config.GetValue(KEY_TravelSpeed).ToDouble(DEFAULT_TravelSpeed);
+            DockSpeed = config.GetValue(KEY_DockSpeed).ToDouble(DEFAULT_DockSpeed);
+            ConnectorLockDelay = config.GetValue(KEY_LockDelay).ToDouble(DEFAULT_ConnectorLockDelay);
+            ApproachDistance = config.GetValue(KEY_ApproachDist).ToDouble(DEFAULT_ApproachDistence);
+            GravityDescelEnabled = config.GetValue(KEY_GravityDescelEnabled).ToBoolean(DEFAULT_GravityDescelEnabled);
+            BlockTag = config.GetValue(KEY_BlockTag, DEFAULT_BlockTag);
+            DoorCloseDelay = config.GetValue(KEY_TimeToLeaveDoorOpen).ToDouble(DEFAULT_DoorCloseDelay);
+            SendStatusMessages = config.GetValue(KEY_SendStatusMessages).ToBoolean(DEFAULT_SendStatusMessages);
 
-            _gpsPoints.Clear();
+            GpsPoints.Clear();
             var i = 1;
-            while (true)
-            {
+            while (true) {
                 var key = KEY_GpsPoint + i.ToString();
                 i++;
                 if (!config.ContainsKey(key)) break;
-                _gpsPoints.Add(new GpsInfo(config.GetValue(key)));
+                var gps = new GpsInfo(config.GetValue(key));
+                if (gps.GetLocation() != Vector3D.Zero)
+                    GpsPoints.Add(gps);
             }
         }
-        public void BuidSettingDict(CustomDataConfigModule config)
-        {
-            config.SetValue(KEY_InvMultiplier, _inventoryMultiplier.ToString());
-            config.SetValue(KEY_TravelSpeed, _travelSpeed.ToString());
-            config.SetValue(KEY_DockSpeed, _DockSpeed.ToString());
-            config.SetValue(KEY_ApproachDist, _ApproachDistance.ToString());
-            config.SetValue(KEY_GravityDescelEnabled, _GravityDescelEnabled.ToString());
-            config.SetValue(KEY_BlockTag, _BlockTag);
-            config.SetValue(KEY_TimeToLeaveDoorOpen, _DoorCloseDelay.ToString());
-            config.SetValue(KEY_SendStatusMessages, _SendStatusMessages.ToString());
+        public void BuidSettingDict(CustomDataConfigModule config) {
+            config.SetValue(KEY_InvMultiplier, InventoryMultiplier.ToString());
+            config.SetValue(KEY_TravelSpeed, TravelSpeed.ToString());
+            config.SetValue(KEY_DockSpeed, DockSpeed.ToString());
+            config.SetValue(KEY_LockDelay, ConnectorLockDelay.ToString());
+            config.SetValue(KEY_ApproachDist, ApproachDistance.ToString());
+            config.SetValue(KEY_GravityDescelEnabled, GravityDescelEnabled.ToString());
+            config.SetValue(KEY_BlockTag, BlockTag);
+            config.SetValue(KEY_TimeToLeaveDoorOpen, DoorCloseDelay.ToString());
+            config.SetValue(KEY_SendStatusMessages, SendStatusMessages.ToString());
 
-            for (var i = 0; i < _gpsPoints.Count; i++)
-                config.SetValue(KEY_GpsPoint + i.ToString(), _gpsPoints[i].GetRawGPS());
+            for (var i = 0; i < GpsPoints.Count; i++)
+                config.SetValue(KEY_GpsPoint + i.ToString(), GpsPoints[i].GetRawGPS());
         }
 
 
-        int _inventoryMultiplier;
-        public int GetInventoryMultiplier() { return _inventoryMultiplier; }
-
-        double _travelSpeed;
-        public double GetTravelSpeed() { return _travelSpeed; }
-
-        double _DockSpeed;
-        public double GetDockSpeed() { return _DockSpeed; }
-
-        double _ConnectorLockDelay;
-        public double GetConnectorLockDelay() { return _ConnectorLockDelay; }
-
-        double _ApproachDistance;
-        public double GetApproachDistance() { return _ApproachDistance; }
-
-        bool _GravityDescelEnabled;
-        public bool GetGravityDescelEnabled() { return _GravityDescelEnabled; }
+        public int InventoryMultiplier { get; private set; }
+        public double TravelSpeed { get; private set; }
+        public double DockSpeed { get; private set; }
+        public double ConnectorLockDelay { get; private set; }
+        public double ApproachDistance { get; private set; }
+        public bool GravityDescelEnabled { get; private set; }
+        public string BlockTag { get; private set; }
+        public double DoorCloseDelay { get; private set; }
+        public bool SendStatusMessages { get; private set; }
+        public readonly List<GpsInfo> GpsPoints = new List<GpsInfo>();
 
 
-        string _BlockTag;
-        public string GetBlockTag() { return _BlockTag; }
-
-
-        double _DoorCloseDelay;
-        public double GetDoorCloseDelay() { return _DoorCloseDelay; }
-
-
-        bool _SendStatusMessages;
-        public bool GetSendStatusMessages() { return _SendStatusMessages; }
-
-        readonly List<GpsInfo> _gpsPoints = new List<GpsInfo>();
-        public IList<GpsInfo> GetGpsPointList() { return _gpsPoints; }
-
-        public Vector3D GetBottomPoint()
-        {
-            return (_gpsPoints.Count > 0)
-                ? _gpsPoints[0].GetLocation()
+        public Vector3D GetBottomPoint() {
+            return (GpsPoints.Count > 0)
+                ? GpsPoints[0].GetLocation()
                 : Vector3D.Zero;
         }
-        public Vector3D GetGpsPoint(string name)
-        {
-            foreach (var point in _gpsPoints)
-                if (string.Compare(point.GetName(), name, true) == 0)
-                    return point.GetLocation();
-            return Vector3D.Zero;
+        public Vector3D GetTopPoint() {
+            return (GpsPoints.Count > 0)
+                ? GpsPoints[GpsPoints.Count - 1].GetLocation()
+                : Vector3D.Zero;
         }
-        public GpsInfo GetGpsInfo(string name)
-        {
-            foreach (var point in _gpsPoints)
-                if (string.Compare(point.GetName(), name, true) == 0)
-                    return point;
+        public GpsInfo GetGpsInfo(string name) {
+            foreach (var gps in GpsPoints)
+                if (string.Compare(gps.GetName(), name, true) == 0)
+                    return gps;
             return null;
         }
 

@@ -14,61 +14,55 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class DebugModule : LogModule
-    {
+namespace IngameScript {
+    class DebugModule : LogModule {
         public const string DefaultDebugPanelName = "DEBUG";
 
-        readonly List<IMyTerminalBlock> tmp = new List<IMyTerminalBlock>();
+        readonly List<IMyTextPanel> _debugDisplays = new List<IMyTextPanel>();
 
         readonly MyGridProgram _thisObj;
         readonly string _debugDisplayName;
 
 
-        public DebugModule(MyGridProgram thisObj, string debugDisplayName = null)
-        {
+        public DebugModule(MyGridProgram thisObj, string debugDisplayName = null) {
             _thisObj = thisObj;
             _debugDisplayName = string.IsNullOrWhiteSpace(debugDisplayName) ? DefaultDebugPanelName : debugDisplayName;
             MaxTextLinesToKeep = -1;
         }
 
 
-        IMyTextPanel _display;
-
         public bool EchoMessages { get; set; }
 
 
-        private void Init()
-        {
-            _thisObj.GridTerminalSystem.SearchBlocksOfName(_debugDisplayName, tmp, b => b.CubeGrid.EntityId == _thisObj.Me.CubeGrid.EntityId);
-            if (tmp.Count <= 0) return;
-            _display = tmp[0] as IMyTextPanel;
-            if (_display == null) return;
-            _display.ShowTextureOnScreen();
-            _display.ShowPublicTextOnScreen();
+        void Init() {
+            _thisObj.GridTerminalSystem.GetBlocksOfType(_debugDisplays, IsValidDebugDisplay);
+            foreach (var display in _debugDisplays) {
+                display.ShowTextureOnScreen();
+                display.ShowPublicTextOnScreen();
+            }
+        }
+        bool IsValidDebugDisplay(IMyTerminalBlock b) {
+            if (b.CubeGrid != _thisObj.Me.CubeGrid) return false;
+            return (string.Compare(b.CustomName, _debugDisplayName, true) == 0);
         }
 
-        public override void Clear()
-        {
+
+        public override void Clear() {
             base.Clear();
             if (!Enabled) return;
             Init();
-            if (_display == null) return;
-            _display.WritePublicText(string.Empty);
+            WriteToDisplays(string.Empty);
         }
-
-
-        public void UpdateDisplay()
-        {
+        public void UpdateDisplay() {
             if (!Enabled) return;
-
             var text = GetLogText();
-
             Init();
             if (EchoMessages) _thisObj.Echo(text);
-            if (_display == null) return;
-            _display.WritePublicText(text, false);
+            WriteToDisplays(text);
+        }
+        void WriteToDisplays(string text) {
+            if (!Enabled) return;
+            _debugDisplays.ForEach(d => d.WritePublicText(text));
         }
     }
 }

@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class ScriptSettings
-    {
+namespace IngameScript {
+    class ScriptSettings {
         public int DockSecureInterval { get; private set; }
         public int ProximityInterval { get; private set; }
 
@@ -41,8 +39,7 @@ namespace IngameScript
         readonly CustomDataConfigModule _config = new CustomDataConfigModule();
         int _configHashCode = 0;
 
-        public void InitConfig(IMyProgrammableBlock me, DockSecureModule dsm, ProximityModule pm, Action postLoadAction = null)
-        {
+        public void InitConfig(IMyProgrammableBlock me, DockSecureModule dsm, ProximityModule pm, Action postLoadAction = null) {
             _config.AddKey(KEY_DockSecureInterval,
                 description: "The number of times/second to check if docked.",
                 defaultValue: "4");
@@ -75,8 +72,7 @@ namespace IngameScript
 
             LoadConfig(me, dsm, pm, postLoadAction);
         }
-        public void LoadConfig(IMyProgrammableBlock me, DockSecureModule dsm, ProximityModule pm, Action postLoadAction = null)
-        {
+        public void LoadConfig(IMyProgrammableBlock me, DockSecureModule dsm, ProximityModule pm, Action postLoadAction = null) {
             if (_configHashCode == me.CustomData.GetHashCode())
                 return;
             _config.ReadFromCustomData(me, true);

@@ -14,12 +14,9 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    static class Font_X
-    {
-        static Font_X()
-        {
+namespace IngameScript {
+    static class Font_X {
+        static Font_X() {
             dic = new Dictionary<char, FontChar>();
             dic.Add('0', new FontChar(4, new int[] { 0, 1, 2, 4, 6, 8, 10, 12, 14, 16, 17, 18 }));
             dic.Add('1', new FontChar(4, new int[] { 1, 4, 5, 9, 13, 16, 17, 18 }));

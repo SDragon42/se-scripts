@@ -14,27 +14,23 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    public class CarriageRequestMessage : BasePayloadMessage
-    {
+namespace IngameScript {
+    enum CarriageRequests { Dock, Depart }
+
+    class CarriageRequestMessage : BasePayloadMessage {
         public const string TYPE = "CarriageRequestMessage";
-        public const string REQUEST_DOCK = "Dock";
-        public const string REQUEST_DEPART = "Depart";
-        public static CarriageRequestMessage CreateFromPayload(string message)
-        {
+        public static CarriageRequestMessage CreateFromPayload(string message) {
             var obj = new CarriageRequestMessage();
             obj.LoadFromPayload(message);
             return obj;
         }
 
         private CarriageRequestMessage() : base(TYPE) { }
-        public CarriageRequestMessage(string carriageName, string request) : base(TYPE)
-        {
-            _msgParts = new string[] { carriageName, request };
+        public CarriageRequestMessage(string carriageName, CarriageRequests request) : base(TYPE) {
+            _msgParts = new string[] { carriageName, request.ToString() };
         }
 
-        public string GetCarriageName() { return _msgParts[0]; }
-        public string GetRequest() { return _msgParts[1]; }
+        public string CarriageName { get { return _msgParts[0]; } }
+        public CarriageRequests Request { get { return _msgParts[1].ToEnum<CarriageRequests>(); } }
     }
 }

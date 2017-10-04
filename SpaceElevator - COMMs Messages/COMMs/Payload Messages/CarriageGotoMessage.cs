@@ -14,25 +14,21 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    public class SendCarriageToMessage : BasePayloadMessage
-    {
+namespace IngameScript {
+    class SendCarriageToMessage : BasePayloadMessage {
         public const string TYPE = "SendCarriageToMessage";
-        public static SendCarriageToMessage CreateFromPayload(string message)
-        {
+        public static SendCarriageToMessage CreateFromPayload(string message) {
             var obj = new SendCarriageToMessage();
             obj.LoadFromPayload(message);
             return obj;
         }
 
         private SendCarriageToMessage() : base(TYPE) { }
-        public SendCarriageToMessage(string carriageName, string destination) : base(TYPE)
-        {
+        public SendCarriageToMessage(string carriageName, string destination) : base(TYPE) {
             _msgParts = new string[] { carriageName, destination };
         }
 
-        public string GetCarriageName() { return _msgParts[0]; }
-        public string GetDestination() { return _msgParts[1]; }
+        public string CarriageName { get { return _msgParts[0]; } }
+        public string Destination { get { return _msgParts[1]; } }
     }
 }

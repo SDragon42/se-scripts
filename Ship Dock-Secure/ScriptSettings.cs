@@ -14,10 +14,8 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class ScriptSettings
-    {
+namespace IngameScript {
+    class ScriptSettings {
         public int RunInterval { get; private set; }
 
 
@@ -38,8 +36,7 @@ namespace IngameScript
         readonly CustomDataConfigModule _config = new CustomDataConfigModule();
         int _configHashCode = 0;
 
-        public void InitConfig(IMyProgrammableBlock me, DockSecureModule dsm, Action postLoadAction = null)
-        {
+        public void InitConfig(IMyProgrammableBlock me, DockSecureModule dsm, Action postLoadAction = null) {
             _config.AddKey(KEY_AUTO_OFF,
                 description: "This will turn off systems automactically when the ship docks via a\nconnector or landing gear.",
                 defaultValue: bool.TrueString);
@@ -68,8 +65,7 @@ namespace IngameScript
 
             LoadConfig(me, dsm, postLoadAction);
         }
-        public void LoadConfig(IMyProgrammableBlock me, DockSecureModule dsm, Action postLoadAction = null)
-        {
+        public void LoadConfig(IMyProgrammableBlock me, DockSecureModule dsm, Action postLoadAction = null) {
             if (_configHashCode == me.CustomData.GetHashCode())
                 return;
             _config.ReadFromCustomData(me, true);

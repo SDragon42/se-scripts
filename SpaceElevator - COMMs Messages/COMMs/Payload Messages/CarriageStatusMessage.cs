@@ -14,38 +14,34 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    public class CarriageStatusMessage : BasePayloadMessage
-    {
+namespace IngameScript {
+    class CarriageStatusMessage : BasePayloadMessage {
         public const string TYPE = "CarriageStats";
-        public static CarriageStatusMessage CreateFromPayload(string message)
-        {
+        public static CarriageStatusMessage CreateFromPayload(string message) {
             var obj = new CarriageStatusMessage();
             obj.LoadFromPayload(message);
             return obj;
         }
 
         private CarriageStatusMessage() : base(TYPE) { }
-        public CarriageStatusMessage(string mode, Vector3D pos, double vertSpeed, float fuelLevel, double cargoMass, double rangeToGround, double rangeToDestination) : base(TYPE)
-        {
+        public CarriageStatusMessage(CarriageMode mode, Vector3D pos, double vertSpeed, float fuelLevel, double cargoMass, double range2Bottom, double range2Top) : base(TYPE) {
             _msgParts = new string[] {
-                mode,
-                Vector3DtoGPS(pos),
+                mode.ToString(),
+                VectorHelper.VectortoGps(pos),
                 vertSpeed.ToString(),
                 fuelLevel.ToString(),
                 cargoMass.ToString(),
-                rangeToGround.ToString(),
-                rangeToDestination.ToString()
+                range2Bottom.ToString(),
+                range2Top.ToString()
             };
         }
 
-        public string GetMode() { return _msgParts[0]; }
-        public Vector3D GetPosition() { return GetVector3D(1); }
-        public double GetVerticalSpeed() { return GetDouble(2); }
-        public float GetFuelLevel() { return GetFloat(3); }
-        public double GetCargoMass() { return GetDouble(4); }
-        public double GetRangeToGroundStation() { return GetDouble(5); }
-        public double GetRangeToDestination() { return GetDouble(6); }
+        public CarriageMode Mode { get { return _msgParts[0].ToEnum(defValue: CarriageMode.Manual_Control); } }
+        public Vector3D Position { get { return VectorHelper.GpsToVector(_msgParts[1]); } }
+        public double VerticalSpeed { get { return _msgParts[2].ToDouble(); } }
+        public float FuelLevel { get { return _msgParts[3].ToFloat(); } }
+        public double CargoMass { get { return _msgParts[4].ToDouble(); } }
+        public double Range2Bottom { get { return _msgParts[5].ToDouble(); } }
+        public double Range2Top { get { return _msgParts[6].ToDouble(); } }
     }
 }

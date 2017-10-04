@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IngameScript
-{
-    static class DirectionHelper
-    {
-        public static Direction GetInverseDirection(Direction direction)
-        {
-            switch (direction)
-            {
+namespace IngameScript {
+    static class DirectionHelper {
+        public static Direction GetInverseDirection(Direction direction) {
+            switch (direction) {
                 case Direction.Forward: return Direction.Backward;
                 case Direction.Backward: return Direction.Forward;
                 case Direction.Up: return Direction.Down;
@@ -20,11 +16,9 @@ namespace IngameScript
             }
         }
 
-        public static Direction GetDirectionFromString(string directionName)
-        {
+        public static Direction GetDirectionFromString(string directionName) {
             directionName = directionName.ToLower().Trim();
-            switch (directionName)
-            {
+            switch (directionName) {
                 case "forward": return Direction.Forward;
                 case "front": return Direction.Forward;
                 case "fore": return Direction.Forward;

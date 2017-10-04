@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IngameScript
-{
+namespace IngameScript {
     enum Direction { Forward, Backward, Up, Down, Left, Right }
 }

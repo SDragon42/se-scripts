@@ -14,50 +14,31 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class TimeIntervalModule
-    {
-        public TimeIntervalModule(double intervalInSeconds)
-        {
-            SetIntervalInSeconds(intervalInSeconds);
-            Reset();
-        }
-        public TimeIntervalModule(int numIntervalsPerSecond = 10)
-        {
-            SetNumIntervalsPerSecond(numIntervalsPerSecond);
+namespace IngameScript {
+    class TimeIntervalModule {
+        public TimeIntervalModule(double seconds) {
+            SetInterval(seconds);
             Reset();
         }
 
         bool _resetTime = false;
 
         public TimeSpan Time { get; private set; }
-        public double IntervalInSeconds { get; private set; }
+        public double Interval { get; private set; }
+        public bool AtNextInterval => (Time.TotalSeconds >= Interval);
 
-        public void SetIntervalInSeconds(double intervalInSeconds)
-        {
-            if (intervalInSeconds < 0) intervalInSeconds = 0;
-            IntervalInSeconds = intervalInSeconds;
-        }
-        public void SetNumIntervalsPerSecond(int numIntervalsPerSecond)
-        {
-            numIntervalsPerSecond = MathHelper.Clamp(numIntervalsPerSecond, 1, 60);
-            IntervalInSeconds = (1.0 / numIntervalsPerSecond);
+        public void SetInterval(double seconds) {
+            Interval = (seconds >= 0) ? seconds : 0.0;
         }
 
-        public void RecordTime(IMyGridProgramRuntimeInfo runtime)
-        {
+        public void RecordTime(IMyGridProgramRuntimeInfo runtime) {
             if (_resetTime) Reset();
             Time += runtime.TimeSinceLastRun;
-            if (Time.TotalSeconds < IntervalInSeconds) return;
+            if (Time.TotalSeconds < Interval) return;
             _resetTime = true;
         }
-        public bool AtNextInterval()
-        {
-            return (Time.TotalSeconds >= IntervalInSeconds);
-        }
-        public void Reset()
-        {
+
+        public void Reset() {
             Time = new TimeSpan();
             _resetTime = false;
         }
