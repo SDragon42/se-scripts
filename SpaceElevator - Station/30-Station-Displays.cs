@@ -79,8 +79,6 @@ namespace IngameScript {
                         continue;
                     }
                 }
-                var text = Displays.BuildOneCarriageDisplay("Carriage A1", _A1.Status, true);
-                _displaysSingleCarriages.ForEach(d => Write2MonospaceDisplay(d, text, 0.97f));
             }
 
         }

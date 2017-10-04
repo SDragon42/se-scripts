@@ -88,6 +88,7 @@ namespace IngameScript {
             Echo($"Displays (All Carr): {_displaysAllCarriagesWide.Count}");
             Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
             Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
+            Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
         }
 
         void RunCommand(string argument) {
