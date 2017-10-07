@@ -137,18 +137,17 @@ namespace IngameScript {
                 else if (i == 0)
                     sb.AppendLine($"    Ground Terminal ──┴{icon}┘");
                 else if (retransRing && i == max / 2)
-                    sb.AppendLine($"{GetNext(),-20}  ├{icon}┤");
+                    sb.AppendLine($"{GetNext(),-22}├{icon}┤");
                 else
-                    sb.AppendLine($"{GetNext(),-20}  │{icon}│");
+                    sb.AppendLine($"{GetNext(),-22}│{icon}│");
             }
             return sb.ToString();
         }
         static IEnumerable<string> GetOneCarriagesDetails(string carriageName, CarriageStatusMessage status, bool opsDetail = false) {
-
-            var velocity = status != null ? $"{Math.Abs(status.VerticalSpeed):N1}" : "---.-";
-            var altitude = status != null ? $"{status?.Range2Bottom:N0}" : "--,---";
-            var fuelLevel = status != null ? $"{status.FuelLevel * 100:N0}" : "---";
-            var cargoMass = status != null ? $"{status.CargoMass:N1}" : "---,---,---";
+            var velocityText = status != null
+                ? $"{GetDirectionArrows(status.VerticalSpeed)} {Math.Abs(status.VerticalSpeed):N1}"
+                : "---.-";
+            var altitudeText = status != null ? $"{status?.Range2Bottom:N1}" : "--,---";
 
             if (!opsDetail) {
                 yield return "";
@@ -159,14 +158,16 @@ namespace IngameScript {
             yield return "";
             yield return carriageName;
             yield return "";
-            yield return $"Velocity: {velocity,6} m/s";
-            yield return $"Altitude: {altitude,6} m";
+            yield return $"Speed: {velocityText,8} m/s";
+            yield return $" Alt.: {altitudeText,8} m";
             if (opsDetail) {
+                var fuelLevelText = status != null ? $"{status.FuelLevel * 100:N0}" : "---";
+                var cargoMassText = status != null ? $"{status.CargoMass:N1}" : "---,---,---";
                 yield return "";
                 yield return "Systems";
-                yield return $"Hydrogen: {fuelLevel,6} %";
+                yield return $"Hydrogen: {fuelLevelText,6} %";
                 yield return $"Cargo Mass";
-                yield return $"{cargoMass,16} kg";
+                yield return $"{cargoMassText,16} kg";
             }
         }
 
@@ -236,11 +237,13 @@ namespace IngameScript {
 
 
         static IEnumerable<string> GetCarriageDetails(string carriageName, CarriageStatusMessage status) {
-            var velocity = status != null ? $"{Math.Abs(status.VerticalSpeed),6:N1}" : " ---.-";
-            var altitude = status != null ? $"{status?.Range2Bottom,6:N0}" : "--,---";
+            var velocityText = status != null
+                ? $"{GetDirectionArrows(status.VerticalSpeed)} {Math.Abs(status.VerticalSpeed):N1}"
+                : "---.-";
+            var altitudeText = status != null ? $"{status.Range2Bottom:N1}" : "--,---.-";
             yield return carriageName;
-            yield return $"   Velocity: {velocity} m/s {GetDirectionArrows(status?.VerticalSpeed)[0]}";
-            yield return $"   Altitude: {altitude} m";
+            yield return $"   Velocity: {velocityText,8} m/s";
+            yield return $"   Altitude: {altitudeText,8} m";
         }
 
         public static void Write2MonospaceDisplay(IMyTextPanel display, string text, float fontSize) {
