@@ -69,44 +69,6 @@ namespace IngameScript {
             _doorManager.SecondsToLeaveOpen = _settings.DoorCloseDelay;
         }
 
-        void LoadBlockLists(bool forceLoad = false) {
-            if (_blocksLoaded && !forceLoad) return;
-
-            _rc = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRemoteControl>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
-            _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
-            _gravityGen = CollectHelper.GetFirstblockOfTypeWithFirst<IMyGravityGenerator>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
-
-            _orientation.Init(_rc);
-            GridTerminalSystem.GetBlocksOfType(_ascentThrusters, b => IsTaggedBlockOnThisGrid(b) && _orientation.IsDown(b));
-            GridTerminalSystem.GetBlocksOfType(_descentThrusters, b => IsTaggedBlockOnThisGrid(b) && _orientation.IsUp(b));
-            GridTerminalSystem.GetBlocksOfType(_allThrusters, IsOnThisGrid);
-
-            CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _connectors, IsTaggedBlockOnThisGrid, IsOnThisGrid);
-            CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _landingGears, IsTaggedBlockOnThisGrid, IsOnThisGrid);
-            //GridTerminalSystem.GetBlocksOfType(_airVents, IsTaggedBlockOnThisGrid);
-            //GridTerminalSystem.GetBlocksOfType(_o2Tanks, b => IsTaggedBlockOnThisGrid(b) && IsOxygenTank(b));
-
-            GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
-            //GridTerminalSystem.GetBlocksOfType(_displays, IsTaggedBlockOnThisGrid);
-
-            GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, IsTaggedBlockOnThisGrid);
-
-            GridTerminalSystem.GetBlocksOfType(_boardingRamps, IsTaggedBlockOnThisGrid);
-
-            _blocksLoaded = true;
-        }
-        void EchoBlockLists() {
-            Echo($"Ascent Thrusters: {_ascentThrusters.Count}");
-            Echo($"Descent Thrusters: {_descentThrusters.Count}");
-            Echo($"Connectors: {_connectors.Count}");
-            Echo($"Locking Gears: {_landingGears.Count}");
-            Echo($"Ramp Rotors: {_boardingRamps.Count}");
-            //Echo($"AirVents: {_airVents.Count}");
-            //Echo($"O2 Tanks: {_o2Tanks.Count}");
-            //Echo($"H2 Tanks: {_h2Tanks.Count}");
-            //Echo($"Displays: {_displays.Count}");
-        }
-
         void RunCommand(string argument) {
             CommMessage msg = null;
             if (CommMessage.TryParse(argument, out msg)) {
