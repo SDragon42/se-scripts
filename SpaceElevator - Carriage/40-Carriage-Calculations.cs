@@ -40,8 +40,7 @@ namespace IngameScript {
             _cargoMass = _cargo.Sum(c => CargoHelper.GetInventoryTotals(c, CargoHelper.GetInventoryCurrentMass)) / 1000000.0;
 
             var pos = _rc.GetPosition();
-            if (_destination != null)
-                _rangeToDestination = Vector3D.Distance(pos, _destination.Location);
+            _rangeToDestination = (_destination != null) ? Vector3D.Distance(pos, _destination.Location) : 0.0;
             _rangeToGround = Vector3D.Distance(pos, _settings.GetBottomPoint());
             _rangeToSpace = Vector3D.Distance(pos, _settings.GetTopPoint());
 
@@ -55,17 +54,16 @@ namespace IngameScript {
 
             var speed = Math.Round(_verticalSpeed, 1);
             var speedDir = "--";
-            if (speed > 0) speedDir = "/\\";
-            if (speed < 0) speedDir = "\\/";
+            if (speed > 0) speedDir = @"/\";
+            if (speed < 0) speedDir = @"\/";
 
-            _debug.AppendLine("Speed: {1}  {0:N1}", Math.Abs(_verticalSpeed), speedDir);
-            _debug.AppendLine("Lift T/W r: {0:N2}", totalMaxBreakingThrust / _gravityForceOnShip);
-            _debug.AppendLine("Brake Dist: {0:N2}", brakeingRange);
+            _debug.AppendLine($"Speed: {speedDir}  {Math.Abs(_verticalSpeed):N1}");
+            _debug.AppendLine($"Lift T/W r: {totalMaxBreakingThrust / _gravityForceOnShip:N2}");
+            _debug.AppendLine($"Brake Dist: {brakeingRange:N2}");
             _debug.AppendLine("");
-            if (_destination != null)
-                _debug.AppendLine("Range to destination: {0:N2} m", _rangeToDestination);
-            _debug.AppendLine("Range to Ground: {0:N2} m", _rangeToGround);
-            _debug.AppendLine("MODE: {0}", GetMode());
+            _debug.AppendLine($"Range to Destination: {_rangeToDestination:N2} m");
+            _debug.AppendLine($"Range to Ground: {_rangeToGround:N2} m");
+            _debug.AppendLine($"MODE: {GetMode()}");
 
             if (_doCalcStatus) {
                 _doCalcStatus = false;

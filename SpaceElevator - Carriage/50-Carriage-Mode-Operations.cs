@@ -201,8 +201,8 @@ namespace IngameScript {
             var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, gravityForceChangeCompensation);
             var coastRange = CalcBrakeDistance(0.0, gravityForceChangeCompensation);
 
-            _debug.AppendLine("Break Range: {0:N2}", brakeingRange);
-            _debug.AppendLine("Coast Range: {0:N2}", coastRange);
+            _debug.AppendLine($"Break Range: {brakeingRange:N2}");
+            _debug.AppendLine($"Coast Range: {coastRange:N2}");
 
             var inCoastRange = (rangeToTarget <= coastRange + _settings.ApproachDistance);
             var inBrakeRange = (rangeToTarget <= brakeingRange + _settings.ApproachDistance);
@@ -233,8 +233,8 @@ namespace IngameScript {
             var rangeToTarget = Vector3D.Distance(_rc.GetPosition(), _destination.Location);
             var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, _gravityForceOnShip);
 
-            _debug.AppendLine("Break Range: {0:N2}", brakeingRange);
-            _debug.AppendLine("Target Break Diff: {0:N2}", rangeToTarget - brakeingRange);
+            _debug.AppendLine($"Break Range: {brakeingRange:N2}");
+            _debug.AppendLine($"Target Break Diff: {rangeToTarget - brakeingRange:N2}");
 
             var inBrakeRange = (rangeToTarget <= brakeingRange + _settings.ApproachDistance);
             var inDockRange = Math.Abs(rangeToTarget - brakeingRange) < SWITCH_TO_AUTOPILOT_RANGE;
@@ -276,7 +276,7 @@ namespace IngameScript {
 
             var speedDiff = targetVertSpeed - _verticalSpeed;
             _debug.AppendLine("");
-            _debug.AppendLine("S.Diff: {0:N1}", speedDiff);
+            _debug.AppendLine($"S.Diff: {speedDiff:N1}");
 
             if (speedDiff > -0.5f && speedDiff < 0.5f) {
                 ascentOverridePower = hoverOverridePower;
@@ -291,8 +291,8 @@ namespace IngameScript {
                 decentOverridePower = 2f;
             }
 
-            _debug.AppendLine("Ascent Override %: {0:N1}", ascentOverridePower);
-            _debug.AppendLine("Decent Override %: {0:N1}", decentOverridePower);
+            _debug.AppendLine($"Ascent Override %: {ascentOverridePower:N1}");
+            _debug.AppendLine($"Decent Override %: {decentOverridePower:N1}");
 
             foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, ascentOverridePower);
             foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, decentOverridePower);
