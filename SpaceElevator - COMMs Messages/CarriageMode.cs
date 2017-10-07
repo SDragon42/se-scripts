@@ -4,6 +4,7 @@ using System.Text;
 
 namespace IngameScript {
     enum CarriageMode {
+        Init,
         Manual_Control,
         Awaiting_DepartureClearance,
         Awaiting_CarriageReady2Depart,

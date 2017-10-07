@@ -101,5 +101,32 @@ namespace IngameScript {
                 _Maintenance.ToString();
         }
 
+        void LoadBlockLists(bool forceLoad = false) {
+            if (_blocksLoaded && !forceLoad) return;
+
+            _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList, IsTaggedStationOnThisGrid, IsOnThisGrid);
+
+            GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
+            GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsTaggedStationOnThisGrid(b) && IsDoorOnStationOnly(b));
+            //GridTerminalSystem.GetBlocksOfType(_displays, IsTaggedStationOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllCarriagesDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllCarriagesWideDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllPassengerCarriagesDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllPassengerCarriagesWideDisplay(b));
+
+            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsSingleCarriageDisplay(b));
+
+            _blocksLoaded = true;
+        }
+        void EchoBlockLists() {
+            Echo($"H2 Tanks: {_h2Tanks.Count}");
+            Echo($"Doors: {_autoCloseDoors.Count}");
+            Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
+            Echo($"Displays (All Carr): {_displaysAllCarriagesWide.Count}");
+            Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
+            Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
+            Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
+        }
+
     }
 }

@@ -79,6 +79,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Debug", "_Module 
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Flight Data Recorder", "_Module - Flight Data Recorder\_Module - Flight Data Recorder.shproj", "{0F7F7179-F8CB-4376-940C-D9047E7D1FB3}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - LCDs Dot Matrix", "_Helper - LCDs Dot Matrix\_Helper - LCDs Dot Matrix.shproj", "{19F5CFF5-D5EF-4112-85C8-7A7BB91C23FA}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		_Library - Common\_Library - Common.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
@@ -93,6 +95,7 @@ Global
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{0a117477-6c2a-40ac-a8eb-fdcd2dfe11ba}*SharedItemsImports = 13
 		_Module - Debug\_Module - Debug.projitems*{0b16b361-c30e-48fd-87ea-37defd087559}*SharedItemsImports = 13
 		_Module - Flight Data Recorder\_Module - Flight Data Recorder.projitems*{0f7f7179-f8cb-4376-940c-d9047e7d1fb3}*SharedItemsImports = 13
+		_Helper - LCDs Dot Matrix\_Helper - LCDs Dot Matrix.projitems*{19f5cff5-d5ef-4112-85c8-7a7bb91c23fa}*SharedItemsImports = 13
 		_Module - Time Interval\_Module - Time Interval.projitems*{243c42a9-6084-40c4-a1c4-5d0d61a5f1e1}*SharedItemsImports = 13
 		_Helper - Landing Gears\_Helper - Landing Gears.projitems*{2ac28b0a-1f4d-4423-b244-64fbf8a94354}*SharedItemsImports = 13
 		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{35bbb9de-40b9-4e5a-aa79-49394bfa1435}*SharedItemsImports = 13
@@ -157,6 +160,7 @@ Global
 		_Module - Group Renamer\_Module - Group Renamer.projitems*{d29a0752-9c90-49ab-b1cc-3228eca57f3f}*SharedItemsImports = 4
 		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		_Helper - Cargo and Inventory\_Helper - Cargo and Inventory.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Helper - Gas Tanks\_Helper - Gas Tanks.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Helper - Landing Gears\_Helper - Landing Gears.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		_Helper - LCDs\_Helper - LCDs.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4

@@ -16,21 +16,6 @@ using VRageMath;
 
 namespace IngameScript {
     static class Displays {
-
-        // ┌┬┐   250c 252c 2510
-        // ├┼┤│  251c 253c 2524 2502
-        // └┴┘   2514 2534 2518
-
-        const string CHR_UP = "↑↑"; //"\u2191\u2191";
-        const string CHR_DOWN = "↓↓"; //"\u2193\u2193";
-        const string CHRS_Carriage_White = "";
-        const string CHRS_Carriage_Red = ""; //"\uE050\uE03C";
-        const string CHRS_Carriage_Green = ""; //"\uE051\uE03D";
-        const string CHRS_Carriage_Blue = ""; //"\uE052\uE03E";
-        const string CHRS_Carriage_Yellow = "";
-        const string CHRS_Carriage_Magenta = "";
-        const string CHRS_Carriage_Cyan = "";
-
         public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]") && !Collect.IsWideLcd(b); }
         public static bool IsAllCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]") && Collect.IsWideLcd(b); }
         public static string BuildAllCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint, bool wide = false) {
@@ -71,6 +56,17 @@ namespace IngameScript {
             }
             return sb.ToString();
         }
+        static IEnumerable<string> GetAllCarriagesDetailLines(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint) {
+            yield return " │ ";
+            yield return " │ ";
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Carriage A2", a2)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails("Carriage A1", a1)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails("Maintenance Carriage", maint)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails("Carriage B1", b1)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails("Carriage B2", b2)) yield return " │ " + txt;
+        }
+
 
         public static bool IsAllPassengerCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-passenger-carriages]") && !Collect.IsWideLcd(b); }
         public static bool IsAllPassengerCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-passenger-carriages]") && Collect.IsWideLcd(b); }
@@ -108,6 +104,19 @@ namespace IngameScript {
             }
             return sb.ToString();
         }
+        static IEnumerable<string> GetPassengerCarriagesDetailLines(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2) {
+            yield return " │ ";
+            yield return " │ ";
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Carriage A2", a2)) yield return " │ " + txt;
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Carriage A1", a1)) yield return " │ " + txt;
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Carriage B1", b1)) yield return " │ " + txt;
+            yield return " │ ";
+            foreach (var txt in GetCarriageDetails("Carriage B2", b2)) yield return " │ " + txt;
+        }
+
 
         public static bool IsSingleCarriageDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[single-carriage]"); }
         public static string BuildOneCarriageDisplay(string carriageName, CarriageStatusMessage carriageStatus, bool opsDetail = false) {
@@ -132,76 +141,12 @@ namespace IngameScript {
             }
             return sb.ToString();
         }
-
-        static string GetDirectionArrows(CarriageStatusMessage carriage) {
-            if (carriage == null) return "  ";
-            var vspeed = Math.Round(carriage.VerticalSpeed, 1);
-            return vspeed > 0 ? CHR_UP : vspeed < 0 ? CHR_DOWN : "  ";
-        }
-        static string GetCarriageIcon(CarriageStatusMessage carriage) {
-            switch (carriage.Mode) {
-                case CarriageMode.Manual_Control: return CHRS_Carriage_Magenta;
-                case CarriageMode.Awaiting_DepartureClearance: return CHRS_Carriage_Yellow;
-                case CarriageMode.Awaiting_CarriageReady2Depart: return CHRS_Carriage_Yellow;
-                case CarriageMode.Transit_Powered: return CHRS_Carriage_Yellow;
-                case CarriageMode.Transit_Coast: return CHRS_Carriage_Yellow;
-                case CarriageMode.Transit_Slow2Approach: return CHRS_Carriage_Yellow;
-                case CarriageMode.Transit_Docking: return CHRS_Carriage_Yellow;
-                case CarriageMode.Docked: return CHRS_Carriage_Green;
-                default: return CHRS_Carriage_White;
-            }
-        }
-        static int GetCarriagePositionIndex(CarriageStatusMessage carriage, int numLines) {
-            var totalDist = carriage.Range2Bottom + carriage.Range2Top;
-            var percent = carriage.Range2Bottom / totalDist;
-            return Convert.ToInt32(Math.Round((numLines - 1) * percent, 0));
-        }
-        static CarriageGraphInfo GetGraphInfo(CarriageStatusMessage carriage, int numLines) {
-            if (carriage == null) return new CarriageGraphInfo();
-            return new CarriageGraphInfo() {
-                DirText = GetDirectionArrows(carriage),
-                Altitude = $"{carriage.Range2Bottom / 1000.0,4:N1}",
-                Icon = GetCarriageIcon(carriage),
-                VertPosNum = GetCarriagePositionIndex(carriage, numLines)
-            };
-
-        }
-
-        static IEnumerable<string> GetPassengerCarriagesDetailLines(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2) {
-            yield return " │ ";
-            yield return " │ ";
-            yield return " │ ";
-            foreach (var txt in GetCarriageDetails("Carriage A2", a2)) yield return " │ " + txt;
-            yield return " │ ";
-            foreach (var txt in GetCarriageDetails("Carriage A1", a1)) yield return " │ " + txt;
-            yield return " │ ";
-            foreach (var txt in GetCarriageDetails("Carriage B1", b1)) yield return " │ " + txt;
-            yield return " │ ";
-            foreach (var txt in GetCarriageDetails("Carriage B2", b2)) yield return " │ " + txt;
-        }
-        static IEnumerable<string> GetAllCarriagesDetailLines(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint) {
-            yield return " │ ";
-            yield return " │ ";
-            yield return " │ ";
-            foreach (var txt in GetCarriageDetails("Carriage A2", a2)) yield return " │ " + txt;
-            foreach (var txt in GetCarriageDetails("Carriage A1", a1)) yield return " │ " + txt;
-            foreach (var txt in GetCarriageDetails("Maintenance Carriage", maint)) yield return " │ " + txt;
-            foreach (var txt in GetCarriageDetails("Carriage B1", b1)) yield return " │ " + txt;
-            foreach (var txt in GetCarriageDetails("Carriage B2", b2)) yield return " │ " + txt;
-        }
-        static IEnumerable<string> GetCarriageDetails(string carriageName, CarriageStatusMessage status) {
-            var velocity = status != null ? $"{Math.Abs(status.VerticalSpeed),6:N1}" : " ---.-";
-            var altitude = status != null ? $"{status?.Range2Bottom,6:N0}" : "--,---";
-            yield return carriageName;
-            yield return $"   Velocity: {velocity} m/s {GetDirectionArrows(status)[0]}";
-            yield return $"   Altitude: {altitude} m";
-        }
         static IEnumerable<string> GetOneCarriagesDetails(string carriageName, CarriageStatusMessage status, bool opsDetail = false) {
 
             var velocity = status != null ? $"{Math.Abs(status.VerticalSpeed):N1}" : "---.-";
             var altitude = status != null ? $"{status?.Range2Bottom:N0}" : "--,---";
             var fuelLevel = status != null ? $"{status.FuelLevel * 100:N0}" : "---";
-            var cargoMass = status != null ? $"{status.CargoMass:N0}" : "---,---,---";
+            var cargoMass = status != null ? $"{status.CargoMass:N1}" : "---,---,---";
 
             if (!opsDetail) {
                 yield return "";
@@ -219,8 +164,87 @@ namespace IngameScript {
                 yield return "Systems";
                 yield return $"Hydrogen: {fuelLevel,6} %";
                 yield return $"Cargo Mass";
-                yield return $"{cargoMass,16} Kg";
+                yield return $"{cargoMass,16} kg";
             }
+        }
+
+
+        static string GetDirectionArrows(double vertSpeed) {
+            var vspeed = Math.Round(vertSpeed, 1);
+            return vspeed > 0 ? "↑" : vspeed < 0 ? "↓" : " "; // "\u2191"  "\u2193"
+        }
+        static string GetCarriageIcon(CarriageStatusMessage carriage) {
+            switch (carriage.Mode) {
+                case CarriageMode.Manual_Control: return ""; // magenta <>
+                case CarriageMode.Awaiting_DepartureClearance: return ""; // yellow <>
+                case CarriageMode.Awaiting_CarriageReady2Depart: return ""; // yellow <>
+                case CarriageMode.Transit_Powered: return ""; // yellow <>
+                case CarriageMode.Transit_Coast: return ""; // yellow <>
+                case CarriageMode.Transit_Slow2Approach: return ""; // yellow <>
+                case CarriageMode.Transit_Docking: return ""; // yellow <>
+                case CarriageMode.Docked: return ""; // green <> "\uE051\uE03D"
+                default: return ""; // white <>
+            }
+        }
+        static int GetCarriagePositionIndex(CarriageStatusMessage carriage, int numLines) {
+            var totalDist = carriage.Range2Bottom + carriage.Range2Top;
+            var percent = carriage.Range2Bottom / totalDist;
+            var idx = (numLines - 1) * percent;
+            return Convert.ToInt32(Math.Round(idx, 0));
+        }
+        static CarriageGraphInfo GetGraphInfo(CarriageStatusMessage carriage, int numLines) {
+            if (carriage == null) return new CarriageGraphInfo();
+            var dir = GetDirectionArrows(carriage.VerticalSpeed);
+            return new CarriageGraphInfo() {
+                DirText = dir + dir,
+                Altitude = $"{carriage.Range2Bottom / 1000.0,4:N1}",
+                Icon = GetCarriageIcon(carriage),
+                VertPosNum = GetCarriagePositionIndex(carriage, numLines)
+            };
+
+        }
+
+        public static bool IsSlimSpeedDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[lcd-speed]") && Collect.IsCornerFlatLcd(b); }
+        public static bool IsSlimDestDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[lcd-destination]") && Collect.IsCornerFlatLcd(b); }
+        public static bool IsSlimCargoDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[lcd-cargo]") && Collect.IsCornerFlatLcd(b); }
+        public static bool IsSlimFuelDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[lcd-fuel]") && Collect.IsCornerFlatLcd(b); }
+
+        public static string BuildSpeedDisplayText(double vertSpeed, double range) {
+            var speedText = $"{GetDirectionArrows(vertSpeed)} {Math.Abs(vertSpeed):N1}";
+            return $"Speed: {speedText,8} m/s\nRange: {range,8:N1} m";
+        }
+
+        public static string BuildDestinationDisplayText(string destination) {
+            var padding = (15 - destination?.Length) / 2.0 ?? 0.0;
+            var iPadding = Convert.ToInt32(Math.Round(padding, 0));
+            return "".PadLeft(iPadding, ' ') + destination;
+        }
+
+        public static string BuildCargoDisplayText(double? cargoMass) {
+            return $"Cargo Mass\n{cargoMass,17:N1} kg";
+        }
+
+        public static string BuildFuelDisplayText(float? h2Percentage) {
+            var idx = (12) * (h2Percentage ?? 0f);
+            var cnt = Convert.ToInt32(Math.Round(idx, 0));
+            var bar = "".PadRight(cnt, '▒');
+            return $"Hydrogen Fuel\n▐{bar,-12}▌{h2Percentage * 100,4:N1}%";
+        }
+
+
+        static IEnumerable<string> GetCarriageDetails(string carriageName, CarriageStatusMessage status) {
+            var velocity = status != null ? $"{Math.Abs(status.VerticalSpeed),6:N1}" : " ---.-";
+            var altitude = status != null ? $"{status?.Range2Bottom,6:N0}" : "--,---";
+            yield return carriageName;
+            yield return $"   Velocity: {velocity} m/s {GetDirectionArrows(status.VerticalSpeed)[0]}";
+            yield return $"   Altitude: {altitude} m";
+        }
+
+        public static void Write2MonospaceDisplay(IMyTextPanel display, string text, float fontSize) {
+            LCDHelper.SetFont_Monospaced(display);
+            LCDHelper.SetFontSize(display, fontSize);
+            display.WritePublicText(text);
+            display.ShowPublicTextOnScreen();
         }
 
         class CarriageGraphInfo {

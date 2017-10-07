@@ -90,15 +90,16 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MDKUtilities">
-      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\cupms2ev.deu\MDKUtilities.dll</HintPath>
+      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\avmvybhm.yym\MDKUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\cupms2ev.deu\Analyzers\MDKAnalyzer.dll" />
+    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\avmvybhm.yym\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="01-Carriage-Constants.cs" />
     <Compile Include="02-Carriage-Vars-Constructor.cs" />
     <Compile Include="20-Carriage-COMMs.cs" />
+    <Compile Include="30-Carriage-Displays.cs" />
     <Compile Include="40-Carriage-Calculations.cs" />
     <Compile Include="50-Carriage-Mode-Operations.cs" />
     <Compile Include="60-Carriage-Collects.cs" />
@@ -125,6 +126,7 @@
   <Import Project="..\_Helper - Landing Gears\_Helper - Landing Gears.projitems" Label="Shared" />
   <Import Project="..\_Module - Debug\_Module - Debug.projitems" Label="Shared" />
   <Import Project="..\_Helper - LCDs\_Helper - LCDs.projitems" Label="Shared" />
+  <Import Project="..\_Helper - Cargo and Inventory\_Helper - Cargo and Inventory.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />

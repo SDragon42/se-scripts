@@ -23,22 +23,6 @@ namespace IngameScript {
     http://steamcommunity.com/sharedfiles/filedetails/?id=627416824
     ********************************************************************************/
     static class LCDHelper {
-        public const string SUBTYPE_SmBlock_Text = "SmallTextPanel";
-        public const string SUBTYPE_SmBlock_Lcd = "SmallLCDPanel";
-        public const string SUBTYPE_SmBlock_WideLcd = "SmallLCDPanelWide";
-        public const string SUBTYPE_SmBlock_CornerLcd1 = "SmallBlockCorner_LCD_1";
-        public const string SUBTYPE_SmBlock_CornerLcd2 = "SmallBlockCorner_LCD_2";
-        public const string SUBTYPE_SmBlock_CornerFlatLcd1 = "SmallBlockCorner_LCD_Flat_1";
-        public const string SUBTYPE_SmBlock_CornerFlatLcd2 = "SmallBlockCorner_LCD_Flat_2";
-
-        public const string SUBTYPE_LgBlock_Text = "LargeTextPanel";
-        public const string SUBTYPE_LgBlock_Lcd = "LargeLCDPanel";
-        public const string SUBTYPE_LgBlock_WideLcd = "LargeLCDPanelWide";
-        public const string SUBTYPE_LgBlock_CornerLcd1 = "LargeBlockCorner_LCD_1";
-        public const string SUBTYPE_LgBlock_CornerLcd2 = "LargeBlockCorner_LCD_2";
-        public const string SUBTYPE_LgBlock_CornerFlatLcd1 = "LargeBlockCorner_LCD_Flat_1";
-        public const string SUBTYPE_LgBlock_CornerFlatLcd2 = "LargeBlockCorner_LCD_Flat_2";
-
         //COLOR CONSTANTS: Do not change!!! 
         public const string LCD_green = "\uE001";
         public const string LCD_blue = "\uE002";
