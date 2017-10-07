@@ -223,6 +223,13 @@ namespace IngameScript {
             }
         }
 
+        public static void Write2MonospaceDisplay(IMyTextPanel display, string text, float fontSize) {
+            LCDHelper.SetFont_Monospaced(display);
+            LCDHelper.SetFontSize(display, fontSize);
+            display.WritePublicText(text);
+            display.ShowPublicTextOnScreen();
+        }
+
         class CarriageGraphInfo {
             public CarriageGraphInfo() {
                 DirText = "  ";
