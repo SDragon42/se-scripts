@@ -25,6 +25,7 @@ namespace IngameScript {
                 _executionInterval.RecordTime(Runtime);
                 _connectorLockDelay.RecordTime(Runtime);
                 _trasmitStatsDelay.RecordTime(Runtime);
+                _updateDisplayDelay.RecordTime(Runtime);
 
                 LoadConfigSettings();
                 LoadBlockLists();
@@ -43,6 +44,10 @@ namespace IngameScript {
                     _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
                     if (_gravityGen != null)
                         _gravityGen.Enabled = (_gravVec.Length() < 9.81 / 2);
+                }
+
+                if (_updateDisplayDelay.AtNextInterval) {
+                    UpdateDisplays();
                 }
 
                 if (_trasmitStatsDelay.AtNextInterval) {

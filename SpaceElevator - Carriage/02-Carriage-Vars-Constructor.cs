@@ -25,6 +25,7 @@ namespace IngameScript {
         readonly TimeIntervalModule _executionInterval;
         readonly TimeIntervalModule _connectorLockDelay;
         readonly TimeIntervalModule _trasmitStatsDelay;
+        readonly TimeIntervalModule _updateDisplayDelay;
         readonly AutoDoorCloserModule _doorManager;
         readonly COMMsModule _comms;
         readonly CustomDataConfigModule _custConfig;
@@ -45,10 +46,17 @@ namespace IngameScript {
         //readonly List<IMyAirVent> _airVents = new List<IMyAirVent>();
         //readonly List<IMyGasTank> _o2Tanks = new List<IMyGasTank>();
         readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
-        //readonly List<IMyTextPanel> _displays = new List<IMyTextPanel>();
         readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
         readonly List<IMyMotorStator> _boardingRamps = new List<IMyMotorStator>();
+        readonly List<IMyTextPanel> _displaysSingleCarriages = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaySpeed = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displayDestination = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displayCargo = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displayFuel = new List<IMyTextPanel>();
+        readonly List<IMyCargoContainer> _cargo = new List<IMyCargoContainer>();
         IMyGravityGenerator _gravityGen;
+        readonly CarriageStatusMessage _status;
+        bool _doCalcStatus = true;
 
         //  Flight calculations
         Vector3D _gravVec;
@@ -84,10 +92,13 @@ namespace IngameScript {
             _executionInterval = new TimeIntervalModule(0.1);
             _connectorLockDelay = new TimeIntervalModule(0.1);
             _trasmitStatsDelay = new TimeIntervalModule(3.0);
+            _updateDisplayDelay = new TimeIntervalModule(1.0);
 
             _doorManager = new AutoDoorCloserModule();
 
             _comms = new COMMsModule(Me);
+
+            _status = new CarriageStatusMessage(GetMode(), Vector3D.Zero, 0, 0, 0, 0, 0);
         }
         public void Save() {
             Storage = GetMode().ToString();
@@ -112,7 +123,13 @@ namespace IngameScript {
             //GridTerminalSystem.GetBlocksOfType(_o2Tanks, b => IsTaggedBlockOnThisGrid(b) && IsOxygenTank(b));
 
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
-            //GridTerminalSystem.GetBlocksOfType(_displays, IsTaggedBlockOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(_cargo, IsOnThisGrid);
+
+            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsTaggedBlockOnThisGrid(b) && Displays.IsSingleCarriageDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displaySpeed, b => IsTaggedBlockOnThisGrid(b) && Displays.IsSlimSpeedDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displayDestination, b => IsTaggedBlockOnThisGrid(b) && Displays.IsSlimDestDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displayCargo, b => IsTaggedBlockOnThisGrid(b) && Displays.IsSlimCargoDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displayFuel, b => IsTaggedBlockOnThisGrid(b) && Displays.IsSlimFuelDisplay(b));
 
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, IsTaggedBlockOnThisGrid);
 
@@ -121,15 +138,16 @@ namespace IngameScript {
             _blocksLoaded = true;
         }
         void EchoBlockLists() {
-            Echo($"Ascent Thrusters: {_ascentThrusters.Count}");
-            Echo($"Descent Thrusters: {_descentThrusters.Count}");
-            Echo($"Connectors: {_connectors.Count}");
-            Echo($"Locking Gears: {_landingGears.Count}");
-            Echo($"Ramp Rotors: {_boardingRamps.Count}");
+            //Echo($"Ascent Thrusters: {_ascentThrusters.Count}");
+            //Echo($"Descent Thrusters: {_descentThrusters.Count}");
+            //Echo($"Connectors: {_connectors.Count}");
+            //Echo($"Locking Gears: {_landingGears.Count}");
+            //Echo($"Ramp Rotors: {_boardingRamps.Count}");
             //Echo($"AirVents: {_airVents.Count}");
             //Echo($"O2 Tanks: {_o2Tanks.Count}");
             //Echo($"H2 Tanks: {_h2Tanks.Count}");
-            //Echo($"Displays: {_displays.Count}");
+            //Echo($"Displays: {_displaysSingleCarriages.Count}");
+            Echo($"Cargo: {_cargo.Count}");
         }
 
 

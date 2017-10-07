@@ -26,6 +26,8 @@ namespace IngameScript {
             if (!Enum.IsDefined(typeof(CarriageMode), value))
                 _mode_SpecialUseOnly = CarriageMode.Manual_Control;
 
+            _status.Mode = GetMode();
+
             switch (_mode_SpecialUseOnly) {
                 case CarriageMode.Manual_Control:
                     ClearAutopilot(true);
