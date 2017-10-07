@@ -142,7 +142,7 @@ namespace IngameScript {
             var anyLocked = _landingGears.Any(Collect.IsLandingGearLocked);
             if (anyLocked) {
                 SetMode(CarriageMode.Docked);
-                SendDockedMessage(_destination.GetName());
+                SendDockedMessage(_destination.Name);
                 _travelDirection = TravelDirection.None;
                 _destination = null;
             }
@@ -197,7 +197,7 @@ namespace IngameScript {
             var gravityForceChangeCompensation = (_gravityForceOnShip / 2) * -1;
 
             var totalMaxBreakingThrust = _descentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
-            var rangeToTarget = (_rc.GetPosition() - _destination.GetLocation()).Length();
+            var rangeToTarget = Vector3D.Distance(_rc.GetPosition(), _destination.Location);
             var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, gravityForceChangeCompensation);
             var coastRange = CalcBrakeDistance(0.0, gravityForceChangeCompensation);
 
@@ -210,7 +210,7 @@ namespace IngameScript {
 
             if (inDockRange) {
                 SetMode(CarriageMode.Transit_Docking);
-                ActivateAutopilot(_destination.GetLocation());
+                ActivateAutopilot(_destination.Location);
             } else if (!inCoastRange && !inBrakeRange && GetMode() != CarriageMode.Transit_Powered)
                 SetMode(CarriageMode.Transit_Powered);
             else if (_settings.GravityDescelEnabled && inCoastRange && !inBrakeRange && GetMode() != CarriageMode.Transit_Coast)
@@ -230,7 +230,7 @@ namespace IngameScript {
         void DecentModeOps() {
             _rc.DampenersOverride = false;
             var totalMaxBreakingThrust = _ascentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
-            var rangeToTarget = (_rc.GetPosition() - _destination.GetLocation()).Length();
+            var rangeToTarget = Vector3D.Distance(_rc.GetPosition(), _destination.Location);
             var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, _gravityForceOnShip);
 
             _debug.AppendLine("Break Range: {0:N2}", brakeingRange);
@@ -244,7 +244,7 @@ namespace IngameScript {
                 SetMode(CarriageMode.Transit_Coast);
             else if (inDockRange) {
                 SetMode(CarriageMode.Transit_Docking);
-                ActivateAutopilot(_destination.GetLocation());
+                ActivateAutopilot(_destination.Location);
             } else if (inBrakeRange && GetMode() != CarriageMode.Transit_Slow2Approach)
                 SetMode(CarriageMode.Transit_Slow2Approach);
 

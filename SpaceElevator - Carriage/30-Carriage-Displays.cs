@@ -29,7 +29,7 @@ namespace IngameScript {
             }
 
             if (_displayDestination.Count > 0) {
-                var text = Displays.BuildDestinationDisplayText(_destination?.GetName());
+                var text = Displays.BuildDestinationDisplayText(_destination?.Name);
                 _displayDestination.ForEach(d => Displays.Write2MonospaceDisplay(d, text, 1.3f));
             }
 

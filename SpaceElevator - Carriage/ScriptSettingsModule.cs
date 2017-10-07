@@ -93,7 +93,7 @@ namespace IngameScript {
                 i++;
                 if (!config.ContainsKey(key)) break;
                 var gps = new GpsInfo(config.GetValue(key));
-                if (gps.GetLocation() != Vector3D.Zero)
+                if (gps.Location != Vector3D.Zero)
                     GpsPoints.Add(gps);
             }
         }
@@ -109,7 +109,7 @@ namespace IngameScript {
             config.SetValue(KEY_SendStatusMessages, SendStatusMessages.ToString());
 
             for (var i = 0; i < GpsPoints.Count; i++)
-                config.SetValue(KEY_GpsPoint + i.ToString(), GpsPoints[i].GetRawGPS());
+                config.SetValue(KEY_GpsPoint + i.ToString(), GpsPoints[i].RawGPS);
         }
 
 
@@ -127,17 +127,17 @@ namespace IngameScript {
 
         public Vector3D GetBottomPoint() {
             return (GpsPoints.Count > 0)
-                ? GpsPoints[0].GetLocation()
+                ? GpsPoints[0].Location
                 : Vector3D.Zero;
         }
         public Vector3D GetTopPoint() {
             return (GpsPoints.Count > 0)
-                ? GpsPoints[GpsPoints.Count - 1].GetLocation()
+                ? GpsPoints[GpsPoints.Count - 1].Location
                 : Vector3D.Zero;
         }
         public GpsInfo GetGpsInfo(string name) {
             foreach (var gps in GpsPoints)
-                if (string.Compare(gps.GetName(), name, true) == 0)
+                if (string.Compare(gps.Name, name, true) == 0)
                     return gps;
             return null;
         }

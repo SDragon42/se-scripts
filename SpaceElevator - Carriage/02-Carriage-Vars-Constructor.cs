@@ -78,7 +78,7 @@ namespace IngameScript {
             //Echo = (t) => { }; // Disable Echo
             _debug = new DebugModule(this);
             //_debug.Enabled = false;
-            _debug.EchoMessages = false;
+            _debug.EchoMessages = true;
 
             _custConfig = new CustomDataConfigModule();
             _settings = new ScriptSettingsModule();
@@ -107,7 +107,7 @@ namespace IngameScript {
             _status.Mode = GetMode();
         }
         public void Save() {
-            Storage = $"{GetMode()}\t{_destination.GetRawGPS()}\t{_travelDirection}";
+            Storage = $"{GetMode()}\t{_destination?.RawGPS}\t{_travelDirection}";
         }
 
 

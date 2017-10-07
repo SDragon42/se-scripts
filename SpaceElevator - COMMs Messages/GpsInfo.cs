@@ -17,24 +17,23 @@ using VRageMath;
 namespace IngameScript {
     class GpsInfo {
         public GpsInfo(string rawGPS) {
-            _rawGPS = rawGPS;
-            VectorHelper.GpsToVector(rawGPS, out _name, out _location);
-            if (_name.StartsWith("*")) {
-                _needsClearance = false;
-                _name = _name.Substring(1);
+            string name;
+            Vector3D loc;
+            VectorHelper.GpsToVector(rawGPS, out name, out loc);
+            RawGPS = rawGPS;
+            Location = loc;
+            if (name.StartsWith("*")) {
+                NeedsClearance = false;
+                Name = name.Substring(1);
+            } else {
+                Name = name;
+                NeedsClearance = true;
             }
         }
 
-        private string _name;
-        public string GetName() { return _name; }
-
-        private Vector3D _location;
-        public Vector3D GetLocation() { return _location; }
-
-        private bool _needsClearance = true;
-        public bool GetNeedsClearance() { return _needsClearance; }
-
-        private string _rawGPS;
-        public string GetRawGPS() { return _rawGPS; }
+        public string Name { get; private set; }
+        public Vector3D Location { get; private set; }
+        public bool NeedsClearance { get; private set; }
+        public string RawGPS { get; private set; }
     }
 }

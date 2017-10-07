@@ -41,7 +41,7 @@ namespace IngameScript {
 
             var pos = _rc.GetPosition();
             if (_destination != null)
-                _rangeToDestination = Vector3D.Distance(pos, _destination.GetLocation());
+                _rangeToDestination = Vector3D.Distance(pos, _destination.Location);
             _rangeToGround = Vector3D.Distance(pos, _settings.GetBottomPoint());
             _rangeToSpace = Vector3D.Distance(pos, _settings.GetTopPoint());
 
@@ -53,19 +53,19 @@ namespace IngameScript {
 
             _h2TankFilledPercent = GasTankHelper.GetTanksFillPercentage(_h2Tanks);
 
-            //var speed = Math.Round(_verticalSpeed, 1);
-            //var speedDir = "--";
-            //if (speed > 0) speedDir = "/\\";
-            //if (speed < 0) speedDir = "\\/";
+            var speed = Math.Round(_verticalSpeed, 1);
+            var speedDir = "--";
+            if (speed > 0) speedDir = "/\\";
+            if (speed < 0) speedDir = "\\/";
 
-            //_debug.AppendLine("Speed: {1}  {0:N1}", Math.Abs(_verticalSpeed), speedDir);
-            //_debug.AppendLine("Lift T/W r: {0:N2}", totalMaxBreakingThrust / _gravityForceOnShip);
-            //_debug.AppendLine("Brake Dist: {0:N2}", brakeingRange);
-            //_debug.AppendLine("");
-            //if (_destination != null)
-            //    _debug.AppendLine("Range to destination: {0:N2} m", _rangeToDestination);
-            //_debug.AppendLine("Range to Ground: {0:N2} m", _rangeToGround);
-            //_debug.AppendLine("MODE: {0}", GetMode());
+            _debug.AppendLine("Speed: {1}  {0:N1}", Math.Abs(_verticalSpeed), speedDir);
+            _debug.AppendLine("Lift T/W r: {0:N2}", totalMaxBreakingThrust / _gravityForceOnShip);
+            _debug.AppendLine("Brake Dist: {0:N2}", brakeingRange);
+            _debug.AppendLine("");
+            if (_destination != null)
+                _debug.AppendLine("Range to destination: {0:N2} m", _rangeToDestination);
+            _debug.AppendLine("Range to Ground: {0:N2} m", _rangeToGround);
+            _debug.AppendLine("MODE: {0}", GetMode());
 
             if (_doCalcStatus) {
                 _doCalcStatus = false;

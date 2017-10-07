@@ -116,30 +116,30 @@ namespace IngameScript {
             _travelDirection = TravelDirection.None;
 
             var dockedStation = GetDockedPoint(DOCKED_AT_STATION_RANGE);
-            if (dockedStation != null && destination != null && string.Compare(destination.GetName(), dockedStation.GetName(), true) == 0) return;
+            if (dockedStation != null && destination != null && string.Compare(destination.Name, dockedStation.Name, true) == 0) return;
 
             _destination = destination;
             if (_destination == null) return;
 
             var bottom = _settings.GetBottomPoint();
-            var myDist = (bottom - _rc.GetPosition()).Length();
-            var destDist = (bottom - _destination.GetLocation()).Length();
+            var myDist = Vector3D.Distance(bottom, _rc.GetPosition());
+            var destDist = Vector3D.Distance(bottom, _destination.Location);
             _travelDirection = (myDist < destDist)
                 ? TravelDirection.Ascent
                 : TravelDirection.Descent;
 
             RaiseBoardingRamps();
-            if (dockedStation == null || !dockedStation.GetNeedsClearance())
+            if (dockedStation == null || !dockedStation.NeedsClearance)
                 SetMode(CarriageMode.Awaiting_CarriageReady2Depart);
             else {
                 SetMode(CarriageMode.Awaiting_DepartureClearance);
-                SendRequestDepartureClearance(dockedStation.GetName());
+                SendRequestDepartureClearance(dockedStation.Name);
             }
         }
         private GpsInfo GetDockedPoint(double range) {
             var loc = _rc.GetPosition();
             foreach (var gps in _settings.GpsPoints) {
-                if ((loc - gps.GetLocation()).Length() < range)
+                if (Vector3D.Distance(loc, gps.Location) < range)
                     return gps;
             }
             return null;
