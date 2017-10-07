@@ -86,22 +86,28 @@ namespace IngameScript {
 
             _lastCustomDataHash = -1;
 
-            _mode_SpecialUseOnly = Storage.ToEnum(defValue: CarriageMode.Manual_Control);
-
             _runSymbol = new RunningSymbolModule();
             _executionInterval = new TimeIntervalModule(0.1);
             _connectorLockDelay = new TimeIntervalModule(0.1);
             _trasmitStatsDelay = new TimeIntervalModule(3.0);
             _updateDisplayDelay = new TimeIntervalModule(1.0);
-
             _doorManager = new AutoDoorCloserModule();
-
             _comms = new COMMsModule(Me);
-
             _status = new CarriageStatusMessage(GetMode(), Vector3D.Zero, 0, 0, 0, 0, 0);
+
+            _mode_SpecialUseOnly = CarriageMode.Init;
+            LoadState();
+        }
+        void LoadState() {
+            var states = Storage.Split('\t');
+            if (states == null || states.Length != 3) return;
+            _mode_SpecialUseOnly = states[0].ToEnum(defValue: CarriageMode.Init);
+            _destination = (string.IsNullOrWhiteSpace(states[1])) ? null : new GpsInfo(states[1]);
+            _travelDirection = states[2].ToEnum(defValue: TravelDirection.None);
+            _status.Mode = GetMode();
         }
         public void Save() {
-            Storage = GetMode().ToString();
+            Storage = $"{GetMode()}\t{_destination.GetRawGPS()}\t{_travelDirection}";
         }
 
 

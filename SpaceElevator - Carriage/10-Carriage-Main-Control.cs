@@ -21,6 +21,7 @@ namespace IngameScript {
             try {
                 Echo("Carriage Control v1.8 " + _runSymbol.GetSymbol(Runtime));
                 Echo("DEBUG " + (_debug.Enabled ? "enabled" : "disabled"));
+                Echo($"Mode: {GetMode()}");
 
                 _executionInterval.RecordTime(Runtime);
                 _connectorLockDelay.RecordTime(Runtime);
@@ -30,6 +31,7 @@ namespace IngameScript {
                 LoadConfigSettings();
                 LoadBlockLists();
                 EchoBlockLists();
+                if (GetMode() == CarriageMode.Init) SetMode(CarriageMode.Manual_Control);
 
                 if (!string.IsNullOrEmpty(argument)) {
                     RunCommand(argument);
