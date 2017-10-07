@@ -59,7 +59,7 @@ namespace IngameScript {
             //Echo = (t) => { }; // Disable Echo
             _debug = new DebugModule(this);
             //_debug.Enabled = false;
-            _debug.EchoMessages = false;
+            _debug.EchoMessages = true;
 
             _log = new LogModule(20);
 
@@ -119,13 +119,13 @@ namespace IngameScript {
             _blocksLoaded = true;
         }
         void EchoBlockLists() {
-            Echo($"H2 Tanks: {_h2Tanks.Count}");
-            Echo($"Doors: {_autoCloseDoors.Count}");
-            Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
-            Echo($"Displays (All Carr): {_displaysAllCarriagesWide.Count}");
-            Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
-            Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
-            Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
+            //Echo($"H2 Tanks: {_h2Tanks.Count}");
+            //Echo($"Doors: {_autoCloseDoors.Count}");
+            //Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
+            //Echo($"Displays (All Carr): {_displaysAllCarriagesWide.Count}");
+            //Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
+            //Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
+            //Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
         }
 
     }

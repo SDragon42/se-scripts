@@ -119,7 +119,7 @@ namespace IngameScript {
 
 
         public static bool IsSingleCarriageDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[single-carriage]"); }
-        public static string BuildOneCarriageDisplay(string carriageName, CarriageStatusMessage carriageStatus, bool opsDetail = false) {
+        public static string BuildOneCarriageDisplay(string carriageName, CarriageStatusMessage carriageStatus, bool opsDetail = false, bool retransRing = false) {
             const int max = 17;
 
             var statusInfo = GetGraphInfo(carriageStatus, max);
@@ -136,6 +136,8 @@ namespace IngameScript {
                     sb.AppendLine($"     Space Terminal ──┬{icon}┐");
                 else if (i == 0)
                     sb.AppendLine($"    Ground Terminal ──┴{icon}┘");
+                else if (retransRing && i == max / 2)
+                    sb.AppendLine($"{GetNext(),-20}  ├{icon}┤");
                 else
                     sb.AppendLine($"{GetNext(),-20}  │{icon}│");
             }
@@ -169,8 +171,9 @@ namespace IngameScript {
         }
 
 
-        static string GetDirectionArrows(double vertSpeed) {
-            var vspeed = Math.Round(vertSpeed, 1);
+        static string GetDirectionArrows(double? vertSpeed) {
+            if (!vertSpeed.HasValue) return " ";
+            var vspeed = Math.Round(vertSpeed.Value, 1);
             return vspeed > 0 ? "↑" : vspeed < 0 ? "↓" : " "; // "\u2191"  "\u2193"
         }
         static string GetCarriageIcon(CarriageStatusMessage carriage) {
@@ -236,7 +239,7 @@ namespace IngameScript {
             var velocity = status != null ? $"{Math.Abs(status.VerticalSpeed),6:N1}" : " ---.-";
             var altitude = status != null ? $"{status?.Range2Bottom,6:N0}" : "--,---";
             yield return carriageName;
-            yield return $"   Velocity: {velocity} m/s {GetDirectionArrows(status.VerticalSpeed)[0]}";
+            yield return $"   Velocity: {velocity} m/s {GetDirectionArrows(status?.VerticalSpeed)[0]}";
             yield return $"   Altitude: {altitude} m";
         }
 
