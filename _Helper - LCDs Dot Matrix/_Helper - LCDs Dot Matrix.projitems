@@ -3,13 +3,13 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>ec64a080-a572-41f9-a535-6152d0a647f3</SharedGUID>
+    <SharedGUID>19f5cff5-d5ef-4112-85c8-7a7bb91c23fa</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)LcdCollect.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)LCDHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FontChar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Font_X.cs" />
   </ItemGroup>
 </Project>
