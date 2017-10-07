@@ -24,22 +24,22 @@ namespace IngameScript {
             }
 
             if (_displaySpeed.Count > 0) {
-                var text = Displays.BuildSpeedDisplayText(_status, _rangeToDestination);
+                var text = Displays.BuildSpeedDisplayText(_verticalSpeed, _rangeToDestination);
                 _displaySpeed.ForEach(d => Displays.Write2MonospaceDisplay(d, text, 1.3f));
             }
 
             if (_displayDestination.Count > 0) {
-                var text = Displays.BuildDestinationDisplayText(_destination?.Name);
-                _displayDestination.ForEach(d => Displays.Write2MonospaceDisplay(d, text, 1.3f));
+                var text = Displays.BuildDestinationDisplayText(_destination?.Name ?? GetMode().ToString().Replace('_', ' '));
+                _displayDestination.ForEach(d => Displays.Write2MonospaceDisplay(d, text, 1.75f));
             }
 
             if (_displayCargo.Count > 0) {
-                var text = Displays.BuildCargoDisplayText(_status?.CargoMass);
+                var text = Displays.BuildCargoDisplayText(_cargoMass);
                 _displayCargo.ForEach(d => Displays.Write2MonospaceDisplay(d, text, 1.3f));
             }
 
             if (_displayFuel.Count > 0) {
-                var text = Displays.BuildFuelDisplayText(_status?.FuelLevel);
+                var text = Displays.BuildFuelDisplayText(_h2TankFilledPercent);
                 _displayFuel.ForEach(d => Displays.Write2MonospaceDisplay(d, text, 1.3f));
             }
 

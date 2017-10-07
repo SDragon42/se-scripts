@@ -16,21 +16,6 @@ using VRageMath;
 
 namespace IngameScript {
     static class Displays {
-
-        // ┌┬┐   250c 252c 2510
-        // ├┼┤│  251c 253c 2524 2502
-        // └┴┘   2514 2534 2518
-
-        const string CHR_UP = "↑↑"; //"\u2191\u2191";
-        const string CHR_DOWN = "↓↓"; //"\u2193\u2193";
-        const string CHRS_Carriage_White = "";
-        const string CHRS_Carriage_Red = ""; //"\uE050\uE03C";
-        const string CHRS_Carriage_Green = ""; //"\uE051\uE03D";
-        const string CHRS_Carriage_Blue = ""; //"\uE052\uE03E";
-        const string CHRS_Carriage_Yellow = "";
-        const string CHRS_Carriage_Magenta = "";
-        const string CHRS_Carriage_Cyan = "";
-
         public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]") && !Collect.IsWideLcd(b); }
         public static bool IsAllCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]") && Collect.IsWideLcd(b); }
         public static string BuildAllCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint, bool wide = false) {
@@ -184,22 +169,21 @@ namespace IngameScript {
         }
 
 
-        static string GetDirectionArrows(CarriageStatusMessage carriage) {
-            if (carriage == null) return "  ";
-            var vspeed = Math.Round(carriage.VerticalSpeed, 1);
-            return vspeed > 0 ? CHR_UP : vspeed < 0 ? CHR_DOWN : "  ";
+        static string GetDirectionArrows(double vertSpeed) {
+            var vspeed = Math.Round(vertSpeed, 1);
+            return vspeed > 0 ? "↑" : vspeed < 0 ? "↓" : " "; // "\u2191"  "\u2193"
         }
         static string GetCarriageIcon(CarriageStatusMessage carriage) {
             switch (carriage.Mode) {
-                case CarriageMode.Manual_Control: return CHRS_Carriage_Magenta;
-                case CarriageMode.Awaiting_DepartureClearance: return CHRS_Carriage_Yellow;
-                case CarriageMode.Awaiting_CarriageReady2Depart: return CHRS_Carriage_Yellow;
-                case CarriageMode.Transit_Powered: return CHRS_Carriage_Yellow;
-                case CarriageMode.Transit_Coast: return CHRS_Carriage_Yellow;
-                case CarriageMode.Transit_Slow2Approach: return CHRS_Carriage_Yellow;
-                case CarriageMode.Transit_Docking: return CHRS_Carriage_Yellow;
-                case CarriageMode.Docked: return CHRS_Carriage_Green;
-                default: return CHRS_Carriage_White;
+                case CarriageMode.Manual_Control: return ""; // magenta <>
+                case CarriageMode.Awaiting_DepartureClearance: return ""; // yellow <>
+                case CarriageMode.Awaiting_CarriageReady2Depart: return ""; // yellow <>
+                case CarriageMode.Transit_Powered: return ""; // yellow <>
+                case CarriageMode.Transit_Coast: return ""; // yellow <>
+                case CarriageMode.Transit_Slow2Approach: return ""; // yellow <>
+                case CarriageMode.Transit_Docking: return ""; // yellow <>
+                case CarriageMode.Docked: return ""; // green <> "\uE051\uE03D"
+                default: return ""; // white <>
             }
         }
         static int GetCarriagePositionIndex(CarriageStatusMessage carriage, int numLines) {
@@ -210,8 +194,9 @@ namespace IngameScript {
         }
         static CarriageGraphInfo GetGraphInfo(CarriageStatusMessage carriage, int numLines) {
             if (carriage == null) return new CarriageGraphInfo();
+            var dir = GetDirectionArrows(carriage.VerticalSpeed);
             return new CarriageGraphInfo() {
-                DirText = GetDirectionArrows(carriage),
+                DirText = dir + dir,
                 Altitude = $"{carriage.Range2Bottom / 1000.0,4:N1}",
                 Icon = GetCarriageIcon(carriage),
                 VertPosNum = GetCarriagePositionIndex(carriage, numLines)
@@ -224,16 +209,15 @@ namespace IngameScript {
         public static bool IsSlimCargoDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[lcd-cargo]") && Collect.IsCornerFlatLcd(b); }
         public static bool IsSlimFuelDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[lcd-fuel]") && Collect.IsCornerFlatLcd(b); }
 
-        public static string BuildSpeedDisplayText(CarriageStatusMessage status, double range) {
-            var velocity = status != null ? $"{Math.Abs(status.VerticalSpeed):N1}" : "---.-";
-            var altitude = status != null ? $"{range:N0}" : "--,---";
-            return $"Speed: {velocity,6} m/s {GetDirectionArrows(status)}\nRange: {altitude,6} m";
+        public static string BuildSpeedDisplayText(double vertSpeed, double range) {
+            var speedText = $"{GetDirectionArrows(vertSpeed)} {Math.Abs(vertSpeed):N1}";
+            return $"Speed: {speedText,8} m/s\nRange: {range,8:N1} m";
         }
 
         public static string BuildDestinationDisplayText(string destination) {
-            var padding = (20 - destination?.Length) / 2.0 ?? 0.0;
+            var padding = (15 - destination?.Length) / 2.0 ?? 0.0;
             var iPadding = Convert.ToInt32(Math.Round(padding, 0));
-            return $"    Destination\n" + "".PadLeft(iPadding, ' ') + destination;
+            return "".PadLeft(iPadding, ' ') + destination;
         }
 
         public static string BuildCargoDisplayText(double? cargoMass) {
@@ -252,7 +236,7 @@ namespace IngameScript {
             var velocity = status != null ? $"{Math.Abs(status.VerticalSpeed),6:N1}" : " ---.-";
             var altitude = status != null ? $"{status?.Range2Bottom,6:N0}" : "--,---";
             yield return carriageName;
-            yield return $"   Velocity: {velocity} m/s {GetDirectionArrows(status)[0]}";
+            yield return $"   Velocity: {velocity} m/s {GetDirectionArrows(status.VerticalSpeed)[0]}";
             yield return $"   Altitude: {altitude} m";
         }
 
