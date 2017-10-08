@@ -33,7 +33,6 @@ namespace IngameScript {
         readonly TimeIntervalModule _executionInterval;
         readonly TimeIntervalModule _blockRefreshInterval;
         readonly AutoDoorCloserModule _doorManager;
-        readonly Queue<CommMessage> _messageQueue = new Queue<CommMessage>();
 
         bool _blocksLoaded = false;
         int _lastCustomDataHash;
