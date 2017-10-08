@@ -26,6 +26,7 @@ namespace IngameScript {
         readonly TimeIntervalModule _connectorLockDelay;
         readonly TimeIntervalModule _trasmitStatsDelay;
         readonly TimeIntervalModule _updateDisplayDelay;
+        readonly TimeIntervalModule _blockRefreshInterval;
         readonly AutoDoorCloserModule _doorManager;
         readonly COMMsModule _comms;
         readonly CustomDataConfigModule _custConfig;
@@ -91,6 +92,7 @@ namespace IngameScript {
             _connectorLockDelay = new TimeIntervalModule(0.1);
             _trasmitStatsDelay = new TimeIntervalModule(3.0);
             _updateDisplayDelay = new TimeIntervalModule(1.0);
+            _blockRefreshInterval = new TimeIntervalModule(1);
             _doorManager = new AutoDoorCloserModule();
             _comms = new COMMsModule(Me);
             _status = new CarriageStatusMessage(GetMode(), Vector3D.Zero, 0, 0, 0, 0, 0);
