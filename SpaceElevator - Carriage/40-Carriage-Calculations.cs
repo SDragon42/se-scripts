@@ -63,7 +63,6 @@ namespace IngameScript {
             _debug.AppendLine("");
             _debug.AppendLine($"Range to Destination: {_rangeToDestination:N2} m");
             _debug.AppendLine($"Range to Ground: {_rangeToGround:N2} m");
-            _debug.AppendLine($"MODE: {GetMode()}");
 
             if (_doCalcStatus) {
                 _doCalcStatus = false;

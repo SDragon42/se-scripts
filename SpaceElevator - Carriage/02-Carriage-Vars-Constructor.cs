@@ -153,7 +153,7 @@ namespace IngameScript {
             //Echo($"O2 Tanks: {_o2Tanks.Count}");
             //Echo($"H2 Tanks: {_h2Tanks.Count}");
             //Echo($"Displays: {_displaysSingleCarriages.Count}");
-            Echo($"Cargo: {_cargo.Count}");
+            //Echo($"Cargo: {_cargo.Count}");
         }
 
 
