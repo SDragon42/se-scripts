@@ -19,7 +19,7 @@ namespace IngameScript {
 
         public void Main(string argument) {
             try {
-                Echo("Station Control 1.2a: " + _runSymbol.GetSymbol(Runtime));
+                Echo("Station Control " + _runSymbol.GetSymbol(Runtime));
 
                 _executionInterval.RecordTime(Runtime);
                 _blockRefreshInterval.RecordTime(Runtime);

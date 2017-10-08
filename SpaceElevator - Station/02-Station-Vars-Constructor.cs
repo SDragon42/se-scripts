@@ -87,7 +87,7 @@ namespace IngameScript {
 
             _runSymbol = new RunningSymbolModule();
             _executionInterval = new TimeIntervalModule(0.1);
-            _blockRefreshInterval = new TimeIntervalModule(0.1);
+            _blockRefreshInterval = new TimeIntervalModule(1);
 
             _doorManager = new AutoDoorCloserModule();
 
