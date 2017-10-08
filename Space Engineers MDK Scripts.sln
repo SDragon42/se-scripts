@@ -83,6 +83,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - LCDs Dot Matrix",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ackermann-Steering", "Ackermann-Steering\Ackermann-Steering.csproj", "{7C33E0EF-4F54-42E2-A4F9-D9B6592AA315}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - OPS Center", "SpaceElevator - OPS Center\SpaceElevator - OPS Center.csproj", "{FE456DAE-1E85-4D99-A25D-AA819E217AF3}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		_Library - Common\_Library - Common.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
@@ -177,6 +179,15 @@ Global
 		_Helper - Doors\_Helper - Doors.projitems*{e503bebe-817d-4bed-9072-7bfcb95415b8}*SharedItemsImports = 13
 		_Helper - LCDs\_Helper - LCDs.projitems*{ec64a080-a572-41f9-a535-6152d0a647f3}*SharedItemsImports = 13
 		_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{eed1e4ac-d5ca-447a-bf3c-34c0e9b961fe}*SharedItemsImports = 13
+		SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		_Helper - Doors\_Helper - Doors.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		_Helper - LCDs\_Helper - LCDs.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		_Library - Common\_Library - Common.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		_Module - Custom Data Config\_Module - Custom Data Config.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		_Module - Debug\_Module - Debug.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		_Module - Door Closer\_Module - Door Closer.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		_Module - Logging\_Module - Logging.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		_Module - Time Interval\_Module - Time Interval.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -202,6 +213,8 @@ Global
 		{81E47C39-106A-4B63-8E4C-8F693BA3D6DA}.Debug|x64.Build.0 = Debug|x64
 		{7C33E0EF-4F54-42E2-A4F9-D9B6592AA315}.Debug|x64.ActiveCfg = Debug|x64
 		{7C33E0EF-4F54-42E2-A4F9-D9B6592AA315}.Debug|x64.Build.0 = Debug|x64
+		{FE456DAE-1E85-4D99-A25D-AA819E217AF3}.Debug|x64.ActiveCfg = Debug|x64
+		{FE456DAE-1E85-4D99-A25D-AA819E217AF3}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
