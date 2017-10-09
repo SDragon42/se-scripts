@@ -74,7 +74,7 @@ namespace IngameScript {
                     }
                     if (IsGateMaint(d)) {
                         if (string.IsNullOrEmpty(maintText))
-                            maintText = Displays.BuildOneCarriageDisplay("Maintenance Carriage", _Maintenance.Status, retransRing: true);
+                            maintText = Displays.BuildOneCarriageDisplay("Maintenance Carriage", _Maintenance.Status, retransRingMarker: true);
                         Displays.Write2MonospaceDisplay(d, maintText, 0.97f);
                         continue;
                     }

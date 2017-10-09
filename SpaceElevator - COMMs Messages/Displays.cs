@@ -16,8 +16,16 @@ using VRageMath;
 
 namespace IngameScript {
     static class Displays {
-        public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]") && !Collect.IsWideLcd(b); }
-        public static bool IsAllCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]") && Collect.IsWideLcd(b); }
+        public const string DISPLAY_KEY_ALL_CARRIAGES = "[all-carriages]";
+        public const string DISPLAY_KEY_ALL_CARRIAGES_WIDE = "[all-carriages-wide]";
+        public const string DISPLAY_KEY_ALL_PASSENGER_CARRIAGES = "[all-passenger-carriages]";
+        public const string DISPLAY_KEY_ALL_PASSENGER_CARRIAGES_WIDE = "[all-passenger-carriages-wide]";
+        public const string DISPLAY_KEY_SINGLE_CARRIAGE = "[single-carriage]";
+        public const string DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL = "[single-carriage-detail]";
+
+
+        public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_CARRIAGES) && !Collect.IsWideLcd(b); } // TODO: Remove LCD type check if can
+        public static bool IsAllCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_CARRIAGES_WIDE) && Collect.IsWideLcd(b); } // TODO: Remove LCD type check if can
         public static string BuildAllCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint, bool wide = false) {
             const int max = 15;
 
@@ -68,8 +76,8 @@ namespace IngameScript {
         }
 
 
-        public static bool IsAllPassengerCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-passenger-carriages]") && !Collect.IsWideLcd(b); }
-        public static bool IsAllPassengerCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-passenger-carriages]") && Collect.IsWideLcd(b); }
+        public static bool IsAllPassengerCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_PASSENGER_CARRIAGES) && !Collect.IsWideLcd(b); } // TODO: Remove LCD type check if can
+        public static bool IsAllPassengerCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_PASSENGER_CARRIAGES_WIDE) && Collect.IsWideLcd(b); } // TODO: Remove LCD type check if can
         public static string BuildAllPassengerCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, bool wide = false) {
             const int max = 15;
 
@@ -118,8 +126,9 @@ namespace IngameScript {
         }
 
 
-        public static bool IsSingleCarriageDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[single-carriage]"); }
-        public static string BuildOneCarriageDisplay(string carriageName, CarriageStatusMessage carriageStatus, bool opsDetail = false, bool retransRing = false) {
+        public static bool IsSingleCarriageDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_SINGLE_CARRIAGE); }
+        public static bool IsSingleCarriageDetailDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL); }
+        public static string BuildOneCarriageDisplay(string carriageName, CarriageStatusMessage carriageStatus, bool opsDetail = false, bool retransRingMarker = false) {
             const int max = 17;
 
             var statusInfo = GetGraphInfo(carriageStatus, max);
@@ -136,7 +145,7 @@ namespace IngameScript {
                     sb.AppendLine($"     Space Terminal ──┬{icon}┐");
                 else if (i == 0)
                     sb.AppendLine($"    Ground Terminal ──┴{icon}┘");
-                else if (retransRing && i == max / 2)
+                else if (retransRingMarker && i == max / 2)
                     sb.AppendLine($"{GetNext(),-22}├{icon}┤");
                 else
                     sb.AppendLine($"{GetNext(),-22}│{icon}│");
