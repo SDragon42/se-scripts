@@ -35,7 +35,6 @@ namespace IngameScript {
                     _debug.Clear();
                     _comms.TransmitQueue(_antenna);
                     _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
-                    UpdateDisplays();
                     RunCarriageDockDepartureActions(TAG_A1, _A1);
                     RunCarriageDockDepartureActions(TAG_A2, _A2);
                     RunCarriageDockDepartureActions(TAG_B1, _B1);
@@ -70,6 +69,7 @@ namespace IngameScript {
                 switch (msg.PayloadType) {
                     case CarriageStatusMessage.TYPE: CarriageStatusProcessing(msg.SenderGridName, msg.Payload); break;
                     case CarriageRequestMessage.TYPE: CarriageRequestProcessing(msg.SenderGridName, msg.Payload); break;
+                    case UpdateDisplayMessage.TYPE: DisplayProcessing(msg.Payload); break;
                 }
             } else {
                 if (argument.StartsWith(CMD_DockCarriage)) {

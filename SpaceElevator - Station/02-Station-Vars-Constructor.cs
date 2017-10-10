@@ -46,6 +46,7 @@ namespace IngameScript {
         readonly List<IMyTextPanel> _displaysAllPassengerCarriages = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysAllPassengerCarriagesWide = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysSingleCarriages = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysSingleCarriagesDetailed = new List<IMyTextPanel>();
 
         readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
 
@@ -114,17 +115,20 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllPassengerCarriagesWideDisplay(b));
 
             GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsSingleCarriageDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriagesDetailed, b => IsTaggedStationOnThisGrid(b) && Displays.IsSingleCarriageDetailDisplay(b));
 
             _blocksLoaded = true;
         }
         void EchoBlockLists() {
             //Echo($"H2 Tanks: {_h2Tanks.Count}");
             //Echo($"Doors: {_autoCloseDoors.Count}");
-            //Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
-            //Echo($"Displays (All Carr): {_displaysAllCarriagesWide.Count}");
-            //Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
-            //Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
-            //Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
+            Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
+            Echo($"Displays (W All Carr): {_displaysAllCarriagesWide.Count}");
+            Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
+            Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
+            Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
+            Echo($"Displays (Single Carr D): {_displaysSingleCarriagesDetailed.Count}");
+            Echo("");
         }
 
     }

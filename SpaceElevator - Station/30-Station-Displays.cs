@@ -20,67 +20,56 @@ namespace IngameScript {
         //-------------------------------------------------------------------------------
         //  Displays
         //-------------------------------------------------------------------------------
-        void UpdateDisplays() {
-            if (_displaysAllCarriages.Count > 0) {
-                var text = Displays.BuildAllCarriageDisplayText(_A1.Status, _A2.Status, _B1.Status, _B2.Status, _Maintenance.Status);
-                _displaysAllCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, text, 0.97f));
+        private void DisplayProcessing(string payload) {
+            var msg = UpdateDisplayMessage.CreateFromPayload(payload);
+
+            //_log.AppendLine($"{msg.CarriageKey}|{msg.DisplayKey}");
+            switch (msg.DisplayKey) {
+                case Displays.DISPLAY_KEY_ALL_CARRIAGES:
+                    _displaysAllCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f));
+                    break;
+                case Displays.DISPLAY_KEY_ALL_CARRIAGES_WIDE:
+                    _displaysAllCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f));
+                    break;
+                case Displays.DISPLAY_KEY_ALL_PASSENGER_CARRIAGES:
+                    _displaysAllPassengerCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f));
+                    break;
+                case Displays.DISPLAY_KEY_ALL_PASSENGER_CARRIAGES_WIDE:
+                    _displaysAllPassengerCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f));
+                    break;
+                case Displays.DISPLAY_KEY_SINGLE_CARRIAGE:
+                    DisplaySingleDisplays(msg, _displaysSingleCarriages);
+                    break;
+                case Displays.DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL:
+                    DisplaySingleDisplays(msg, _displaysSingleCarriagesDetailed, true);
+                    break;
             }
 
-            if (_displaysAllCarriagesWide.Count > 0) {
-                var text = Displays.BuildAllCarriageDisplayText(_A1.Status, _A2.Status, _B1.Status, _B2.Status, _Maintenance.Status, true);
-                _displaysAllCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, text, 0.97f));
-            }
+        }
 
-            if (_displaysAllPassengerCarriages.Count > 0) {
-                var text = Displays.BuildAllPassengerCarriageDisplayText(_A1.Status, _A2.Status, _B1.Status, _B2.Status);
-                _displaysAllPassengerCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, text, 0.97f));
+        private void DisplaySingleDisplays(UpdateDisplayMessage msg, List<IMyTextPanel> displays, bool details = false) {
+            if (string.IsNullOrWhiteSpace(msg.Text)) {
+                _log.AppendLine($"EMPTY|{msg.CarriageKey}|{msg.DisplayKey}");
+                return;
             }
-
-            if (_displaysAllPassengerCarriagesWide.Count > 0) {
-                var text = Displays.BuildAllPassengerCarriageDisplayText(_A1.Status, _A2.Status, _B1.Status, _B2.Status, true);
-                _displaysAllPassengerCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, text, 0.97f));
-            }
-
-            if (_displaysSingleCarriages.Count > 0) {
-                var a1Text = string.Empty;
-                var a2Text = string.Empty;
-                var b1Text = string.Empty;
-                var b2Text = string.Empty;
-                var maintText = string.Empty;
-                foreach (var d in _displaysSingleCarriages) {
-                    if (IsGateA1(d)) {
-                        if (string.IsNullOrEmpty(a1Text))
-                            a1Text = Displays.BuildOneCarriageDisplay("Carriage A1", _A1.Status);
-                        Displays.Write2MonospaceDisplay(d, a1Text, 0.97f);
-                        continue;
-                    }
-                    if (IsGateA2(d)) {
-                        if (string.IsNullOrEmpty(a2Text))
-                            a2Text = Displays.BuildOneCarriageDisplay("Carriage A2", _A2.Status);
-                        Displays.Write2MonospaceDisplay(d, a2Text, 0.97f);
-                        continue;
-                    }
-                    if (IsGateB1(d)) {
-                        if (string.IsNullOrEmpty(b1Text))
-                            b1Text = Displays.BuildOneCarriageDisplay("Carriage B1", _B1.Status);
-                        Displays.Write2MonospaceDisplay(d, b1Text, 0.97f);
-                        continue;
-                    }
-                    if (IsGateB2(d)) {
-                        if (string.IsNullOrEmpty(b2Text))
-                            b2Text = Displays.BuildOneCarriageDisplay("Carriage B2", _B2.Status);
-                        Displays.Write2MonospaceDisplay(d, b2Text, 0.97f);
-                        continue;
-                    }
-                    if (IsGateMaint(d)) {
-                        if (string.IsNullOrEmpty(maintText))
-                            maintText = Displays.BuildOneCarriageDisplay("Maintenance Carriage", _Maintenance.Status, retransRingMarker: true);
-                        Displays.Write2MonospaceDisplay(d, maintText, 0.97f);
-                        continue;
-                    }
+            foreach (var d in displays) {
+                if (IsGateA1(d) && msg.CarriageKey == CARRIAGE_A1) {
+                    _log.AppendLine(d.CustomName);
+                    Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
+                } else if (IsGateA2(d) && msg.CarriageKey == CARRIAGE_A2) {
+                    _log.AppendLine(d.CustomName);
+                    Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
+                } else if (IsGateB1(d) && msg.CarriageKey == CARRIAGE_B1) {
+                    _log.AppendLine(d.CustomName);
+                    Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
+                } else if (IsGateB2(d) && msg.CarriageKey == CARRIAGE_B2) {
+                    _log.AppendLine(d.CustomName);
+                    Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
+                } else if (IsGateMaint(d) && msg.CarriageKey == CARRIAGE_MAINT) {
+                    _log.AppendLine(d.CustomName);
+                    Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
                 }
             }
-
         }
 
     }
