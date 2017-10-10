@@ -23,6 +23,7 @@ namespace IngameScript {
 
                 _executionInterval.RecordTime(Runtime);
                 _blockRefreshInterval.RecordTime(Runtime);
+                _displayRefreshInterval.RecordTime(Runtime);
 
                 LoadConfigSettings();
                 LoadBlockLists(_blockRefreshInterval.AtNextInterval);
@@ -40,6 +41,10 @@ namespace IngameScript {
                     UpdateDisplays();
 
                     _debug.AppendLine(_log.GetLogText());
+                }
+
+                if (_displayRefreshInterval.AtNextInterval) {
+                    SendAllCOMMsDisplays();
                 }
             } catch (Exception ex) {
                 _debug.AppendLine(ex.Message);

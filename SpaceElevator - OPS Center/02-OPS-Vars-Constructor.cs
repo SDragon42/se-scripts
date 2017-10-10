@@ -25,6 +25,7 @@ namespace IngameScript {
         readonly RunningSymbolModule _runSymbol;
         readonly TimeIntervalModule _executionInterval;
         readonly TimeIntervalModule _blockRefreshInterval;
+        readonly TimeIntervalModule _displayRefreshInterval;
         readonly AutoDoorCloserModule _doorManager;
 
 
@@ -61,6 +62,7 @@ namespace IngameScript {
             _runSymbol = new RunningSymbolModule();
             _executionInterval = new TimeIntervalModule(0.1);
             _blockRefreshInterval = new TimeIntervalModule(1);
+            _displayRefreshInterval = new TimeIntervalModule(10);
 
             _doorManager = new AutoDoorCloserModule();
 

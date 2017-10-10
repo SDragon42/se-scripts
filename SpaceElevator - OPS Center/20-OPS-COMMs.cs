@@ -26,5 +26,19 @@ namespace IngameScript {
             _comms.AddMessageToQueue(msgPayload);
         }
 
+        void SendAllCOMMsDisplays() {
+            //var currText = GetDisplayText(carriageKey, displayKey);
+            //if (string.Compare(currText, text) == 0) return;
+            //var cKey = MakeDisplayKey(carriageKey, displayKey);
+            //_displayText[cKey] = text;
+            //SendCOMMs_DisplayUpdate(carriageKey, displayKey, _displayText[cKey]);
+
+            foreach (var key in _displayText.Keys) {
+                var parts = key.Split('|');
+                if (parts.Length != 2) continue;
+                SendCOMMs_DisplayUpdate(parts[0], parts[1], _displayText[key]);
+            }
+        }
+
     }
 }
