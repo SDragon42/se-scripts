@@ -24,8 +24,8 @@ namespace IngameScript {
         public const string DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL = "[single-carriage-detail]";
 
 
-        public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_CARRIAGES) && !Collect.IsWideLcd(b); } // TODO: Remove LCD type check if can
-        public static bool IsAllCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_CARRIAGES_WIDE) && Collect.IsWideLcd(b); } // TODO: Remove LCD type check if can
+        public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_CARRIAGES); }
+        public static bool IsAllCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_CARRIAGES_WIDE); }
         public static string BuildAllCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint, bool wide = false) {
             const int max = 15;
 
@@ -76,8 +76,8 @@ namespace IngameScript {
         }
 
 
-        public static bool IsAllPassengerCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_PASSENGER_CARRIAGES) && !Collect.IsWideLcd(b); } // TODO: Remove LCD type check if can
-        public static bool IsAllPassengerCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_PASSENGER_CARRIAGES_WIDE) && Collect.IsWideLcd(b); } // TODO: Remove LCD type check if can
+        public static bool IsAllPassengerCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_PASSENGER_CARRIAGES); }
+        public static bool IsAllPassengerCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_PASSENGER_CARRIAGES_WIDE); }
         public static string BuildAllPassengerCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, bool wide = false) {
             const int max = 15;
 
