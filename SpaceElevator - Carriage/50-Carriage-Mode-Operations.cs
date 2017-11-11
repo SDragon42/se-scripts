@@ -238,7 +238,7 @@ namespace IngameScript {
 
             var inBrakeRange = (rangeToTarget <= brakeingRange + _settings.ApproachDistance);
             var inDockRange = Math.Abs(rangeToTarget - brakeingRange) < SWITCH_TO_AUTOPILOT_RANGE;
-            var inCoastZone = (!inBrakeRange && _rc.GetShipSpeed() >= _settings.TravelSpeed - 5.0);
+            var inCoastZone = (!inBrakeRange && _rc.GetShipSpeed() >= _settings.TravelSpeed - 1.0);
 
             if (inCoastZone)
                 SetMode(CarriageMode.Transit_Coast);
