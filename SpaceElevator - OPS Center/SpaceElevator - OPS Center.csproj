@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{07280390-4C98-4B20-A2EB-F4DBE5713CEF}</ProjectGuid>
+    <ProjectGuid>{FE456DAE-1E85-4D99-A25D-AA819E217AF3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>IngameScript</RootNamespace>
-    <AssemblyName>SpaceElevator - COMMs Reviever</AssemblyName>
+    <AssemblyName>SpaceElevator - OPS Center</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -96,20 +96,30 @@
     <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\0iq1it5n.5vg\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="01-OPS-Contants.cs" />
+    <Compile Include="10-OPS-Main-Control.cs" />
+    <Compile Include="20-OPS-COMMs.cs" />
+    <Compile Include="30-OPS-Displays.cs" />
+    <Compile Include="60-OPS-Collects.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <Compile Include="CommsReciever.cs" />
+    <Compile Include="02-OPS-Vars-Constructor.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
+    <Compile Include="ScriptSettingsModule.cs" />
   </ItemGroup>
-  <Import Project="..\_Module - Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
   <Import Project="..\SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems" Label="Shared" />
-  <Import Project="..\_Module - Logging\_Module - Logging.projitems" Label="Shared" />
-  <Import Project="..\_Library - Common\_Library - Common.projitems" Label="Shared" />
+  <Import Project="..\_Helper - Doors\_Helper - Doors.projitems" Label="Shared" />
   <Import Project="..\_Helper - LCDs\_Helper - LCDs.projitems" Label="Shared" />
+  <Import Project="..\_Library - Common\_Library - Common.projitems" Label="Shared" />
+  <Import Project="..\_Module - Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
+  <Import Project="..\_Module - Debug\_Module - Debug.projitems" Label="Shared" />
+  <Import Project="..\_Module - Door Closer\_Module - Door Closer.projitems" Label="Shared" />
+  <Import Project="..\_Module - Logging\_Module - Logging.projitems" Label="Shared" />
+  <Import Project="..\_Module - Time Interval\_Module - Time Interval.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />

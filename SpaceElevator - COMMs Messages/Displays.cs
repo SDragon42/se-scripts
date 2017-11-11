@@ -16,8 +16,16 @@ using VRageMath;
 
 namespace IngameScript {
     static class Displays {
-        public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]") && !Collect.IsWideLcd(b); }
-        public static bool IsAllCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-carriages]") && Collect.IsWideLcd(b); }
+        public const string DISPLAY_KEY_ALL_CARRIAGES = "[all-carriages]";
+        public const string DISPLAY_KEY_ALL_CARRIAGES_WIDE = "[all-carriages-wide]";
+        public const string DISPLAY_KEY_ALL_PASSENGER_CARRIAGES = "[all-passenger-carriages]";
+        public const string DISPLAY_KEY_ALL_PASSENGER_CARRIAGES_WIDE = "[all-passenger-carriages-wide]";
+        public const string DISPLAY_KEY_SINGLE_CARRIAGE = "[single-carriage]";
+        public const string DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL = "[single-carriage-detail]";
+
+
+        public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_CARRIAGES); }
+        public static bool IsAllCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_CARRIAGES_WIDE); }
         public static string BuildAllCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint, bool wide = false) {
             const int max = 15;
 
@@ -68,8 +76,8 @@ namespace IngameScript {
         }
 
 
-        public static bool IsAllPassengerCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-passenger-carriages]") && !Collect.IsWideLcd(b); }
-        public static bool IsAllPassengerCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[all-passenger-carriages]") && Collect.IsWideLcd(b); }
+        public static bool IsAllPassengerCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_PASSENGER_CARRIAGES); }
+        public static bool IsAllPassengerCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_PASSENGER_CARRIAGES_WIDE); }
         public static string BuildAllPassengerCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, bool wide = false) {
             const int max = 15;
 
@@ -118,8 +126,9 @@ namespace IngameScript {
         }
 
 
-        public static bool IsSingleCarriageDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[single-carriage]"); }
-        public static string BuildOneCarriageDisplay(string carriageName, CarriageStatusMessage carriageStatus, bool opsDetail = false) {
+        public static bool IsSingleCarriageDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_SINGLE_CARRIAGE); }
+        public static bool IsSingleCarriageDetailDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL); }
+        public static string BuildOneCarriageDisplay(string carriageName, CarriageStatusMessage carriageStatus, bool opsDetail = false, bool retransRingMarker = false) {
             const int max = 17;
 
             var statusInfo = GetGraphInfo(carriageStatus, max);
@@ -136,17 +145,18 @@ namespace IngameScript {
                     sb.AppendLine($"     Space Terminal ──┬{icon}┐");
                 else if (i == 0)
                     sb.AppendLine($"    Ground Terminal ──┴{icon}┘");
+                else if (retransRingMarker && i == max / 2)
+                    sb.AppendLine($"{GetNext(),-22}├{icon}┤");
                 else
-                    sb.AppendLine($"{GetNext(),-20}  │{icon}│");
+                    sb.AppendLine($"{GetNext(),-22}│{icon}│");
             }
             return sb.ToString();
         }
         static IEnumerable<string> GetOneCarriagesDetails(string carriageName, CarriageStatusMessage status, bool opsDetail = false) {
-
-            var velocity = status != null ? $"{Math.Abs(status.VerticalSpeed):N1}" : "---.-";
-            var altitude = status != null ? $"{status?.Range2Bottom:N0}" : "--,---";
-            var fuelLevel = status != null ? $"{status.FuelLevel * 100:N0}" : "---";
-            var cargoMass = status != null ? $"{status.CargoMass:N1}" : "---,---,---";
+            var velocityText = status != null
+                ? $"{GetDirectionArrows(status.VerticalSpeed)} {Math.Abs(status.VerticalSpeed):N1}"
+                : "---.-";
+            var altitudeText = status != null ? $"{status?.Range2Bottom:N1}" : "--,---";
 
             if (!opsDetail) {
                 yield return "";
@@ -157,20 +167,23 @@ namespace IngameScript {
             yield return "";
             yield return carriageName;
             yield return "";
-            yield return $"Velocity: {velocity,6} m/s";
-            yield return $"Altitude: {altitude,6} m";
+            yield return $"Speed: {velocityText,8} m/s";
+            yield return $" Alt.: {altitudeText,8} m";
             if (opsDetail) {
+                var fuelLevelText = status != null ? $"{status.FuelLevel * 100:N0}" : "---";
+                var cargoMassText = status != null ? $"{status.CargoMass:N1}" : "---,---,---";
                 yield return "";
                 yield return "Systems";
-                yield return $"Hydrogen: {fuelLevel,6} %";
+                yield return $"Hydrogen: {fuelLevelText,6} %";
                 yield return $"Cargo Mass";
-                yield return $"{cargoMass,16} kg";
+                yield return $"{cargoMassText,16} kg";
             }
         }
 
 
-        static string GetDirectionArrows(double vertSpeed) {
-            var vspeed = Math.Round(vertSpeed, 1);
+        static string GetDirectionArrows(double? vertSpeed) {
+            if (!vertSpeed.HasValue) return " ";
+            var vspeed = Math.Round(vertSpeed.Value, 1);
             return vspeed > 0 ? "↑" : vspeed < 0 ? "↓" : " "; // "\u2191"  "\u2193"
         }
         static string GetCarriageIcon(CarriageStatusMessage carriage) {
@@ -233,11 +246,13 @@ namespace IngameScript {
 
 
         static IEnumerable<string> GetCarriageDetails(string carriageName, CarriageStatusMessage status) {
-            var velocity = status != null ? $"{Math.Abs(status.VerticalSpeed),6:N1}" : " ---.-";
-            var altitude = status != null ? $"{status?.Range2Bottom,6:N0}" : "--,---";
+            var velocityText = status != null
+                ? $"{GetDirectionArrows(status.VerticalSpeed)} {Math.Abs(status.VerticalSpeed):N1}"
+                : "---.-";
+            var altitudeText = status != null ? $"{status.Range2Bottom:N1}" : "--,---.-";
             yield return carriageName;
-            yield return $"   Velocity: {velocity} m/s {GetDirectionArrows(status.VerticalSpeed)[0]}";
-            yield return $"   Altitude: {altitude} m";
+            yield return $"   Velocity: {velocityText,8} m/s";
+            yield return $"   Altitude: {altitudeText,8} m";
         }
 
         public static void Write2MonospaceDisplay(IMyTextPanel display, string text, float fontSize) {

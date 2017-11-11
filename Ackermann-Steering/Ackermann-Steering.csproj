@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{07280390-4C98-4B20-A2EB-F4DBE5713CEF}</ProjectGuid>
+    <ProjectGuid>{7C33E0EF-4F54-42E2-A4F9-D9B6592AA315}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>IngameScript</RootNamespace>
-    <AssemblyName>SpaceElevator - COMMs Reviever</AssemblyName>
+    <AssemblyName>Ackermann-Steering</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -100,16 +100,11 @@
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <Compile Include="CommsReciever.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
   </ItemGroup>
-  <Import Project="..\_Module - Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
-  <Import Project="..\SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems" Label="Shared" />
-  <Import Project="..\_Module - Logging\_Module - Logging.projitems" Label="Shared" />
-  <Import Project="..\_Library - Common\_Library - Common.projitems" Label="Shared" />
-  <Import Project="..\_Helper - LCDs\_Helper - LCDs.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />

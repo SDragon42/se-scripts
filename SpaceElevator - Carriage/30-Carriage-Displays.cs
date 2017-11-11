@@ -19,7 +19,7 @@ namespace IngameScript {
 
         void UpdateDisplays() {
             if (_displaysSingleCarriages.Count > 0) {
-                var text = Displays.BuildOneCarriageDisplay(Me.CubeGrid.CustomName, _status);
+                var text = Displays.BuildOneCarriageDisplay(Me.CubeGrid.CustomName, _status, retransRingMarker: true);
                 _displaysSingleCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, text, 0.97f));
             }
 
