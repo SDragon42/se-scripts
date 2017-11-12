@@ -40,7 +40,6 @@ namespace IngameScript {
         IMyRadioAntenna _antenna;
         readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
         readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
-        //readonly List<IMyTextPanel> _displays = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysAllCarriages = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysAllCarriagesWide = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysAllPassengerCarriages = new List<IMyTextPanel>();
@@ -61,7 +60,8 @@ namespace IngameScript {
             //_debug.Enabled = false;
             _debug.EchoMessages = true;
 
-            _log = new LogModule(20);
+            _log = new LogModule(50);
+            //_log.Enabled = false;
 
             _custConfig = new CustomDataConfigModule();
             _settings = new ScriptSettingsModule();
@@ -108,7 +108,6 @@ namespace IngameScript {
 
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsTaggedStationOnThisGrid(b) && IsDoorOnStationOnly(b));
-            //GridTerminalSystem.GetBlocksOfType(_displays, IsTaggedStationOnThisGrid);
             GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllCarriagesDisplay(b));
             GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllCarriagesWideDisplay(b));
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllPassengerCarriagesDisplay(b));
@@ -122,13 +121,13 @@ namespace IngameScript {
         void EchoBlockLists() {
             //Echo($"H2 Tanks: {_h2Tanks.Count}");
             //Echo($"Doors: {_autoCloseDoors.Count}");
-            Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
-            Echo($"Displays (W All Carr): {_displaysAllCarriagesWide.Count}");
-            Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
-            Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
-            Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
-            Echo($"Displays (Single Carr D): {_displaysSingleCarriagesDetailed.Count}");
-            Echo("");
+            //Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
+            //Echo($"Displays (W All Carr): {_displaysAllCarriagesWide.Count}");
+            //Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
+            //Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
+            //Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
+            //Echo($"Displays (Single Carr D): {_displaysSingleCarriagesDetailed.Count}");
+            //Echo("");
         }
 
     }

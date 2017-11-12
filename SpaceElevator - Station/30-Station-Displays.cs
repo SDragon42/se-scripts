@@ -49,7 +49,7 @@ namespace IngameScript {
 
         private void DisplaySingleDisplays(UpdateDisplayMessage msg, List<IMyTextPanel> displays, bool details = false) {
             if (string.IsNullOrWhiteSpace(msg.Text)) {
-                _log.AppendLine($"EMPTY|{msg.CarriageKey}|{msg.DisplayKey}");
+                //_log.AppendLine($"EMPTY|{msg.CarriageKey}|{msg.DisplayKey}");
                 return;
             }
             foreach (var d in displays) {
