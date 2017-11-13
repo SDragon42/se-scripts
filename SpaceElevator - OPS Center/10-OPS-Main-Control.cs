@@ -51,8 +51,7 @@ namespace IngameScript {
                 _debug.AppendLine(ex.StackTrace);
                 throw ex;
             } finally {
-                if (_debug != null)
-                    _debug.UpdateDisplay();
+                _debug.UpdateDisplay();
             }
         }
 
