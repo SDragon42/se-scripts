@@ -56,11 +56,11 @@ namespace IngameScript {
             _config.SaveToCustomData(Me);
 
             _sc = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyRCName)) as IMyShipController;
-            _twrDisplay = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyDisplayName)) as IMyTextPanel;
             if (_sc == null) {
-                Echo("config '" + KeyRCName + "' with name '" + _config.GetValue(KeyRCName) + "' was not found.");
+                Echo($"config '{KeyRCName}' with name '{_config.GetValue(KeyRCName)}' was not found.");
                 return;
             }
+
             _orientation.Init(_sc);
 
             _calcDirections.Clear();
@@ -71,71 +71,48 @@ namespace IngameScript {
 
             var mass2Ignore = _config.GetValue(KeyMass2Ignore).ToInt();
             var totalMass = _sc.CalculateShipMass().TotalMass - mass2Ignore;
+            var resultText = BuildText(totalMass);
 
-            var resultText = new StringBuilder();
-            resultText.AppendLine($"Mass: {totalMass:N0} kg");
-            resultText.AppendLine();
+            // Display results
+            Echo(resultText);
+            _twrDisplay = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyDisplayName)) as IMyTextPanel;
+            _twrDisplay?.WritePublicText(resultText);
+        }
 
+        string BuildText(float totalMass) {
+            var sb = new StringBuilder();
+            sb.AppendLine($"Mass: {totalMass:N0} kg");
+            sb.AppendLine();
             foreach (var dir in _calcDirections) {
                 var info = CalcTwrInDirection(totalMass, dir);
-
-                // Display results
-                resultText.AppendLine($"Accel Dir: {info.Thrust_Direction}");
-                resultText.AppendLine($"MAX Thrust: {info.Thrust / 1000.0:N0} kN");
-                resultText.AppendLine($"T/W R: {info.TWR:N2}");
-                resultText.AppendLine($"# Thrusters: {_thrusters.Count:N0}");
-                resultText.AppendLine();
+                sb.AppendLine($"Accel Dir: {info.Thrust_Direction}");
+                sb.AppendLine($"MAX Thrust: {info.Thrust / 1000.0:N0} kN");
+                sb.AppendLine($"T/W R: {info.TWR:N2}");
+                sb.AppendLine($"# Thrusters: {_thrusters.Count:N0}");
+                sb.AppendLine();
             }
-
-            if (_twrDisplay != null)
-                _twrDisplay.WritePublicText(resultText.ToString());
-            Echo(resultText.ToString());
+            return sb.ToString();
         }
 
         TwrInfo CalcTwrInDirection(float totalMass, Direction direction) {
-            var info = new TwrInfo();
+            var massNewtons = ConvertMass2Newtons(totalMass);
+
             Func<IMyTerminalBlock, bool> isDirection;
             switch (direction) {
-                case Direction.Forward:
-                    info.Thrust_Direction = "Forward";
-                    isDirection = _orientation.IsBackward;
-                    break;
-                case Direction.Backward:
-                    info.Thrust_Direction = "Backward";
-                    isDirection = _orientation.IsForward;
-                    break;
-                case Direction.Left:
-                    info.Thrust_Direction = "Left";
-                    isDirection = _orientation.IsRight;
-                    break;
-                case Direction.Right:
-                    info.Thrust_Direction = "Right";
-                    isDirection = _orientation.IsLeft;
-                    break;
-                case Direction.Up:
-                    info.Thrust_Direction = "Up";
-                    isDirection = _orientation.IsDown;
-                    break;
-                case Direction.Down:
-                    info.Thrust_Direction = "Down";
-                    isDirection = _orientation.IsUp;
-                    break;
-                default:
-                    info.Thrust_Direction = "Invalid";
-                    isDirection = (b) => false;
-                    break;
+                case Direction.Forward: isDirection = _orientation.IsBackward; break;
+                case Direction.Backward: isDirection = _orientation.IsForward; break;
+                case Direction.Left: isDirection = _orientation.IsRight; break;
+                case Direction.Right: isDirection = _orientation.IsLeft; break;
+                case Direction.Up: isDirection = _orientation.IsDown; break;
+                case Direction.Down: isDirection = _orientation.IsUp; break;
+                default: isDirection = (b) => false; break;
             }
-            GridTerminalSystem.GetBlocksOfType(_thrusters, b => IsOnThisGrid(b) && isDirection(b));
+            GridTerminalSystem.GetBlocksOfType(_thrusters, b => IsOnThisGrid(b) && isDirection(b) && b.IsWorking);
 
-            info.NumThrusters = _thrusters.Count;
-            info.Thrust = _thrusters.Sum(b => ThrusterHelper.GetMaxThrust(b));
-            info.TWR = info.Thrust / ThrusterHelper.ConvertMass2Newtons(totalMass);
-
-            info.EffectiveThrust = _thrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
-            info.EffectiveTWR = info.EffectiveThrust / ThrusterHelper.ConvertMass2Newtons(totalMass);
-
-            return info;
+            return new TwrInfo(_thrusters, direction, totalMass);
         }
+
+        static double ConvertMass2Newtons(float mass_kg) { return (mass_kg / 0.101971621); }
 
         bool IsOnThisGrid(IMyTerminalBlock b) { return Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
 
