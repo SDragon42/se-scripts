@@ -106,9 +106,9 @@ namespace IngameScript {
             _rc.DampenersOverride = true;
             _rc.ClearWaypoints();
             _rc.AddWaypoint(target, "Destination");
-            _rc.SetValueBool("DockingMode", true); // Activate Precision mode.
-            _rc.SetValue<long>("FlightMode", 2); // Sets Flight mode to "One way". 2 is index of "One way" in combobox. (0 = Patrol, 1 = Circle)
-            _rc.SetValue<float>("SpeedLimit", Convert.ToSingle(_settings.DockSpeed));
+            _rc.SetDockingMode(true); // Activate Precision mode.
+            _rc.FlightMode = FlightMode.OneWay;
+            _rc.SpeedLimit = _settings.DockSpeed;
             _rc.SetAutoPilotEnabled(true);
         }
 
@@ -166,7 +166,7 @@ namespace IngameScript {
             if (IsRotated2Limit(rotor, rotateToMax)) return true;
             //rotor.SafetyLock = false;
             var velocity = rotateToMax ? ElevatorConst.ROTOR_VELOCITY : ElevatorConst.ROTOR_VELOCITY * -1;
-            rotor.SetValueFloat("Velocity", velocity);
+            rotor.TargetVelocityRPM = velocity;
             return false; // not in position yet
         }
         bool IsRotated2Limit(IMyMotorStator rotor, bool rotateToMax) {

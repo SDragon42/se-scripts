@@ -80,8 +80,8 @@ namespace IngameScript {
             var display = GetProximityDisplay();
             if (sc == null || display == null) return;
             _proximity.RunScan(this, sc);
-            LCDHelper.SetFont_Monospaced(display);
-            LCDHelper.SetFontSize(display, 1.7f);
+            display.Font = LCDFonts.NONOSPACE;
+            display.FontSize = 1.7f;
 
             var txtUp = FormatRange2Text(_proximity.Up);
             var txtDown = FormatRange2Text(_proximity.Down);

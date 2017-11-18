@@ -9,7 +9,8 @@
     <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)LCDFonts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LCDChars.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LCDCollect.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)LCDHelper.cs" />
   </ItemGroup>
 </Project>

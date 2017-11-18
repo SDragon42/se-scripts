@@ -69,8 +69,8 @@ namespace IngameScript {
                 Echo(logText);
 
                 if (_display != null) {
-                    LCDHelper.SetFont_Monospaced(_display);
-                    LCDHelper.SetFontSize(_display, 0.6f);
+                    _display.Font = LCDFonts.NONOSPACE;
+                    _display.FontSize = 0.6f;
                     _display.ShowPublicTextOnScreen();
                     _display.WritePublicText(logText);
                 }

@@ -73,7 +73,7 @@ namespace IngameScript {
                 var maxAngle = Math.Round(_armRotor.UpperLimitRad, ElevatorConst.RADIAN_ROUND_DIGITS);
                 if (currAngle < maxAngle) {
                     //_armRotor.SafetyLock = false;
-                    _armRotor.SetValueFloat("Velocity", ElevatorConst.ROTOR_VELOCITY);
+                    _armRotor.TargetVelocityRPM = ElevatorConst.ROTOR_VELOCITY;
                     return false; // not in position yet
                 }
                 //_armRotor.SafetyLock = true;
@@ -113,7 +113,7 @@ namespace IngameScript {
                 var minAngle = Math.Round(_armRotor.LowerLimitRad, ElevatorConst.RADIAN_ROUND_DIGITS);
                 if (currAngle > minAngle) {
                     //_armRotor.SafetyLock = false;
-                    _armRotor.SetValueFloat("Velocity", ElevatorConst.ROTOR_VELOCITY * -1);
+                    _armRotor.TargetVelocityRPM = ElevatorConst.ROTOR_VELOCITY * -1;
                     return false; // not fully retracted
                 }
                 //_armRotor.SafetyLock = true;

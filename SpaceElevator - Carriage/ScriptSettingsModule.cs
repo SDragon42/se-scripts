@@ -19,7 +19,7 @@ namespace IngameScript {
         const string DEFAULT_BlockTag = "[carriage]";
         const int DEFAULT_WorldInventoryMultiplier = 1;
         const double DEFAULT_TravelSpeed = 99.0;
-        const double DEFAULT_DockSpeed = 2.0;
+        const float DEFAULT_DockSpeed = 2.0f;
         const double DEFAULT_ConnectorLockDelay = 2.0;
         const double DEFAULT_ApproachDistence = 25.0;
         const bool DEFAULT_GravityDescelEnabled = false;
@@ -78,7 +78,7 @@ namespace IngameScript {
         public void LoadFromSettingDict(CustomDataConfigModule config) {
             InventoryMultiplier = config.GetValue(KEY_InvMultiplier).ToInt(DEFAULT_WorldInventoryMultiplier);
             TravelSpeed = config.GetValue(KEY_TravelSpeed).ToDouble(DEFAULT_TravelSpeed);
-            DockSpeed = config.GetValue(KEY_DockSpeed).ToDouble(DEFAULT_DockSpeed);
+            DockSpeed = config.GetValue(KEY_DockSpeed).ToFloat(DEFAULT_DockSpeed);
             ConnectorLockDelay = config.GetValue(KEY_LockDelay).ToDouble(DEFAULT_ConnectorLockDelay);
             ApproachDistance = config.GetValue(KEY_ApproachDist).ToDouble(DEFAULT_ApproachDistence);
             GravityDescelEnabled = config.GetValue(KEY_GravityDescelEnabled).ToBoolean(DEFAULT_GravityDescelEnabled);
@@ -115,7 +115,7 @@ namespace IngameScript {
 
         public int InventoryMultiplier { get; private set; }
         public double TravelSpeed { get; private set; }
-        public double DockSpeed { get; private set; }
+        public float DockSpeed { get; private set; }
         public double ConnectorLockDelay { get; private set; }
         public double ApproachDistance { get; private set; }
         public bool GravityDescelEnabled { get; private set; }
