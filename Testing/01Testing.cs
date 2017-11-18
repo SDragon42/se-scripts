@@ -20,7 +20,7 @@ namespace IngameScript {
         readonly List<IMyTerminalBlock> _buffer = new List<IMyTerminalBlock>();
 
         public Program() {
-            _testingCode = new MonospaceChars(this);
+            _testingCode = new TempTesting(this);
         }
 
         public void Save() {

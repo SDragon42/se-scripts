@@ -36,8 +36,8 @@ namespace IngameScript {
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) b.Enabled = true;
                     foreach (var b in _landingGears) b.AutoLock = false;
-                    foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
-                    foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
+                    foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
+                    foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     _destination = null;
                     _travelDirection = TravelDirection.None;
                     break;
@@ -60,8 +60,8 @@ namespace IngameScript {
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) b.Enabled = true;
                     foreach (var b in _landingGears) b.AutoLock = false;
-                    foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
-                    foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
+                    foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
+                    foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;
 
                 case CarriageMode.Transit_Slow2Approach:
@@ -70,8 +70,8 @@ namespace IngameScript {
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) b.Enabled = true;
                     foreach (var b in _landingGears) b.AutoLock = false;
-                    foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
-                    foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
+                    foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
+                    foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;
 
                 case CarriageMode.Transit_Docking:
@@ -79,8 +79,8 @@ namespace IngameScript {
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) b.Enabled = true;
                     foreach (var b in _landingGears) b.AutoLock = false;
-                    foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
-                    foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
+                    foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
+                    foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     _connectorLockDelayRemaining = _settings.ConnectorLockDelay;
                     break;
 
@@ -90,8 +90,8 @@ namespace IngameScript {
                     foreach (var b in _allThrusters) b.Enabled = false;
                     foreach (var b in _landingGears) b.Enabled = false;
                     foreach (var b in _landingGears) b.AutoLock = false;
-                    foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
-                    foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, 0f);
+                    foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
+                    foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;
             }
         }
@@ -196,7 +196,7 @@ namespace IngameScript {
             // attempt to compensate for the changing gravity force on the ship
             var gravityForceChangeCompensation = (_gravityForceOnShip / 2) * -1;
 
-            var totalMaxBreakingThrust = _descentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
+            var totalMaxBreakingThrust = _descentThrusters.Sum(b => b.MaxEffectiveThrust);
             var rangeToTarget = Vector3D.Distance(_rc.GetPosition(), _destination.Location);
             var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, gravityForceChangeCompensation);
             var coastRange = CalcBrakeDistance(0.0, gravityForceChangeCompensation);
@@ -229,7 +229,7 @@ namespace IngameScript {
         }
         void DecentModeOps() {
             _rc.DampenersOverride = false;
-            var totalMaxBreakingThrust = _ascentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
+            var totalMaxBreakingThrust = _ascentThrusters.Sum(b => b.MaxEffectiveThrust);
             var rangeToTarget = Vector3D.Distance(_rc.GetPosition(), _destination.Location);
             var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, _gravityForceOnShip);
 
@@ -259,16 +259,16 @@ namespace IngameScript {
                     if (rangeToTarget - brakeingRange < 300
                         && !_activateSpeedLimiter
                         && _inNaturalGravity)
-                        ThrusterHelper.SetThrusterOverride(_ascentThrusters[0], 1.001);
+                        _ascentThrusters[0].ThrustOverridePercentage = 0.01001f;
                     break;
             }
         }
         void MaintainSpeed(double targetVertSpeed) {
-            var ascentMaxEffectiveThrust = _ascentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
-            var decentMaxEffectiveThrust = _descentThrusters.Sum(b => ThrusterHelper.GetMaxEffectiveThrust(b));
+            var ascentMaxEffectiveThrust = _ascentThrusters.Sum(b => b.MaxEffectiveThrust);
+            var decentMaxEffectiveThrust = _descentThrusters.Sum(b => b.MaxEffectiveThrust);
 
             var hoverOverridePower = _inNaturalGravity
-                ? Convert.ToSingle((_gravityForceOnShip / ascentMaxEffectiveThrust) * 100)
+                ? Convert.ToSingle(_gravityForceOnShip / ascentMaxEffectiveThrust)
                 : 0f;
 
             var ascentOverridePower = 0f;
@@ -281,21 +281,21 @@ namespace IngameScript {
             if (speedDiff > -0.5f && speedDiff < 0.5f) {
                 ascentOverridePower = hoverOverridePower;
             } else if (speedDiff > 2) {
-                ascentOverridePower = 100f;
+                ascentOverridePower = 1f;
             } else if (speedDiff > 0) {
-                ascentOverridePower = hoverOverridePower + ((100f - hoverOverridePower) / 2);
+                ascentOverridePower = hoverOverridePower + ((1f - hoverOverridePower) / 2);
             } else if (speedDiff < -2) {
-                decentOverridePower = 100f;
+                decentOverridePower = 1f;
             } else if (speedDiff < 0) {
                 ascentOverridePower = hoverOverridePower;
-                decentOverridePower = 2f;
+                decentOverridePower = 0.02f;
             }
 
-            _debug.AppendLine($"Ascent Override %: {ascentOverridePower:N1}");
-            _debug.AppendLine($"Decent Override %: {decentOverridePower:N1}");
+            _debug.AppendLine($"Ascent Override %: {ascentOverridePower * 100f:N1}");
+            _debug.AppendLine($"Decent Override %: {decentOverridePower * 100f:N1}");
 
-            foreach (var b in _ascentThrusters) ThrusterHelper.SetThrusterOverride(b, ascentOverridePower);
-            foreach (var b in _descentThrusters) ThrusterHelper.SetThrusterOverride(b, decentOverridePower);
+            foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = ascentOverridePower;
+            foreach (var b in _descentThrusters) b.ThrustOverridePercentage = decentOverridePower;
         }
 
     }
