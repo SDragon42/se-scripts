@@ -72,24 +72,24 @@ namespace IngameScript {
                 var currAngle = Math.Round(_armRotor.Angle, ElevatorConst.RADIAN_ROUND_DIGITS);
                 var maxAngle = Math.Round(_armRotor.UpperLimitRad, ElevatorConst.RADIAN_ROUND_DIGITS);
                 if (currAngle < maxAngle) {
-                    _armRotor.SafetyLock = false;
+                    //_armRotor.SafetyLock = false;
                     _armRotor.SetValueFloat("Velocity", ElevatorConst.ROTOR_VELOCITY);
                     return false; // not in position yet
                 }
-                _armRotor.SafetyLock = true;
+                //_armRotor.SafetyLock = true;
             }
 
             if (_armConnector == null) return false;
             // extend pistion - extends till the piston can connect
             if (_armConnector.Status == MyShipConnectorStatus.Unconnected) {
                 if (_armPiston != null) {
-                    _armPiston.SafetyLock = false;
+                    //_armPiston.SafetyLock = false;
                     _armPiston.Extend();
                 }
             } else {
                 if (_armPiston != null)
-                    _armPiston.SafetyLock = true;
-                _armConnector.Connect();
+                    //_armPiston.SafetyLock = true;
+                    _armConnector.Connect();
             }
 
             return (_armConnector.Status == MyShipConnectorStatus.Connected);
@@ -100,11 +100,11 @@ namespace IngameScript {
             _armConnector.Disconnect();
             if (_armPiston != null) {
                 if (_armPiston.CurrentPosition > _armPiston.MinLimit) {
-                    _armPiston.SafetyLock = false;
+                    //_armPiston.SafetyLock = false;
                     _armPiston.Retract();
                     return false; // not fully retracted
                 }
-                _armPiston.SafetyLock = true;
+                //_armPiston.SafetyLock = true;
             }
 
             // rotate arm
@@ -112,11 +112,11 @@ namespace IngameScript {
                 var currAngle = Math.Round(_armRotor.Angle, ElevatorConst.RADIAN_ROUND_DIGITS);
                 var minAngle = Math.Round(_armRotor.LowerLimitRad, ElevatorConst.RADIAN_ROUND_DIGITS);
                 if (currAngle > minAngle) {
-                    _armRotor.SafetyLock = false;
+                    //_armRotor.SafetyLock = false;
                     _armRotor.SetValueFloat("Velocity", ElevatorConst.ROTOR_VELOCITY * -1);
                     return false; // not fully retracted
                 }
-                _armRotor.SafetyLock = true;
+                //_armRotor.SafetyLock = true;
             }
 
             // turn off lights

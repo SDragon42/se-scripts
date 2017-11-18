@@ -164,7 +164,7 @@ namespace IngameScript {
         }
         bool Rotate2Limit(IMyMotorStator rotor, bool rotateToMax) {
             if (IsRotated2Limit(rotor, rotateToMax)) return true;
-            rotor.SafetyLock = false;
+            //rotor.SafetyLock = false;
             var velocity = rotateToMax ? ElevatorConst.ROTOR_VELOCITY : ElevatorConst.ROTOR_VELOCITY * -1;
             rotor.SetValueFloat("Velocity", velocity);
             return false; // not in position yet
@@ -188,7 +188,7 @@ namespace IngameScript {
             }
             _boardingRampsClear = isRaised;
             if (!atLimit) return;
-            _boardingRamps.ForEach(rotor => rotor.SafetyLock = true);
+            //_boardingRamps.ForEach(rotor => rotor.SafetyLock = true);
         }
 
         void AscentModeOps() {
