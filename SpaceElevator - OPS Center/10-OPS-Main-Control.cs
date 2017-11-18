@@ -90,14 +90,6 @@ namespace IngameScript {
             _carriageStatuses[carriageName] = status;
             _log.AppendLine($"{DateTime.Now.ToLongTimeString()}|{carriageName}");
         }
-        //CarriageVars GetCarriageVar(string carriageName) {
-        //    if (string.Compare(_A1.GridName, carriageName, true) == 0) return _A1;
-        //    if (string.Compare(_A2.GridName, carriageName, true) == 0) return _A2;
-        //    if (string.Compare(_B1.GridName, carriageName, true) == 0) return _B1;
-        //    if (string.Compare(_B2.GridName, carriageName, true) == 0) return _B2;
-        //    if (string.Compare(_Maintenance.GridName, carriageName, true) == 0) return _Maintenance;
-        //    return null;
-        //}
 
     }
 }
