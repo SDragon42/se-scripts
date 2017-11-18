@@ -172,7 +172,7 @@ namespace IngameScript {
         bool IsRotated2Limit(IMyMotorStator rotor, bool rotateToMax) {
             if (rotor == null) return true;
             var currAngle = Math.Round(rotor.Angle, ElevatorConst.RADIAN_ROUND_DIGITS);
-            var angleLimit = rotateToMax ? rotor.UpperLimit : rotor.LowerLimit;
+            var angleLimit = rotateToMax ? rotor.UpperLimitRad : rotor.LowerLimitRad;
             var targetAngle = Math.Round(angleLimit, ElevatorConst.RADIAN_ROUND_DIGITS);
             var notAtTarget = rotateToMax ? (currAngle < targetAngle) : (currAngle > targetAngle);
             return !notAtTarget;
@@ -182,7 +182,7 @@ namespace IngameScript {
             var atLimit = true;
             var isRaised = true;
             foreach (var r in _boardingRamps) {
-                var rotate2Max = r.TargetVelocity > 0;
+                var rotate2Max = r.TargetVelocityRPM > 0;
                 atLimit &= IsRotated2Limit(r, rotate2Max);
                 isRaised &= !rotate2Max && atLimit;
             }

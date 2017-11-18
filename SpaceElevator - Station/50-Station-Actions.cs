@@ -70,7 +70,7 @@ namespace IngameScript {
             // rotate arm
             if (_armRotor != null) {
                 var currAngle = Math.Round(_armRotor.Angle, ElevatorConst.RADIAN_ROUND_DIGITS);
-                var maxAngle = Math.Round(_armRotor.UpperLimit, ElevatorConst.RADIAN_ROUND_DIGITS);
+                var maxAngle = Math.Round(_armRotor.UpperLimitRad, ElevatorConst.RADIAN_ROUND_DIGITS);
                 if (currAngle < maxAngle) {
                     _armRotor.SafetyLock = false;
                     _armRotor.SetValueFloat("Velocity", ElevatorConst.ROTOR_VELOCITY);
@@ -110,7 +110,7 @@ namespace IngameScript {
             // rotate arm
             if (_armRotor != null) {
                 var currAngle = Math.Round(_armRotor.Angle, ElevatorConst.RADIAN_ROUND_DIGITS);
-                var minAngle = Math.Round(_armRotor.LowerLimit, ElevatorConst.RADIAN_ROUND_DIGITS);
+                var minAngle = Math.Round(_armRotor.LowerLimitRad, ElevatorConst.RADIAN_ROUND_DIGITS);
                 if (currAngle > minAngle) {
                     _armRotor.SafetyLock = false;
                     _armRotor.SetValueFloat("Velocity", ElevatorConst.ROTOR_VELOCITY * -1);
