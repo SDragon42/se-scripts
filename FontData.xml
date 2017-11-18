@@ -820,8 +820,8 @@
     <glyph ch="" code="e058" bm="0" origin="120,924" size="30x42" aw="24" lsb="-3" />
     <glyph ch="ﬁ" code="fb01" bm="0" origin="150,924" size="30x42" aw="24" lsb="-3" />
     <glyph ch="ﬂ" code="fb02" bm="0" origin="180,924" size="30x42" aw="24" lsb="-3" />
-	<!-- <glyph ch="�" code="fffd" bm="0" origin="210,924" size="30x42" aw="24" lsb="-3" /> -->
-	<glyph ch="�" code="fffd" bm="0" origin="360,836" size="30x42" aw="24" lsb="-3" />
+    <!-- <glyph ch="�" code="fffd" bm="0" origin="210,924" size="30x42" aw="24" lsb="-3" /> -->
+    <glyph ch="�" code="fffd" bm="0" origin="360,836" size="30x42" aw="24" lsb="-3" />
     <!--spacers-->
     <glyph ch="" code="e070" bm="0" origin="0,0" size="1x1" aw="0" lsb="0" />
     <glyph ch="" code="e071" bm="0" origin="0,0" size="1x1" aw="1" lsb="0" />
