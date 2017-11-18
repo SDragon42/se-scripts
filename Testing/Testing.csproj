@@ -105,10 +105,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MDKUtilities">
-      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\0iq1it5n.5vg\MDKUtilities.dll</HintPath>
+      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\amnixu3n.qqp\MDKUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\0iq1it5n.5vg\Analyzers\MDKAnalyzer.dll" />
+    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\amnixu3n.qqp\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockTypes\BlockTypes.cs" />
