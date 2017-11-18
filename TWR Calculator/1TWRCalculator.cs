@@ -69,15 +69,15 @@ namespace IngameScript {
             else
                 _calcDirections.AddArray(_allDirections);
 
-            int mass2Ignore = _config.GetValue(KeyMass2Ignore).ToInt();
-            int totalMass = _sc.CalculateShipMass().TotalMass - mass2Ignore;
+            var mass2Ignore = _config.GetValue(KeyMass2Ignore).ToInt();
+            var totalMass = _sc.CalculateShipMass().TotalMass - mass2Ignore;
 
             var resultText = new StringBuilder();
-            resultText.AppendLine($"Mass: {totalMass - mass2Ignore:N0} kg");
+            resultText.AppendLine($"Mass: {totalMass:N0} kg");
             resultText.AppendLine();
 
             foreach (var dir in _calcDirections) {
-                var info = CalcTwrInDirection(totalMass, mass2Ignore, dir);
+                var info = CalcTwrInDirection(totalMass, dir);
 
                 // Display results
                 resultText.AppendLine($"Accel Dir: {info.Thrust_Direction}");
@@ -92,7 +92,7 @@ namespace IngameScript {
             Echo(resultText.ToString());
         }
 
-        TwrInfo CalcTwrInDirection(int totalMass, int mass2Ignore, Direction direction) {
+        TwrInfo CalcTwrInDirection(float totalMass, Direction direction) {
             var info = new TwrInfo();
             Func<IMyTerminalBlock, bool> isDirection;
             switch (direction) {

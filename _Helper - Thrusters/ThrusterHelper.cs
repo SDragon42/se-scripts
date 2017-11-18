@@ -41,7 +41,7 @@ namespace IngameScript {
         }
 
 
-        public static double ConvertMass2Newtons(int mass_kg) { return (mass_kg / 0.101971621); }
+        public static double ConvertMass2Newtons(float mass_kg) { return (mass_kg / 0.101971621); }
 
         public static float GetMaxThrust(IMyTerminalBlock b) { return GetMaxThrust(b as IMyThrust); }
         public static float GetMaxThrust(IMyThrust thruster) {
