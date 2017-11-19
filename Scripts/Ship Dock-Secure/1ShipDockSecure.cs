@@ -21,47 +21,39 @@ namespace IngameScript {
         const string CMD_TOGGLE = "toggle-dock";
 
         readonly RunningSymbolModule _runSymbol;
-        readonly TimeIntervalModule _executionInterval;
         readonly DockSecureModule _dockSecure;
         readonly ScriptSettings _settings = new ScriptSettings();
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-
             _runSymbol = new RunningSymbolModule();
-            _executionInterval = new TimeIntervalModule(0.1);
             _dockSecure = new DockSecureModule();
-
-            _settings.InitConfig(Me, _dockSecure, SetExecutionInterval);
+            _settings.InitConfig(Me, _dockSecure);
+            Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
-        public void Main(string argument) {
-            Echo("Dock-Secure v1.3.1 " + _runSymbol.GetSymbol(Runtime));
-            _executionInterval.RecordTime(Runtime);
+        public void Main(string argument, UpdateType ut) {
+            Echo("Dock-Secure v1.3.2 " + _runSymbol.GetSymbol(Runtime));
 
-            var keepRunning = false;
-            keepRunning |= argument?.Length > 0;
-            keepRunning |= _executionInterval.AtNextInterval;
-            if (!keepRunning) return;
+            if (argument?.Length == 0 && (ut & UpdateType.Trigger) > 0) return;
 
-            _settings.LoadConfig(Me, _dockSecure, SetExecutionInterval);
-
+            _settings.LoadConfig(Me, _dockSecure);
             _dockSecure.Init(this);
 
             if (argument?.Length > 0) {
                 switch (argument.ToLower()) {
-                    case CMD_DOCK: _dockSecure.Dock(); return;
-                    case CMD_UNDOCK: _dockSecure.UnDock(); return;
-                    case CMD_TOGGLE: _dockSecure.DockUndock(); return;
-                    default: return;
+                    case CMD_DOCK: _dockSecure.Dock(); break;
+                    case CMD_UNDOCK: _dockSecure.UnDock(); break;
+                    case CMD_TOGGLE: _dockSecure.DockUndock(); break;
                 }
+                return;
             }
 
-            _dockSecure.AutoDockUndock();
+            if ((ut & UpdateType.Update10) > 0) {
+                _dockSecure.AutoDockUndock();
+            }
+
         }
 
-        void SetExecutionInterval() {
-            _executionInterval.SetInterval(1.0 / _settings.RunInterval);
-        }
     }
 }
