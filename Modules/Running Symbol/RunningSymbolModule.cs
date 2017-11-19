@@ -14,11 +14,14 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript {
-    class RunningSymbolModule {
+namespace IngameScript
+{
+    class RunningSymbolModule
+    {
         double _time = 0.0;
 
-        public string GetSymbol(IMyGridProgramRuntimeInfo runtime) {
+        public string GetSymbol(IMyGridProgramRuntimeInfo runtime)
+        {
             _time += runtime.TimeSinceLastRun.TotalSeconds;
             if (_time < 0.2) return "[|    ]";
             if (_time < 0.4) return "[ |   ]";

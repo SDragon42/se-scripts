@@ -3,12 +3,12 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>243c42a9-6084-40c4-a1c4-5d0d61a5f1e1</SharedGUID>
+    <SharedGUID>e8d8cee9-6e84-4124-8a02-fb2b7bb494f4</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)TimeIntervalModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RunningSymbolModule.cs" />
   </ItemGroup>
 </Project>
