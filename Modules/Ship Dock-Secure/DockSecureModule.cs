@@ -83,13 +83,13 @@ namespace IngameScript {
 
 
         bool IsDocked() {
-            var docked = _landingGears.Where(IsLandingGearLocked).Any();
-            docked |= _connectors.Where(IsConnectorConnected).Any();
+            var docked = _landingGears.Where(Collect.IsLandingGearLocked).Any();
+            docked |= _connectors.Where(Collect.IsConnectorConnected).Any();
             return docked;
         }
         bool IsReadyToDock() {
-            var ready = _landingGears.Where(IsLandingGearReadyToLock).Any();
-            ready |= _connectors.Where(IsConnectorConnectable).Any();
+            var ready = _landingGears.Where(Collect.IsLandingGearReadyToLock).Any();
+            ready |= _connectors.Where(Collect.IsConnectorConnectable).Any();
             return ready;
         }
 
@@ -114,10 +114,5 @@ namespace IngameScript {
 
         bool IsOnThisGrid(IMyTerminalBlock b) { return thisObj.Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
 
-        bool IsConnectorConnectable(IMyShipConnector b) { return (b.Status == MyShipConnectorStatus.Connectable); }
-        bool IsConnectorConnected(IMyShipConnector b) { return (b.Status == MyShipConnectorStatus.Connected); }
-
-        bool IsLandingGearReadyToLock(IMyLandingGear b) { return ((int)b.LockMode == 1); } //TODO: ReadyToLock - workaround until this is fixed
-        bool IsLandingGearLocked(IMyLandingGear b) { return ((int)b.LockMode == 2); } //TODO: Locked - workaround until this is fixed
     }
 }
