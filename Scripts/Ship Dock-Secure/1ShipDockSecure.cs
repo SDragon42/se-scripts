@@ -32,10 +32,10 @@ namespace IngameScript {
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
-        public void Main(string argument, UpdateType ut) {
+        public void Main(string argument, UpdateType updateSource) {
             Echo("Dock-Secure v1.3.2 " + _runSymbol.GetSymbol(Runtime));
 
-            if (argument?.Length == 0 && (ut & UpdateType.Trigger) > 0) return;
+            if (argument?.Length == 0 && (updateSource & UpdateType.Trigger) > 0) return;
 
             _settings.LoadConfig(Me, _dockSecure);
             _dockSecure.Init(this);
@@ -49,7 +49,7 @@ namespace IngameScript {
                 return;
             }
 
-            if ((ut & UpdateType.Update10) > 0) {
+            if ((updateSource & UpdateType.Update10) > 0) {
                 _dockSecure.AutoDockUndock();
             }
 
