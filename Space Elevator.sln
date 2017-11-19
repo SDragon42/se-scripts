@@ -39,6 +39,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Doors", "Librarie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Station", "Scripts\Space Elevator\SpaceElevator - Station\SpaceElevator - Station.csproj", "{7668C9B9-78DE-4B35-A141-D528F0704D4A}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Running Symbol", "Modules\Running Symbol\_Module - Running Symbol.shproj", "{E8D8CEE9-6E84-4124-8A02-FB2B7BB494F4}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\Common\_Library - Common.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
@@ -58,9 +60,10 @@ Global
 		Libraries\Gas Tanks\_Helper - Gas Tanks.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Libraries\LCDs\_Helper - LCDs.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
-		Modules\Script Debug\_Module - Debug.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Door Closer\_Module - Door Closer.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
+		Modules\Running Symbol\_Module - Running Symbol.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
+		Modules\Script Debug\_Module - Debug.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Time Interval\_Module - Time Interval.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Scripts\Space Elevator\Shared\Shared.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Libraries\Thrusters\_Helper - Thrusters.projitems*{b924ba87-9a65-42f6-a761-bb86c9d713fa}*SharedItemsImports = 13
@@ -74,22 +77,25 @@ Global
 		Libraries\LCDs\_Helper - LCDs.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Libraries\Thrusters\_Helper - Thrusters.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Modules\Script Debug\_Module - Debug.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Modules\Door Closer\_Module - Door Closer.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		Modules\Running Symbol\_Module - Running Symbol.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		Modules\Script Debug\_Module - Debug.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Modules\Time Interval\_Module - Time Interval.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Scripts\Space Elevator\Shared\Shared.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{dd940528-1a03-4ab3-9504-3aa93571e5ec}*SharedItemsImports = 13
 		Libraries\Doors\_Helper - Doors.projitems*{e503bebe-817d-4bed-9072-7bfcb95415b8}*SharedItemsImports = 13
+		Modules\Running Symbol\_Module - Running Symbol.projitems*{e8d8cee9-6e84-4124-8a02-fb2b7bb494f4}*SharedItemsImports = 13
 		Libraries\LCDs\_Helper - LCDs.projitems*{ec64a080-a572-41f9-a535-6152d0a647f3}*SharedItemsImports = 13
 		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{eed1e4ac-d5ca-447a-bf3c-34c0e9b961fe}*SharedItemsImports = 13
 		Libraries\Common\_Library - Common.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Libraries\Doors\_Helper - Doors.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Libraries\LCDs\_Helper - LCDs.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
-		Modules\Script Debug\_Module - Debug.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Modules\Door Closer\_Module - Door Closer.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		Modules\Running Symbol\_Module - Running Symbol.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		Modules\Script Debug\_Module - Debug.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Modules\Time Interval\_Module - Time Interval.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Scripts\Space Elevator\Shared\Shared.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 	EndGlobalSection
