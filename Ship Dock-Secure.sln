@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ship Dock-Secure", "Scripts\Ship Dock-Secure\Ship Dock-Secure.csproj", "{055B7D17-D6EB-49BA-B45D-715A83A40F92}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Library - Common", "Libraries\Common\_Library - Common.shproj", "{C96CFE92-41D3-47DF-8A4A-C17A71C8E459}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Custom Data Config", "Modules\Custom Data Config\_Module - Custom Data Config.shproj", "{DD940528-1A03-4AB3-9504-3AA93571E5EC}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Time Interval", "Modules\Time Interval\_Module - Time Interval.shproj", "{243C42A9-6084-40C4-A1C4-5D0D61A5F1E1}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Ship Dock-Secure", "Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.shproj", "{A55A9841-6A1A-4C62-937F-E2B471E894ED}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Libraries\Common\_Library - Common.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
+		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
+		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
+		Modules\Time Interval\_Module - Time Interval.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
+		Modules\Time Interval\_Module - Time Interval.projitems*{243c42a9-6084-40c4-a1c4-5d0d61a5f1e1}*SharedItemsImports = 13
+		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{a55a9841-6a1a-4c62-937f-e2b471e894ed}*SharedItemsImports = 13
+		Libraries\Common\_Library - Common.projitems*{c96cfe92-41d3-47df-8a4a-c17a71c8e459}*SharedItemsImports = 13
+		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{dd940528-1a03-4ab3-9504-3aa93571e5ec}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{055B7D17-D6EB-49BA-B45D-715A83A40F92}.Debug|x64.ActiveCfg = Debug|x64
+		{055B7D17-D6EB-49BA-B45D-715A83A40F92}.Debug|x64.Build.0 = Debug|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {52F9695E-4793-474A-BE07-992F7EB0A753}
+	EndGlobalSection
+EndGlobal

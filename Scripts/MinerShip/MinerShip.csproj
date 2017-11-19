@@ -4,14 +4,29 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}</ProjectGuid>
+    <ProjectGuid>{81E47C39-106A-4B63-8E4C-8F693BA3D6DA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>IngameScript</RootNamespace>
-    <AssemblyName>SpaceElevator - Carriage</AssemblyName>
+    <AssemblyName>MinerShip</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -96,37 +111,35 @@
     <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_24bc7e54\Extensions\amnixu3n.qqp\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="01-Carriage-Constants.cs" />
-    <Compile Include="02-Carriage-Vars-Constructor.cs" />
-    <Compile Include="20-Carriage-COMMs.cs" />
-    <Compile Include="30-Carriage-Displays.cs" />
-    <Compile Include="40-Carriage-Calculations.cs" />
-    <Compile Include="50-Carriage-Mode-Operations.cs" />
-    <Compile Include="60-Carriage-Collects.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <Compile Include="10-Carriage-Main-Control.cs" />
+    <Compile Include="1MinerShip.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
-    <Compile Include="ScriptSettingsModule.cs" />
-    <Compile Include="TravelDirection.cs" />
+    <Compile Include="ScriptSettings.cs" />
   </ItemGroup>
-  <Import Project="..\_Module - Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
-  <Import Project="..\SpaceElevator - COMMs Messages\SpaceElevator - COMMs Messages.projitems" Label="Shared" />
-  <Import Project="..\_Module - Door Closer\_Module - Door Closer.projitems" Label="Shared" />
-  <Import Project="..\_Module - Logging\_Module - Logging.projitems" Label="Shared" />
-  <Import Project="..\_Module - Time Interval\_Module - Time Interval.projitems" Label="Shared" />
-  <Import Project="..\_Library - Common\_Library - Common.projitems" Label="Shared" />
-  <Import Project="..\_Helper - Thrusters\_Helper - Thrusters.projitems" Label="Shared" />
-  <Import Project="..\_Helper - Gas Tanks\_Helper - Gas Tanks.projitems" Label="Shared" />
-  <Import Project="..\_Helper - Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems" Label="Shared" />
-  <Import Project="..\_Helper - Landing Gears\_Helper - Landing Gears.projitems" Label="Shared" />
-  <Import Project="..\_Module - Debug\_Module - Debug.projitems" Label="Shared" />
-  <Import Project="..\_Helper - LCDs\_Helper - LCDs.projitems" Label="Shared" />
-  <Import Project="..\_Helper - Cargo and Inventory\_Helper - Cargo and Inventory.projitems" Label="Shared" />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="..\..\Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems" Label="Shared" />
+  <Import Project="..\..\Modules\Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
+  <Import Project="..\..\Modules\Time Interval\_Module - Time Interval.projitems" Label="Shared" />
+  <Import Project="..\..\Modules\Proximity\_Module - Proximity.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Common\_Library - Common.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\LCDs\_Helper - LCDs.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />
