@@ -17,6 +17,6 @@ using VRageMath;
 namespace IngameScript {
     static class LCDFonts {
         public const string DEBUG = "Debug";
-        public const string NONOSPACE = "Monospace";
+        public const string MONOSPACE = "Monospace";
     }
 }
