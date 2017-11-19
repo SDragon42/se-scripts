@@ -20,7 +20,7 @@ namespace IngameScript {
         public int ProximityInterval { get; private set; }
 
 
-        const string KEY_DockSecureInterval = "Dock Secure Interval";
+        //const string KEY_DockSecureInterval = "Dock Secure Interval";
         const string KEY_AUTO_OFF = "Auto Turn OFF Systems";
         const string KEY_AUTO_ON = "Auto Turn ON Systems";
         const string KEY_ToggleThrusters = "Thrusters On/Off";
@@ -32,7 +32,7 @@ namespace IngameScript {
         const string KEY_ToggleOreDetectors = "Ore Detectors On/Off";
         const string KEY_TurnOffSpotLights = "Spotlights Off";
 
-        const string KEY_ProximityInterval = "Proximity Interval";
+        //const string KEY_ProximityInterval = "Proximity Interval";
         const string KEY_ProximityRange = "Proximity Range";
         const string KEY_ProximityTag = "Proximity Camera Tag";
 
@@ -40,9 +40,9 @@ namespace IngameScript {
         int _configHashCode = 0;
 
         public void InitConfig(IMyProgrammableBlock me, DockSecureModule dsm, ProximityModule pm, Action postLoadAction = null) {
-            _config.AddKey(KEY_DockSecureInterval,
-                description: "The number of times/second to check if docked.",
-                defaultValue: "4");
+            //_config.AddKey(KEY_DockSecureInterval,
+            //    description: "The number of times/second to check if docked.",
+            //    defaultValue: "4");
             _config.AddKey(KEY_AUTO_OFF,
                 description: "This will turn off systems automactically when the ship docks via a\nconnector or landing gear.",
                 defaultValue: bool.TrueString);
@@ -61,9 +61,9 @@ namespace IngameScript {
                 description: "This are the block types to only turn off.",
                 defaultValue: bool.TrueString);
 
-            _config.AddKey(KEY_ProximityInterval,
-                description: "The number of times/second to get the proximity ranges.",
-                defaultValue: "2");
+            //_config.AddKey(KEY_ProximityInterval,
+            //    description: "The number of times/second to get the proximity ranges.",
+            //    defaultValue: "2");
             _config.AddKey(KEY_ProximityRange,
                 description: "The range in meters to scan.",
                 defaultValue: "99");
@@ -79,7 +79,7 @@ namespace IngameScript {
             _config.SaveToCustomData(me);
             _configHashCode = me.CustomData.GetHashCode();
 
-            DockSecureInterval = _config.GetValue(KEY_DockSecureInterval).ToInt();
+            //DockSecureInterval = _config.GetValue(KEY_DockSecureInterval).ToInt();
             dsm.Auto_On = _config.GetValue(KEY_AUTO_ON).ToBoolean();
             dsm.Auto_Off = _config.GetValue(KEY_AUTO_OFF).ToBoolean();
             dsm.Thrusters_OnOff = _config.GetValue(KEY_ToggleThrusters).ToBoolean();
@@ -91,7 +91,7 @@ namespace IngameScript {
             dsm.OreDetectors_OnOff = _config.GetValue(KEY_ToggleOreDetectors).ToBoolean();
             dsm.Spotlights_Off = _config.GetValue(KEY_TurnOffSpotLights).ToBoolean();
 
-            ProximityInterval = _config.GetValue(KEY_ProximityInterval).ToInt();
+            //ProximityInterval = _config.GetValue(KEY_ProximityInterval).ToInt();
             pm.ProximityTag = _config.GetValue(KEY_ProximityTag);
             pm.ScanRange = _config.GetValue(KEY_ProximityRange).ToDouble();
 

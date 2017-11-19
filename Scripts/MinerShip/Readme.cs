@@ -1,8 +1,12 @@
-﻿/*
- *   R e a d m e
- *   -----------
- * 
- *   In this file you can include any instructions or other comments you want to have injected onto the 
- *   top of your final script. You can safely delete this file if you do not want any such comments.
- * 
- */
+﻿/***********************************************************
+Miner Ship
+By SDragon42
+------------------------------------------------------------
+This is a docking control that can either be operated either automatically or manually.
+
+Version 1.1  -  11/19/2017
+    Changed to be self-executing.
+
+Version 1.0
+    Initial release.
+***********************************************************/

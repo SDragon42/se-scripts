@@ -21,82 +21,80 @@ namespace IngameScript {
         const string CMD_TOGGLE = "toggle-dock";
 
         readonly RunningSymbolModule _runSymbol;
-        readonly TimeIntervalModule _dockSecureInterval;
-        readonly TimeIntervalModule _proximityInterval;
         readonly DockSecureModule _dockSecure;
         readonly ProximityModule _proximity;
         readonly ScriptSettings _settings = new ScriptSettings();
 
         readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
+        readonly List<IMyTextPanel> _proximityDisplays = new List<IMyTextPanel>();
+        IMyShipController _sc = null;
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-
             _runSymbol = new RunningSymbolModule();
-            _dockSecureInterval = new TimeIntervalModule(0.1);
-            _proximityInterval = new TimeIntervalModule(0.1);
             _dockSecure = new DockSecureModule();
-
             _proximity = new ProximityModule();
-
-            _settings.InitConfig(Me, _dockSecure, _proximity, SetExecutionInterval);
+            _settings.InitConfig(Me, _dockSecure, _proximity);
+            Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
-        public void Main(string argument) {
-            Echo("Miner ship v0.1 " + _runSymbol.GetSymbol(Runtime));
-            _dockSecureInterval.RecordTime(Runtime);
-            _proximityInterval.RecordTime(Runtime);
+        public void Main(string argument, UpdateType updateSource) {
+            Echo("Miner ship v1.1 " + _runSymbol.GetSymbol(Runtime));
 
-            var keepRunning = false;
-            keepRunning |= argument?.Length > 0;
-            keepRunning |= _dockSecureInterval.AtNextInterval;
-            keepRunning |= _proximityInterval.AtNextInterval;
-            if (!keepRunning) return;
+            if (argument?.Length == 0 && (updateSource & UpdateType.Trigger) > 0) return;
 
-            _settings.LoadConfig(Me, _dockSecure, _proximity, SetExecutionInterval);
-
+            _settings.LoadConfig(Me, _dockSecure, _proximity);
             _dockSecure.Init(this);
+            LoadBlocks();
 
             if (argument?.Length > 0) {
                 switch (argument.ToLower()) {
-                    case CMD_DOCK: _dockSecure.Dock(); return;
-                    case CMD_UNDOCK: _dockSecure.UnDock(); return;
-                    case CMD_TOGGLE: _dockSecure.DockUndock(); return;
-                    default: return;
+                    case CMD_DOCK: _dockSecure.Dock(); break;
+                    case CMD_UNDOCK: _dockSecure.UnDock(); break;
+                    case CMD_TOGGLE: _dockSecure.DockUndock(); break;
                 }
+                return;
             }
 
-            if (_dockSecureInterval.AtNextInterval) _dockSecure.AutoDockUndock();
-            if (_proximityInterval.AtNextInterval) RunProximityCheck();
+            if ((updateSource & UpdateType.Update10) > 0) {
+                _dockSecure.AutoDockUndock();
+
+                _proximity.RunScan(this, _sc);
+                var text = BuildProximityDisplayText();
+                WriteProximityDisplay(text);
+            }
         }
 
-        void SetExecutionInterval() {
-            _dockSecureInterval.SetInterval(1.0 / _settings.DockSecureInterval);
-            _proximityInterval.SetInterval(1.0 / _settings.ProximityInterval);
-        }
-
-        void RunProximityCheck() {
-            var sc = GetShipControler();
-            var display = GetProximityDisplay();
-            if (sc == null || display == null) return;
-            _proximity.RunScan(this, sc);
-            display.Font = LCDFonts.NONOSPACE;
-            display.FontSize = 1.7f;
-
+        string BuildProximityDisplayText() {
             var txtUp = FormatRange2Text(_proximity.Up);
             var txtDown = FormatRange2Text(_proximity.Down);
             var txtLeft = FormatRange2Text(_proximity.Left);
             var txtRight = FormatRange2Text(_proximity.Right);
             var txtBack = FormatRange2Text(_proximity.Backward);
-
-            display.WritePublicText($"Prox  {txtUp}\n {txtLeft}<{txtBack}>{txtRight}\n      {txtDown}");
-            display.ShowPublicTextOnScreen();
+            return $"Prox  {txtUp}\n {txtLeft}<{txtBack}>{txtRight}\n      {txtDown}";
         }
         string FormatRange2Text(double? range) {
             if (!range.HasValue) return "----";
             return $"{range,4:N1}";
         }
+        void WriteProximityDisplay(string text) {
+            foreach (var display in _proximityDisplays) {
+                display.Font = LCDFonts.MONOSPACE;
+                display.FontSize = 1.7f;
+                display.WritePublicText(text);
+                display.ShowPublicTextOnScreen();
+            }
+        }
 
+
+        void LoadBlocks() {
+            _sc = GetShipControler();
+
+            GridTerminalSystem.GetBlocksOfType(_proximityDisplays,
+                b => IsOnThisGrid(b)
+                && _proximity.ProximityTag?.Length > 0
+                && b.CustomName.ToLower().Contains(_proximity.ProximityTag.ToLower()));
+        }
         IMyShipController GetShipControler() {
             GridTerminalSystem.GetBlocksOfType<IMyCockpit>(_tmp, IsOnThisGrid);
             if (_tmp.Count > 0) return _tmp[0] as IMyShipController;
@@ -104,12 +102,8 @@ namespace IngameScript {
             if (_tmp.Count > 0) return _tmp[0] as IMyShipController;
             return null;
         }
-        IMyTextPanel GetProximityDisplay() {
-            GridTerminalSystem.GetBlocksOfType<IMyTextPanel>(_tmp, b => IsOnThisGrid(b) && b.CustomName.ToLower().Contains(_proximity.ProximityTag.ToLower()));
-            if (_tmp.Count > 0) return _tmp[0] as IMyTextPanel;
-            return null;
-        }
 
-        bool IsOnThisGrid(IMyTerminalBlock b) { return b.CubeGrid.EntityId == Me.CubeGrid.EntityId; }
+
+        bool IsOnThisGrid(IMyTerminalBlock b) { return b.CubeGrid == Me.CubeGrid; }
     }
 }
