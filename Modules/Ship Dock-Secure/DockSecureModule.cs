@@ -16,7 +16,7 @@ using VRageMath;
 
 namespace IngameScript {
     class DockSecureModule {
-        readonly List<IMyFunctionalBlock> _buffer = new List<IMyFunctionalBlock>();
+        readonly List<IMyFunctionalBlock> _toggleBlocks = new List<IMyFunctionalBlock>();
         readonly List<IMyLandingGear> _landingGears = new List<IMyLandingGear>();
         readonly List<IMyShipConnector> _connectors = new List<IMyShipConnector>();
 
@@ -73,12 +73,12 @@ namespace IngameScript {
 
 
         void TurnOffSystems() {
-            thisObj.GridTerminalSystem.GetBlocksOfType(_buffer, IsBlock2TurnOFF);
-            _buffer.ForEach(b => b.Enabled = false);
+            thisObj.GridTerminalSystem.GetBlocksOfType(_toggleBlocks, IsBlock2TurnOFF);
+            _toggleBlocks.ForEach(b => b.Enabled = false);
         }
         void TurnOnSystems() {
-            thisObj.GridTerminalSystem.GetBlocksOfType(_buffer, IsBlock2TurnON);
-            _buffer.ForEach(b => b.Enabled = true);
+            thisObj.GridTerminalSystem.GetBlocksOfType(_toggleBlocks, IsBlock2TurnON);
+            _toggleBlocks.ForEach(b => b.Enabled = true);
         }
 
 
