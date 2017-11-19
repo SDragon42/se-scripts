@@ -13,16 +13,27 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Time Interval", "
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Ship Dock-Secure", "Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.shproj", "{A55A9841-6A1A-4C62-937F-E2B471E894ED}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Running Symbol", "Modules\Running Symbol\_Module - Running Symbol.shproj", "{E8D8CEE9-6E84-4124-8A02-FB2B7BB494F4}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Landing Gears", "Libraries\Landing Gears\_Helper - Landing Gears.shproj", "{2AC28B0A-1F4D-4423-B244-64FBF8A94354}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Connectors", "Libraries\Connectors\_Helper - Connectors.shproj", "{5401FCB1-DDDD-4AB5-B78D-0C3AE14D202C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\Common\_Library - Common.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
+		Libraries\Connectors\_Helper - Connectors.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
+		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
+		Modules\Running Symbol\_Module - Running Symbol.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
-		Modules\Time Interval\_Module - Time Interval.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		Modules\Time Interval\_Module - Time Interval.projitems*{243c42a9-6084-40c4-a1c4-5d0d61a5f1e1}*SharedItemsImports = 13
+		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{2ac28b0a-1f4d-4423-b244-64fbf8a94354}*SharedItemsImports = 13
+		Libraries\Connectors\_Helper - Connectors.projitems*{5401fcb1-dddd-4ab5-b78d-0c3ae14d202c}*SharedItemsImports = 13
 		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{a55a9841-6a1a-4c62-937f-e2b471e894ed}*SharedItemsImports = 13
 		Libraries\Common\_Library - Common.projitems*{c96cfe92-41d3-47df-8a4a-c17a71c8e459}*SharedItemsImports = 13
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{dd940528-1a03-4ab3-9504-3aa93571e5ec}*SharedItemsImports = 13
+		Modules\Running Symbol\_Module - Running Symbol.projitems*{e8d8cee9-6e84-4124-8a02-fb2b7bb494f4}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
