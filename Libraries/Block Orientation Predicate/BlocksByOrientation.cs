@@ -16,26 +16,27 @@ using VRageMath;
 
 namespace IngameScript {
     class BlocksByOrientation {
-        static readonly Matrix __identityMatrix = new Matrix(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        readonly Matrix _identityMatrix = new Matrix(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
         public BlocksByOrientation(IMyShipController sc = null) {
-            if (sc != null) Init(sc);
+            Init(sc);
         }
 
         Matrix _scMatrix;
 
 
         public void Init(IMyShipController sc) {
+            if (sc == null) return;
             sc.Orientation.GetMatrix(out _scMatrix);
             Matrix.Transpose(ref _scMatrix, out _scMatrix);
         }
 
-        public bool IsForward(IMyTerminalBlock b) { return IsInDirection(b, __identityMatrix.Forward); }
-        public bool IsBackward(IMyTerminalBlock b) { return IsInDirection(b, __identityMatrix.Backward); }
-        public bool IsUp(IMyTerminalBlock b) { return IsInDirection(b, __identityMatrix.Up); }
-        public bool IsDown(IMyTerminalBlock b) { return IsInDirection(b, __identityMatrix.Down); }
-        public bool IsLeft(IMyTerminalBlock b) { return IsInDirection(b, __identityMatrix.Left); }
-        public bool IsRight(IMyTerminalBlock b) { return IsInDirection(b, __identityMatrix.Right); }
+        public bool IsForward(IMyTerminalBlock b) { return IsInDirection(b, _identityMatrix.Forward); }
+        public bool IsBackward(IMyTerminalBlock b) { return IsInDirection(b, _identityMatrix.Backward); }
+        public bool IsUp(IMyTerminalBlock b) { return IsInDirection(b, _identityMatrix.Up); }
+        public bool IsDown(IMyTerminalBlock b) { return IsInDirection(b, _identityMatrix.Down); }
+        public bool IsLeft(IMyTerminalBlock b) { return IsInDirection(b, _identityMatrix.Left); }
+        public bool IsRight(IMyTerminalBlock b) { return IsInDirection(b, _identityMatrix.Right); }
 
         bool IsInDirection(IMyTerminalBlock b, Vector3 direction) {
             Matrix blockMatrix;
