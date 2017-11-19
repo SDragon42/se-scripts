@@ -17,20 +17,14 @@ using VRageMath;
 namespace IngameScript {
     static partial class Collect {
         public static bool IsConnector(IMyTerminalBlock b) { return b is IMyShipConnector; }
+
         public static bool IsConnectorConnectable(IMyTerminalBlock b) { return IsConnectorConnectable(b as IMyShipConnector); }
-        public static bool IsConnectorConnectable(IMyShipConnector b) {
-            if (b == null) return false;
-            return (b.Status == MyShipConnectorStatus.Connectable);
-        }
+        public static bool IsConnectorConnectable(IMyShipConnector b) { return (b?.Status == MyShipConnectorStatus.Connectable); }
+
         public static bool IsConnectorConnected(IMyTerminalBlock b) { return IsConnectorConnected(b as IMyShipConnector); }
-        public static bool IsConnectorConnected(IMyShipConnector b) {
-            if (b == null) return false;
-            return (b.Status == MyShipConnectorStatus.Connected);
-        }
+        public static bool IsConnectorConnected(IMyShipConnector b) { return (b?.Status == MyShipConnectorStatus.Connected); }
+
         public static bool IsConnectorUnconnected(IMyTerminalBlock b) { return IsConnectorUnconnected(b as IMyShipConnector); }
-        public static bool IsConnectorUnconnected(IMyShipConnector b) {
-            if (b == null) return false;
-            return (b.Status == MyShipConnectorStatus.Unconnected);
-        }
+        public static bool IsConnectorUnconnected(IMyShipConnector b) { return (b?.Status == MyShipConnectorStatus.Unconnected); }
     }
 }
