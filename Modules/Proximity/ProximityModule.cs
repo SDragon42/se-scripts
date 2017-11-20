@@ -23,8 +23,8 @@ namespace IngameScript {
         BlocksByOrientation _orientation;
         IMyShipController _sc;
 
-        string _proximityTag = string.Empty;
-        public string ProximityTag { get { return _proximityTag; } set { _proximityTag = value?.Trim() ?? string.Empty; } }
+        string _tag = string.Empty;
+        public string ProximityTag { get { return _tag; } set { _tag = value?.Trim()?.ToLower() ?? string.Empty; } }
 
         double _scanRange = SCAN_RANGE;
         public double ScanRange { get { return _scanRange; } set { _scanRange = value; } }
@@ -64,23 +64,22 @@ namespace IngameScript {
             thisObj.GridTerminalSystem.GetBlocksOfType(_cameras, b => IsTaggedBlock(b) && directionMethod(b));
 
             var range = ScanRange;
-            _cameras.ForEach(camera => {
+            foreach (var camera in _cameras) {
                 camera.EnableRaycast = true;
-                if (!camera.CanScan(ScanRange)) return;
+                if (!camera.CanScan(ScanRange)) continue;
                 var info = camera.Raycast(ScanRange, 0, 0);
-                if (!info.HitPosition.HasValue) return;
+                if (!info.HitPosition.HasValue) continue;
                 var thisRange = Vector3D.Distance(camera.GetPosition(), info.HitPosition.Value);
                 if (thisRange < range)
                     range = thisRange;
-            });
-
-            return range < ScanRange ? range : (double?)null;
+            }
+            return (range < ScanRange) ? range : (double?)null;
         }
 
 
         bool IsTaggedBlock(IMyTerminalBlock b) {
-            if (_proximityTag.Length == 0) return true;
-            return b.CustomName.ToLower().Contains(_proximityTag);
+            if (_tag.Length == 0) return true;
+            return b.CustomName.ToLower().Contains(_tag);
         }
     }
 }
