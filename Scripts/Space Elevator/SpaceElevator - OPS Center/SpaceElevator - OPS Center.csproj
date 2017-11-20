@@ -101,6 +101,7 @@
     <Compile Include="20-OPS-COMMs.cs" />
     <Compile Include="30-OPS-Displays.cs" />
     <Compile Include="60-OPS-Collects.cs" />
+    <Compile Include="70-OPS-CarriageController.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
