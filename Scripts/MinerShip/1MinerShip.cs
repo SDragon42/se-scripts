@@ -19,14 +19,18 @@ namespace IngameScript {
         const string CMD_DOCK = "dock";
         const string CMD_UNDOCK = "undock";
         const string CMD_TOGGLE = "toggle-dock";
+        const string CMD_SAFETY = "safety-cutoff";
+        const string CMD_SCAN = "scan-range";
 
         readonly RunningSymbolModule _runSymbol;
         readonly DockSecureModule _dockSecure;
         readonly ProximityModule _proximity;
+        readonly ProximityModule _forwardRange;
         readonly ScriptSettings _settings = new ScriptSettings();
 
         readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
         readonly List<IMyTextPanel> _proximityDisplays = new List<IMyTextPanel>();
+        readonly List<IMyShipDrill> _drills = new List<IMyShipDrill>();
         IMyShipController _sc = null;
 
         public Program() {
@@ -34,16 +38,17 @@ namespace IngameScript {
             _runSymbol = new RunningSymbolModule();
             _dockSecure = new DockSecureModule();
             _proximity = new ProximityModule();
-            _settings.InitConfig(Me, _dockSecure, _proximity);
+            _forwardRange = new ProximityModule();
+            _settings.InitConfig(Me, _dockSecure, _proximity, _forwardRange);
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
         public void Main(string argument, UpdateType updateSource) {
-            Echo("Miner ship v1.1 " + _runSymbol.GetSymbol(Runtime));
+            Echo("Miner ship v1.1a " + _runSymbol.GetSymbol(Runtime));
 
             if (argument?.Length == 0 && (updateSource & UpdateType.Trigger) > 0) return;
 
-            _settings.LoadConfig(Me, _dockSecure, _proximity);
+            _settings.LoadConfig(Me, _dockSecure, _proximity, _forwardRange);
             _dockSecure.Init(this);
             LoadBlocks();
 
@@ -52,6 +57,8 @@ namespace IngameScript {
                     case CMD_DOCK: _dockSecure.Dock(); break;
                     case CMD_UNDOCK: _dockSecure.UnDock(); break;
                     case CMD_TOGGLE: _dockSecure.DockUndock(); break;
+                    case CMD_SAFETY: TurnOffDrills(); break;
+                    case CMD_SCAN: break;
                 }
                 return;
             }
@@ -86,6 +93,10 @@ namespace IngameScript {
             }
         }
 
+        void TurnOffDrills() {
+            _drills.ForEach(b => b.Enabled = false);
+        }
+
 
         void LoadBlocks() {
             _sc = GetShipControler();
@@ -94,6 +105,8 @@ namespace IngameScript {
                 b => IsOnThisGrid(b)
                 && _proximity.ProximityTag?.Length > 0
                 && b.CustomName.ToLower().Contains(_proximity.ProximityTag.ToLower()));
+
+            GridTerminalSystem.GetBlocksOfType(_drills, IsOnThisGrid);
         }
         IMyShipController GetShipControler() {
             GridTerminalSystem.GetBlocksOfType<IMyCockpit>(_tmp, IsOnThisGrid);

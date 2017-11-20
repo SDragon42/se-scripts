@@ -20,7 +20,6 @@ namespace IngameScript {
         public int ProximityInterval { get; private set; }
 
 
-        //const string KEY_DockSecureInterval = "Dock Secure Interval";
         const string KEY_AUTO_OFF = "Auto Turn OFF Systems";
         const string KEY_AUTO_ON = "Auto Turn ON Systems";
         const string KEY_ToggleThrusters = "Thrusters On/Off";
@@ -32,22 +31,22 @@ namespace IngameScript {
         const string KEY_ToggleOreDetectors = "Ore Detectors On/Off";
         const string KEY_TurnOffSpotLights = "Spotlights Off";
 
-        //const string KEY_ProximityInterval = "Proximity Interval";
-        const string KEY_ProximityRange = "Proximity Range";
-        const string KEY_ProximityTag = "Proximity Camera Tag";
+        const string KEY_ProximityTag = "Proximity Tag";
+        const string KEY_ProximityRange = "Proximity Range (m)";
+
+        const string KEY_ForwardTag = "Forward Camera Tag";
+        const string KEY_ForwardRange = "Forward Range (m)";
 
         readonly CustomDataConfigModule _config = new CustomDataConfigModule();
         int _configHashCode = 0;
 
-        public void InitConfig(IMyProgrammableBlock me, DockSecureModule dsm, ProximityModule pm, Action postLoadAction = null) {
-            //_config.AddKey(KEY_DockSecureInterval,
-            //    description: "The number of times/second to check if docked.",
-            //    defaultValue: "4");
+        public void InitConfig(IMyProgrammableBlock me, DockSecureModule dsm, ProximityModule pm, ProximityModule foreRange) {
             _config.AddKey(KEY_AUTO_OFF,
                 description: "This will turn off systems automactically when the ship docks via a\nconnector or landing gear.",
                 defaultValue: bool.TrueString);
             _config.AddKey(KEY_AUTO_ON,
                 defaultValue: bool.TrueString);
+
             _config.AddKey(KEY_ToggleThrusters,
                 description: "This are the block types to toggle On/Off.",
                 defaultValue: bool.TrueString);
@@ -61,25 +60,25 @@ namespace IngameScript {
                 description: "This are the block types to only turn off.",
                 defaultValue: bool.TrueString);
 
-            //_config.AddKey(KEY_ProximityInterval,
-            //    description: "The number of times/second to get the proximity ranges.",
-            //    defaultValue: "2");
-            _config.AddKey(KEY_ProximityRange,
-                description: "The range in meters to scan.",
-                defaultValue: "99");
             _config.AddKey(KEY_ProximityTag,
-                defaultValue: "");
+                defaultValue: "Proximity range settings");
+            _config.AddKey(KEY_ProximityRange,
+                defaultValue: "99");
 
-            LoadConfig(me, dsm, pm, postLoadAction);
+            _config.AddKey(KEY_ForwardTag,
+                defaultValue: "Foreward range settings.");
+            _config.AddKey(KEY_ForwardRange,
+                defaultValue: "99");
+
+            LoadConfig(me, dsm, pm, foreRange);
         }
-        public void LoadConfig(IMyProgrammableBlock me, DockSecureModule dsm, ProximityModule pm, Action postLoadAction = null) {
+        public void LoadConfig(IMyProgrammableBlock me, DockSecureModule dsm, ProximityModule pm, ProximityModule foreRange) {
             if (_configHashCode == me.CustomData.GetHashCode())
                 return;
             _config.ReadFromCustomData(me, true);
             _config.SaveToCustomData(me);
             _configHashCode = me.CustomData.GetHashCode();
 
-            //DockSecureInterval = _config.GetValue(KEY_DockSecureInterval).ToInt();
             dsm.Auto_On = _config.GetValue(KEY_AUTO_ON).ToBoolean();
             dsm.Auto_Off = _config.GetValue(KEY_AUTO_OFF).ToBoolean();
             dsm.Thrusters_OnOff = _config.GetValue(KEY_ToggleThrusters).ToBoolean();
@@ -91,11 +90,11 @@ namespace IngameScript {
             dsm.OreDetectors_OnOff = _config.GetValue(KEY_ToggleOreDetectors).ToBoolean();
             dsm.Spotlights_Off = _config.GetValue(KEY_TurnOffSpotLights).ToBoolean();
 
-            //ProximityInterval = _config.GetValue(KEY_ProximityInterval).ToInt();
             pm.ProximityTag = _config.GetValue(KEY_ProximityTag);
             pm.ScanRange = _config.GetValue(KEY_ProximityRange).ToDouble();
 
-            postLoadAction?.Invoke();
+            foreRange.ProximityTag = "";
+            foreRange.ScanRange = 1000;
         }
 
     }
