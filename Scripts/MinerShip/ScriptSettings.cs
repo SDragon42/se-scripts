@@ -37,10 +37,10 @@ namespace IngameScript {
         const string KEY_ForwardTag = "Forward Camera Tag";
         const string KEY_ForwardRange = "Forward Range (m)";
 
-        readonly CustomDataConfigModule _config = new CustomDataConfigModule();
+        readonly CustomDataConfig _config = new CustomDataConfig();
         int _configHashCode = 0;
 
-        public void InitConfig(IMyProgrammableBlock me, DockSecureModule dsm, ProximityModule pm, ProximityModule foreRange) {
+        public void InitConfig(IMyProgrammableBlock me, DockSecureModule dsm, Proximity pm, Proximity foreRange) {
             _config.AddKey(KEY_AUTO_OFF,
                 description: "This will turn off systems automactically when the ship docks via a\nconnector or landing gear.",
                 defaultValue: bool.TrueString);
@@ -72,7 +72,7 @@ namespace IngameScript {
 
             LoadConfig(me, dsm, pm, foreRange);
         }
-        public void LoadConfig(IMyProgrammableBlock me, DockSecureModule dsm, ProximityModule pm, ProximityModule foreRange) {
+        public void LoadConfig(IMyProgrammableBlock me, DockSecureModule dsm, Proximity pm, Proximity foreRange) {
             if (_configHashCode == me.CustomData.GetHashCode())
                 return;
             _config.ReadFromCustomData(me, true);

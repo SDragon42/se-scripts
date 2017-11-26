@@ -22,10 +22,10 @@ namespace IngameScript {
         const string CMD_SAFETY = "safety-cutoff";
         const string CMD_SCAN = "scan-range";
 
-        readonly RunningSymbolModule _runSymbol;
+        readonly RunningSymbol _runSymbol;
         readonly DockSecureModule _dockSecure;
-        readonly ProximityModule _proximity;
-        readonly ProximityModule _forwardRange;
+        readonly Proximity _proximity;
+        readonly Proximity _forwardRange;
         readonly ScriptSettings _settings = new ScriptSettings();
 
         readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
@@ -35,10 +35,10 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _runSymbol = new RunningSymbolModule();
+            _runSymbol = new RunningSymbol();
             _dockSecure = new DockSecureModule();
-            _proximity = new ProximityModule();
-            _forwardRange = new ProximityModule();
+            _proximity = new Proximity();
+            _forwardRange = new Proximity();
             _settings.InitConfig(Me, _dockSecure, _proximity, _forwardRange);
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
