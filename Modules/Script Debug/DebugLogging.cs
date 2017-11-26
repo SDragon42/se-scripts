@@ -15,7 +15,7 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    class DebugModule : LogModule {
+    class DebugLogging : Logging {
         public const string DefaultDebugPanelName = "DEBUG";
 
         readonly List<IMyTextPanel> _debugDisplays = new List<IMyTextPanel>();
@@ -24,7 +24,7 @@ namespace IngameScript {
         readonly string _debugDisplayName;
 
 
-        public DebugModule(MyGridProgram thisObj, string debugDisplayName = null) {
+        public DebugLogging(MyGridProgram thisObj, string debugDisplayName = null) {
             _thisObj = thisObj;
             _debugDisplayName = string.IsNullOrWhiteSpace(debugDisplayName) ? DefaultDebugPanelName : debugDisplayName;
             MaxTextLinesToKeep = -1;

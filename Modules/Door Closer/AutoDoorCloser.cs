@@ -21,10 +21,10 @@ namespace IngameScript {
     /// Whiplash's : Whip's Auto Door and Airlock Script
     /// http://steamcommunity.com/sharedfiles/filedetails/?id=416932930
     /// </remarks>
-    class AutoDoorCloserModule {
+    class AutoDoorCloser {
         readonly Dictionary<IMyDoor, double> _openDoors = new Dictionary<IMyDoor, double>();
 
-        public AutoDoorCloserModule(double secondsToLeaveOpen = 4) { SecondsToLeaveOpen = secondsToLeaveOpen; }
+        public AutoDoorCloser(double secondsToLeaveOpen = 4) { SecondsToLeaveOpen = secondsToLeaveOpen; }
 
         public double SecondsToLeaveOpen { get; set; }
 

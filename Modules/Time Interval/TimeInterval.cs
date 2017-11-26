@@ -15,8 +15,8 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    class TimeIntervalModule {
-        public TimeIntervalModule(double seconds) {
+    class TimeInterval {
+        public TimeInterval(double seconds) {
             SetInterval(seconds);
             Reset();
         }

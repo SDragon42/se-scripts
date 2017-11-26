@@ -9,6 +9,6 @@
     <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)DebugModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DebugLogging.cs" />
   </ItemGroup>
 </Project>

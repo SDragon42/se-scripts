@@ -15,8 +15,8 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    class LogModule {
-        public LogModule(int maxLines2Keep = 10) {
+    class Logging {
+        public Logging(int maxLines2Keep = 10) {
             Enabled = true;
             MaxTextLinesToKeep = maxLines2Keep;
         }
