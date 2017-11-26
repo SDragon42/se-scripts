@@ -26,13 +26,13 @@ namespace IngameScript {
         readonly CarriageVars _B2;
         readonly CarriageVars _Maintenance;
 
-        readonly DebugModule _debug;
-        readonly LogModule _log;
+        readonly DebugLogging _debug;
+        readonly Logging _log;
         readonly COMMsModule _comms;
-        readonly RunningSymbolModule _runSymbol;
-        readonly TimeIntervalModule _executionInterval;
-        readonly TimeIntervalModule _blockRefreshInterval;
-        readonly AutoDoorCloserModule _doorManager;
+        readonly RunningSymbol _runSymbol;
+        readonly TimeInterval _executionInterval;
+        readonly TimeInterval _blockRefreshInterval;
+        readonly AutoDoorCloser _doorManager;
 
         bool _blocksLoaded = false;
         int _lastCustomDataHash;
@@ -56,11 +56,11 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _debug = new DebugModule(this);
+            _debug = new DebugLogging(this);
             //_debug.Enabled = false;
             _debug.EchoMessages = true;
 
-            _log = new LogModule(50);
+            _log = new Logging(50);
             //_log.Enabled = false;
 
             _custConfig = new CustomDataConfig();
@@ -85,11 +85,11 @@ namespace IngameScript {
 
             _lastCustomDataHash = -1;
 
-            _runSymbol = new RunningSymbolModule();
-            _executionInterval = new TimeIntervalModule(0.1);
-            _blockRefreshInterval = new TimeIntervalModule(1);
+            _runSymbol = new RunningSymbol();
+            _executionInterval = new TimeInterval(0.1);
+            _blockRefreshInterval = new TimeInterval(1);
 
-            _doorManager = new AutoDoorCloserModule();
+            _doorManager = new AutoDoorCloser();
 
             _comms = new COMMsModule(Me);
         }

@@ -23,7 +23,7 @@ namespace IngameScript {
         const string KEY_LogLinesToShow = "Lines to Show";
         const string KEY_LogDisplayName = "Log LCD Name";
 
-        LogModule _log;
+        Logging _log;
 
         IMyTimerBlock _timer = null;
         IMyProgrammableBlock _targetProgram = null;
@@ -33,7 +33,7 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _log = new LogModule();
+            _log = new Logging();
 
             _custConfig.AddKey(KEY_ProgramBlockName,
                 description: "The is the name of the program block forward messages to.");

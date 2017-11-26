@@ -20,14 +20,14 @@ namespace IngameScript {
         double _connectorLockDelayRemaining = 0.0;
         bool _activateSpeedLimiter = false;
 
-        readonly DebugModule _debug;
-        readonly RunningSymbolModule _runSymbol;
-        readonly TimeIntervalModule _executionInterval;
-        readonly TimeIntervalModule _connectorLockDelay;
-        readonly TimeIntervalModule _trasmitStatsDelay;
-        readonly TimeIntervalModule _updateDisplayDelay;
-        readonly TimeIntervalModule _blockRefreshInterval;
-        readonly AutoDoorCloserModule _doorManager;
+        readonly DebugLogging _debug;
+        readonly RunningSymbol _runSymbol;
+        readonly TimeInterval _executionInterval;
+        readonly TimeInterval _connectorLockDelay;
+        readonly TimeInterval _trasmitStatsDelay;
+        readonly TimeInterval _updateDisplayDelay;
+        readonly TimeInterval _blockRefreshInterval;
+        readonly AutoDoorCloser _doorManager;
         readonly COMMsModule _comms;
         readonly CustomDataConfig _custConfig;
         readonly ScriptSettingsModule _settings;
@@ -77,7 +77,7 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _debug = new DebugModule(this);
+            _debug = new DebugLogging(this);
             //_debug.Enabled = false;
             _debug.EchoMessages = true;
 
@@ -87,13 +87,13 @@ namespace IngameScript {
 
             _lastCustomDataHash = -1;
 
-            _runSymbol = new RunningSymbolModule();
-            _executionInterval = new TimeIntervalModule(0.1);
-            _connectorLockDelay = new TimeIntervalModule(0.1);
-            _trasmitStatsDelay = new TimeIntervalModule(3.0);
-            _updateDisplayDelay = new TimeIntervalModule(1.0);
-            _blockRefreshInterval = new TimeIntervalModule(1);
-            _doorManager = new AutoDoorCloserModule();
+            _runSymbol = new RunningSymbol();
+            _executionInterval = new TimeInterval(0.1);
+            _connectorLockDelay = new TimeInterval(0.1);
+            _trasmitStatsDelay = new TimeInterval(3.0);
+            _updateDisplayDelay = new TimeInterval(1.0);
+            _blockRefreshInterval = new TimeInterval(1);
+            _doorManager = new AutoDoorCloser();
             _comms = new COMMsModule(Me);
             _status = new CarriageStatusMessage(GetMode(), Vector3D.Zero, 0, 0, 0, 0, 0);
 
