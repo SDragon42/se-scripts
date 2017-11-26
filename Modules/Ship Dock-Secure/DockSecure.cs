@@ -15,7 +15,7 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    class DockSecureModule {
+    class DockSecure {
         readonly List<IMyFunctionalBlock> _toggleBlocks = new List<IMyFunctionalBlock>();
         readonly List<IMyLandingGear> _landingGears = new List<IMyLandingGear>();
         readonly List<IMyShipConnector> _connectors = new List<IMyShipConnector>();
