@@ -15,7 +15,7 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    class ProximityModule {
+    class Proximity {
         const double SCAN_RANGE = 100.0;
 
         readonly List<IMyCameraBlock> _cameras = new List<IMyCameraBlock>();
