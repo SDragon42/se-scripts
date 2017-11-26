@@ -16,7 +16,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
-        readonly CustomDataConfigModule _custConfig = new CustomDataConfigModule();
+        readonly CustomDataConfig _custConfig = new CustomDataConfig();
         int _configHash = 0;
         const string KEY_ProgramBlockName = "Program Block";
         const string KEY_TimerBlockName = "Timer Block";

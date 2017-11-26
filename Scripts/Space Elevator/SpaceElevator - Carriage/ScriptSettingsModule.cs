@@ -38,7 +38,7 @@ namespace IngameScript {
         const string KEY_GpsPoint = "GPS Point ";
 
 
-        public void InitializeConfig(CustomDataConfigModule config) {
+        public void InitializeConfig(CustomDataConfig config) {
             config.Clear();
             config.AddKey(KEY_BlockTag,
                 description: "This is the name tag to add to the blocks so that the script can\ncontrol them.",
@@ -75,7 +75,7 @@ namespace IngameScript {
             config.AddKey(KEY_GpsPoint + "2");
             config.AddKey(KEY_GpsPoint + "3");
         }
-        public void LoadFromSettingDict(CustomDataConfigModule config) {
+        public void LoadFromSettingDict(CustomDataConfig config) {
             InventoryMultiplier = config.GetValue(KEY_InvMultiplier).ToInt(DEFAULT_WorldInventoryMultiplier);
             TravelSpeed = config.GetValue(KEY_TravelSpeed).ToDouble(DEFAULT_TravelSpeed);
             DockSpeed = config.GetValue(KEY_DockSpeed).ToFloat(DEFAULT_DockSpeed);
@@ -97,7 +97,7 @@ namespace IngameScript {
                     GpsPoints.Add(gps);
             }
         }
-        public void BuidSettingDict(CustomDataConfigModule config) {
+        public void BuidSettingDict(CustomDataConfig config) {
             config.SetValue(KEY_InvMultiplier, InventoryMultiplier.ToString());
             config.SetValue(KEY_TravelSpeed, TravelSpeed.ToString());
             config.SetValue(KEY_DockSpeed, DockSpeed.ToString());

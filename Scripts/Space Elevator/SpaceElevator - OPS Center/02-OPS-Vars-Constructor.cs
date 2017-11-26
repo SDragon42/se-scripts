@@ -17,7 +17,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        readonly CustomDataConfigModule _custConfig;
+        readonly CustomDataConfig _custConfig;
         readonly ScriptSettingsModule _settings;
         readonly DebugModule _debug;
         readonly LogModule _log;
@@ -53,7 +53,7 @@ namespace IngameScript {
 
             _log = new LogModule(20);
 
-            _custConfig = new CustomDataConfigModule();
+            _custConfig = new CustomDataConfig();
             _settings = new ScriptSettingsModule();
             _settings.InitConfig(_custConfig);
 

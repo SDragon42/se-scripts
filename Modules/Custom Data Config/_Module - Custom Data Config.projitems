@@ -9,8 +9,7 @@
     <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)CustomDataConfigItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CustomDataConfigModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CustomDataConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VectorHelper.cs" />
   </ItemGroup>
 </Project>

@@ -15,14 +15,14 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    class CustomDataConfigModule {
+    class CustomDataConfig {
         readonly char[] SepNewLine = new char[] { '\n' };
         readonly char[] SepEquals = new char[] { '=' };
 
-        private readonly Dictionary<string, CustomDataConfigItem> _items;
+        private readonly Dictionary<string, ConfigItem> _items;
 
-        public CustomDataConfigModule() {
-            _items = new Dictionary<string, CustomDataConfigItem>();
+        public CustomDataConfig() {
+            _items = new Dictionary<string, ConfigItem>();
         }
 
 
@@ -33,7 +33,7 @@ namespace IngameScript {
         public void AddKey(object key, string description = "", string defaultValue = "") {
             var sKey = key.ToString();
             if (_items.ContainsKey(sKey)) return;
-            _items.Add(sKey, new CustomDataConfigItem(description, defaultValue));
+            _items.Add(sKey, new ConfigItem(description, defaultValue));
         }
         public bool ContainsKey(object key) {
             var sKey = key.ToString();
@@ -82,6 +82,19 @@ namespace IngameScript {
             var sKey = key.ToString();
             if (!_items.ContainsKey(sKey)) return defVal;
             return _items[sKey].Value;
+        }
+
+
+        class ConfigItem {
+            public ConfigItem(string description, string val) {
+                Description = description ?? string.Empty;
+                Value = val;
+            }
+
+            public string Description { get; private set; }
+
+            string _value;
+            public string Value { get { return _value; } set { _value = value ?? string.Empty; } }
         }
 
     }

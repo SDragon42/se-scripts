@@ -29,7 +29,7 @@ namespace IngameScript {
         readonly TimeIntervalModule _blockRefreshInterval;
         readonly AutoDoorCloserModule _doorManager;
         readonly COMMsModule _comms;
-        readonly CustomDataConfigModule _custConfig;
+        readonly CustomDataConfig _custConfig;
         readonly ScriptSettingsModule _settings;
         BlocksByOrientation _orientation = new BlocksByOrientation();
         int _lastCustomDataHash;
@@ -81,7 +81,7 @@ namespace IngameScript {
             //_debug.Enabled = false;
             _debug.EchoMessages = true;
 
-            _custConfig = new CustomDataConfigModule();
+            _custConfig = new CustomDataConfig();
             _settings = new ScriptSettingsModule();
             _settings.InitializeConfig(_custConfig);
 

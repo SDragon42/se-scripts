@@ -16,7 +16,7 @@ namespace IngameScript {
         const string KEY_TransferTag = "Transfer Arm Tag";
         const string KEY_TimeToLeaveDoorOpen = "Time to Leave Doors Open";
 
-        public void InitConfig(CustomDataConfigModule config) {
+        public void InitConfig(CustomDataConfig config) {
             config.AddKey(KEY_StationTag,
                 description: "This is the name tag to add to the blocks so that the script can\ncontrol them.",
                 defaultValue: DEFAULT_StationTag);
@@ -29,13 +29,13 @@ namespace IngameScript {
                 description: "This the the amount of time (in seconds) to leave\ninternal doors open before closing them.",
                 defaultValue: DEFAULT_DoorCloseDelay.ToString());
         }
-        public void LoadFromSettingDict(CustomDataConfigModule config) {
+        public void LoadFromSettingDict(CustomDataConfig config) {
             StationTag = config.GetValue(KEY_StationTag, DEFAULT_StationTag);
             TerminalTag = config.GetValue(KEY_TerminalTag, DEFAULT_TerminalTag);
             TransferTag = config.GetValue(KEY_TransferTag, DEFAULT_TransferTag);
             DoorCloseDelay = config.GetValue(KEY_TimeToLeaveDoorOpen).ToDouble(DEFAULT_DoorCloseDelay);
         }
-        public void BuidSettingDict(CustomDataConfigModule config) {
+        public void BuidSettingDict(CustomDataConfig config) {
             config.SetValue(KEY_StationTag, StationTag);
             config.SetValue(KEY_TerminalTag, TerminalTag);
             config.SetValue(KEY_TransferTag, TransferTag);
