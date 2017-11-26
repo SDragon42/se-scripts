@@ -35,12 +35,15 @@ namespace IngameScript {
         public void Main(string argument, UpdateType updateSource) {
             Echo("Dock-Secure v1.3.2 " + _runSymbol.GetSymbol(Runtime));
 
-            if (argument?.Length == 0 && (updateSource & UpdateType.Trigger) > 0) return;
+            if (argument.Length == 0 && (updateSource & UpdateType.Trigger) > 0) {
+                Echo("Execution via Timer block is no longer needed.");
+                return;
+            }
 
             _settings.LoadConfig(Me, _dockSecure);
             _dockSecure.Init(this);
 
-            if (argument?.Length > 0) {
+            if (argument.Length > 0) {
                 switch (argument.ToLower()) {
                     case CMD_DOCK: _dockSecure.Dock(); break;
                     case CMD_UNDOCK: _dockSecure.UnDock(); break;
