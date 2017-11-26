@@ -133,7 +133,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <Import Project="..\..\Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems" Label="Shared" />
   <Import Project="..\..\Modules\Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
   <Import Project="..\..\Modules\Proximity\_Module - Proximity.projitems" Label="Shared" />
   <Import Project="..\..\Libraries\Common\_Library - Common.projitems" Label="Shared" />
@@ -142,6 +141,7 @@
   <Import Project="..\..\Modules\Running Symbol\_Module - Running Symbol.projitems" Label="Shared" />
   <Import Project="..\..\Libraries\Connectors\_Helper - Connectors.projitems" Label="Shared" />
   <Import Project="..\..\Libraries\Landing Gears\_Helper - Landing Gears.projitems" Label="Shared" />
+  <Import Project="..\..\Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />

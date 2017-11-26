@@ -20,7 +20,7 @@ namespace IngameScript {
         const string KeyDisplayName = "Display Name";
         const string KeyMass2Ignore = "Ignore Mass";
 
-        readonly CustomDataConfigModule _config;
+        readonly CustomDataConfig _config;
         readonly List<IMyThrust> _thrusters = new List<IMyThrust>();
         readonly List<Direction> _calcDirections = new List<Direction>();
         readonly Direction[] _allDirections = new Direction[]
@@ -38,7 +38,7 @@ namespace IngameScript {
         BlocksByOrientation _orientation = new BlocksByOrientation();
 
         public Program() {
-            _config = new CustomDataConfigModule();
+            _config = new CustomDataConfig();
 
             _config.AddKey(KeyRCName,
                 description: "Name of the remote control block.",

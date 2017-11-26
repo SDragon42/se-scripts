@@ -23,7 +23,7 @@ namespace IngameScript {
         const string CMD_SCAN = "scan-range";
 
         readonly RunningSymbol _runSymbol;
-        readonly DockSecureModule _dockSecure;
+        readonly DockSecure _dockSecure;
         readonly Proximity _proximity;
         readonly Proximity _forwardRange;
         readonly ScriptSettings _settings = new ScriptSettings();
@@ -36,7 +36,7 @@ namespace IngameScript {
         public Program() {
             //Echo = (t) => { }; // Disable Echo
             _runSymbol = new RunningSymbol();
-            _dockSecure = new DockSecureModule();
+            _dockSecure = new DockSecure();
             _proximity = new Proximity();
             _forwardRange = new Proximity();
             _settings.InitConfig(Me, _dockSecure, _proximity, _forwardRange);

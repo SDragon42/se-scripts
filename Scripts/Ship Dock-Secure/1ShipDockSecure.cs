@@ -20,14 +20,14 @@ namespace IngameScript {
         const string CMD_UNDOCK = "undock";
         const string CMD_TOGGLE = "toggle-dock";
 
-        readonly RunningSymbolModule _runSymbol;
-        readonly DockSecureModule _dockSecure;
+        readonly RunningSymbol _runSymbol;
+        readonly DockSecure _dockSecure;
         readonly ScriptSettings _settings = new ScriptSettings();
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _runSymbol = new RunningSymbolModule();
-            _dockSecure = new DockSecureModule();
+            _runSymbol = new RunningSymbol();
+            _dockSecure = new DockSecure();
             _settings.InitConfig(Me, _dockSecure);
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }

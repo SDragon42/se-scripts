@@ -16,12 +16,8 @@ using VRageMath;
 
 namespace IngameScript {
     class ScriptSettings {
-        //public int RunInterval { get; private set; }
-
-
         const string KEY_AUTO_OFF = "Auto Turn OFF Systems";
         const string KEY_AUTO_ON = "Auto Turn ON Systems";
-        //const string KEY_RunInterval = "Runs Per Second";
         const string KEY_ToggleThrusters = "Thrusters On/Off";
         const string KEY_ToggleGyros = "Gyros On/Off";
         const string KEY_ToggleLights = "Lights On/Off";
@@ -33,20 +29,15 @@ namespace IngameScript {
         const string KEY_TurnOffSpotLights = "Spotlights Off";
         const string KEY_TurnOffSorters = "Sorters Off";
 
-        readonly CustomDataConfigModule _config = new CustomDataConfigModule();
+        readonly CustomDataConfig _config = new CustomDataConfig();
         int _configHashCode = 0;
 
-        public void InitConfig(IMyProgrammableBlock me, DockSecureModule dsm, Action postLoadAction = null) {
+        public void InitConfig(IMyProgrammableBlock me, DockSecure dsm, Action postLoadAction = null) {
             _config.AddKey(KEY_AUTO_OFF,
-                description: "This will turn off systems automactically when the ship docks via a\nconnector or landing gear.",
+                description: "This will turn on/off systems automactically when the ship undocks/docks via a\nconnector or landing gear.",
                 defaultValue: bool.TrueString);
             _config.AddKey(KEY_AUTO_ON,
-                //description: "This will turn on systems automactically when the ship undocks via a connector or landing gear.",
                 defaultValue: bool.TrueString);
-
-            //_config.AddKey(KEY_RunInterval,
-            //    description: "This is the number of times per second the script will run.",
-            //    defaultValue: "4");
 
             _config.AddKey(KEY_ToggleThrusters,
                 description: "This are the block types to toggle On/Off.",
@@ -65,7 +56,7 @@ namespace IngameScript {
 
             LoadConfig(me, dsm, postLoadAction);
         }
-        public void LoadConfig(IMyProgrammableBlock me, DockSecureModule dsm, Action postLoadAction = null) {
+        public void LoadConfig(IMyProgrammableBlock me, DockSecure dsm, Action postLoadAction = null) {
             if (_configHashCode == me.CustomData.GetHashCode())
                 return;
             _config.ReadFromCustomData(me, true);
@@ -83,7 +74,6 @@ namespace IngameScript {
             dsm.OreDetectors_OnOff = _config.GetValue(KEY_ToggleOreDetectors).ToBoolean();
             dsm.Spotlights_Off = _config.GetValue(KEY_TurnOffSpotLights).ToBoolean();
             dsm.Sorters_Off = _config.GetValue(KEY_TurnOffSorters).ToBoolean();
-            //RunInterval = _config.GetValue(KEY_RunInterval).ToInt();
 
             postLoadAction?.Invoke();
         }
