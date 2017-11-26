@@ -69,7 +69,7 @@ namespace IngameScript {
                 Echo(logText);
 
                 if (_display != null) {
-                    _display.Font = LCDFonts.NONOSPACE;
+                    _display.Font = LCDFonts.MONOSPACE;
                     _display.FontSize = 0.6f;
                     _display.ShowPublicTextOnScreen();
                     _display.WritePublicText(logText);
