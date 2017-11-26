@@ -17,11 +17,8 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        bool IsOnThisGrid(IMyTerminalBlock b) { return Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
-
+        bool IsOnThisGrid(IMyTerminalBlock b) { return Me.CubeGrid == b.CubeGrid; }
         bool IsTaggedStation(IMyTerminalBlock b) { return (b.CustomName.Contains(_settings.StationTag)); }
-        //bool IsTaggedStationOnThisGrid(IMyTerminalBlock b) { return (IsOnThisGrid(b) && IsTaggedStation(b)); }
-        //bool IsDoorOnStationOnly(IMyTerminalBlock b) { return IsTaggedStation(b) && Collect.IsHumanDoor(b); }
 
     }
 }
