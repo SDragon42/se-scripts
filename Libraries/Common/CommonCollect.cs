@@ -19,7 +19,7 @@ namespace IngameScript {
         public static bool IsOrientedForward(IMyTerminalBlock b) {
             if (b == null) return false;
             var i = b.Orientation.TransformDirectionInverse(b.Orientation.Forward);
-            var j = VRageMath.Base6Directions.Direction.Forward;
+            var j = Base6Directions.Direction.Forward;
             return (i == j);
         }
     }
