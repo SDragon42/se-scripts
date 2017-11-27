@@ -35,7 +35,7 @@ namespace IngameScript {
         IMyShipController _sc;
 
         string _tag = string.Empty;
-        public string ProximityTag { get { return _tag; } set { _tag = value?.Trim()?.ToLower() ?? string.Empty; } }
+        public string Tag { get { return _tag; } set { _tag = value?.Trim() ?? string.Empty; } }
 
         double _scanRange = SCAN_RANGE;
         public double ScanRange { get { return _scanRange; } set { _scanRange = value; } }
