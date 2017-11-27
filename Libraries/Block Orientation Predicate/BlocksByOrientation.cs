@@ -31,12 +31,12 @@ namespace IngameScript {
             Matrix.Transpose(ref _scMatrix, out _scMatrix);
         }
 
-        public bool IsForward(IMyTerminalBlock b) { return IsInDirection(b, _identityMatrix.Forward); }
-        public bool IsBackward(IMyTerminalBlock b) { return IsInDirection(b, _identityMatrix.Backward); }
-        public bool IsUp(IMyTerminalBlock b) { return IsInDirection(b, _identityMatrix.Up); }
-        public bool IsDown(IMyTerminalBlock b) { return IsInDirection(b, _identityMatrix.Down); }
-        public bool IsLeft(IMyTerminalBlock b) { return IsInDirection(b, _identityMatrix.Left); }
-        public bool IsRight(IMyTerminalBlock b) { return IsInDirection(b, _identityMatrix.Right); }
+        public bool IsForward(IMyTerminalBlock b) => IsInDirection(b, _identityMatrix.Forward);
+        public bool IsBackward(IMyTerminalBlock b) => IsInDirection(b, _identityMatrix.Backward);
+        public bool IsUp(IMyTerminalBlock b) => IsInDirection(b, _identityMatrix.Up);
+        public bool IsDown(IMyTerminalBlock b) => IsInDirection(b, _identityMatrix.Down);
+        public bool IsLeft(IMyTerminalBlock b) => IsInDirection(b, _identityMatrix.Left);
+        public bool IsRight(IMyTerminalBlock b) => IsInDirection(b, _identityMatrix.Right);
 
         bool IsInDirection(IMyTerminalBlock b, Vector3 direction) {
             Matrix blockMatrix;
