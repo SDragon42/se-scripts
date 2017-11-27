@@ -86,7 +86,7 @@ namespace IngameScript {
             dsm.OreDetectors_OnOff = _config.GetValue(KEY_ToggleOreDetectors).ToBoolean();
             dsm.Spotlights_Off = _config.GetValue(KEY_TurnOffSpotLights).ToBoolean();
 
-            pm.ProximityTag = _config.GetValue(KEY_ProximityTag);
+            pm.Tag = _config.GetValue(KEY_ProximityTag);
             pm.ScanRange = _config.GetValue(KEY_ProximityRange).ToDouble();
 
             ForwardScanTag = _config.GetValue(KEY_ForwardTag);

@@ -28,7 +28,8 @@ namespace IngameScript {
         readonly ScriptSettings _settings = new ScriptSettings();
 
         readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
-        readonly List<IMyTextPanel> Displays = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> ProxDisplays = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> ForeRangeDisplays = new List<IMyTextPanel>();
         readonly List<IMyShipDrill> Drills = new List<IMyShipDrill>();
         IMyShipController _sc = null;
 
@@ -66,10 +67,9 @@ namespace IngameScript {
 
             if ((updateSource & UpdateType.Update10) > 0) {
                 _dockSecure.AutoDockUndock();
-
                 _proximity.RunScan(this, _sc);
                 var text = BuildProximityDisplayText();
-                Displays.ForEach(d => Write2Display(d, text));
+                ProxDisplays.ForEach(d => Write2Display(d, text));
             }
         }
 
@@ -106,12 +106,19 @@ namespace IngameScript {
         void LoadBlocks() {
             _sc = GetShipControler();
 
-            Echo($"Prox. Tag: {_proximity.ProximityTag}");
-            GridTerminalSystem.GetBlocksOfType(Displays,
+            Echo($"Prox. Tag: {_proximity.Tag}");
+            GridTerminalSystem.GetBlocksOfType(ProxDisplays,
                 b => IsOnThisGrid(b)
-                && _proximity.ProximityTag?.Length > 0
-                && b.CustomName.ToLower().Contains(_proximity.ProximityTag));
-            Echo($"Prox. LCDs: {Displays.Count}");
+                && _proximity.Tag?.Length > 0
+                && b.CustomName.Contains(_proximity.Tag));
+            Echo($"Prox. LCDs: {ProxDisplays.Count}");
+
+            Echo($"Fore. Tag: {_settings.ForwardScanTag}");
+            GridTerminalSystem.GetBlocksOfType(ForeRangeDisplays,
+                b => IsOnThisGrid(b)
+                && _settings.ForwardScanTag?.Length > 0
+                && b.CustomName.Contains(_settings.ForwardScanTag));
+            Echo($"Fore. LCDs: {ForeRangeDisplays.Count}");
 
             GridTerminalSystem.GetBlocksOfType(Drills, IsOnThisGrid);
             Echo($"Drills: {Drills.Count}");
