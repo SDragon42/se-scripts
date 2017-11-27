@@ -16,10 +16,6 @@ using VRageMath;
 
 namespace IngameScript {
     class ScriptSettings {
-        public int DockSecureInterval { get; private set; }
-        public int ProximityInterval { get; private set; }
-
-
         const string KEY_AUTO_OFF = "Auto Turn OFF Systems";
         const string KEY_AUTO_ON = "Auto Turn ON Systems";
         const string KEY_ToggleThrusters = "Thrusters On/Off";
@@ -40,7 +36,7 @@ namespace IngameScript {
         readonly CustomDataConfig _config = new CustomDataConfig();
         int _configHashCode = 0;
 
-        public void InitConfig(IMyProgrammableBlock me, DockSecure dsm, Proximity pm, Proximity foreRange) {
+        public void InitConfig(IMyProgrammableBlock me, DockSecure dsm, Proximity pm) {
             _config.AddKey(KEY_AUTO_OFF,
                 description: "This will turn off systems automactically when the ship docks via a\nconnector or landing gear.",
                 defaultValue: bool.TrueString);
@@ -63,16 +59,16 @@ namespace IngameScript {
             _config.AddKey(KEY_ProximityTag,
                 description: "Proximity range settings");
             _config.AddKey(KEY_ProximityRange,
-                defaultValue: "99");
+                defaultValue: "100");
 
             _config.AddKey(KEY_ForwardTag,
                 description: "Foreward range settings.");
             _config.AddKey(KEY_ForwardRange,
-                defaultValue: "99");
+                defaultValue: "15000");
 
-            LoadConfig(me, dsm, pm, foreRange);
+            LoadConfig(me, dsm, pm);
         }
-        public void LoadConfig(IMyProgrammableBlock me, DockSecure dsm, Proximity pm, Proximity foreRange) {
+        public void LoadConfig(IMyProgrammableBlock me, DockSecure dsm, Proximity pm) {
             if (_configHashCode == me.CustomData.GetHashCode())
                 return;
             _config.ReadFromCustomData(me, true);
@@ -93,9 +89,11 @@ namespace IngameScript {
             pm.ProximityTag = _config.GetValue(KEY_ProximityTag);
             pm.ScanRange = _config.GetValue(KEY_ProximityRange).ToDouble();
 
-            foreRange.ProximityTag = "";
-            foreRange.ScanRange = 1000;
+            ForwardScanTag = _config.GetValue(KEY_ForwardTag);
+            ForwardScanRange = _config.GetValue(KEY_ForwardRange).ToDouble();
         }
 
+        public string ForwardScanTag { get; private set; }
+        public double ForwardScanRange { get; private set; }
     }
 }

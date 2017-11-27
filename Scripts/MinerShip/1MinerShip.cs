@@ -25,7 +25,6 @@ namespace IngameScript {
         readonly RunningSymbol _runSymbol;
         readonly DockSecure _dockSecure;
         readonly Proximity _proximity;
-        readonly Proximity _forwardRange;
         readonly ScriptSettings _settings = new ScriptSettings();
 
         readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
@@ -38,8 +37,7 @@ namespace IngameScript {
             _runSymbol = new RunningSymbol();
             _dockSecure = new DockSecure();
             _proximity = new Proximity();
-            _forwardRange = new Proximity();
-            _settings.InitConfig(Me, _dockSecure, _proximity, _forwardRange);
+            _settings.InitConfig(Me, _dockSecure, _proximity);
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
@@ -51,7 +49,7 @@ namespace IngameScript {
                 return;
             }
 
-            _settings.LoadConfig(Me, _dockSecure, _proximity, _forwardRange);
+            _settings.LoadConfig(Me, _dockSecure, _proximity);
             _dockSecure.Init(this);
             LoadBlocks();
 
