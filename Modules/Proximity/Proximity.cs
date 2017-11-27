@@ -62,18 +62,10 @@ namespace IngameScript {
 
         double? GetMinimumRange(MyGridProgram thisObj, Func<IMyTerminalBlock, bool> directionMethod) {
             thisObj.GridTerminalSystem.GetBlocksOfType(_cameras, b => IsTaggedBlock(b) && directionMethod(b));
-
-            var range = ScanRange;
-            foreach (var camera in _cameras) {
-                camera.EnableRaycast = true;
-                if (!camera.CanScan(ScanRange)) continue;
-                var info = camera.Raycast(ScanRange, 0, 0);
-                if (!info.HitPosition.HasValue) continue;
-                var thisRange = Vector3D.Distance(camera.GetPosition(), info.HitPosition.Value);
-                if (thisRange < range)
-                    range = thisRange;
-            }
-            return (range < ScanRange) ? range : (double?)null;
+            var range = _cameras
+                .Select(c => Ranger.GetDetailedRange(c, ScanRange))
+                .Min(r => r.Range);
+            return (range < ScanRange) ? range : null;
         }
 
 
