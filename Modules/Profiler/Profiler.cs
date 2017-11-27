@@ -15,39 +15,61 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    class ProfilerModule {
+    class Profiler {
         const int DEFAULT_MAX_EXECUTIONS = 60;
 
-        int _count = 1;
         readonly int _maxExecutions = DEFAULT_MAX_EXECUTIONS;
-        readonly StringBuilder _profile = new StringBuilder();
+        readonly List<double> _log = new List<double>();
         readonly string _screenName;
 
-        public ProfilerModule(string screenName = "PROFILE", int maxExecutionsToLog = DEFAULT_MAX_EXECUTIONS) {
+        int _count = 0;
+        string _results = string.Empty;
+        double _avgExecution = 0;
+
+        public Profiler(string screenName = "PROFILE", int maxExecutionsToLog = DEFAULT_MAX_EXECUTIONS) {
             _screenName = screenName;
             _maxExecutions = (maxExecutionsToLog > 0) ? maxExecutionsToLog : DEFAULT_MAX_EXECUTIONS;
         }
 
         public void ProfilerGraph(MyGridProgram thisObj) {
-            if (_count <= _maxExecutions) {
-                thisObj.Echo("Profiler:Add");
-                var timeToRunCode = thisObj.Runtime.LastRunTimeMs;
-                _profile
-                    .Append(timeToRunCode.ToString())
-                    .Append("\n");
+            if (_count < _maxExecutions) {
                 _count++;
+                thisObj.Echo($"Profiler:Add - {_maxExecutions - _count}");
+                _log.Add(thisObj.Runtime.LastRunTimeMs);
             } else {
                 thisObj.Echo("Profiler:Display");
-                DisplayResults(thisObj, _profile.ToString());
+                if (_results.Length == 0) {
+                    _results = BuildResults();
+                    DisplayResults(thisObj, _results);
+                }
+                thisObj.Echo($"Profiler:Avg: {_avgExecution:N6}");
             }
         }
 
         public void ResetProfiler(MyGridProgram thisObj) {
-            _count = 1;
-            _profile.Clear();
+            _count = 0;
+            _log.Clear();
+            _results = string.Empty;
             DisplayResults(thisObj, string.Empty);
         }
 
+        void RemoveExtreams() {
+            var min = _log.Min();
+            var max = _log.Max();
+            _log.Remove(min);
+            _log.Remove(max);
+        }
+
+        string BuildResults() {
+            RemoveExtreams();
+            _avgExecution = _log.Average();
+
+            var sb = new StringBuilder();
+            sb.Append($"AVG: {_avgExecution:N6}\n");
+            sb.Append("FULL LOG:\n");
+            foreach (var l in _log) sb.Append($"{l:N6}\n");
+            return sb.ToString();
+        }
         void DisplayResults(MyGridProgram thisObj, string results) {
             var screen = thisObj.GridTerminalSystem.GetBlockWithName(_screenName) as IMyTextPanel;
             if (screen == null) return;
