@@ -32,6 +32,7 @@ namespace IngameScript {
 
         const string KEY_ForwardTag = "Forward Range Tag";
         const string KEY_ForwardRange = "Forward Range (m)";
+        const string KEY_ForwardClearTime = "Display Time (seconds)";
 
         readonly CustomDataConfig _config = new CustomDataConfig();
         int _configHashCode = 0;
@@ -65,6 +66,8 @@ namespace IngameScript {
                 description: "Foreward range settings.");
             _config.AddKey(KEY_ForwardRange,
                 defaultValue: "15000");
+            _config.AddKey(KEY_ForwardClearTime,
+                defaultValue: "5");
 
             LoadConfig(me, dsm, pm);
         }
@@ -91,9 +94,11 @@ namespace IngameScript {
 
             ForwardScanTag = _config.GetValue(KEY_ForwardTag);
             ForwardScanRange = _config.GetValue(KEY_ForwardRange).ToDouble();
+            ForwardDisplayClearTime = _config.GetValue(KEY_ForwardClearTime).ToDouble();
         }
 
         public string ForwardScanTag { get; private set; }
         public double ForwardScanRange { get; private set; }
+        public double ForwardDisplayClearTime { get; private set; }
     }
 }
