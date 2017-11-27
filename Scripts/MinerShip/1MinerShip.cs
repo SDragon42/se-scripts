@@ -29,8 +29,8 @@ namespace IngameScript {
         readonly ScriptSettings _settings = new ScriptSettings();
 
         readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
-        readonly List<IMyTextPanel> _proximityDisplays = new List<IMyTextPanel>();
-        readonly List<IMyShipDrill> _drills = new List<IMyShipDrill>();
+        readonly List<IMyTextPanel> Displays = new List<IMyTextPanel>();
+        readonly List<IMyShipDrill> Drills = new List<IMyShipDrill>();
         IMyShipController _sc = null;
 
         public Program() {
@@ -44,21 +44,24 @@ namespace IngameScript {
         }
 
         public void Main(string argument, UpdateType updateSource) {
-            Echo("Miner ship v1.1a " + _runSymbol.GetSymbol(Runtime));
+            Echo("Miner ship v1.1b " + _runSymbol.GetSymbol(Runtime));
 
-            if (argument?.Length == 0 && (updateSource & UpdateType.Trigger) > 0) return;
+            if (argument.Length == 0 && (updateSource & UpdateType.Trigger) > 0) {
+                Echo("Execution via Timer block is no longer needed.");
+                return;
+            }
 
             _settings.LoadConfig(Me, _dockSecure, _proximity, _forwardRange);
             _dockSecure.Init(this);
             LoadBlocks();
 
-            if (argument?.Length > 0) {
+            if (argument.Length > 0) {
                 switch (argument.ToLower()) {
                     case CMD_DOCK: _dockSecure.Dock(); break;
                     case CMD_UNDOCK: _dockSecure.UnDock(); break;
                     case CMD_TOGGLE: _dockSecure.DockUndock(); break;
                     case CMD_SAFETY: TurnOffDrills(); break;
-                    case CMD_SCAN: break;
+                    case CMD_SCAN: ScanAhead(); break;
                 }
                 return;
             }
@@ -68,45 +71,52 @@ namespace IngameScript {
 
                 _proximity.RunScan(this, _sc);
                 var text = BuildProximityDisplayText();
-                WriteProximityDisplay(text);
+                Displays.ForEach(d => Write2Display(d, text));
             }
         }
 
         string BuildProximityDisplayText() {
-            var txtUp = FormatRange2Text(_proximity.Up);
-            var txtDown = FormatRange2Text(_proximity.Down);
-            var txtLeft = FormatRange2Text(_proximity.Left);
-            var txtRight = FormatRange2Text(_proximity.Right);
-            var txtBack = FormatRange2Text(_proximity.Backward);
+            var txtUp = GetFormattedRange(Direction.Up);
+            var txtDown = GetFormattedRange(Direction.Down);
+            var txtLeft = GetFormattedRange(Direction.Left);
+            var txtRight = GetFormattedRange(Direction.Right);
+            var txtBack = GetFormattedRange(Direction.Backward);
             return $"Prox  {txtUp}\n {txtLeft}<{txtBack}>{txtRight}\n      {txtDown}";
         }
-        string FormatRange2Text(double? range) {
+        string GetFormattedRange(Direction dir) {
+            var range = _proximity.GetRange(dir);
             if (!range.HasValue) return "----";
-            return $"{range,4:N1}";
+            return (range.Value < 100.0)
+                ? $"{range,4:N1}"
+                : $"{range,4:N0}";
         }
-        void WriteProximityDisplay(string text) {
-            foreach (var display in _proximityDisplays) {
-                display.Font = LCDFonts.MONOSPACE;
-                display.FontSize = 1.7f;
-                display.WritePublicText(text);
-                display.ShowPublicTextOnScreen();
-            }
+        void Write2Display(IMyTextPanel display, string text) {
+            display.Font = LCDFonts.MONOSPACE;
+            display.FontSize = 1.7f;
+            display.WritePublicText(text);
+            display.ShowPublicTextOnScreen();
         }
 
         void TurnOffDrills() {
-            _drills.ForEach(b => b.Enabled = false);
+            Drills.ForEach(b => b.Enabled = false);
+        }
+
+        void ScanAhead() {
         }
 
 
         void LoadBlocks() {
             _sc = GetShipControler();
 
-            GridTerminalSystem.GetBlocksOfType(_proximityDisplays,
+            Echo($"Prox. Tag: {_proximity.ProximityTag}");
+            GridTerminalSystem.GetBlocksOfType(Displays,
                 b => IsOnThisGrid(b)
                 && _proximity.ProximityTag?.Length > 0
-                && b.CustomName.ToLower().Contains(_proximity.ProximityTag.ToLower()));
+                && b.CustomName.ToLower().Contains(_proximity.ProximityTag));
+            Echo($"Prox. LCDs: {Displays.Count}");
 
-            GridTerminalSystem.GetBlocksOfType(_drills, IsOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(Drills, IsOnThisGrid);
+            Echo($"Drills: {Drills.Count}");
         }
         IMyShipController GetShipControler() {
             GridTerminalSystem.GetBlocksOfType<IMyCockpit>(_tmp, IsOnThisGrid);

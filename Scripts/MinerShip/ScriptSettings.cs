@@ -34,7 +34,7 @@ namespace IngameScript {
         const string KEY_ProximityTag = "Proximity Tag";
         const string KEY_ProximityRange = "Proximity Range (m)";
 
-        const string KEY_ForwardTag = "Forward Camera Tag";
+        const string KEY_ForwardTag = "Forward Range Tag";
         const string KEY_ForwardRange = "Forward Range (m)";
 
         readonly CustomDataConfig _config = new CustomDataConfig();
@@ -61,12 +61,12 @@ namespace IngameScript {
                 defaultValue: bool.TrueString);
 
             _config.AddKey(KEY_ProximityTag,
-                defaultValue: "Proximity range settings");
+                description: "Proximity range settings");
             _config.AddKey(KEY_ProximityRange,
                 defaultValue: "99");
 
             _config.AddKey(KEY_ForwardTag,
-                defaultValue: "Foreward range settings.");
+                description: "Foreward range settings.");
             _config.AddKey(KEY_ForwardRange,
                 defaultValue: "99");
 

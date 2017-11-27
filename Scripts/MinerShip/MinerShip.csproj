@@ -142,6 +142,7 @@
   <Import Project="..\..\Libraries\Connectors\_Helper - Connectors.projitems" Label="Shared" />
   <Import Project="..\..\Libraries\Landing Gears\_Helper - Landing Gears.projitems" Label="Shared" />
   <Import Project="..\..\Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Direction\_Helper - Direction.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />

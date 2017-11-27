@@ -23,13 +23,17 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Connectors", "Lib
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Landing Gears", "Libraries\Landing Gears\_Helper - Landing Gears.shproj", "{2AC28B0A-1F4D-4423-B244-64FBF8A94354}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Direction", "Libraries\Direction\_Helper - Direction.shproj", "{7E912F4A-7C61-4AEA-82E1-259FE4357B0B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{2ac28b0a-1f4d-4423-b244-64fbf8a94354}*SharedItemsImports = 13
 		Libraries\Connectors\_Helper - Connectors.projitems*{5401fcb1-dddd-4ab5-b78d-0c3ae14d202c}*SharedItemsImports = 13
+		Libraries\Direction\_Helper - Direction.projitems*{7e912f4a-7c61-4aea-82e1-259fe4357b0b}*SharedItemsImports = 13
 		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Libraries\Common\_Library - Common.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Libraries\Connectors\_Helper - Connectors.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
+		Libraries\Direction\_Helper - Direction.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Libraries\LCDs\_Helper - LCDs.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
