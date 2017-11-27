@@ -19,6 +19,17 @@ namespace IngameScript {
         const double SCAN_RANGE = 100.0;
 
         readonly List<IMyCameraBlock> _cameras = new List<IMyCameraBlock>();
+        readonly List<Direction> KeyList;
+        readonly Dictionary<Direction, double?> _currProx = new Dictionary<Direction, double?>();
+        readonly Dictionary<Direction, double?> _prevProx = new Dictionary<Direction, double?>();
+
+        public Proximity() {
+            KeyList = Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList();
+            foreach (var key in KeyList) {
+                _currProx.Add(key, null);
+                _prevProx.Add(key, null);
+            }
+        }
 
         BlocksByOrientation _orientation;
         IMyShipController _sc;
@@ -29,21 +40,14 @@ namespace IngameScript {
         double _scanRange = SCAN_RANGE;
         public double ScanRange { get { return _scanRange; } set { _scanRange = value; } }
 
-
-        public double? Forward { get; private set; }
-        public double? Backward { get; private set; }
-        public double? Left { get; private set; }
-        public double? Right { get; private set; }
-        public double? Up { get; private set; }
-        public double? Down { get; private set; }
+        public double? GetRange(Direction dir) => _currProx[dir];
+        public double? GetRangeDiff(Direction dir) => _currProx[dir] - _prevProx[dir];
 
         public void RunScan(MyGridProgram thisObj, IMyShipController sc) {
-            Forward = null;
-            Backward = null;
-            Left = null;
-            Right = null;
-            Up = null;
-            Down = null;
+            foreach (var key in KeyList) {
+                _prevProx[key] = _currProx[key];
+                _currProx[key] = null;
+            }
 
             if (_sc != sc) {
                 _sc = sc;
@@ -51,12 +55,12 @@ namespace IngameScript {
             }
 
             if (_orientation != null) {
-                Forward = GetMinimumRange(thisObj, _orientation.IsForward);
-                Backward = GetMinimumRange(thisObj, _orientation.IsBackward);
-                Left = GetMinimumRange(thisObj, _orientation.IsLeft);
-                Right = GetMinimumRange(thisObj, _orientation.IsRight);
-                Up = GetMinimumRange(thisObj, _orientation.IsUp);
-                Down = GetMinimumRange(thisObj, _orientation.IsDown);
+                _currProx[Direction.Forward] = GetMinimumRange(thisObj, _orientation.IsForward);
+                _currProx[Direction.Backward] = GetMinimumRange(thisObj, _orientation.IsBackward);
+                _currProx[Direction.Left] = GetMinimumRange(thisObj, _orientation.IsLeft);
+                _currProx[Direction.Right] = GetMinimumRange(thisObj, _orientation.IsRight);
+                _currProx[Direction.Up] = GetMinimumRange(thisObj, _orientation.IsUp);
+                _currProx[Direction.Down] = GetMinimumRange(thisObj, _orientation.IsDown);
             }
         }
 

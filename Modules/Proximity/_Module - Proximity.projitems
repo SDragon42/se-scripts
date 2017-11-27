@@ -10,5 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Proximity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RangeInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ranger.cs" />
   </ItemGroup>
 </Project>
