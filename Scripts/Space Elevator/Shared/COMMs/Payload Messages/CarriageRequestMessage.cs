@@ -30,7 +30,7 @@ namespace IngameScript {
             _msgParts = new string[] { carriageName, request.ToString() };
         }
 
-        public string CarriageName { get { return _msgParts[0]; } }
-        public CarriageRequests Request { get { return _msgParts[1].ToEnum<CarriageRequests>(); } }
+        public string CarriageName => _msgParts[0];
+        public CarriageRequests Request => _msgParts[1].ToEnum<CarriageRequests>();
     }
 }

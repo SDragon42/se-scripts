@@ -16,8 +16,8 @@ namespace IngameScript {
             _msgParts = new string[] { carriageKey, displayKey, text };
         }
 
-        public string CarriageKey { get { return _msgParts[0]; } }
-        public string DisplayKey { get { return _msgParts[1]; } }
-        public string Text { get { return _msgParts[2]; } }
+        public string CarriageKey => _msgParts[0];
+        public string DisplayKey => _msgParts[1];
+        public string Text => _msgParts[2];
     }
 }

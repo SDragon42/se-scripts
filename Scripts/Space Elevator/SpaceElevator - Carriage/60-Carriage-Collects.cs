@@ -17,13 +17,8 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        bool IsOnThisGrid(IMyTerminalBlock b) { return Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
-        bool IsTaggedBlock(IMyTerminalBlock b) {
-            if (string.IsNullOrWhiteSpace(_settings.BlockTag))
-                return true;
-            return (b.CustomName.Contains(_settings.BlockTag));
-        }
-        bool IsTaggedBlockOnThisGrid(IMyTerminalBlock b) { return (IsOnThisGrid(b) && IsTaggedBlock(b)); }
+        bool IsOnThisGrid(IMyTerminalBlock b) => Me.CubeGrid == b.CubeGrid;
+        bool IsTaggedBlockOnThisGrid(IMyTerminalBlock b) => (IsOnThisGrid(b) && Collect.IsTagged(b, _settings.BlockTag));
 
     }
 }

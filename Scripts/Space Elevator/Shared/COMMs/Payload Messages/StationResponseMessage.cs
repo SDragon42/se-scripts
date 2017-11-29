@@ -30,6 +30,6 @@ namespace IngameScript {
             _msgParts = new string[] { response.ToString() };
         }
 
-        public StationResponses Response { get { return _msgParts[0].ToEnum<StationResponses>(); } }
+        public StationResponses Response => _msgParts[0].ToEnum<StationResponses>();
     }
 }
