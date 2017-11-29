@@ -34,8 +34,7 @@ namespace IngameScript {
                     _activateSpeedLimiter = false;
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
-                    foreach (var b in _landingGears) b.Enabled = true;
-                    foreach (var b in _landingGears) b.AutoLock = false;
+                    foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     _destination = null;
@@ -47,9 +46,7 @@ namespace IngameScript {
                     _activateSpeedLimiter = false;
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
-                    foreach (var b in _landingGears) b.Enabled = true;
-                    foreach (var b in _landingGears) b.Unlock();
-                    foreach (var b in _landingGears) b.AutoLock = false;
+                    foreach (var b in _landingGears) { b.Enabled = true; b.Unlock(); b.AutoLock = false; }
                     foreach (var b in _connectors) b.Disconnect();
                     break;
 
@@ -58,8 +55,7 @@ namespace IngameScript {
                     _activateSpeedLimiter = false;
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
-                    foreach (var b in _landingGears) b.Enabled = true;
-                    foreach (var b in _landingGears) b.AutoLock = false;
+                    foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;
@@ -68,8 +64,7 @@ namespace IngameScript {
                     ClearAutopilot(false);
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
-                    foreach (var b in _landingGears) b.Enabled = true;
-                    foreach (var b in _landingGears) b.AutoLock = false;
+                    foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;
@@ -77,8 +72,7 @@ namespace IngameScript {
                 case CarriageMode.Transit_Docking:
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
-                    foreach (var b in _landingGears) b.Enabled = true;
-                    foreach (var b in _landingGears) b.AutoLock = false;
+                    foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     _connectorLockDelayRemaining = _settings.ConnectorLockDelay;
@@ -88,8 +82,7 @@ namespace IngameScript {
                     ClearAutopilot(true);
                     foreach (var b in _h2Tanks) b.Stockpile = true;
                     foreach (var b in _allThrusters) b.Enabled = false;
-                    foreach (var b in _landingGears) b.Enabled = false;
-                    foreach (var b in _landingGears) b.AutoLock = false;
+                    foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;
@@ -178,7 +171,6 @@ namespace IngameScript {
             return !notAtTarget;
         }
         void CheckRampsAtLimits() {
-
             var atLimit = true;
             var isRaised = true;
             foreach (var r in _boardingRamps) {
