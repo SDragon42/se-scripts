@@ -21,23 +21,24 @@ namespace IngameScript {
         //  Displays
         //-------------------------------------------------------------------------------
 
-        void BuildSingleDisplays(string carriageKey, CarriageStatusMessage status, bool retransRingMarker = false) {
+        void BuildSingleDisplays(string key, bool retransRingMarker = false) {
+            var status = _carriageStatuses[key];
             SetDisplayText(
-                carriageKey,
-                Displays.DISPLAY_KEY_SINGLE_CARRIAGE,
-                Displays.BuildOneCarriageDisplay(carriageKey, status, retransRingMarker: retransRingMarker));
+                key,
+                DisplayKeys.SINGLE_CARRIAGE,
+                Displays.BuildOneCarriageDisplay(key, status, retransRingMarker: retransRingMarker));
 
             SetDisplayText(
-                carriageKey,
-                Displays.DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL,
-                Displays.BuildOneCarriageDisplay(carriageKey, status, opsDetail: true, retransRingMarker: retransRingMarker));
+                key,
+                DisplayKeys.SINGLE_CARRIAGE_DETAIL,
+                Displays.BuildOneCarriageDisplay(key, status, opsDetail: true, retransRingMarker: retransRingMarker));
         }
         void BuildDisplays() {
-            var a1Status = _carriageStatuses[CARRIAGE_A1];
-            var a2Status = _carriageStatuses[CARRIAGE_A2];
-            var b1Status = _carriageStatuses[CARRIAGE_B1];
-            var b2Status = _carriageStatuses[CARRIAGE_B2];
-            var maintStatus = _carriageStatuses[CARRIAGE_MAINT];
+            var a1Status = _carriageStatuses[GridNameConstants.A1];
+            var a2Status = _carriageStatuses[GridNameConstants.A2];
+            var b1Status = _carriageStatuses[GridNameConstants.B1];
+            var b2Status = _carriageStatuses[GridNameConstants.B2];
+            var maintStatus = _carriageStatuses[GridNameConstants.MAINT];
 
             if (_displaysAllCarriages.Count > 0) {
                 var text = Displays.BuildAllCarriageDisplayText(a1Status, a2Status, b1Status, b2Status, maintStatus);
@@ -45,45 +46,42 @@ namespace IngameScript {
             }
 
             SetDisplayText("",
-                Displays.DISPLAY_KEY_ALL_CARRIAGES,
+                DisplayKeys.ALL_CARRIAGES,
                 Displays.BuildAllCarriageDisplayText(a1Status, a2Status, b1Status, b2Status, maintStatus));
             SetDisplayText("",
-                Displays.DISPLAY_KEY_ALL_CARRIAGES_WIDE,
+                DisplayKeys.ALL_CARRIAGES_WIDE,
                 Displays.BuildAllCarriageDisplayText(a1Status, a2Status, b1Status, b2Status, maintStatus, true));
 
             SetDisplayText("",
-                Displays.DISPLAY_KEY_ALL_PASSENGER_CARRIAGES,
+                DisplayKeys.ALL_PASSENGER_CARRIAGES,
                 Displays.BuildAllPassengerCarriageDisplayText(a1Status, a2Status, b1Status, b2Status));
             SetDisplayText("",
-                Displays.DISPLAY_KEY_ALL_PASSENGER_CARRIAGES_WIDE,
+                DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE,
                 Displays.BuildAllPassengerCarriageDisplayText(a1Status, a2Status, b1Status, b2Status, true));
 
-            BuildSingleDisplays(CARRIAGE_A1, a1Status);
-            BuildSingleDisplays(CARRIAGE_A2, a2Status);
-            BuildSingleDisplays(CARRIAGE_B1, b1Status);
-            BuildSingleDisplays(CARRIAGE_B2, b2Status);
-            BuildSingleDisplays(CARRIAGE_MAINT, maintStatus, true);
+            GridNameConstants.AllPassengerCarriages.ForEach(key => BuildSingleDisplays(key));
+            BuildSingleDisplays(GridNameConstants.MAINT, true);
         }
 
 
         void UpdateDisplays() {
-            _displaysAllCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, GetDisplayText("", Displays.DISPLAY_KEY_ALL_CARRIAGES), 0.97f));
-            _displaysAllCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, GetDisplayText("", Displays.DISPLAY_KEY_ALL_CARRIAGES_WIDE), 0.97f));
+            _displaysAllCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, GetDisplayText("", DisplayKeys.ALL_CARRIAGES), 0.97f));
+            _displaysAllCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, GetDisplayText("", DisplayKeys.ALL_CARRIAGES_WIDE), 0.97f));
 
-            _displaysAllPassengerCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, GetDisplayText("", Displays.DISPLAY_KEY_ALL_PASSENGER_CARRIAGES), 0.97f));
-            _displaysAllPassengerCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, GetDisplayText("", Displays.DISPLAY_KEY_ALL_PASSENGER_CARRIAGES_WIDE), 0.97f));
+            _displaysAllPassengerCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, GetDisplayText("", DisplayKeys.ALL_PASSENGER_CARRIAGES), 0.97f));
+            _displaysAllPassengerCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, GetDisplayText("", DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE), 0.97f));
 
             foreach (var d in _displaysSingleCarriages) {
                 if (d.CustomName.Contains(TAG_A1)) {
-                    Displays.Write2MonospaceDisplay(d, GetDisplayText(CARRIAGE_A1, Displays.DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL), 0.97f);
+                    Displays.Write2MonospaceDisplay(d, GetDisplayText(GridNameConstants.A1, DisplayKeys.SINGLE_CARRIAGE_DETAIL), 0.97f);
                 } else if (d.CustomName.Contains(TAG_A2)) {
-                    Displays.Write2MonospaceDisplay(d, GetDisplayText(CARRIAGE_A2, Displays.DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL), 0.97f);
+                    Displays.Write2MonospaceDisplay(d, GetDisplayText(GridNameConstants.A2, DisplayKeys.SINGLE_CARRIAGE_DETAIL), 0.97f);
                 } else if (d.CustomName.Contains(TAG_B1)) {
-                    Displays.Write2MonospaceDisplay(d, GetDisplayText(CARRIAGE_B1, Displays.DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL), 0.97f);
+                    Displays.Write2MonospaceDisplay(d, GetDisplayText(GridNameConstants.B1, DisplayKeys.SINGLE_CARRIAGE_DETAIL), 0.97f);
                 } else if (d.CustomName.Contains(TAG_B2)) {
-                    Displays.Write2MonospaceDisplay(d, GetDisplayText(CARRIAGE_B2, Displays.DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL), 0.97f);
+                    Displays.Write2MonospaceDisplay(d, GetDisplayText(GridNameConstants.B2, DisplayKeys.SINGLE_CARRIAGE_DETAIL), 0.97f);
                 } else if (d.CustomName.Contains(TAG_MAINT)) {
-                    Displays.Write2MonospaceDisplay(d, GetDisplayText(CARRIAGE_MAINT, Displays.DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL), 0.97f);
+                    Displays.Write2MonospaceDisplay(d, GetDisplayText(GridNameConstants.MAINT, DisplayKeys.SINGLE_CARRIAGE_DETAIL), 0.97f);
                 }
             }
         }

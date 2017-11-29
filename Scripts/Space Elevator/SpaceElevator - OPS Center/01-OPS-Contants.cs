@@ -25,11 +25,6 @@ namespace IngameScript {
         //-------------------------------------------------------------------------------
         //  CONSTANTS
         //-------------------------------------------------------------------------------
-        const string CARRIAGE_A1 = "Carriage A1";
-        const string CARRIAGE_A2 = "Carriage A2";
-        const string CARRIAGE_B1 = "Carriage B1";
-        const string CARRIAGE_B2 = "Carriage B2";
-        const string CARRIAGE_MAINT = "Maint Carriage";
 
         const string TAG_A1 = "[A1]";
         const string TAG_A2 = "[A2]";

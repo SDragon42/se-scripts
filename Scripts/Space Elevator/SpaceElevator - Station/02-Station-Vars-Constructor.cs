@@ -108,13 +108,13 @@ namespace IngameScript {
 
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsTaggedStationOnThisGrid(b) && IsDoorOnStationOnly(b));
-            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllCarriagesDisplay(b));
-            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllCarriagesWideDisplay(b));
-            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllPassengerCarriagesDisplay(b));
-            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Displays.IsAllPassengerCarriagesWideDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsTaggedStationOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES_WIDE));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsTaggedStationOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE));
 
-            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsTaggedStationOnThisGrid(b) && Displays.IsSingleCarriageDisplay(b));
-            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriagesDetailed, b => IsTaggedStationOnThisGrid(b) && Displays.IsSingleCarriageDetailDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsTaggedStationOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE));
+            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriagesDetailed, b => IsTaggedStationOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE_DETAIL));
 
             _blocksLoaded = true;
         }

@@ -16,16 +16,7 @@ using VRageMath;
 
 namespace IngameScript {
     static class Displays {
-        public const string DISPLAY_KEY_ALL_CARRIAGES = "[all-carriages]";
-        public const string DISPLAY_KEY_ALL_CARRIAGES_WIDE = "[all-carriages-wide]";
-        public const string DISPLAY_KEY_ALL_PASSENGER_CARRIAGES = "[all-passenger-carriages]";
-        public const string DISPLAY_KEY_ALL_PASSENGER_CARRIAGES_WIDE = "[all-passenger-carriages-wide]";
-        public const string DISPLAY_KEY_SINGLE_CARRIAGE = "[single-carriage]";
-        public const string DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL = "[single-carriage-detail]";
 
-
-        public static bool IsAllCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_CARRIAGES); }
-        public static bool IsAllCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_CARRIAGES_WIDE); }
         public static string BuildAllCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint, bool wide = false) {
             const int max = 15;
 
@@ -75,9 +66,6 @@ namespace IngameScript {
             foreach (var txt in GetCarriageDetails("Carriage B2", b2)) yield return " │ " + txt;
         }
 
-
-        public static bool IsAllPassengerCarriagesDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_PASSENGER_CARRIAGES); }
-        public static bool IsAllPassengerCarriagesWideDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_ALL_PASSENGER_CARRIAGES_WIDE); }
         public static string BuildAllPassengerCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, bool wide = false) {
             const int max = 15;
 
@@ -125,9 +113,6 @@ namespace IngameScript {
             foreach (var txt in GetCarriageDetails("Carriage B2", b2)) yield return " │ " + txt;
         }
 
-
-        public static bool IsSingleCarriageDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_SINGLE_CARRIAGE); }
-        public static bool IsSingleCarriageDetailDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains(DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL); }
         public static string BuildOneCarriageDisplay(string carriageName, CarriageStatusMessage carriageStatus, bool opsDetail = false, bool retransRingMarker = false) {
             const int max = 17;
 
@@ -180,7 +165,6 @@ namespace IngameScript {
             }
         }
 
-
         static string GetDirectionArrows(double? vertSpeed) {
             if (!vertSpeed.HasValue) return " ";
             var vspeed = Math.Round(vertSpeed.Value, 1);
@@ -216,11 +200,6 @@ namespace IngameScript {
             };
 
         }
-
-        public static bool IsSlimSpeedDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[lcd-speed]") && Collect.IsCornerFlatLcd(b); }
-        public static bool IsSlimDestDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[lcd-destination]") && Collect.IsCornerFlatLcd(b); }
-        public static bool IsSlimCargoDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[lcd-cargo]") && Collect.IsCornerFlatLcd(b); }
-        public static bool IsSlimFuelDisplay(IMyTerminalBlock b) { return b.CustomName.ToLower().Contains("[lcd-fuel]") && Collect.IsCornerFlatLcd(b); }
 
         public static string BuildSpeedDisplayText(double vertSpeed, double range) {
             var speedText = $"{GetDirectionArrows(vertSpeed)} {Math.Abs(vertSpeed):N1}";

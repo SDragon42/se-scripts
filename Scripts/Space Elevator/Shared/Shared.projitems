@@ -19,7 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\StationResponseMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\UpdateDisplayMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Displays.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ElevatorConst.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GpsInfo.cs" />
   </ItemGroup>
 </Project>

@@ -69,11 +69,11 @@ namespace IngameScript {
 
             // rotate arm
             if (_armRotor != null) {
-                var currAngle = Math.Round(_armRotor.Angle, ElevatorConst.RADIAN_ROUND_DIGITS);
-                var maxAngle = Math.Round(_armRotor.UpperLimitRad, ElevatorConst.RADIAN_ROUND_DIGITS);
+                var currAngle = Math.Round(_armRotor.Angle, RotorConstants.RADIAN_ROUND_DIGITS);
+                var maxAngle = Math.Round(_armRotor.UpperLimitRad, RotorConstants.RADIAN_ROUND_DIGITS);
                 if (currAngle < maxAngle) {
                     //_armRotor.SafetyLock = false;
-                    _armRotor.TargetVelocityRPM = ElevatorConst.ROTOR_VELOCITY;
+                    _armRotor.TargetVelocityRPM = RotorConstants.ROTOR_VELOCITY;
                     return false; // not in position yet
                 }
                 //_armRotor.SafetyLock = true;
@@ -109,11 +109,11 @@ namespace IngameScript {
 
             // rotate arm
             if (_armRotor != null) {
-                var currAngle = Math.Round(_armRotor.Angle, ElevatorConst.RADIAN_ROUND_DIGITS);
-                var minAngle = Math.Round(_armRotor.LowerLimitRad, ElevatorConst.RADIAN_ROUND_DIGITS);
+                var currAngle = Math.Round(_armRotor.Angle, RotorConstants.RADIAN_ROUND_DIGITS);
+                var minAngle = Math.Round(_armRotor.LowerLimitRad, RotorConstants.RADIAN_ROUND_DIGITS);
                 if (currAngle > minAngle) {
                     //_armRotor.SafetyLock = false;
-                    _armRotor.TargetVelocityRPM = ElevatorConst.ROTOR_VELOCITY * -1;
+                    _armRotor.TargetVelocityRPM = RotorConstants.ROTOR_VELOCITY * -1;
                     return false; // not fully retracted
                 }
                 //_armRotor.SafetyLock = true;

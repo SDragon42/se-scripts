@@ -68,18 +68,14 @@ namespace IngameScript {
 
             _comms = new COMMsModule(Me);
 
-            _displayText[Displays.DISPLAY_KEY_ALL_CARRIAGES] = "";
-            _displayText[Displays.DISPLAY_KEY_ALL_CARRIAGES_WIDE] = "";
-            _displayText[Displays.DISPLAY_KEY_ALL_PASSENGER_CARRIAGES] = "";
-            _displayText[Displays.DISPLAY_KEY_ALL_PASSENGER_CARRIAGES_WIDE] = "";
-            _displayText[Displays.DISPLAY_KEY_SINGLE_CARRIAGE] = "";
-            _displayText[Displays.DISPLAY_KEY_SINGLE_CARRIAGE_DETAIL] = "";
+            _displayText[DisplayKeys.ALL_CARRIAGES] = "";
+            _displayText[DisplayKeys.ALL_CARRIAGES_WIDE] = "";
+            _displayText[DisplayKeys.ALL_PASSENGER_CARRIAGES] = "";
+            _displayText[DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE] = "";
+            _displayText[DisplayKeys.SINGLE_CARRIAGE] = "";
+            _displayText[DisplayKeys.SINGLE_CARRIAGE_DETAIL] = "";
 
-            _carriageStatuses[CARRIAGE_A1] = null;
-            _carriageStatuses[CARRIAGE_A2] = null;
-            _carriageStatuses[CARRIAGE_B1] = null;
-            _carriageStatuses[CARRIAGE_B2] = null;
-            _carriageStatuses[CARRIAGE_MAINT] = null;
+            GridNameConstants.AllCarriages.ForEach(c => _carriageStatuses[c] = null);
         }
 
         public void Save() {
@@ -89,11 +85,11 @@ namespace IngameScript {
             if (_blocksLoaded && !forceLoad) return;
 
             _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList, b => IsOnThisGrid(b) && IsTaggedStation(b), IsOnThisGrid);
-            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Displays.IsAllCarriagesDisplay(b));
-            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsOnThisGrid(b) && IsTaggedStation(b) && Displays.IsAllCarriagesWideDisplay(b));
-            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Displays.IsAllPassengerCarriagesDisplay(b));
-            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsOnThisGrid(b) && IsTaggedStation(b) && Displays.IsAllPassengerCarriagesWideDisplay(b));
-            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Displays.IsSingleCarriageDetailDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES_WIDE));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE));
+            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE_DETAIL));
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsHumanDoor(b));
 
             _blocksLoaded = true;

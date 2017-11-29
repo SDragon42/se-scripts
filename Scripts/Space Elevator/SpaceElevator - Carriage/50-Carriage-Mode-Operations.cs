@@ -165,15 +165,15 @@ namespace IngameScript {
         bool Rotate2Limit(IMyMotorStator rotor, bool rotateToMax) {
             if (IsRotated2Limit(rotor, rotateToMax)) return true;
             //rotor.SafetyLock = false;
-            var velocity = rotateToMax ? ElevatorConst.ROTOR_VELOCITY : ElevatorConst.ROTOR_VELOCITY * -1;
+            var velocity = rotateToMax ? RotorConstants.ROTOR_VELOCITY : RotorConstants.ROTOR_VELOCITY * -1;
             rotor.TargetVelocityRPM = velocity;
             return false; // not in position yet
         }
         bool IsRotated2Limit(IMyMotorStator rotor, bool rotateToMax) {
             if (rotor == null) return true;
-            var currAngle = Math.Round(rotor.Angle, ElevatorConst.RADIAN_ROUND_DIGITS);
+            var currAngle = Math.Round(rotor.Angle, RotorConstants.RADIAN_ROUND_DIGITS);
             var angleLimit = rotateToMax ? rotor.UpperLimitRad : rotor.LowerLimitRad;
-            var targetAngle = Math.Round(angleLimit, ElevatorConst.RADIAN_ROUND_DIGITS);
+            var targetAngle = Math.Round(angleLimit, RotorConstants.RADIAN_ROUND_DIGITS);
             var notAtTarget = rotateToMax ? (currAngle < targetAngle) : (currAngle > targetAngle);
             return !notAtTarget;
         }

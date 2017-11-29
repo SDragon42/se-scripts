@@ -133,11 +133,11 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
             GridTerminalSystem.GetBlocksOfType(_cargo, IsOnThisGrid);
 
-            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsTaggedBlockOnThisGrid(b) && Displays.IsSingleCarriageDisplay(b));
-            GridTerminalSystem.GetBlocksOfType(_displaySpeed, b => IsTaggedBlockOnThisGrid(b) && Displays.IsSlimSpeedDisplay(b));
-            GridTerminalSystem.GetBlocksOfType(_displayDestination, b => IsTaggedBlockOnThisGrid(b) && Displays.IsSlimDestDisplay(b));
-            GridTerminalSystem.GetBlocksOfType(_displayCargo, b => IsTaggedBlockOnThisGrid(b) && Displays.IsSlimCargoDisplay(b));
-            GridTerminalSystem.GetBlocksOfType(_displayFuel, b => IsTaggedBlockOnThisGrid(b) && Displays.IsSlimFuelDisplay(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsTaggedBlockOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE));
+            GridTerminalSystem.GetBlocksOfType(_displaySpeed, b => IsTaggedBlockOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.FLAT_SPEED) && Collect.IsCornerFlatLcd(b));
+            GridTerminalSystem.GetBlocksOfType(_displayDestination, b => IsTaggedBlockOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.FLAT_DESTINATION) && Collect.IsCornerFlatLcd(b));
+            GridTerminalSystem.GetBlocksOfType(_displayCargo, b => IsTaggedBlockOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.FLAT_CARGO) && Collect.IsCornerFlatLcd(b));
+            GridTerminalSystem.GetBlocksOfType(_displayFuel, b => IsTaggedBlockOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.FLAT_FUEL) && Collect.IsCornerFlatLcd(b));
 
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, IsTaggedBlockOnThisGrid);
 
