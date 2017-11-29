@@ -16,15 +16,15 @@ using VRageMath;
 
 namespace IngameScript {
     static partial class Collect {
-        public static bool IsLandingGear(IMyTerminalBlock b) { return b is IMyLandingGear; }
+        public static bool IsLandingGear(IMyTerminalBlock b) => b is IMyLandingGear;
 
-        public static bool IsLandingGearUnlocked(IMyTerminalBlock b) { return IsLandingGearUnlocked(b as IMyLandingGear); }
-        public static bool IsLandingGearUnlocked(IMyLandingGear b) { return ((int)b?.LockMode == 0); } //TODO: Unlocked - Workaround this this is fixed
+        public static bool IsLandingGearUnlocked(IMyTerminalBlock b) => IsLandingGearUnlocked(b as IMyLandingGear);
+        public static bool IsLandingGearUnlocked(IMyLandingGear b) => ((int)b?.LockMode == 0); //TODO: Unlocked - Workaround this this is fixed
 
-        public static bool IsLandingGearReadyToLock(IMyTerminalBlock b) { return IsLandingGearReadyToLock(b as IMyLandingGear); }
-        public static bool IsLandingGearReadyToLock(IMyLandingGear b) { return ((int)b?.LockMode == 1); } //TODO: ReadyToLock - Workaround this this is fixed
+        public static bool IsLandingGearReadyToLock(IMyTerminalBlock b) => IsLandingGearReadyToLock(b as IMyLandingGear);
+        public static bool IsLandingGearReadyToLock(IMyLandingGear b) => ((int)b?.LockMode == 1); //TODO: ReadyToLock - Workaround this this is fixed
 
-        public static bool IsLandingGearLocked(IMyTerminalBlock b) { return IsLandingGearLocked(b as IMyLandingGear); }
-        public static bool IsLandingGearLocked(IMyLandingGear b) { return ((int)b?.LockMode == 2); } //TODO: Locked - Workaround this this is fixed
+        public static bool IsLandingGearLocked(IMyTerminalBlock b) => IsLandingGearLocked(b as IMyLandingGear);
+        public static bool IsLandingGearLocked(IMyLandingGear b) => ((int)b?.LockMode == 2); //TODO: Locked - Workaround this this is fixed
     }
 }

@@ -16,11 +16,7 @@ using VRageMath;
 
 namespace IngameScript {
     static partial class Collect {
-        public static bool IsOrientedForward(IMyTerminalBlock b) {
-            if (b == null) return false;
-            var i = b.Orientation.TransformDirectionInverse(b.Orientation.Forward);
-            var j = Base6Directions.Direction.Forward;
-            return (i == j);
-        }
+        public static bool IsOrientedForward(IMyTerminalBlock b) => (b.Orientation.TransformDirectionInverse(b.Orientation.Forward) == Base6Directions.Direction.Forward);
+        public static bool IsTagged(IMyTerminalBlock b, string tag) => b.CustomName.ToLower().Contains(tag.ToLower());
     }
 }
