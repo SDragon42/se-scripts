@@ -16,14 +16,14 @@ using VRageMath;
 
 namespace IngameScript {
     class FlightDataRecorder {
-        readonly LogModule _log;
+        readonly Logging _log;
         readonly Dictionary<string, string> _items;
         readonly string[] _keyList;
 
         public FlightDataRecorder(string[] keyList, int maxNumLogEntries = 100) {
             _keyList = keyList;
             if (maxNumLogEntries < 1) maxNumLogEntries = 1;
-            _log = new LogModule(maxNumLogEntries);
+            _log = new Logging(maxNumLogEntries);
             _items = new Dictionary<string, string>();
             foreach (var key in _keyList) _items.Add(key, string.Empty);
             ClearLog();
