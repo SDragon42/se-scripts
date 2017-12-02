@@ -209,6 +209,7 @@ namespace IngameScript {
         public static string BuildDestinationDisplayText(string destination) {
             var padding = (15 - destination?.Length) / 2.0 ?? 0.0;
             var iPadding = Convert.ToInt32(Math.Round(padding, 0));
+            iPadding = (iPadding >= 0) ? iPadding : 0;
             return "".PadLeft(iPadding, ' ') + destination;
         }
 
