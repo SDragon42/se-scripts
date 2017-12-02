@@ -17,7 +17,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        public void Main(string argument) {
+        public void Main(string argument, UpdateType updateSource) {
             try {
                 Echo("Station Control " + _runSymbol.GetSymbol(Runtime));
 

@@ -17,7 +17,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        public void Main(string argument) {
+        public void Main(string argument, UpdateType updateSource) {
             try {
                 Echo("Carriage Control " + _runSymbol.GetSymbol(Runtime));
                 Echo("DEBUG " + (_debug.Enabled ? "enabled" : "disabled"));

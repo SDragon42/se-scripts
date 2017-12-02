@@ -48,7 +48,7 @@ namespace IngameScript {
             ReloadConfig();
         }
 
-        public void Main(string argument) {
+        public void Main(string argument, UpdateType updateSource) {
             try {
                 Echo("COMMS Reciever v1.0");
                 ReloadConfig();

@@ -17,7 +17,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        public void Main(string argument) {
+        public void Main(string argument, UpdateType updateSource) {
             try {
                 Echo("OPS Center " + _runSymbol.GetSymbol(Runtime));
 
