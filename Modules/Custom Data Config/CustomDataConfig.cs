@@ -18,12 +18,7 @@ namespace IngameScript {
     class CustomDataConfig {
         readonly char[] SepNewLine = new char[] { '\n' };
         readonly char[] SepEquals = new char[] { '=' };
-
-        private readonly Dictionary<string, ConfigItem> _items;
-
-        public CustomDataConfig() {
-            _items = new Dictionary<string, ConfigItem>();
-        }
+        readonly Dictionary<string, ConfigItem> _items = new Dictionary<string, ConfigItem>();
 
 
         public void Clear() {
@@ -48,17 +43,17 @@ namespace IngameScript {
                 if (line.Length <= 0) continue;
                 if (line.StartsWith("# ")) continue;
 
-                var settingParts = line.Split(SepEquals, 2);
-                if (settingParts == null) continue;
-                if (settingParts.Length != 2) continue;
+                var parts = line.Split(SepEquals, 2);
+                if (parts == null) continue;
+                if (parts.Length != 2) continue;
 
-                var readKey = settingParts[0].Trim();
+                var readKey = parts[0].Trim();
                 if (!_items.ContainsKey(readKey)) {
                     if (!addIfMissing) continue;
                     AddKey(readKey);
                 }
 
-                _items[readKey].Value = settingParts[1].Trim();
+                _items[readKey].Value = parts[1].Trim();
             }
         }
         public void SaveToCustomData(IMyTerminalBlock b) {
