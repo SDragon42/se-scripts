@@ -20,11 +20,11 @@ namespace IngameScript {
         public void Main(string argument, UpdateType updateSource) {
             try {
                 Echo("Carriage Control " + _runSymbol.GetSymbol(Runtime));
-                Echo("DEBUG " + (_debug.Enabled ? "enabled" : "disabled"));
+                //Echo("DEBUG " + (_debug.Enabled ? "enabled" : "disabled"));
                 Echo($"Mode: {GetMode()}");
 
                 _executionInterval.RecordTime(Runtime);
-                _connectorLockDelay.RecordTime(Runtime);
+                //_connectorLockDelay.RecordTime(Runtime);
                 _trasmitStatsDelay.RecordTime(Runtime);
                 _updateDisplayDelay.RecordTime(Runtime);
                 _blockRefreshInterval.RecordTime(Runtime);
@@ -46,7 +46,7 @@ namespace IngameScript {
                     _comms.TransmitQueue(_antenna);
                     _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
                     if (_gravityGen != null)
-                        _gravityGen.Enabled = (_gravVec.Length() < 9.81 / 2);
+                        _gravityGen.Enabled = (_gravVec.Length() < GRAV_Force_Earth / 2);
                 }
 
                 if (_updateDisplayDelay.AtNextInterval) {
@@ -73,7 +73,7 @@ namespace IngameScript {
             _settings.LoadFromSettingDict(_custConfig);
             _custConfig.SaveToCustomData(Me);
             _lastCustomDataHash = hash;
-            _connectorLockDelay.SetInterval(_settings.ConnectorLockDelay);
+            //_connectorLockDelay.SetInterval(_settings.ConnectorLockDelay);
             _doorManager.SecondsToLeaveOpen = _settings.DoorCloseDelay;
         }
 

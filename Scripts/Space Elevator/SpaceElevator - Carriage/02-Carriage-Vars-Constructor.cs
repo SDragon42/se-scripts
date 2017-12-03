@@ -23,7 +23,7 @@ namespace IngameScript {
         readonly DebugLogging _debug;
         readonly RunningSymbol _runSymbol;
         readonly TimeInterval _executionInterval;
-        readonly TimeInterval _connectorLockDelay;
+        //readonly TimeInterval _connectorLockDelay;
         readonly TimeInterval _trasmitStatsDelay;
         readonly TimeInterval _updateDisplayDelay;
         readonly TimeInterval _blockRefreshInterval;
@@ -44,6 +44,7 @@ namespace IngameScript {
         readonly List<IMyThrust> _allThrusters = new List<IMyThrust>();
         readonly List<IMyShipConnector> _connectors = new List<IMyShipConnector>();
         readonly List<IMyLandingGear> _landingGears = new List<IMyLandingGear>();
+        readonly List<IMyMotorSuspension> _Suspensions = new List<IMyMotorSuspension>();
         //readonly List<IMyAirVent> _airVents = new List<IMyAirVent>();
         //readonly List<IMyGasTank> _o2Tanks = new List<IMyGasTank>();
         readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
@@ -89,7 +90,7 @@ namespace IngameScript {
 
             _runSymbol = new RunningSymbol();
             _executionInterval = new TimeInterval(0.1);
-            _connectorLockDelay = new TimeInterval(0.1);
+            //_connectorLockDelay = new TimeInterval(0.1);
             _trasmitStatsDelay = new TimeInterval(3.0);
             _updateDisplayDelay = new TimeInterval(1.0);
             _blockRefreshInterval = new TimeInterval(1);
@@ -127,6 +128,7 @@ namespace IngameScript {
 
             CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _connectors, IsTaggedBlockOnThisGrid, IsOnThisGrid);
             CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _landingGears, IsTaggedBlockOnThisGrid, IsOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(_Suspensions, IsOnThisGrid);
             //GridTerminalSystem.GetBlocksOfType(_airVents, IsTaggedBlockOnThisGrid);
             //GridTerminalSystem.GetBlocksOfType(_o2Tanks, b => IsTaggedBlockOnThisGrid(b) && IsOxygenTank(b));
 

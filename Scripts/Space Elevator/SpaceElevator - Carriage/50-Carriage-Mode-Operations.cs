@@ -35,6 +35,7 @@ namespace IngameScript {
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
+                    foreach (var b in _Suspensions) b.Brake = false;
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     _destination = null;
@@ -47,6 +48,7 @@ namespace IngameScript {
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) { b.Enabled = true; b.Unlock(); b.AutoLock = false; }
+                    foreach (var b in _Suspensions) b.Brake = false;
                     foreach (var b in _connectors) b.Disconnect();
                     break;
 
@@ -56,6 +58,7 @@ namespace IngameScript {
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
+                    foreach (var b in _Suspensions) b.Brake = false;
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;
@@ -65,6 +68,7 @@ namespace IngameScript {
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
+                    foreach (var b in _Suspensions) b.Brake = false;
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;
@@ -73,6 +77,7 @@ namespace IngameScript {
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
+                    foreach (var b in _Suspensions) b.Brake = false;
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     _connectorLockDelayRemaining = _settings.ConnectorLockDelay;
@@ -83,6 +88,7 @@ namespace IngameScript {
                     foreach (var b in _h2Tanks) b.Stockpile = true;
                     foreach (var b in _allThrusters) b.Enabled = false;
                     foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
+                    foreach (var b in _Suspensions) b.Brake = true;
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;

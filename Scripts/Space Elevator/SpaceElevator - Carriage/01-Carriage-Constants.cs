@@ -32,5 +32,7 @@ namespace IngameScript {
         const float GRAV_RANGE_RampsDown = 42.5f;
         const float GRAV_RANGE_Rampsup = 12.5f;
 
+        const double GRAV_Force_Earth = 9.81;
+
     }
 }
