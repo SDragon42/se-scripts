@@ -80,7 +80,7 @@ namespace IngameScript {
                     foreach (var b in _Suspensions) b.Brake = false;
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
-                    _connectorLockDelayRemaining = _settings.ConnectorLockDelay;
+                    //_connectorLockDelayRemaining = _settings.ConnectorLockDelay;
                     break;
 
                 case CarriageMode.Docked:

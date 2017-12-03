@@ -111,7 +111,7 @@
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
-    <Compile Include="ScriptSettingsModule.cs" />
+    <Compile Include="ScriptSettings.cs" />
     <Compile Include="TravelDirection.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Modules\Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />

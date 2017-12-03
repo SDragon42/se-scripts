@@ -15,12 +15,12 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    class ScriptSettingsModule {
+    class ScriptSettings {
         const string DEFAULT_BlockTag = "[carriage]";
         const int DEFAULT_WorldInventoryMultiplier = 1;
         const double DEFAULT_TravelSpeed = 99.0;
         const float DEFAULT_DockSpeed = 2.0f;
-        const double DEFAULT_ConnectorLockDelay = 2.0;
+        //const double DEFAULT_ConnectorLockDelay = 2.0;
         const double DEFAULT_ApproachDistence = 25.0;
         const bool DEFAULT_GravityDescelEnabled = false;
         const double DEFAULT_DoorCloseDelay = 4.0;
@@ -30,7 +30,7 @@ namespace IngameScript {
         const string KEY_InvMultiplier = "Inventory Multiplier";
         const string KEY_TravelSpeed = "Travel Speed";
         const string KEY_DockSpeed = "Dock Speed";
-        const string KEY_LockDelay = "Lock Delay";
+        //const string KEY_LockDelay = "Lock Delay";
         const string KEY_ApproachDist = "Approach Distance";
         const string KEY_GravityDescelEnabled = "Gravity Decel Enabled";
         const string KEY_TimeToLeaveDoorOpen = "Time to Leave Doors Open";
@@ -43,26 +43,33 @@ namespace IngameScript {
             config.AddKey(KEY_BlockTag,
                 description: "This is the name tag to add to the blocks so that the script can\ncontrol them.",
                 defaultValue: DEFAULT_BlockTag);
+
             config.AddKey(KEY_InvMultiplier,
                 description: "This is the inventory multiplier from World Settings.",
                 defaultValue: DEFAULT_WorldInventoryMultiplier.ToString());
+
             config.AddKey(KEY_TravelSpeed,
                 description: "The is the maxium speed that should be traveled.\nDock Speed is the velocity to approach when docking.",
                 defaultValue: DEFAULT_TravelSpeed.ToString());
             config.AddKey(KEY_DockSpeed,
                 defaultValue: DEFAULT_DockSpeed.ToString());
-            config.AddKey(KEY_LockDelay,
-                description: "The delay (in seconds) to wait to lock a connector once it is able to lock.",
-                defaultValue: DEFAULT_ConnectorLockDelay.ToString());
+
+            //config.AddKey(KEY_LockDelay,
+            //    description: "The delay (in seconds) to wait to lock a connector once it is able to lock.",
+            //    defaultValue: DEFAULT_ConnectorLockDelay.ToString());
+
             config.AddKey(KEY_ApproachDist,
                 description: "This is the distance as which will be approaching at dock speed.",
                 defaultValue: DEFAULT_ApproachDistence.ToString());
+
             config.AddKey(KEY_GravityDescelEnabled,
                 description: "This determines of the carrage will use gavity to slow it's ascent.",
                 defaultValue: DEFAULT_GravityDescelEnabled.ToString());
+
             config.AddKey(KEY_TimeToLeaveDoorOpen,
                 description: "This the the amount of time (in seconds) to leave\ninternal doors open before closing them.",
                 defaultValue: DEFAULT_DoorCloseDelay.ToString());
+
             config.AddKey(KEY_SendStatusMessages,
                 description: "Toggles the sending of the carriage status messages.",
                 defaultValue: DEFAULT_SendStatusMessages.ToString());
@@ -79,7 +86,7 @@ namespace IngameScript {
             InventoryMultiplier = config.GetValue(KEY_InvMultiplier).ToInt(DEFAULT_WorldInventoryMultiplier);
             TravelSpeed = config.GetValue(KEY_TravelSpeed).ToDouble(DEFAULT_TravelSpeed);
             DockSpeed = config.GetValue(KEY_DockSpeed).ToFloat(DEFAULT_DockSpeed);
-            ConnectorLockDelay = config.GetValue(KEY_LockDelay).ToDouble(DEFAULT_ConnectorLockDelay);
+            //ConnectorLockDelay = config.GetValue(KEY_LockDelay).ToDouble(DEFAULT_ConnectorLockDelay);
             ApproachDistance = config.GetValue(KEY_ApproachDist).ToDouble(DEFAULT_ApproachDistence);
             GravityDescelEnabled = config.GetValue(KEY_GravityDescelEnabled).ToBoolean(DEFAULT_GravityDescelEnabled);
             BlockTag = config.GetValue(KEY_BlockTag, DEFAULT_BlockTag);
@@ -101,7 +108,7 @@ namespace IngameScript {
             config.SetValue(KEY_InvMultiplier, InventoryMultiplier.ToString());
             config.SetValue(KEY_TravelSpeed, TravelSpeed.ToString());
             config.SetValue(KEY_DockSpeed, DockSpeed.ToString());
-            config.SetValue(KEY_LockDelay, ConnectorLockDelay.ToString());
+            //config.SetValue(KEY_LockDelay, ConnectorLockDelay.ToString());
             config.SetValue(KEY_ApproachDist, ApproachDistance.ToString());
             config.SetValue(KEY_GravityDescelEnabled, GravityDescelEnabled.ToString());
             config.SetValue(KEY_BlockTag, BlockTag);
@@ -116,7 +123,7 @@ namespace IngameScript {
         public int InventoryMultiplier { get; private set; }
         public double TravelSpeed { get; private set; }
         public float DockSpeed { get; private set; }
-        public double ConnectorLockDelay { get; private set; }
+        //public double ConnectorLockDelay { get; private set; }
         public double ApproachDistance { get; private set; }
         public bool GravityDescelEnabled { get; private set; }
         public string BlockTag { get; private set; }

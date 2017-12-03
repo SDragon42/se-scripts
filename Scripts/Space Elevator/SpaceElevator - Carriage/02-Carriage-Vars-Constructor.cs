@@ -17,7 +17,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        double _connectorLockDelayRemaining = 0.0;
+        //double _connectorLockDelayRemaining = 0.0;
         bool _activateSpeedLimiter = false;
 
         readonly DebugLogging _debug;
@@ -30,7 +30,7 @@ namespace IngameScript {
         readonly AutoDoorCloser _doorManager;
         readonly COMMsModule _comms;
         readonly CustomDataConfig _custConfig;
-        readonly ScriptSettingsModule _settings;
+        readonly ScriptSettings _settings;
         BlocksByOrientation _orientation = new BlocksByOrientation();
         int _lastCustomDataHash;
 
@@ -83,7 +83,7 @@ namespace IngameScript {
             _debug.EchoMessages = true;
 
             _custConfig = new CustomDataConfig();
-            _settings = new ScriptSettingsModule();
+            _settings = new ScriptSettings();
             _settings.InitializeConfig(_custConfig);
 
             _lastCustomDataHash = -1;
