@@ -35,6 +35,6 @@ namespace IngameScript {
         bool IsGateA2(IMyTerminalBlock b) => Collect.IsTagged(b, TAG_A2);
         bool IsGateB1(IMyTerminalBlock b) => Collect.IsTagged(b, TAG_B1);
         bool IsGateB2(IMyTerminalBlock b) => Collect.IsTagged(b, TAG_B2);
-        bool IsGateMaint(IMyTerminalBlock b) => Collect.IsTagged(b, TAG_MAINTENANCE);
+        bool IsGateMaint(IMyTerminalBlock b) => Collect.IsTagged(b, TAG_MAINT);
     }
 }

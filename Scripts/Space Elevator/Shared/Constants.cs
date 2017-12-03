@@ -21,10 +21,10 @@ namespace IngameScript {
     }
 
     static class GridNameConstants {
-        public const string A1 = "Carriage A1";
-        public const string A2 = "Carriage A2";
-        public const string B1 = "Carriage B1";
-        public const string B2 = "Carriage B2";
+        public const string A1 = "A1 Carriage";
+        public const string A2 = "A2 Carriage";
+        public const string B1 = "B1 Carriage";
+        public const string B2 = "B2 Carriage";
         public const string MAINT = "Maint Carriage";
 
         static readonly List<string> _allCarriages;

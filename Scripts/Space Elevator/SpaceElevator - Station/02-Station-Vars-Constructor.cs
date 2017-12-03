@@ -24,7 +24,7 @@ namespace IngameScript {
         readonly CarriageVars _A2;
         readonly CarriageVars _B1;
         readonly CarriageVars _B2;
-        readonly CarriageVars _Maintenance;
+        readonly CarriageVars _Maint;
 
         readonly DebugLogging _debug;
         readonly Logging _log;
@@ -67,11 +67,11 @@ namespace IngameScript {
             _settings = new ScriptSettingsModule();
             _settings.InitConfig(_custConfig);
 
-            _A1 = new CarriageVars("Carriage A1");
-            _A2 = new CarriageVars("Carriage A2");
-            _B1 = new CarriageVars("Carriage B1");
-            _B2 = new CarriageVars("Carriage B2");
-            _Maintenance = new CarriageVars("Maint Carriage");
+            _A1 = new CarriageVars(GridNameConstants.A1);
+            _A2 = new CarriageVars(GridNameConstants.A2);
+            _B1 = new CarriageVars(GridNameConstants.B1);
+            _B2 = new CarriageVars(GridNameConstants.B2);
+            _Maint = new CarriageVars(GridNameConstants.MAINT);
             if (!string.IsNullOrWhiteSpace(Storage)) {
                 var gateStates = Storage.Split('\n');
                 if (gateStates.Length == 5) {
@@ -79,7 +79,7 @@ namespace IngameScript {
                     _A2.FromString(gateStates[1]);
                     _B1.FromString(gateStates[2]);
                     _B2.FromString(gateStates[3]);
-                    _Maintenance.FromString(gateStates[4]);
+                    _Maint.FromString(gateStates[4]);
                 }
             }
 
@@ -98,7 +98,7 @@ namespace IngameScript {
                 _A2.ToString() + "\n" +
                 _B1.ToString() + "\n" +
                 _B2.ToString() + "\n" +
-                _Maintenance.ToString();
+                _Maint.ToString();
         }
 
         void LoadBlockLists(bool forceLoad = false) {

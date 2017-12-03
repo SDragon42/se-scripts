@@ -39,7 +39,7 @@ namespace IngameScript {
                     RunCarriageDockDepartureActions(TAG_A2, _A2);
                     RunCarriageDockDepartureActions(TAG_B1, _B1);
                     RunCarriageDockDepartureActions(TAG_B2, _B2);
-                    RunCarriageDockDepartureActions(TAG_MAINTENANCE, _Maintenance);
+                    RunCarriageDockDepartureActions(TAG_MAINT, _Maint);
 
                     _debug.AppendLine(_log.GetLogText());
                 }
@@ -112,7 +112,7 @@ namespace IngameScript {
             if (string.Compare(_A2.GridName, carriageName, true) == 0) return _A2;
             if (string.Compare(_B1.GridName, carriageName, true) == 0) return _B1;
             if (string.Compare(_B2.GridName, carriageName, true) == 0) return _B2;
-            if (string.Compare(_Maintenance.GridName, carriageName, true) == 0) return _Maintenance;
+            if (string.Compare(_Maint.GridName, carriageName, true) == 0) return _Maint;
             return null;
         }
 

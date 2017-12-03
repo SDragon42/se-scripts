@@ -59,11 +59,11 @@ namespace IngameScript {
             yield return " │ ";
             yield return " │ ";
             yield return " │ ";
-            foreach (var txt in GetCarriageDetails("Carriage A2", a2)) yield return " │ " + txt;
-            foreach (var txt in GetCarriageDetails("Carriage A1", a1)) yield return " │ " + txt;
-            foreach (var txt in GetCarriageDetails("Maintenance Carriage", maint)) yield return " │ " + txt;
-            foreach (var txt in GetCarriageDetails("Carriage B1", b1)) yield return " │ " + txt;
-            foreach (var txt in GetCarriageDetails("Carriage B2", b2)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails(GridNameConstants.A2, a2)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails(GridNameConstants.A1, a1)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails(GridNameConstants.MAINT, maint)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails(GridNameConstants.B1, b1)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails(GridNameConstants.B2, b2)) yield return " │ " + txt;
         }
 
         public static string BuildAllPassengerCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, bool wide = false) {
@@ -104,13 +104,13 @@ namespace IngameScript {
             yield return " │ ";
             yield return " │ ";
             yield return " │ ";
-            foreach (var txt in GetCarriageDetails("Carriage A2", a2)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails(GridNameConstants.A2, a2)) yield return " │ " + txt;
             yield return " │ ";
-            foreach (var txt in GetCarriageDetails("Carriage A1", a1)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails(GridNameConstants.A1, a1)) yield return " │ " + txt;
             yield return " │ ";
-            foreach (var txt in GetCarriageDetails("Carriage B1", b1)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails(GridNameConstants.B1, b1)) yield return " │ " + txt;
             yield return " │ ";
-            foreach (var txt in GetCarriageDetails("Carriage B2", b2)) yield return " │ " + txt;
+            foreach (var txt in GetCarriageDetails(GridNameConstants.B2, b2)) yield return " │ " + txt;
         }
 
         public static string BuildOneCarriageDisplay(string carriageName, CarriageStatusMessage carriageStatus, bool opsDetail = false, bool retransRingMarker = false) {
