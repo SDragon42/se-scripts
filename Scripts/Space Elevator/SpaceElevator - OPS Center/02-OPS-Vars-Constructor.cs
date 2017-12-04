@@ -23,15 +23,14 @@ namespace IngameScript {
         readonly Logging _log;
         readonly COMMsModule _comms;
         readonly RunningSymbol _runSymbol;
-        readonly TimeInterval _executionInterval;
-        readonly TimeInterval _blockRefreshInterval;
-        readonly TimeInterval _displayRefreshInterval;
         readonly AutoDoorCloser _doorManager;
 
 
 
         bool _blocksLoaded = false;
         int _lastCustomDataHash;
+        double _timeLast;
+        double _timeDisplayLast;
 
         IMyRadioAntenna _antenna;
         readonly List<IMyTextPanel> _displaysAllCarriages = new List<IMyTextPanel>();
@@ -60,12 +59,7 @@ namespace IngameScript {
             _lastCustomDataHash = -1;
 
             _runSymbol = new RunningSymbol();
-            _executionInterval = new TimeInterval(0.1);
-            _blockRefreshInterval = new TimeInterval(1);
-            _displayRefreshInterval = new TimeInterval(10);
-
             _doorManager = new AutoDoorCloser();
-
             _comms = new COMMsModule(Me);
 
             _displayText[DisplayKeys.ALL_CARRIAGES] = "";
@@ -76,6 +70,8 @@ namespace IngameScript {
             _displayText[DisplayKeys.SINGLE_CARRIAGE_DETAIL] = "";
 
             GridNameConstants.AllCarriages.ForEach(c => _carriageStatuses[c] = null);
+
+            Runtime.UpdateFrequency = UpdateFrequency.Update10 | UpdateFrequency.Update100;
         }
 
         public void Save() {

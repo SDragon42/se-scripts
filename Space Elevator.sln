@@ -95,7 +95,6 @@ Global
 		Modules\Logging\_Module - Logging.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Modules\Script Debug\_Module - Debug.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
-		Modules\Time Interval\_Module - Time Interval.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Scripts\Space Elevator\Shared\Shared.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

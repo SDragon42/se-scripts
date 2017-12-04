@@ -19,32 +19,36 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             try {
+                _timeLast += Runtime.TimeSinceLastRun.TotalMilliseconds;
+                _timeDisplayLast += Runtime.TimeSinceLastRun.TotalMilliseconds;
                 Echo("OPS Center " + _runSymbol.GetSymbol(Runtime));
 
-                _executionInterval.RecordTime(Runtime);
-                _blockRefreshInterval.RecordTime(Runtime);
-                _displayRefreshInterval.RecordTime(Runtime);
+                var runInterval = ((updateSource & UpdateType.Update10) == UpdateType.Update10);
+                var forceBlockReload = ((updateSource & UpdateType.Update100) == UpdateType.Update100);
 
                 LoadConfigSettings();
-                LoadBlockLists(_blockRefreshInterval.AtNextInterval);
+                LoadBlockLists(forceBlockReload);
                 EchoBlockLists();
 
                 if (!string.IsNullOrEmpty(argument))
                     RunCommand(argument);
 
-                if (_executionInterval.AtNextInterval) {
+                if (runInterval) {
                     _debug.Clear();
                     _comms.TransmitQueue(_antenna);
-                    _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
+                    _doorManager.CloseOpenDoors(_timeLast, _autoCloseDoors);
 
                     BuildDisplays();
                     UpdateDisplays();
 
                     _debug.AppendLine(_log.GetLogText());
+
+                    _timeLast = 0;
                 }
 
-                if (_displayRefreshInterval.AtNextInterval) {
+                if (_timeDisplayLast > 10.0) {
                     SendAllCOMMsDisplays();
+                    _timeDisplayLast = 0.0;
                 }
             } catch (Exception ex) {
                 _debug.AppendLine(ex.Message);

@@ -17,7 +17,6 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        double _timeLast;
         public void Main(string argument, UpdateType updateSource) {
             try {
                 _timeLast += Runtime.TimeSinceLastRun.TotalMilliseconds;

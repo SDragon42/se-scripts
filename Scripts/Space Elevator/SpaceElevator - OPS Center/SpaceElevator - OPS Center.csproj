@@ -120,7 +120,6 @@
   <Import Project="..\..\..\Modules\Script Debug\_Module - Debug.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Door Closer\_Module - Door Closer.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Logging\_Module - Logging.projitems" Label="Shared" />
-  <Import Project="..\..\..\Modules\Time Interval\_Module - Time Interval.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Doors\_Helper - Doors.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Running Symbol\_Module - Running Symbol.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

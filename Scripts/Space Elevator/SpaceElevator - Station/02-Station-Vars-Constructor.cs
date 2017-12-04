@@ -34,6 +34,7 @@ namespace IngameScript {
 
         bool _blocksLoaded = false;
         int _lastCustomDataHash;
+        double _timeLast;
 
         IMyRadioAntenna _antenna;
         readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
@@ -113,14 +114,14 @@ namespace IngameScript {
             _blocksLoaded = true;
         }
         void EchoBlockLists() {
-            //Echo($"H2 Tanks: {_h2Tanks.Count}");
-            //Echo($"Doors: {_autoCloseDoors.Count}");
-            //Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
-            //Echo($"Displays (W All Carr): {_displaysAllCarriagesWide.Count}");
-            //Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
-            //Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
-            //Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
-            //Echo($"Displays (Single Carr D): {_displaysSingleCarriagesDetailed.Count}");
+            Echo($"H2 Tanks: {_h2Tanks.Count}");
+            Echo($"Doors: {_autoCloseDoors.Count}");
+            Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
+            Echo($"Displays (W All Carr): {_displaysAllCarriagesWide.Count}");
+            Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
+            Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
+            Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
+            Echo($"Displays (Single Carr D): {_displaysSingleCarriagesDetailed.Count}");
             //Echo("");
         }
 
