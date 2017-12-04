@@ -126,7 +126,7 @@
     <Compile Include="10-Station-Main-Control.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
-    <Compile Include="ScriptSettingsModule.cs" />
+    <Compile Include="ScriptSettings.cs" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
   </ItemGroup>
   <ItemGroup>

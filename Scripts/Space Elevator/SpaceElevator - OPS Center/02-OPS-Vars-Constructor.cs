@@ -18,7 +18,7 @@ namespace IngameScript {
     partial class Program {
 
         readonly CustomDataConfig _custConfig;
-        readonly ScriptSettingsModule _settings;
+        readonly ScriptSettings _settings;
         readonly DebugLogging _debug;
         readonly Logging _log;
         readonly COMMsModule _comms;
@@ -54,7 +54,7 @@ namespace IngameScript {
             _log = new Logging(20);
 
             _custConfig = new CustomDataConfig();
-            _settings = new ScriptSettingsModule();
+            _settings = new ScriptSettings();
             _settings.InitConfig(_custConfig);
 
             _lastCustomDataHash = -1;

@@ -110,7 +110,7 @@
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
-    <Compile Include="ScriptSettingsModule.cs" />
+    <Compile Include="ScriptSettings.cs" />
   </ItemGroup>
   <Import Project="..\Shared\Shared.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Door Closer\_Module - Door Closer.projitems" Label="Shared" />

@@ -18,7 +18,7 @@ namespace IngameScript {
     partial class Program {
 
         readonly CustomDataConfig _custConfig;
-        readonly ScriptSettingsModule _settings;
+        readonly ScriptSettings _settings;
 
         readonly CarriageVars _A1;
         readonly CarriageVars _A2;
@@ -46,9 +46,7 @@ namespace IngameScript {
         readonly List<IMyTextPanel> _displaysAllPassengerCarriagesWide = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysSingleCarriages = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysSingleCarriagesDetailed = new List<IMyTextPanel>();
-
         readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
-
         readonly List<IMyTerminalBlock> _gateBlocks = new List<IMyTerminalBlock>();
         readonly List<IMyTerminalBlock> _armLights = new List<IMyTerminalBlock>();
         readonly List<IMyTerminalBlock> _terminalDoors = new List<IMyTerminalBlock>();
@@ -64,7 +62,7 @@ namespace IngameScript {
             //_log.Enabled = false;
 
             _custConfig = new CustomDataConfig();
-            _settings = new ScriptSettingsModule();
+            _settings = new ScriptSettings();
             _settings.InitConfig(_custConfig);
 
             _A1 = new CarriageVars(GridNameConstants.A1);
