@@ -28,16 +28,25 @@ namespace IngameScript {
 
         public double SecondsToLeaveOpen { get; set; }
 
-        TimeSpan _timeSinceLastCall;
+        double _timeSeconds;
 
         public void CloseOpenDoors(TimeSpan timeSinceLastCall, List<IMyTerminalBlock> doorList) {
-            _timeSinceLastCall = timeSinceLastCall;
+            _timeSeconds = timeSinceLastCall.TotalSeconds;
             doorList.ForEach(b => ProcessDoor(b as IMyDoor));
         }
         public void CloseOpenDoors(TimeSpan timeSinceLastCall, List<IMyDoor> doorList) {
-            _timeSinceLastCall = timeSinceLastCall;
+            _timeSeconds = timeSinceLastCall.TotalSeconds;
             doorList.ForEach(ProcessDoor);
         }
+        public void CloseOpenDoors(double totalSeconds, List<IMyTerminalBlock> doorList) {
+            _timeSeconds = totalSeconds;
+            doorList.ForEach(b => ProcessDoor(b as IMyDoor));
+        }
+        public void CloseOpenDoors(double totalSeconds, List<IMyDoor> doorList) {
+            _timeSeconds = totalSeconds;
+            doorList.ForEach(ProcessDoor);
+        }
+
         void ProcessDoor(IMyDoor door) {
             if (door == null) return;
             if (_openDoors.ContainsKey(door)) {
@@ -47,7 +56,7 @@ namespace IngameScript {
                     case DoorStatus.Open:
                         double doorTime;
                         _openDoors.TryGetValue(door, out doorTime);
-                        doorTime -= _timeSinceLastCall.TotalSeconds;
+                        doorTime -= _timeSeconds;
                         _openDoors.Remove(door);
 
                         if (doorTime > 0.0)
