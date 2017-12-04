@@ -30,8 +30,6 @@ namespace IngameScript {
         readonly Logging _log;
         readonly COMMsModule _comms;
         readonly RunningSymbol _runSymbol;
-        readonly TimeInterval _executionInterval;
-        readonly TimeInterval _blockRefreshInterval;
         readonly AutoDoorCloser _doorManager;
 
         bool _blocksLoaded = false;
@@ -84,12 +82,10 @@ namespace IngameScript {
             _lastCustomDataHash = -1;
 
             _runSymbol = new RunningSymbol();
-            _executionInterval = new TimeInterval(0.1);
-            _blockRefreshInterval = new TimeInterval(1);
-
             _doorManager = new AutoDoorCloser();
-
             _comms = new COMMsModule(Me);
+
+            Runtime.UpdateFrequency = UpdateFrequency.Update10 | UpdateFrequency.Update100;
         }
         public void Save() {
             Storage = _A1.ToString() + "\n" +

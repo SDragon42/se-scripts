@@ -17,29 +17,33 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
+        double _timeLast;
         public void Main(string argument, UpdateType updateSource) {
             try {
+                _timeLast += Runtime.TimeSinceLastRun.TotalMilliseconds;
                 Echo("Station Control " + _runSymbol.GetSymbol(Runtime));
 
-                _executionInterval.RecordTime(Runtime);
-                _blockRefreshInterval.RecordTime(Runtime);
+                var runInterval = ((updateSource & UpdateType.Update10) == UpdateType.Update10);
+                var forceBlockReload = ((updateSource & UpdateType.Update100) == UpdateType.Update100);
 
                 LoadConfigSettings();
-                LoadBlockLists(_blockRefreshInterval.AtNextInterval);
+                LoadBlockLists(forceBlockReload);
                 EchoBlockLists();
 
                 if (!string.IsNullOrEmpty(argument))
                     RunCommand(argument);
 
-                if (_executionInterval.AtNextInterval) {
+                if (runInterval) {
                     _debug.Clear();
                     _comms.TransmitQueue(_antenna);
-                    _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
+                    _doorManager.CloseOpenDoors(_timeLast, _autoCloseDoors);
                     RunCarriageDockDepartureActions(TAG_A1, _A1);
                     RunCarriageDockDepartureActions(TAG_A2, _A2);
                     RunCarriageDockDepartureActions(TAG_B1, _B1);
                     RunCarriageDockDepartureActions(TAG_B2, _B2);
                     RunCarriageDockDepartureActions(TAG_MAINT, _Maint);
+
+                    _timeLast = 0;
 
                     _debug.AppendLine(_log.GetLogText());
                 }
