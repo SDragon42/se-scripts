@@ -19,8 +19,8 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             try {
-                _timeLast += Runtime.TimeSinceLastRun.TotalMilliseconds;
-                _timeDisplayLast += Runtime.TimeSinceLastRun.TotalMilliseconds;
+                _timeLast += Runtime.TimeSinceLastRun.TotalSeconds;
+                _timeDisplayLast += Runtime.TimeSinceLastRun.TotalSeconds;
                 Echo("OPS Center " + _runSymbol.GetSymbol(Runtime));
 
                 var runInterval = ((updateSource & UpdateType.Update10) == UpdateType.Update10);

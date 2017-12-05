@@ -19,7 +19,7 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             try {
-                _timeLast += Runtime.TimeSinceLastRun.TotalMilliseconds;
+                _timeLast += Runtime.TimeSinceLastRun.TotalSeconds;
                 Echo("Station Control " + _runSymbol.GetSymbol(Runtime));
 
                 var runInterval = ((updateSource & UpdateType.Update10) == UpdateType.Update10);
