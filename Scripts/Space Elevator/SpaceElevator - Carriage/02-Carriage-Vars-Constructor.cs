@@ -17,22 +17,19 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        //double _connectorLockDelayRemaining = 0.0;
         bool _activateSpeedLimiter = false;
 
         readonly DebugLogging _debug;
+        readonly Logging _log;
         readonly RunningSymbol _runSymbol;
-        readonly TimeInterval _executionInterval;
-        //readonly TimeInterval _connectorLockDelay;
-        readonly TimeInterval _trasmitStatsDelay;
-        readonly TimeInterval _updateDisplayDelay;
-        readonly TimeInterval _blockRefreshInterval;
         readonly AutoDoorCloser _doorManager;
         readonly COMMsModule _comms;
         readonly CustomDataConfig _custConfig;
         readonly ScriptSettings _settings;
         BlocksByOrientation _orientation = new BlocksByOrientation();
         int _lastCustomDataHash;
+        double _timeLast;
+        double _timeTransmitLast;
 
         // Block Lists
         bool _blocksLoaded = false;
@@ -82,6 +79,8 @@ namespace IngameScript {
             //_debug.Enabled = false;
             _debug.EchoMessages = true;
 
+            _log = new Logging(20);
+
             _custConfig = new CustomDataConfig();
             _settings = new ScriptSettings();
             _settings.InitializeConfig(_custConfig);
@@ -89,17 +88,14 @@ namespace IngameScript {
             _lastCustomDataHash = -1;
 
             _runSymbol = new RunningSymbol();
-            _executionInterval = new TimeInterval(0.1);
-            //_connectorLockDelay = new TimeInterval(0.1);
-            _trasmitStatsDelay = new TimeInterval(3.0);
-            _updateDisplayDelay = new TimeInterval(1.0);
-            _blockRefreshInterval = new TimeInterval(1);
             _doorManager = new AutoDoorCloser();
             _comms = new COMMsModule(Me);
             _status = new CarriageStatusMessage(GetMode(), Vector3D.Zero, 0, 0, 0, 0, 0);
 
             _mode_SpecialUseOnly = CarriageMode.Init;
             LoadState();
+
+            Runtime.UpdateFrequency = UpdateFrequency.Update10 | UpdateFrequency.Update100;
         }
         void LoadState() {
             var states = Storage.Split('\t');

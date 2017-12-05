@@ -19,42 +19,45 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             try {
+                _timeLast += Runtime.TimeSinceLastRun.TotalSeconds;
+                _timeTransmitLast += Runtime.TimeSinceLastRun.TotalSeconds;
+
                 Echo("Carriage Control " + _runSymbol.GetSymbol(Runtime));
-                //Echo("DEBUG " + (_debug.Enabled ? "enabled" : "disabled"));
+
+                var runInterval = ((updateSource & UpdateType.Update10) == UpdateType.Update10);
+                var forceBlockReload = ((updateSource & UpdateType.Update100) == UpdateType.Update100);
+
                 Echo($"Mode: {GetMode()}");
 
-                _executionInterval.RecordTime(Runtime);
-                //_connectorLockDelay.RecordTime(Runtime);
-                _trasmitStatsDelay.RecordTime(Runtime);
-                _updateDisplayDelay.RecordTime(Runtime);
-                _blockRefreshInterval.RecordTime(Runtime);
-
                 LoadConfigSettings();
-                LoadBlockLists(_blockRefreshInterval.AtNextInterval);
+                LoadBlockLists(forceBlockReload);
                 EchoBlockLists();
                 if (GetMode() == CarriageMode.Init) SetMode(CarriageMode.Manual_Control);
 
-                if (!string.IsNullOrEmpty(argument)) {
+                if (argument.Length > 0)
                     RunCommand(argument);
-                }
 
-                if (_executionInterval.AtNextInterval) {
+                if (runInterval) {
                     _debug.Clear();
                     LoadCalculations();
                     RunModeActions();
                     SaveLastValues();
                     _comms.TransmitQueue(_antenna);
-                    _doorManager.CloseOpenDoors(_executionInterval.Time, _autoCloseDoors);
+                    _doorManager.CloseOpenDoors(_timeLast, _autoCloseDoors);
                     if (_gravityGen != null)
                         _gravityGen.Enabled = (_gravVec.Length() < GRAV_Force_Earth / 2);
+
+                    _timeLast = 0;
+
+                    _debug.AppendLine(_log.GetLogText());
                 }
 
-                if (_updateDisplayDelay.AtNextInterval) {
+                if (forceBlockReload)
                     UpdateDisplays();
-                }
 
-                if (_trasmitStatsDelay.AtNextInterval) {
+                if (_timeTransmitLast >= TIME_TransmitDelay) {
                     SendStatsMessage();
+                    _timeTransmitLast = 0;
                 }
 
             } catch (Exception ex) {
@@ -73,7 +76,6 @@ namespace IngameScript {
             _settings.LoadFromSettingDict(_custConfig);
             _custConfig.SaveToCustomData(Me);
             _lastCustomDataHash = hash;
-            //_connectorLockDelay.SetInterval(_settings.ConnectorLockDelay);
             _doorManager.SecondsToLeaveOpen = _settings.DoorCloseDelay;
         }
 
@@ -81,6 +83,9 @@ namespace IngameScript {
             CommMessage msg = null;
             if (CommMessage.TryParse(argument, out msg)) {
                 // COMMs messages
+
+                //if (string.Compare(msg.TargetGridName, Me.CubeGrid.CustomName, true) == 0)
+                _log.AppendLine($"{DateTime.Now.ToLongTimeString()} From: {msg.SenderGridName} | To: {msg.TargetGridName} | Type: {msg.PayloadType}");
                 switch (msg.PayloadType) {
                     case StationResponseMessage.TYPE:
                         var responseMsg = StationResponseMessage.CreateFromPayload(msg.Payload);

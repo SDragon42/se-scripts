@@ -34,5 +34,7 @@ namespace IngameScript {
 
         const double GRAV_Force_Earth = 9.81;
 
+        const double TIME_TransmitDelay = 3.0;
+
     }
 }

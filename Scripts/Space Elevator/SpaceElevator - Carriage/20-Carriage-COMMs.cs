@@ -26,10 +26,9 @@ namespace IngameScript {
             _status.Range2Top = _rangeToSpace;
         }
         void SendStatsMessage() {
+            SetStatuses();
             if (!_settings.SendStatusMessages) return;
             if (_antenna == null) return;
-
-            SetStatuses();
             _comms.AddMessageToQueue(_status);
         }
         void SendDockedMessage(string stationName) {

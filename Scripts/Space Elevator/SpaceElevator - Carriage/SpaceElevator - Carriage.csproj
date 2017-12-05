@@ -118,7 +118,6 @@
   <Import Project="..\Shared\Shared.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Door Closer\_Module - Door Closer.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Logging\_Module - Logging.projitems" Label="Shared" />
-  <Import Project="..\..\..\Modules\Time Interval\_Module - Time Interval.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Common\_Library - Common.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Thrusters\_Helper - Thrusters.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Gas Tanks\_Helper - Gas Tanks.projitems" Label="Shared" />
