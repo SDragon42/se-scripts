@@ -75,7 +75,7 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _debug = new DebugLogging(this);
+            _debug = new DebugLogging(this, "LCD Panel - Control Log");
             //_debug.Enabled = false;
             _debug.EchoMessages = true;
 
@@ -114,7 +114,9 @@ namespace IngameScript {
             if (_blocksLoaded && !forceLoad) return;
 
             _rc = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRemoteControl>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
-            _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
+            _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList,
+                b => IsTaggedBlockOnThisGrid(b) && ((IMyRadioAntenna)b).Enabled,
+                b => IsOnThisGrid(b) && ((IMyRadioAntenna)b).Enabled);
             _gravityGen = CollectHelper.GetFirstblockOfTypeWithFirst<IMyGravityGenerator>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
 
             _orientation.Init(_rc);

@@ -99,7 +99,9 @@ namespace IngameScript {
         void LoadBlockLists(bool forceLoad = false) {
             if (_blocksLoaded && !forceLoad) return;
 
-            _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList, IsTaggedStationOnThisGrid, IsOnThisGrid);
+            _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList,
+                b => IsTaggedStationOnThisGrid(b) && ((IMyRadioAntenna)b).Enabled,
+                b => IsOnThisGrid(b) && ((IMyRadioAntenna)b).Enabled);
 
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsTaggedStationOnThisGrid(b) && IsDoorOnStationOnly(b));

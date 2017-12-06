@@ -80,7 +80,10 @@ namespace IngameScript {
         void LoadBlockLists(bool forceLoad = false) {
             if (_blocksLoaded && !forceLoad) return;
 
-            _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList, b => IsOnThisGrid(b) && IsTaggedStation(b), IsOnThisGrid);
+            _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList,
+                b => IsOnThisGrid(b) && IsTaggedStation(b) && ((IMyRadioAntenna)b).Enabled,
+                b => IsOnThisGrid(b) && ((IMyRadioAntenna)b).Enabled);
+
             GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES));
             GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES_WIDE));
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES));
