@@ -28,8 +28,6 @@ namespace IngameScript {
 
         public string MessageType { get; private set; }
 
-        public override string ToString() {
-            return string.Join(DELIMITER.ToString(), _msgParts);
-        }
+        public override string ToString() => string.Join(DELIMITER.ToString(), _msgParts);
     }
 }
