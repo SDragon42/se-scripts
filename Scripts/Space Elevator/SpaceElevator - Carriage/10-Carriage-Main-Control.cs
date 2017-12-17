@@ -60,6 +60,13 @@ namespace IngameScript {
                     _timeTransmitLast = 0;
                 }
 
+                if (_displayLog.Count > 0) {
+                    var txt = _log.GetLogText();
+                    foreach (var d in _displayLog) {
+                        d.WritePublicText(txt);
+                    }
+                }
+
             } catch (Exception ex) {
                 _debug.AppendLine(ex.Message);
                 _debug.AppendLine(ex.StackTrace);
@@ -84,8 +91,8 @@ namespace IngameScript {
             if (CommMessage.TryParse(argument, out msg)) {
                 // COMMs messages
 
-                //if (string.Compare(msg.TargetGridName, Me.CubeGrid.CustomName, true) == 0)
-                _log.AppendLine($"{DateTime.Now.ToLongTimeString()} From: {msg.SenderGridName} | To: {msg.TargetGridName} | Type: {msg.PayloadType}");
+                if (string.Compare(msg.TargetGridName, Me.CubeGrid.CustomName, true) == 0)
+                    _log.AppendLine($"{DateTime.Now.ToLongTimeString()} From: {msg.SenderGridName} | To: {msg.TargetGridName} | Type: {msg.PayloadType}");
                 switch (msg.PayloadType) {
                     case StationResponseMessage.TYPE:
                         var responseMsg = StationResponseMessage.CreateFromPayload(msg.Payload);

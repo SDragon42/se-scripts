@@ -18,9 +18,8 @@ namespace IngameScript {
     partial class Program {
 
         bool IsOnThisGrid(IMyTerminalBlock b) => Me.CubeGrid == b.CubeGrid;
-
         bool IsTaggedStation(IMyTerminalBlock b) => Collect.IsTagged(b, _settings.StationTag);
-        bool IsTaggedStationOnThisGrid(IMyTerminalBlock b) => (IsOnThisGrid(b) && IsTaggedStation(b));
+
         bool IsDoorOnStationOnly(IMyTerminalBlock b) => IsTaggedStation(b) && !IsTaggedTerminal(b) && !IsTaggedTransfer(b) && Collect.IsHumanDoor(b);
 
         bool IsTaggedTerminal(IMyTerminalBlock b) => Collect.IsTagged(b, _settings.TerminalTag);

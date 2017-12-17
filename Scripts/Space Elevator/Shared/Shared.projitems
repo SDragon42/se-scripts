@@ -10,12 +10,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CarriageMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\CommMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\COMMsModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\BasePayloadMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\CarriageGotoMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\CarriageRequestMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\CarriageStatusMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\StationRequestMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\StationResponseMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\UpdateDisplayMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Displays.cs" />

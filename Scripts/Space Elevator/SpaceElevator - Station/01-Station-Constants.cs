@@ -21,12 +21,12 @@ namespace IngameScript {
         //-------------------------------------------------------------------------------
         const string CMD_DockCarriage = "dock";
         const string CMD_UndockCarriage = "undock";
+        const string CMD_RequestCarriage = "request-carriage";
 
 
         //-------------------------------------------------------------------------------
         //  CONSTANTS
         //-------------------------------------------------------------------------------
-
         const string TAG_A1 = "[A1]";
         const string TAG_A2 = "[A2]";
         const string TAG_B1 = "[B1]";

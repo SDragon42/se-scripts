@@ -52,6 +52,7 @@ namespace IngameScript {
         readonly List<IMyTextPanel> _displayDestination = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displayCargo = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displayFuel = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displayLog = new List<IMyTextPanel>();
         readonly List<IMyCargoContainer> _cargo = new List<IMyCargoContainer>();
         IMyGravityGenerator _gravityGen;
         readonly CarriageStatusMessage _status;
@@ -75,7 +76,7 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _debug = new DebugLogging(this, "LCD Panel - Control Log");
+            _debug = new DebugLogging(this);
             //_debug.Enabled = false;
             _debug.EchoMessages = true;
 
@@ -113,19 +114,27 @@ namespace IngameScript {
         void LoadBlockLists(bool forceLoad = false) {
             if (_blocksLoaded && !forceLoad) return;
 
-            _rc = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRemoteControl>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
+            _rc = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRemoteControl>(GridTerminalSystem, _tempList,
+                b => IsOnThisGrid(b) && IsTaggedCarriage(b),
+                IsOnThisGrid);
             _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList,
-                b => IsTaggedBlockOnThisGrid(b) && ((IMyRadioAntenna)b).Enabled,
-                b => IsOnThisGrid(b) && ((IMyRadioAntenna)b).Enabled);
-            _gravityGen = CollectHelper.GetFirstblockOfTypeWithFirst<IMyGravityGenerator>(GridTerminalSystem, _tempList, IsTaggedBlockOnThisGrid, IsOnThisGrid);
+                b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsCommRadioAntenna(b),
+                b => IsOnThisGrid(b) && Collect.IsCommRadioAntenna(b));
+            _gravityGen = CollectHelper.GetFirstblockOfTypeWithFirst<IMyGravityGenerator>(GridTerminalSystem, _tempList,
+                b => IsOnThisGrid(b) && IsTaggedCarriage(b),
+                IsOnThisGrid);
 
             _orientation.Init(_rc);
-            GridTerminalSystem.GetBlocksOfType(_ascentThrusters, b => IsTaggedBlockOnThisGrid(b) && _orientation.IsDown(b));
-            GridTerminalSystem.GetBlocksOfType(_descentThrusters, b => IsTaggedBlockOnThisGrid(b) && _orientation.IsUp(b));
+            GridTerminalSystem.GetBlocksOfType(_ascentThrusters, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && _orientation.IsDown(b));
+            GridTerminalSystem.GetBlocksOfType(_descentThrusters, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && _orientation.IsUp(b));
             GridTerminalSystem.GetBlocksOfType(_allThrusters, IsOnThisGrid);
 
-            CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _connectors, IsTaggedBlockOnThisGrid, IsOnThisGrid);
-            CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _landingGears, IsTaggedBlockOnThisGrid, IsOnThisGrid);
+            CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _connectors,
+                b => IsOnThisGrid(b) && IsTaggedCarriage(b),
+                IsOnThisGrid);
+            CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _landingGears,
+                b => IsOnThisGrid(b) && IsTaggedCarriage(b),
+                IsOnThisGrid);
             GridTerminalSystem.GetBlocksOfType(_Suspensions, IsOnThisGrid);
             //GridTerminalSystem.GetBlocksOfType(_airVents, IsTaggedBlockOnThisGrid);
             //GridTerminalSystem.GetBlocksOfType(_o2Tanks, b => IsTaggedBlockOnThisGrid(b) && IsOxygenTank(b));
@@ -133,15 +142,16 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
             GridTerminalSystem.GetBlocksOfType(_cargo, IsOnThisGrid);
 
-            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsTaggedBlockOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE));
-            GridTerminalSystem.GetBlocksOfType(_displaySpeed, b => IsTaggedBlockOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.FLAT_SPEED) && Collect.IsCornerFlatLcd(b));
-            GridTerminalSystem.GetBlocksOfType(_displayDestination, b => IsTaggedBlockOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.FLAT_DESTINATION) && Collect.IsCornerFlatLcd(b));
-            GridTerminalSystem.GetBlocksOfType(_displayCargo, b => IsTaggedBlockOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.FLAT_CARGO) && Collect.IsCornerFlatLcd(b));
-            GridTerminalSystem.GetBlocksOfType(_displayFuel, b => IsTaggedBlockOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.FLAT_FUEL) && Collect.IsCornerFlatLcd(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE));
+            GridTerminalSystem.GetBlocksOfType(_displaySpeed, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_SPEED) && Collect.IsCornerFlatLcd(b));
+            GridTerminalSystem.GetBlocksOfType(_displayDestination, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_DESTINATION) && Collect.IsCornerFlatLcd(b));
+            GridTerminalSystem.GetBlocksOfType(_displayCargo, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_CARGO) && Collect.IsCornerFlatLcd(b));
+            GridTerminalSystem.GetBlocksOfType(_displayFuel, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_FUEL) && Collect.IsCornerFlatLcd(b));
+            GridTerminalSystem.GetBlocksOfType(_displayLog, b => IsOnThisGrid(b) && b.CustomName == "LCD Panel - Control Log");
 
-            GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, IsTaggedBlockOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsOnThisGrid(b) && IsTaggedCarriage(b));
 
-            GridTerminalSystem.GetBlocksOfType(_boardingRamps, IsTaggedBlockOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(_boardingRamps, b => IsOnThisGrid(b) && IsTaggedCarriage(b));
 
             _blocksLoaded = true;
         }

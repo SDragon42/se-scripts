@@ -100,22 +100,23 @@ namespace IngameScript {
             if (_blocksLoaded && !forceLoad) return;
 
             _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList,
-                b => IsTaggedStationOnThisGrid(b) && ((IMyRadioAntenna)b).Enabled,
-                b => IsOnThisGrid(b) && ((IMyRadioAntenna)b).Enabled);
+                b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsCommRadioAntenna(b),
+                b => IsOnThisGrid(b) && Collect.IsCommRadioAntenna(b));
 
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
-            GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsTaggedStationOnThisGrid(b) && IsDoorOnStationOnly(b));
-            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsTaggedStationOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES));
-            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES_WIDE));
-            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsTaggedStationOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES));
-            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsTaggedStationOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE));
+            GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsOnThisGrid(b) && IsDoorOnStationOnly(b));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES_WIDE));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE));
 
-            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsTaggedStationOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE));
-            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriagesDetailed, b => IsTaggedStationOnThisGrid(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE_DETAIL));
+            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE));
+            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriagesDetailed, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE_DETAIL));
 
             _blocksLoaded = true;
         }
         void EchoBlockLists() {
+            Echo($"Antenna: {_antenna?.CustomName} | E:{_antenna?.Enabled}  B:{_antenna?.EnableBroadcasting}");
             Echo($"H2 Tanks: {_h2Tanks.Count}");
             Echo($"Doors: {_autoCloseDoors.Count}");
             Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");

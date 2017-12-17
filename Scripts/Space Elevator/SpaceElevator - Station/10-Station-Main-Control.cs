@@ -84,6 +84,9 @@ namespace IngameScript {
                     var carriage = GetCarriageVar(argument);
                     if (carriage != null)
                         carriage.Connect = false;
+                } else if (argument.StartsWith(CMD_RequestCarriage)) {
+                    argument = argument.Remove(0, CMD_RequestCarriage.Length).Trim();
+                    SendCarriageRequestMessage(argument);
                 }
             }
         }

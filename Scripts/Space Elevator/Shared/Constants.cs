@@ -26,6 +26,7 @@ namespace IngameScript {
         public const string B1 = "B1 Carriage";
         public const string B2 = "B2 Carriage";
         public const string MAINT = "Maint Carriage";
+        public const string OpsCenter = "OPS Center";
 
         static readonly List<string> _allCarriages;
         static readonly List<string> _allPassCarriages;
