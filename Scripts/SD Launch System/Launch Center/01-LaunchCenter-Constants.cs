@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections;
+﻿using Sandbox.Game.EntityComponents;
+using Sandbox.ModAPI.Ingame;
+using Sandbox.ModAPI.Interfaces;
+using SpaceEngineers.Game.ModAPI.Ingame;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
-using VRageMath;
-using VRage.Game;
+using System;
 using VRage.Collections;
-using Sandbox.ModAPI.Ingame;
 using VRage.Game.Components;
 using VRage.Game.ModAPI.Ingame;
-using Sandbox.ModAPI.Interfaces;
-using Sandbox.Game.EntityComponents;
-using SpaceEngineers.Game.ModAPI.Ingame;
 using VRage.Game.ObjectBuilders.Definitions;
+using VRage.Game;
+using VRageMath;
 
-partial class ScriptProgram : MyGridProgram {
+namespace IngameScript {
+    partial class Program : MyGridProgram {
 
-
-
-
-
+    }
 }

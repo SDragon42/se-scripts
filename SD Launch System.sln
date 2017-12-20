@@ -1,26 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launch Center", "Scripts\SD Launch System\Launch Center\Launch Center.csproj", "{9F4626E6-0CE7-484A-8AEA-7F8553DC4D84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launch Center", "Scripts\SD Launch System\Launch Center\Launch Center.csproj", "{F72618CE-2343-4963-8438-25E06C58F15F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
-		Release|Any CPU = Release|Any CPU
-		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9F4626E6-0CE7-484A-8AEA-7F8553DC4D84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F4626E6-0CE7-484A-8AEA-7F8553DC4D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F4626E6-0CE7-484A-8AEA-7F8553DC4D84}.Debug|x64.ActiveCfg = Debug|x64
-		{9F4626E6-0CE7-484A-8AEA-7F8553DC4D84}.Debug|x64.Build.0 = Debug|x64
-		{9F4626E6-0CE7-484A-8AEA-7F8553DC4D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F4626E6-0CE7-484A-8AEA-7F8553DC4D84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F4626E6-0CE7-484A-8AEA-7F8553DC4D84}.Release|x64.ActiveCfg = Release|x64
-		{9F4626E6-0CE7-484A-8AEA-7F8553DC4D84}.Release|x64.Build.0 = Release|x64
+		{F72618CE-2343-4963-8438-25E06C58F15F}.Debug|x64.ActiveCfg = Debug|x64
+		{F72618CE-2343-4963-8438-25E06C58F15F}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
