@@ -180,6 +180,7 @@ namespace IngameScript {
             var atLimit = true;
             var isRaised = true;
             foreach (var r in _boardingRamps) {
+                if (!r.IsAttached) continue;
                 var rotate2Max = r.TargetVelocityRPM > 0;
                 atLimit &= IsRotated2Limit(r, rotate2Max);
                 isRaised &= !rotate2Max && atLimit;
