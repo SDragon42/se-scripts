@@ -143,10 +143,10 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_cargo, IsOnThisGrid);
 
             GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE));
-            GridTerminalSystem.GetBlocksOfType(_displaySpeed, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_SPEED) && Collect.IsCornerFlatLcd(b));
-            GridTerminalSystem.GetBlocksOfType(_displayDestination, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_DESTINATION) && Collect.IsCornerFlatLcd(b));
-            GridTerminalSystem.GetBlocksOfType(_displayCargo, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_CARGO) && Collect.IsCornerFlatLcd(b));
-            GridTerminalSystem.GetBlocksOfType(_displayFuel, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_FUEL) && Collect.IsCornerFlatLcd(b));
+            GridTerminalSystem.GetBlocksOfType(_displaySpeed, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_SPEED) && Collect.IsCornerLcd(b));
+            GridTerminalSystem.GetBlocksOfType(_displayDestination, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_DESTINATION) && Collect.IsCornerLcd(b));
+            GridTerminalSystem.GetBlocksOfType(_displayCargo, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_CARGO) && Collect.IsCornerLcd(b));
+            GridTerminalSystem.GetBlocksOfType(_displayFuel, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_FUEL) && Collect.IsCornerLcd(b));
             GridTerminalSystem.GetBlocksOfType(_displayLog, b => IsOnThisGrid(b) && b.CustomName == "LCD Panel - Control Log");
 
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsOnThisGrid(b) && IsTaggedCarriage(b));
