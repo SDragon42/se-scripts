@@ -23,7 +23,6 @@ namespace IngameScript {
         private void DisplayProcessing(string payload) {
             var msg = UpdateDisplayMessage.CreateFromPayload(payload);
 
-            //_log.AppendLine($"{msg.CarriageKey}|{msg.DisplayKey}");
             switch (msg.DisplayKey) {
                 case DisplayKeys.ALL_CARRIAGES:
                     _displaysAllCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f));
@@ -49,24 +48,18 @@ namespace IngameScript {
 
         private void DisplaySingleDisplays(UpdateDisplayMessage msg, List<IMyTextPanel> displays, bool details = false) {
             if (string.IsNullOrWhiteSpace(msg.Text)) {
-                //_log.AppendLine($"EMPTY|{msg.CarriageKey}|{msg.DisplayKey}");
                 return;
             }
             foreach (var d in displays) {
                 if (IsGateA1(d) && msg.CarriageKey == GridNameConstants.A1) {
-                    _log.AppendLine(d.CustomName);
                     Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
                 } else if (IsGateA2(d) && msg.CarriageKey == GridNameConstants.A2) {
-                    _log.AppendLine(d.CustomName);
                     Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
                 } else if (IsGateB1(d) && msg.CarriageKey == GridNameConstants.B1) {
-                    _log.AppendLine(d.CustomName);
                     Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
                 } else if (IsGateB2(d) && msg.CarriageKey == GridNameConstants.B2) {
-                    _log.AppendLine(d.CustomName);
                     Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
                 } else if (IsGateMaint(d) && msg.CarriageKey == GridNameConstants.MAINT) {
-                    _log.AppendLine(d.CustomName);
                     Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
                 }
             }
