@@ -49,7 +49,7 @@ namespace IngameScript {
                 defaultValue: DEFAULT_WorldInventoryMultiplier.ToString());
 
             config.AddKey(KEY_TravelSpeed,
-                description: "The is the maxium speed that should be traveled.\nDock Speed is the velocity to approach when docking.",
+                description: "The is the maximum speed that should be traveled.\nDock Speed is the velocity to approach when docking.",
                 defaultValue: DEFAULT_TravelSpeed.ToString());
             config.AddKey(KEY_DockSpeed,
                 defaultValue: DEFAULT_DockSpeed.ToString());
@@ -63,11 +63,11 @@ namespace IngameScript {
                 defaultValue: DEFAULT_ApproachDistence.ToString());
 
             config.AddKey(KEY_GravityDescelEnabled,
-                description: "This determines of the carrage will use gavity to slow it's ascent.",
+                description: "This determines of the carriage will use gravity to slow it's ascent.",
                 defaultValue: DEFAULT_GravityDescelEnabled.ToString());
 
             config.AddKey(KEY_TimeToLeaveDoorOpen,
-                description: "This the the amount of time (in seconds) to leave\ninternal doors open before closing them.",
+                description: "This the amount of time (in seconds) to leave\ninternal doors open before closing them.",
                 defaultValue: DEFAULT_DoorCloseDelay.ToString());
 
             config.AddKey(KEY_SendStatusMessages,

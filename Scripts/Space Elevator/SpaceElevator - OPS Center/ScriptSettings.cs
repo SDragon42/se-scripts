@@ -28,7 +28,7 @@ namespace IngameScript {
                 defaultValue: DEFAULT_StationTag);
 
             config.AddKey(KEY_TimeToLeaveDoorOpen,
-                description: "This the the amount of time (in seconds) to leave\ninternal doors open before closing them.",
+                description: "This the amount of time (in seconds) to leave\ninternal doors open before closing them.",
                 defaultValue: DEFAULT_DoorCloseDelay.ToString());
         }
         public void LoadFromSettingDict(CustomDataConfig config) {
