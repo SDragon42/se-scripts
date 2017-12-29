@@ -1,5 +1,5 @@
 ﻿/********************************************************************************
-   Space Elivator System
+   Space Elevator System
    Station Control
    =================================================================================
    Some code here has been taken from the following sources:

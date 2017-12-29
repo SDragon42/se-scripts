@@ -29,7 +29,7 @@ namespace IngameScript {
 
         void SendCarriageRequestMessage(string terminal) {
             var msgPayload = new StationRequestMessage(StationRequests.RequestCarriage, terminal);
-            _log.AppendLine($"{DateTime.Now.ToLongTimeString()} Request Carriage for termainal {terminal}");
+            _log.AppendLine($"{DateTime.Now.ToLongTimeString()} Request Carriage for terminal {terminal}");
             _comms.AddMessageToQueue(msgPayload, GridNameConstants.OpsCenter);
         }
 

@@ -82,7 +82,7 @@ namespace IngameScript {
             }
 
             if (_armConnector == null) return false;
-            // extend pistion - extends till the piston can connect
+            // extend piston - extends till the piston can connect
             if (_armConnector.Status == MyShipConnectorStatus.Unconnected) {
                 if (_armPiston != null) {
                     //_armPiston.SafetyLock = false;

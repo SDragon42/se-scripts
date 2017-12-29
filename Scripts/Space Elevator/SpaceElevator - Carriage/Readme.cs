@@ -1,6 +1,6 @@
 ﻿/********************************************************************************
-Space Elivator System
-Carrage Control
+Space Elevator System
+Carriage Control
 =================================================================================
 Some code here has been taken from the following sources:
 
