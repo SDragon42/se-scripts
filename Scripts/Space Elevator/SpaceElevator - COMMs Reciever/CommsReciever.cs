@@ -16,16 +16,10 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
-        const string KEY_ProgramBlockName = "Program Block";
-        const string KEY_LogLinesToShow = "Lines to Show";
-        const string KEY_LogDisplayName = "Log LCD Name";
 
-        const string DEF_ProgName = "Program - Carriage Control";
-        const string DEF_LogLcdName = "Display - COMM Log";
-        const int DEF_NumLogLines = 20;
-
-        readonly CustomDataConfig _config = new CustomDataConfig();
-        readonly Logging _log = new Logging();
+        readonly CustomDataConfig _config;
+        readonly ScriptSettings _settings;
+        readonly Logging _log;
         readonly Queue<CommMessage> _msgQueue = new Queue<CommMessage>();
         readonly List<IMyTerminalBlock> _tempBlocks = new List<IMyTerminalBlock>();
 
@@ -36,28 +30,21 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _config.AddKey(KEY_ProgramBlockName,
-                description: "The is the name of the program block forward messages to.",
-                defaultValue: DEF_ProgName);
-            _config.AddKey(KEY_LogDisplayName,
-                description: "The LCD to display the log on. (OPTIONAL)",
-                defaultValue: DEF_LogLcdName);
-            _config.AddKey(KEY_LogLinesToShow,
-                defaultValue: DEF_NumLogLines.ToString());
 
+            _log = new Logging();
 
-            ReloadConfig();
-
-            Runtime.UpdateFrequency = UpdateFrequency.Once;
+            _config = new CustomDataConfig();
+            _settings = new ScriptSettings();
+            _settings.InitConfig(_config);
         }
 
         public void Main(string argument, UpdateType updateSource) {
             try {
                 Echo("COMMS Receiver v1.1");
-                ReloadConfig();
+                LoadConfigSettings();
 
-                _targetProgram = GetBlockWithName<IMyProgrammableBlock>(_config.GetValue(KEY_ProgramBlockName));
-                _display = GetBlockWithName<IMyTextPanel>(_config.GetValue(KEY_LogDisplayName));
+                _targetProgram = GetBlockWithName<IMyProgrammableBlock>(_settings.ProgramBlockName);
+                _display = GetBlockWithName<IMyTextPanel>(_settings.LogLcdName);
 
                 if (_targetProgram == null) Echo("No target Program Block found.");
                 if (_display == null) Echo("No Log Display.");
@@ -79,8 +66,9 @@ namespace IngameScript {
                 Echo(ex.StackTrace);
                 throw ex;
             } finally {
-                if (_msgQueue.Count > 0)
-                    Runtime.UpdateFrequency |= UpdateFrequency.Once;
+                Runtime.UpdateFrequency = (_msgQueue.Count > 0)
+                    ? UpdateFrequency.Update10
+                    : UpdateFrequency.None;
             }
 
         }
@@ -92,13 +80,14 @@ namespace IngameScript {
         }
 
 
-        void ReloadConfig() {
-            if (_configHash == Me.CustomData.GetHashCode())
-                return;
+        void LoadConfigSettings() {
+            var hash = Me.CustomData.GetHashCode();
+            if (hash == _configHash) return;
             _config.ReadFromCustomData(Me);
+            _settings.LoadFromSettingDict(_config);
             _config.SaveToCustomData(Me);
-            _configHash = Me.CustomData.GetHashCode();
-            _log.MaxTextLinesToKeep = _config.GetValue(KEY_LogLinesToShow).ToInt(DEF_NumLogLines);
+            _configHash = hash;
+            _log.MaxTextLinesToKeep = _settings.LogLines2Show;
         }
 
 

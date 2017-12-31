@@ -104,6 +104,7 @@
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
+    <Compile Include="ScriptSettings.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Modules\Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
   <Import Project="..\Shared\Shared.projitems" Label="Shared" />
