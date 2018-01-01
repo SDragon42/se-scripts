@@ -40,7 +40,6 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             try {
-                Echo("COMMS Receiver v1.1");
                 LoadConfigSettings();
 
                 _targetProgram = GetBlockWithName<IMyProgrammableBlock>(_settings.ProgramBlockName);
