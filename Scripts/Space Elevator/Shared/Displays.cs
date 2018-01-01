@@ -187,7 +187,9 @@ namespace IngameScript {
             var totalDist = carriage.Range2Bottom + carriage.Range2Top;
             var percent = carriage.Range2Bottom / totalDist;
             var idx = (numLines - 1) * percent;
-            return Convert.ToInt32(Math.Round(idx, 0));
+            idx = Math.Round(idx, 0);
+            idx = MathHelper.Clamp(idx, 0f, numLines - 1);
+            return Convert.ToInt32(idx);
         }
         static CarriageGraphInfo GetGraphInfo(CarriageStatusMessage carriage, int numLines) {
             if (carriage == null) return new CarriageGraphInfo();
