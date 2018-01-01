@@ -47,7 +47,12 @@ namespace IngameScript {
         readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
         readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
         readonly List<IMyMotorStator> _boardingRamps = new List<IMyMotorStator>();
+        readonly List<IMyTextPanel> _displaysAllCarriages = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysAllCarriagesWide = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysAllPassengerCarriages = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysAllPassengerCarriagesWide = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysSingleCarriages = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysSingleCarriagesDetailed = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaySpeed = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displayDestination = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displayCargo = new List<IMyTextPanel>();
@@ -142,7 +147,14 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
             GridTerminalSystem.GetBlocksOfType(_cargo, IsOnThisGrid);
 
+            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES_WIDE));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES));
+            GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE));
+
             GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE));
+            GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriagesDetailed, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE_DETAIL));
+
             GridTerminalSystem.GetBlocksOfType(_displaySpeed, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_SPEED) && Collect.IsCornerLcd(b));
             GridTerminalSystem.GetBlocksOfType(_displayDestination, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_DESTINATION) && Collect.IsCornerLcd(b));
             GridTerminalSystem.GetBlocksOfType(_displayCargo, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_CARGO) && Collect.IsCornerLcd(b));

@@ -94,17 +94,9 @@ namespace IngameScript {
                 if (string.Compare(msg.TargetGridName, Me.CubeGrid.CustomName, true) == 0)
                     _log.AppendLine($"{DateTime.Now.ToLongTimeString()} From: {msg.SenderGridName} | To: {msg.TargetGridName} | Type: {msg.PayloadType}");
                 switch (msg.PayloadType) {
-                    case StationResponseMessage.TYPE:
-                        var responseMsg = StationResponseMessage.CreateFromPayload(msg.Payload);
-                        if (responseMsg?.Response == StationResponses.DepartureOk)
-                            SetMode(CarriageMode.Awaiting_CarriageReady2Depart);
-                        break;
-                    case SendCarriageToMessage.TYPE:
-                        var sendToMsg = SendCarriageToMessage.CreateFromPayload(msg.Payload);
-                        if (sendToMsg == null) break;
-                        var destination = _settings.GetGpsInfo(sendToMsg.Destination);
-                        SetDeparture(destination);
-                        break;
+                    case StationResponseMessage.TYPE: StationResponseProcessing(msg.Payload); break;
+                    case SendCarriageToMessage.TYPE: SendCarriageToProcessing(msg.Payload); break;
+                    case UpdateDisplayMessage.TYPE: DisplayProcessing(msg.Payload); break;
                 }
                 return;
             }
@@ -122,6 +114,17 @@ namespace IngameScript {
                     SetDeparture(destination);
                     break;
             }
+        }
+        void StationResponseProcessing(string msgPayload) {
+            var responseMsg = StationResponseMessage.CreateFromPayload(msgPayload);
+            if (responseMsg?.Response == StationResponses.DepartureOk)
+                SetMode(CarriageMode.Awaiting_CarriageReady2Depart);
+        }
+        void SendCarriageToProcessing(string msgPayload) {
+            var sendToMsg = SendCarriageToMessage.CreateFromPayload(msgPayload);
+            if (sendToMsg == null) return;
+            var destination = _settings.GetGpsInfo(sendToMsg.Destination);
+            SetDeparture(destination);
         }
 
         void SetDeparture(GpsInfo destination) {

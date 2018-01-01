@@ -23,19 +23,12 @@ namespace IngameScript {
         private void DisplayProcessing(string payload) {
             var msg = UpdateDisplayMessage.CreateFromPayload(payload);
 
+            List<IMyTextPanel> displays = null;
             switch (msg.DisplayKey) {
-                case DisplayKeys.ALL_CARRIAGES:
-                    _displaysAllCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f));
-                    break;
-                case DisplayKeys.ALL_CARRIAGES_WIDE:
-                    _displaysAllCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f));
-                    break;
-                case DisplayKeys.ALL_PASSENGER_CARRIAGES:
-                    _displaysAllPassengerCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f));
-                    break;
-                case DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE:
-                    _displaysAllPassengerCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f));
-                    break;
+                case DisplayKeys.ALL_CARRIAGES: displays = _displaysAllCarriages; break;
+                case DisplayKeys.ALL_CARRIAGES_WIDE: displays = _displaysAllCarriagesWide; break;
+                case DisplayKeys.ALL_PASSENGER_CARRIAGES: displays = _displaysAllPassengerCarriages; break;
+                case DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE: displays = _displaysAllPassengerCarriagesWide; break;
                 case DisplayKeys.SINGLE_CARRIAGE:
                     DisplaySingleDisplays(msg, _displaysSingleCarriages);
                     break;
@@ -43,24 +36,18 @@ namespace IngameScript {
                     DisplaySingleDisplays(msg, _displaysSingleCarriagesDetailed, true);
                     break;
             }
-
+            displays?.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.Text, FontSizes.CARRIAGE_GFX));
         }
 
         private void DisplaySingleDisplays(UpdateDisplayMessage msg, List<IMyTextPanel> displays, bool details = false) {
-            if (string.IsNullOrWhiteSpace(msg.Text)) {
-                return;
-            }
+            if (string.IsNullOrWhiteSpace(msg.Text)) return;
             foreach (var d in displays) {
-                if (IsGateA1(d) && msg.CarriageKey == GridNameConstants.A1) {
-                    Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
-                } else if (IsGateA2(d) && msg.CarriageKey == GridNameConstants.A2) {
-                    Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
-                } else if (IsGateB1(d) && msg.CarriageKey == GridNameConstants.B1) {
-                    Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
-                } else if (IsGateB2(d) && msg.CarriageKey == GridNameConstants.B2) {
-                    Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
-                } else if (IsGateMaint(d) && msg.CarriageKey == GridNameConstants.MAINT) {
-                    Displays.Write2MonospaceDisplay(d, msg.Text, 0.97f);
+                if ((IsGateA1(d) && msg.CarriageKey == GridNameConstants.A1)
+                    || (IsGateA2(d) && msg.CarriageKey == GridNameConstants.A2)
+                    || (IsGateB1(d) && msg.CarriageKey == GridNameConstants.B1)
+                    || (IsGateB2(d) && msg.CarriageKey == GridNameConstants.B2)
+                    || (IsGateMaint(d) && msg.CarriageKey == GridNameConstants.MAINT)) {
+                    Displays.Write2MonospaceDisplay(d, msg.Text, FontSizes.CARRIAGE_GFX);
                 }
             }
         }
