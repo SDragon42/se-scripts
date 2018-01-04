@@ -96,7 +96,7 @@ namespace IngameScript {
             _runSymbol = new RunningSymbol();
             _doorManager = new AutoDoorCloser();
             _comms = new COMMsModule(Me);
-            _status = new CarriageStatusMessage(GetMode(), Vector3D.Zero, 0, 0, 0, 0, 0);
+            _status = new CarriageStatusMessage();
 
             _mode_SpecialUseOnly = CarriageMode.Init;
             LoadState();
@@ -109,7 +109,6 @@ namespace IngameScript {
             _mode_SpecialUseOnly = states[0].ToEnum(defValue: CarriageMode.Init);
             _destination = (string.IsNullOrWhiteSpace(states[1])) ? null : new GpsInfo(states[1]);
             _travelDirection = states[2].ToEnum(defValue: TravelDirection.None);
-            _status.Mode = GetMode();
         }
         public void Save() {
             Storage = $"{GetMode()}\t{_destination?.RawGPS}\t{_travelDirection}";

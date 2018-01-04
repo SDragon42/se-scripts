@@ -23,7 +23,9 @@ namespace IngameScript {
             MessageType = messageType;
         }
         public void LoadFromPayload(string message) {
-            _msgParts = message.Split(DELIMITER);
+            var parts = message.Split(DELIMITER);
+            if (_msgParts != null && parts.Length != _msgParts.Length) return;
+            _msgParts = parts;
         }
 
         public string MessageType { get; private set; }

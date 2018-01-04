@@ -171,25 +171,18 @@ namespace IngameScript {
             return vspeed > 0 ? "↑" : vspeed < 0 ? "↓" : " "; // "\u2191"  "\u2193"
         }
         static string GetCarriageIcon(CarriageStatusMessage carriage) {
-            switch (carriage.Mode) {
-                case CarriageMode.Manual_Control: return ""; // magenta <>
-                case CarriageMode.Awaiting_DepartureClearance: return ""; // yellow <>
-                case CarriageMode.Awaiting_CarriageReady2Depart: return ""; // yellow <>
-                case CarriageMode.Transit_Powered: return ""; // yellow <>
-                case CarriageMode.Transit_Coast: return ""; // yellow <>
-                case CarriageMode.Transit_Slow2Approach: return ""; // yellow <>
-                case CarriageMode.Transit_Docking: return ""; // yellow <>
-                case CarriageMode.Docked: return ""; // green <> "\uE051\uE03D"
-                default: return ""; // white <>
-            }
+            return (carriage.InTransit)
+                ? "" // yellow <>
+                : ""; // green <> "\uE051\uE03D"
         }
         static int GetCarriagePositionIndex(CarriageStatusMessage carriage, int numLines) {
             var totalDist = carriage.Range2Bottom + carriage.Range2Top;
+            if (totalDist == 0) return 0;
             var percent = carriage.Range2Bottom / totalDist;
             var idx = (numLines - 1) * percent;
             idx = Math.Round(idx, 0);
-            idx = MathHelper.Clamp(idx, 0f, numLines - 1);
-            return Convert.ToInt32(idx);
+            idx = MathHelper.Clamp(idx, 0, numLines - 1);
+            return (!double.IsNaN(idx)) ? Convert.ToInt32(idx) : 0;
         }
         static CarriageGraphInfo GetGraphInfo(CarriageStatusMessage carriage, int numLines) {
             if (carriage == null) return new CarriageGraphInfo();

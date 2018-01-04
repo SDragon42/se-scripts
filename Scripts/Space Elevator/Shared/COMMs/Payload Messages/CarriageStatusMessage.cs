@@ -23,23 +23,18 @@ namespace IngameScript {
             return obj;
         }
 
-        private CarriageStatusMessage() : base(TYPE) {
-            _msgParts = new string[7];
-        }
-        public CarriageStatusMessage(CarriageMode mode, Vector3D pos, double vertSpeed, float fuelLevel, double cargoMass, double range2Bottom, double range2Top) : this() {
-            Mode = mode;
-            Position = pos;
-            VerticalSpeed = vertSpeed;
-            FuelLevel = fuelLevel;
-            CargoMass = cargoMass;
-            Range2Bottom = Range2Bottom;
-            Range2Top = range2Top;
+        public CarriageStatusMessage() : base(TYPE) {
+            _msgParts = new string[9];
+            Position = Vector3D.Zero;
+            VerticalSpeed = 0;
+            FuelLevel = 0;
+            CargoMass = 0;
+            Range2Bottom = 0;
+            Range2Top = 0;
+            Destination = "";
+            InTransit = false;
         }
 
-        public CarriageMode Mode {
-            get { return _msgParts[0].ToEnum(defValue: CarriageMode.Manual_Control); }
-            set { _msgParts[0] = value.ToString(); }
-        }
         public Vector3D Position {
             get { return VectorHelper.GpsToVector(_msgParts[1]); }
             set { _msgParts[1] = VectorHelper.VectortoGps(value); }
@@ -64,5 +59,32 @@ namespace IngameScript {
             get { return _msgParts[6].ToDouble(); }
             set { _msgParts[6] = value.ToString(); }
         }
+        public string Destination {
+            get { return _msgParts[0]; }
+            set { _msgParts[0] = value; }
+        }
+        public bool InTransit {
+            get { return _msgParts[7].ToBoolean(); }
+            set { _msgParts[7] = value.ToString(); }
+        }
+
+        internal void SetTransit(string name, CarriageMode carriageMode) {
+            switch (carriageMode) {
+                case CarriageMode.Docked:
+                    Destination = "Docked";
+                    InTransit = false;
+                    break;
+                case CarriageMode.Manual_Control:
+                    Destination = "Manual Control";
+                    InTransit = true;
+                    break;
+                default:
+                    Destination = name ?? "Unknown";
+                    InTransit = true;
+                    break;
+            }
+        }
+
+
     }
 }

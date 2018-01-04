@@ -74,7 +74,8 @@ namespace IngameScript {
             if (CommMessage.TryParse(argument, out msg)) {
                 switch (msg.PayloadType) {
                     case CarriageStatusMessage.TYPE: CarriageStatusProcessing(msg.SenderGridName, msg.Payload); break;
-                        //case CarriageRequestMessage.TYPE: CarriageRequestProcessing(msg.SenderGridName, msg.Payload); break;
+                    //case CarriageRequestMessage.TYPE: CarriageRequestProcessing(msg.SenderGridName, msg.Payload); break;
+                    case StationRequestMessage.TYPE: CarriageRequestedProcessing(msg.SenderGridName, msg.Payload); break;
                 }
             } else {
                 if (argument.StartsWith(CMD_SendCarriage)) {
@@ -88,12 +89,11 @@ namespace IngameScript {
 
         void CarriageStatusProcessing(string carriageName, string msgPayload) {
             var status = CarriageStatusMessage.CreateFromPayload(msgPayload);
-            //var carriage = GetCarriageVar(carriageName);
-            //if (status == null || carriage == null) return;
-            //carriage.Status = status;
             _carriageStatuses[carriageName] = status;
             _log.AppendLine($"{DateTime.Now.ToLongTimeString()}|{carriageName}");
         }
+
+
 
     }
 }

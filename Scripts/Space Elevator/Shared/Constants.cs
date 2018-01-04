@@ -28,6 +28,12 @@ namespace IngameScript {
         public const string MAINT = "Maint Carriage";
         public const string OpsCenter = "OPS Center";
 
+        public const string TERMINAL_A = "A";
+        public const string TERMINAL_B = "B";
+        public const string TERMINAL_1 = "1";
+        public const string TERMINAL_2 = "2";
+        public const string TERMINAL_M = "M";
+
         static readonly List<string> _allCarriages;
         static readonly List<string> _allPassCarriages;
         static GridNameConstants() {
