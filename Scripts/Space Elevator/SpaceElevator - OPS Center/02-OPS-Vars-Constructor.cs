@@ -94,12 +94,12 @@ namespace IngameScript {
             _blocksLoaded = true;
         }
         void EchoBlockLists() {
-            Echo($"Doors: {_autoCloseDoors.Count}");
-            Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
-            Echo($"Displays (W All Carr): {_displaysAllCarriagesWide.Count}");
-            Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
-            Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
-            Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
+            //Echo($"Doors: {_autoCloseDoors.Count}");
+            //Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
+            //Echo($"Displays (W All Carr): {_displaysAllCarriagesWide.Count}");
+            //Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
+            //Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
+            //Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
         }
 
 

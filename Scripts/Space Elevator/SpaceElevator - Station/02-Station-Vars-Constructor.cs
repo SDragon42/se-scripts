@@ -116,15 +116,15 @@ namespace IngameScript {
             _blocksLoaded = true;
         }
         void EchoBlockLists() {
-            Echo($"Antenna: {_antenna?.CustomName} | E:{_antenna?.Enabled}  B:{_antenna?.EnableBroadcasting}");
-            Echo($"H2 Tanks: {_h2Tanks.Count}");
-            Echo($"Doors: {_autoCloseDoors.Count}");
-            Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
-            Echo($"Displays (W All Carr): {_displaysAllCarriagesWide.Count}");
-            Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
-            Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
-            Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
-            Echo($"Displays (Single Carr D): {_displaysSingleCarriagesDetailed.Count}");
+            //Echo($"Antenna: {_antenna?.CustomName} | E:{_antenna?.Enabled}  B:{_antenna?.EnableBroadcasting}");
+            //Echo($"H2 Tanks: {_h2Tanks.Count}");
+            //Echo($"Doors: {_autoCloseDoors.Count}");
+            //Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
+            //Echo($"Displays (W All Carr): {_displaysAllCarriagesWide.Count}");
+            //Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
+            //Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
+            //Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
+            //Echo($"Displays (Single Carr D): {_displaysSingleCarriagesDetailed.Count}");
             //Echo("");
         }
 
