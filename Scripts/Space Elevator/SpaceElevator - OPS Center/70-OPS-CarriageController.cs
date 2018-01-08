@@ -19,10 +19,12 @@ using VRage.Game.ObjectBuilders.Definitions;
 namespace IngameScript {
     partial class Program {
 
-        void CarriageRequestedProcessing(string stationName, string msgPayload) {
+        void CarriageRequestedProcessing(string fromStationName, string msgPayload) {
             //_carriageStatuses
             var msg = StationRequestMessage.CreateFromPayload(msgPayload);
             if (msg.Request != StationRequests.RequestCarriage) return;
+
+            _log.AppendLine($"Car RQ - S:{fromStationName}  C:{msg.Extra}");
 
             string[] carriageKeys;
 
@@ -35,7 +37,25 @@ namespace IngameScript {
                 default: return;
             }
 
-            //_carriageStatuses.Any(c => c.Value.Mode == CarriageMode.Transit_Powered);
+            string carKey = null;
+            foreach (var x in carriageKeys) {
+                if (!_carriageStatuses.ContainsKey(x)) continue;
+                var car = _carriageStatuses[x];
+                if (car.Destination == fromStationName) return; // carriage already on the way
+                if (car.InTransit) continue;
+                if (car.Destination == "Docked") {
+                    if (fromStationName == GridNameConstants.GroundStation && car.Range2Bottom < car.Range2Top && Math.Abs(car.Range2Top - car.Range2Bottom) > 10000.0)
+                        return; // already docked at station
+                    if (fromStationName == GridNameConstants.SpaceStation && car.Range2Bottom > car.Range2Top && Math.Abs(car.Range2Top - car.Range2Bottom) > 10000.0)
+                        return; // already docked at station
+                    if (fromStationName == GridNameConstants.RetransStation && Math.Abs(car.Range2Top - car.Range2Bottom) < 10000.0)
+                        return; // already docked at station
+                }
+                carKey = x;
+            }
+
+            if (carKey != null)
+                SendCarriageTo(carKey, fromStationName);
         }
 
     }

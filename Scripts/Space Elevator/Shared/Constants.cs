@@ -27,6 +27,9 @@ namespace IngameScript {
         public const string B2 = "B2 Carriage";
         public const string MAINT = "Maint Carriage";
         public const string OpsCenter = "OPS Center";
+        public const string SpaceStation = "Space Station";
+        public const string RetransStation = "Retrans Station";
+        public const string GroundStation = "Ground Station";
 
         public const string TERMINAL_A = "A";
         public const string TERMINAL_B = "B";

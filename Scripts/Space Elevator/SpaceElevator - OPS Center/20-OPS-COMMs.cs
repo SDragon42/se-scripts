@@ -40,5 +40,11 @@ namespace IngameScript {
             }
         }
 
+        void SendCarriageTo(string carriageKey, string destination) {
+            if (_antenna == null) return;
+            var msgPayload = new SendCarriageToMessage(destination);
+            _comms.AddMessageToQueue(msgPayload, carriageKey);
+        }
+
     }
 }

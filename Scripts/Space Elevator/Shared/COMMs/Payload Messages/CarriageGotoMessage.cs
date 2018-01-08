@@ -24,11 +24,10 @@ namespace IngameScript {
         }
 
         private SendCarriageToMessage() : base(TYPE) { }
-        public SendCarriageToMessage(string carriageName, string destination) : base(TYPE) {
-            _msgParts = new string[] { carriageName, destination };
+        public SendCarriageToMessage(string destination) : base(TYPE) {
+            _msgParts = new string[] { destination };
         }
 
-        public string CarriageName => _msgParts[0];
-        public string Destination => _msgParts[1];
+        public string Destination => _msgParts[0];
     }
 }
