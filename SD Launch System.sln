@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launch Center", "Scripts\SD Launch System\Launch Center\Launch Center.csproj", "{F72618CE-2343-4963-8438-25E06C58F15F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Orbiter", "Scripts\SD Launch System\SDLS - Orbiter\SDLS - Orbiter.csproj", "{051CE348-0F02-4849-B6D7-B97DE3C1003E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Booster", "Scripts\SD Launch System\SDLS - Booster\SDLS - Booster.csproj", "{0685E93C-4346-4DD3-AE1C-C22A47B27812}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -12,6 +16,10 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F72618CE-2343-4963-8438-25E06C58F15F}.Debug|x64.ActiveCfg = Debug|x64
 		{F72618CE-2343-4963-8438-25E06C58F15F}.Debug|x64.Build.0 = Debug|x64
+		{051CE348-0F02-4849-B6D7-B97DE3C1003E}.Debug|x64.ActiveCfg = Debug|x64
+		{051CE348-0F02-4849-B6D7-B97DE3C1003E}.Debug|x64.Build.0 = Debug|x64
+		{0685E93C-4346-4DD3-AE1C-C22A47B27812}.Debug|x64.ActiveCfg = Debug|x64
+		{0685E93C-4346-4DD3-AE1C-C22A47B27812}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
