@@ -212,7 +212,7 @@ namespace IngameScript {
             return $"Cargo Mass\n{cargoMass,17:N1} kg";
         }
 
-        public static string BuildFuelDisplayText(float? h2Percentage) {
+        public static string BuildFuelDisplayText(double? h2Percentage) {
             var idx = (12) * (h2Percentage ?? 0f);
             var cnt = Convert.ToInt32(Math.Round(idx, 0));
             var bar = "".PadRight(cnt, '▒');

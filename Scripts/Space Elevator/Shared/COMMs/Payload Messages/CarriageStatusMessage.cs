@@ -43,8 +43,8 @@ namespace IngameScript {
             get { return _msgParts[2].ToDouble(); }
             set { _msgParts[2] = value.ToString(); }
         }
-        public float FuelLevel {
-            get { return _msgParts[3].ToFloat(); }
+        public double FuelLevel {
+            get { return _msgParts[3].ToDouble(); }
             set { _msgParts[3] = value.ToString(); }
         }
         public double CargoMass {

@@ -72,7 +72,7 @@ namespace IngameScript {
         double _gravityForceOnShip;
         double _rangeToGround, _rangeToGroundLast, _rangeToSpace, _rangeToDestination;
         double _verticalSpeed;
-        float _h2TankFilledPercent;
+        double _h2TankFilledPercent;
 
         GpsInfo _destination;
         TravelDirection _travelDirection = TravelDirection.None;
