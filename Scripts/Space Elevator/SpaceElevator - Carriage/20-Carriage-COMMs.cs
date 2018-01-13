@@ -29,7 +29,7 @@ namespace IngameScript {
             SetStatuses();
             if (!_settings.SendStatusMessages) return;
             if (_antenna == null) return;
-            _comms.AddMessageToQueue(_status);
+            _comms.AddMessageToQueue(_status, GridNameConstants.OpsCenter);
         }
         void SendDockedMessage(string stationName) {
             var payload = new CarriageRequestMessage(Me.CubeGrid.CustomName, CarriageRequests.Dock);
