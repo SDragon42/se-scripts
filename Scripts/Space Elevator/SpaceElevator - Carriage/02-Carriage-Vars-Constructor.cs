@@ -41,9 +41,6 @@ namespace IngameScript {
         readonly List<IMyThrust> _allThrusters = new List<IMyThrust>();
         readonly List<IMyShipConnector> _connectors = new List<IMyShipConnector>();
         readonly List<IMyLandingGear> _landingGears = new List<IMyLandingGear>();
-        readonly List<IMyMotorSuspension> _Suspensions = new List<IMyMotorSuspension>();
-        //readonly List<IMyAirVent> _airVents = new List<IMyAirVent>();
-        //readonly List<IMyGasTank> _o2Tanks = new List<IMyGasTank>();
         readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
         readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
         readonly List<IMyMotorStator> _boardingRamps = new List<IMyMotorStator>();
@@ -131,7 +128,7 @@ namespace IngameScript {
             _orientation.Init(_rc);
             GridTerminalSystem.GetBlocksOfType(_ascentThrusters, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && _orientation.IsDown(b));
             GridTerminalSystem.GetBlocksOfType(_descentThrusters, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && _orientation.IsUp(b));
-            GridTerminalSystem.GetBlocksOfType(_allThrusters, IsOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(_allThrusters, b => IsOnThisGrid(b) && IsTaggedCarriage(b));
 
             CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _connectors,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
@@ -139,9 +136,6 @@ namespace IngameScript {
             CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _landingGears,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
                 IsOnThisGrid);
-            GridTerminalSystem.GetBlocksOfType(_Suspensions, IsOnThisGrid);
-            //GridTerminalSystem.GetBlocksOfType(_airVents, IsTaggedBlockOnThisGrid);
-            //GridTerminalSystem.GetBlocksOfType(_o2Tanks, b => IsTaggedBlockOnThisGrid(b) && IsOxygenTank(b));
 
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
             GridTerminalSystem.GetBlocksOfType(_cargo, IsOnThisGrid);
