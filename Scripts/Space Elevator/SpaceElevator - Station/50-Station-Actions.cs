@@ -29,7 +29,7 @@ namespace IngameScript {
             var _armPiston = GetFirstBlockInList<IMyPistonBase>(_gateBlocks, IsOnTransferArm);
             var _armConnector = GetFirstBlockInList<IMyShipConnector>(_gateBlocks, IsOnTransferArm);
             var _terminalPiston = GetFirstBlockInList<IMyPistonBase>(_gateBlocks, IsOnTerminal);
-            GridTerminalSystem.SearchBlocksOfName(gateTag, _terminalDoors, IsDoorOnTerminal);
+            GridTerminalSystem.GetBlocksOfType(_terminalDoors, b => Collect.IsTagged(b, gateTag) && IsOnTerminal(b));
 
             var CanSendConnectedMessage = false;
             var CanSendDisconnectedMessage = false;
@@ -141,8 +141,7 @@ namespace IngameScript {
             // open doors
             if (_terminalDoors != null) {
                 var allOpen = true;
-                foreach (var b in _terminalDoors) {
-                    var door = (IMyDoor)b;
+                foreach (var door in _terminalDoors) {
                     if (door.Status == DoorStatus.Open) {
                         door.Enabled = false;
                     } else {
@@ -162,9 +161,7 @@ namespace IngameScript {
             // Close doors
             if (_terminalDoors != null) {
                 var allClosed = true;
-                foreach (var b in _terminalDoors) {
-                    var door = (IMyDoor)b;
-
+                foreach (var door in _terminalDoors) {
                     if (door.Status == DoorStatus.Closed) {
                         door.Enabled = false;
                     } else {

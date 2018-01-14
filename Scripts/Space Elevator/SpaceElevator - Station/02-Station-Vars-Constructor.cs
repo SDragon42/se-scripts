@@ -48,7 +48,7 @@ namespace IngameScript {
         readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
         readonly List<IMyTerminalBlock> _gateBlocks = new List<IMyTerminalBlock>();
         readonly List<IMyTerminalBlock> _armLights = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _terminalDoors = new List<IMyTerminalBlock>();
+        readonly List<IMyDoor> _terminalDoors = new List<IMyDoor>();
 
 
         public Program() {
