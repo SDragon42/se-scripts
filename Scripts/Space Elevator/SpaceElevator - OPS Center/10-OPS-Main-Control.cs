@@ -36,7 +36,6 @@ namespace IngameScript {
                 if (runInterval) {
                     _debug.Clear();
                     _comms.TransmitQueue(_antenna);
-                    _doorManager.CloseOpenDoors(_timeLast, _autoCloseDoors);
 
                     BuildDisplays();
                     UpdateDisplays();
@@ -66,7 +65,6 @@ namespace IngameScript {
             _settings.LoadFromSettingDict(_custConfig);
             _custConfig.SaveToCustomData(Me);
             _lastCustomDataHash = hash;
-            _doorManager.SecondsToLeaveOpen = _settings.DoorCloseDelay;
         }
 
         void RunCommand(string argument) {

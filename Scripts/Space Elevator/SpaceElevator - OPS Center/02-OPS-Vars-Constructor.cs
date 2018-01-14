@@ -23,7 +23,6 @@ namespace IngameScript {
         readonly Logging _log;
         readonly COMMsModule _comms;
         readonly RunningSymbol _runSymbol;
-        readonly AutoDoorCloser _doorManager;
 
 
 
@@ -38,7 +37,6 @@ namespace IngameScript {
         readonly List<IMyTextPanel> _displaysAllPassengerCarriages = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysAllPassengerCarriagesWide = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysSingleCarriages = new List<IMyTextPanel>();
-        readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
         readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
 
         readonly Dictionary<string, string> _displayText = new Dictionary<string, string>();
@@ -59,7 +57,6 @@ namespace IngameScript {
             _lastCustomDataHash = -1;
 
             _runSymbol = new RunningSymbol();
-            _doorManager = new AutoDoorCloser();
             _comms = new COMMsModule(Me);
 
             _displayText[DisplayKeys.ALL_CARRIAGES] = "";
@@ -89,12 +86,10 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES));
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE));
             GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE_DETAIL));
-            GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsHumanDoor(b));
 
             _blocksLoaded = true;
         }
         void EchoBlockLists() {
-            //Echo($"Doors: {_autoCloseDoors.Count}");
             //Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
             //Echo($"Displays (W All Carr): {_displaysAllCarriagesWide.Count}");
             //Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
