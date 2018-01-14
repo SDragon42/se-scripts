@@ -143,7 +143,6 @@
   </ItemGroup>
   <Import Project="..\..\..\Modules\Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Logging\_Module - Logging.projitems" Label="Shared" />
-  <Import Project="..\..\..\Modules\Door Closer\_Module - Door Closer.projitems" Label="Shared" />
   <Import Project="..\Shared\Shared.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Gas Tanks\_Helper - Gas Tanks.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Common\_Library - Common.projitems" Label="Shared" />

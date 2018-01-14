@@ -35,7 +35,6 @@ namespace IngameScript {
                 if (runInterval) {
                     _debug.Clear();
                     _comms.TransmitQueue(_antenna);
-                    _doorManager.CloseOpenDoors(_timeLast, _autoCloseDoors);
                     RunCarriageDockDepartureActions(TAG_A1, _A1);
                     RunCarriageDockDepartureActions(TAG_A2, _A2);
                     RunCarriageDockDepartureActions(TAG_B1, _B1);
@@ -62,7 +61,6 @@ namespace IngameScript {
             _settings.LoadFromSettingDict(_custConfig);
             _custConfig.SaveToCustomData(Me);
             _lastCustomDataHash = hash;
-            _doorManager.SecondsToLeaveOpen = _settings.DoorCloseDelay;
         }
 
         void RunCommand(string argument) {

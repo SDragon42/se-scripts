@@ -60,7 +60,6 @@ Global
 		Libraries\Gas Tanks\_Helper - Gas Tanks.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Libraries\LCDs\_Helper - LCDs.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
-		Modules\Door Closer\_Module - Door Closer.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Script Debug\_Module - Debug.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4

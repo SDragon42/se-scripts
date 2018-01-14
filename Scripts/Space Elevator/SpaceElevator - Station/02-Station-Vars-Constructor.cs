@@ -30,7 +30,6 @@ namespace IngameScript {
         readonly Logging _log;
         readonly COMMsModule _comms;
         readonly RunningSymbol _runSymbol;
-        readonly AutoDoorCloser _doorManager;
 
         bool _blocksLoaded = false;
         int _lastCustomDataHash;
@@ -45,7 +44,6 @@ namespace IngameScript {
         readonly List<IMyTextPanel> _displaysAllPassengerCarriagesWide = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysSingleCarriages = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysSingleCarriagesDetailed = new List<IMyTextPanel>();
-        readonly List<IMyDoor> _autoCloseDoors = new List<IMyDoor>();
         readonly List<IMyTerminalBlock> _gateBlocks = new List<IMyTerminalBlock>();
         readonly List<IMyTerminalBlock> _armLights = new List<IMyTerminalBlock>();
         readonly List<IMyDoor> _terminalDoors = new List<IMyDoor>();
@@ -83,7 +81,6 @@ namespace IngameScript {
             _lastCustomDataHash = -1;
 
             _runSymbol = new RunningSymbol();
-            _doorManager = new AutoDoorCloser();
             _comms = new COMMsModule(Me);
 
             Runtime.UpdateFrequency = UpdateFrequency.Update10 | UpdateFrequency.Update100;
@@ -104,7 +101,6 @@ namespace IngameScript {
                 b => IsOnThisGrid(b) && Collect.IsCommRadioAntenna(b));
 
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
-            GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsOnThisGrid(b) && IsDoorOnStationOnly(b));
             GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES));
             GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES_WIDE));
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES));
