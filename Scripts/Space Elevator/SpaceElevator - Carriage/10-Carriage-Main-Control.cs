@@ -43,7 +43,6 @@ namespace IngameScript {
                     RunModeActions();
                     SaveLastValues();
                     _comms.TransmitQueue(_antenna);
-                    _doorManager.CloseOpenDoors(_timeLast, _autoCloseDoors);
                     if (_gravityGen != null)
                         _gravityGen.Enabled = (_gravVec.Length() < GRAV_Force_Earth / 2);
 
@@ -83,7 +82,6 @@ namespace IngameScript {
             _settings.LoadFromSettingDict(_custConfig);
             _custConfig.SaveToCustomData(Me);
             _lastCustomDataHash = hash;
-            _doorManager.SecondsToLeaveOpen = _settings.DoorCloseDelay;
         }
 
         void RunCommand(string argument) {

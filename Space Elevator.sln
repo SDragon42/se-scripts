@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Carriage", "Scripts\Space Elevator\SpaceElevator - Carriage\SpaceElevator - Carriage.csproj", "{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}"
 EndProject
@@ -76,7 +76,6 @@ Global
 		Libraries\LCDs\_Helper - LCDs.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Libraries\Thrusters\_Helper - Thrusters.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Modules\Door Closer\_Module - Door Closer.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Modules\Script Debug\_Module - Debug.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4

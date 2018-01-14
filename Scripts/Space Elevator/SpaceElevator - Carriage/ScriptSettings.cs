@@ -23,7 +23,6 @@ namespace IngameScript {
         //const double DEFAULT_ConnectorLockDelay = 2.0;
         const double DEFAULT_ApproachDistence = 25.0;
         const bool DEFAULT_GravityDescelEnabled = false;
-        const double DEFAULT_DoorCloseDelay = 4.0;
         const bool DEFAULT_SendStatusMessages = true;
 
         const string KEY_BlockTag = "Block Tag";
@@ -33,7 +32,6 @@ namespace IngameScript {
         //const string KEY_LockDelay = "Lock Delay";
         const string KEY_ApproachDist = "Approach Distance";
         const string KEY_GravityDescelEnabled = "Gravity Decel Enabled";
-        const string KEY_TimeToLeaveDoorOpen = "Time to Leave Doors Open";
         const string KEY_SendStatusMessages = "Transmit Status";
         const string KEY_GpsPoint = "GPS Point ";
 
@@ -66,10 +64,6 @@ namespace IngameScript {
                 description: "This determines of the carriage will use gravity to slow it's ascent.",
                 defaultValue: DEFAULT_GravityDescelEnabled.ToString());
 
-            config.AddKey(KEY_TimeToLeaveDoorOpen,
-                description: "This the amount of time (in seconds) to leave\ninternal doors open before closing them.",
-                defaultValue: DEFAULT_DoorCloseDelay.ToString());
-
             config.AddKey(KEY_SendStatusMessages,
                 description: "Toggles the sending of the carriage status messages.",
                 defaultValue: DEFAULT_SendStatusMessages.ToString());
@@ -90,7 +84,6 @@ namespace IngameScript {
             ApproachDistance = config.GetValue(KEY_ApproachDist).ToDouble(DEFAULT_ApproachDistence);
             GravityDescelEnabled = config.GetValue(KEY_GravityDescelEnabled).ToBoolean(DEFAULT_GravityDescelEnabled);
             BlockTag = config.GetValue(KEY_BlockTag, DEFAULT_BlockTag);
-            DoorCloseDelay = config.GetValue(KEY_TimeToLeaveDoorOpen).ToDouble(DEFAULT_DoorCloseDelay);
             SendStatusMessages = config.GetValue(KEY_SendStatusMessages).ToBoolean(DEFAULT_SendStatusMessages);
 
             GpsPoints.Clear();
@@ -112,7 +105,6 @@ namespace IngameScript {
             config.SetValue(KEY_ApproachDist, ApproachDistance.ToString());
             config.SetValue(KEY_GravityDescelEnabled, GravityDescelEnabled.ToString());
             config.SetValue(KEY_BlockTag, BlockTag);
-            config.SetValue(KEY_TimeToLeaveDoorOpen, DoorCloseDelay.ToString());
             config.SetValue(KEY_SendStatusMessages, SendStatusMessages.ToString());
 
             for (var i = 0; i < GpsPoints.Count; i++)
@@ -127,7 +119,6 @@ namespace IngameScript {
         public double ApproachDistance { get; private set; }
         public bool GravityDescelEnabled { get; private set; }
         public string BlockTag { get; private set; }
-        public double DoorCloseDelay { get; private set; }
         public bool SendStatusMessages { get; private set; }
         public readonly List<GpsInfo> GpsPoints = new List<GpsInfo>();
 

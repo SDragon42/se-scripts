@@ -22,7 +22,6 @@ namespace IngameScript {
         readonly DebugLogging _debug;
         readonly Logging _log;
         readonly RunningSymbol _runSymbol;
-        readonly AutoDoorCloser _doorManager;
         readonly COMMsModule _comms;
         readonly CustomDataConfig _custConfig;
         readonly ScriptSettings _settings;
@@ -91,7 +90,6 @@ namespace IngameScript {
             _lastCustomDataHash = -1;
 
             _runSymbol = new RunningSymbol();
-            _doorManager = new AutoDoorCloser();
             _comms = new COMMsModule(Me);
             _status = new CarriageStatusMessage();
 
