@@ -140,13 +140,20 @@ namespace IngameScript {
 
             // open doors
             if (_terminalDoors != null) {
+                var allOpen = true;
                 foreach (var b in _terminalDoors) {
                     var door = (IMyDoor)b;
-                    if (door.Status != DoorStatus.Open && door.Status != DoorStatus.Opening) {
+                    if (door.Status == DoorStatus.Open) {
+                        door.Enabled = false;
+                    } else {
+                        allOpen = false;
                         door.Enabled = true;
-                        door.OpenDoor();
+                        if (door.Status != DoorStatus.Opening)
+                            door.OpenDoor();
                     }
                 }
+
+                if (!allOpen) return false;
             }
 
             return true;
@@ -154,25 +161,21 @@ namespace IngameScript {
         bool RetractRamp(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston) {
             // Close doors
             if (_terminalDoors != null) {
+                var allClosed = true;
                 foreach (var b in _terminalDoors) {
                     var door = (IMyDoor)b;
-                    if (door.Status != DoorStatus.Closing && door.Status != DoorStatus.Closed) {
-                        door.Enabled = true;
-                        door.CloseDoor();
-                    }
-                }
-                foreach (var b in _terminalDoors) {
-                    var door = (IMyDoor)b;
-                    if (door.Status != DoorStatus.Closed)
-                        return false;
-                }
 
-                // lock doors
-                foreach (var b in _terminalDoors) {
-                    var door = (IMyDoor)b;
-                    if (door.Status == DoorStatus.Closed)
+                    if (door.Status == DoorStatus.Closed) {
                         door.Enabled = false;
+                    } else {
+                        allClosed = false;
+                        door.Enabled = true;
+                        if (door.Status != DoorStatus.Closing)
+                            door.CloseDoor();
+                    }
+
                 }
+                if (!allClosed) return false;
             }
 
             // retract piston
