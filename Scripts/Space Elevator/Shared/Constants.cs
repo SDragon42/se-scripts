@@ -32,7 +32,11 @@ namespace IngameScript {
         public const string GroundStation = "Ground Station";
 
         public const string TERMINAL_A = "A";
+        public const string TERMINAL_A1 = "A1";
+        public const string TERMINAL_A2 = "A2";
         public const string TERMINAL_B = "B";
+        public const string TERMINAL_B1 = "B1";
+        public const string TERMINAL_B2 = "B2";
         public const string TERMINAL_1 = "1";
         public const string TERMINAL_2 = "2";
         public const string TERMINAL_M = "M";

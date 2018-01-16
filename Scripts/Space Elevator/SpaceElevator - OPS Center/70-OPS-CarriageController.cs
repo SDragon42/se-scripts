@@ -30,7 +30,11 @@ namespace IngameScript {
 
             switch (msg.Extra) {
                 case GridNameConstants.TERMINAL_A: carriageKeys = new string[] { GridNameConstants.A1, GridNameConstants.A2 }; break;
+                case GridNameConstants.TERMINAL_A1: carriageKeys = new string[] { GridNameConstants.A1 }; break;
+                case GridNameConstants.TERMINAL_A2: carriageKeys = new string[] { GridNameConstants.A2 }; break;
                 case GridNameConstants.TERMINAL_B: carriageKeys = new string[] { GridNameConstants.B1, GridNameConstants.B2 }; break;
+                case GridNameConstants.TERMINAL_B1: carriageKeys = new string[] { GridNameConstants.B1 }; break;
+                case GridNameConstants.TERMINAL_B2: carriageKeys = new string[] { GridNameConstants.B2 }; break;
                 case GridNameConstants.TERMINAL_1: carriageKeys = new string[] { GridNameConstants.A1, GridNameConstants.B1 }; break;
                 case GridNameConstants.TERMINAL_2: carriageKeys = new string[] { GridNameConstants.A2, GridNameConstants.B2 }; break;
                 case GridNameConstants.TERMINAL_M: carriageKeys = new string[] { GridNameConstants.MAINT }; break;
