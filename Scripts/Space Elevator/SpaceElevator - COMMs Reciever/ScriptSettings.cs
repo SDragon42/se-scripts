@@ -16,8 +16,8 @@ using VRageMath;
 
 namespace IngameScript {
     class ScriptSettings {
-        const string DEF_ProgName = "Program - Carriage Control";
-        const string DEF_LogLcdName = "Display - COMM Log";
+        const string DEF_ProgName = "";
+        const string DEF_LogLcdName = "";
         const int DEF_NumLogLines = 20;
 
         const string KEY_ProgramBlockName = "Program Block";

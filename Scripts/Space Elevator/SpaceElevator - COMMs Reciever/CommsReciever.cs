@@ -53,7 +53,7 @@ namespace IngameScript {
                 ProcessArgument(argument);
                 ProcessQueue();
 
-                var logText = _log.GetLogText();
+                var logText = "TIME | FROM | MSG Type\n" + _log.GetLogText();
                 Echo(logText);
 
                 if (_display != null) {
