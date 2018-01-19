@@ -45,7 +45,7 @@ namespace IngameScript {
                     _timeLast = 0;
                 }
 
-                if (_timeDisplayLast > 10.0) {
+                if (_timeDisplayLast > 2.0) {
                     SendAllCOMMsDisplays();
                     _timeDisplayLast = 0.0;
                 }
