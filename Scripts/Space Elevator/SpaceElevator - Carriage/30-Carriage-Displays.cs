@@ -17,18 +17,12 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        private void DisplayProcessing(string payload) {
-            var msg = UpdateDisplayMessage.CreateFromPayload(payload);
-
-            List<IMyTextPanel> displays = null;
-            switch (msg.DisplayKey) {
-                case DisplayKeys.ALL_CARRIAGES: displays = _displaysAllCarriages; break;
-                case DisplayKeys.ALL_CARRIAGES_WIDE: displays = _displaysAllCarriagesWide; break;
-                case DisplayKeys.ALL_PASSENGER_CARRIAGES: displays = _displaysAllPassengerCarriages; break;
-                case DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE: displays = _displaysAllPassengerCarriagesWide; break;
-            }
-            displays?.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.Text, FontSizes.CARRIAGE_GFX));
-
+        void DisplayProcessing(string payload) {
+            var msg = UpdateAllDisplaysMessage.CreateFromPayload(payload);
+            _displaysAllCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.AllCarriages, FontSizes.CARRIAGE_GFX));
+            _displaysAllCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.AllCarriagesWide, FontSizes.CARRIAGE_GFX));
+            _displaysAllPassengerCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.AllPassCarriages, FontSizes.CARRIAGE_GFX));
+            _displaysAllPassengerCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.AllPassCarriagesWide, FontSizes.CARRIAGE_GFX));
         }
 
         void UpdateDisplays() {

@@ -31,5 +31,7 @@ namespace IngameScript {
         public string MessageType { get; private set; }
 
         public override string ToString() => string.Join(DELIMITER.ToString(), _msgParts);
+
+        protected string Set(string value) => value ?? string.Empty;
     }
 }

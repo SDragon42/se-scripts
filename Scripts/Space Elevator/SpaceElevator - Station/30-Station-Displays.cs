@@ -20,34 +20,39 @@ namespace IngameScript {
         //-------------------------------------------------------------------------------
         //  Displays
         //-------------------------------------------------------------------------------
-        private void DisplayProcessing(string payload) {
-            var msg = UpdateDisplayMessage.CreateFromPayload(payload);
+        void DisplayProcessing(string payload) {
+            var msg = UpdateAllDisplaysMessage.CreateFromPayload(payload);
 
-            List<IMyTextPanel> displays = null;
-            switch (msg.DisplayKey) {
-                case DisplayKeys.ALL_CARRIAGES: displays = _displaysAllCarriages; break;
-                case DisplayKeys.ALL_CARRIAGES_WIDE: displays = _displaysAllCarriagesWide; break;
-                case DisplayKeys.ALL_PASSENGER_CARRIAGES: displays = _displaysAllPassengerCarriages; break;
-                case DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE: displays = _displaysAllPassengerCarriagesWide; break;
-                case DisplayKeys.SINGLE_CARRIAGE:
-                    DisplaySingleDisplays(msg, _displaysSingleCarriages);
-                    break;
-                case DisplayKeys.SINGLE_CARRIAGE_DETAIL:
-                    DisplaySingleDisplays(msg, _displaysSingleCarriagesDetailed, true);
-                    break;
+            _displaysAllCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.AllCarriages, FontSizes.CARRIAGE_GFX));
+            _displaysAllCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.AllCarriagesWide, FontSizes.CARRIAGE_GFX));
+            _displaysAllPassengerCarriages.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.AllPassCarriages, FontSizes.CARRIAGE_GFX));
+            _displaysAllPassengerCarriagesWide.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.AllPassCarriagesWide, FontSizes.CARRIAGE_GFX));
+
+            foreach (var d in _displaysSingleCarriages) {
+                if (IsGateA1(d)) {
+                    Displays.Write2MonospaceDisplay(d, msg.CarriageA1, FontSizes.CARRIAGE_GFX);
+                } else if (IsGateA2(d)) {
+                    Displays.Write2MonospaceDisplay(d, msg.CarriageA2, FontSizes.CARRIAGE_GFX);
+                } else if (IsGateB1(d)) {
+                    Displays.Write2MonospaceDisplay(d, msg.CarriageB1, FontSizes.CARRIAGE_GFX);
+                } else if (IsGateB2(d)) {
+                    Displays.Write2MonospaceDisplay(d, msg.CarriageB2, FontSizes.CARRIAGE_GFX);
+                } else if (IsGateMaint(d)) {
+                    Displays.Write2MonospaceDisplay(d, msg.CarriageMaint, FontSizes.CARRIAGE_GFX);
+                }
             }
-            displays?.ForEach(d => Displays.Write2MonospaceDisplay(d, msg.Text, FontSizes.CARRIAGE_GFX));
-        }
 
-        private void DisplaySingleDisplays(UpdateDisplayMessage msg, List<IMyTextPanel> displays, bool details = false) {
-            if (string.IsNullOrWhiteSpace(msg.Text)) return;
-            foreach (var d in displays) {
-                if ((IsGateA1(d) && msg.CarriageKey == GridNameConstants.A1)
-                    || (IsGateA2(d) && msg.CarriageKey == GridNameConstants.A2)
-                    || (IsGateB1(d) && msg.CarriageKey == GridNameConstants.B1)
-                    || (IsGateB2(d) && msg.CarriageKey == GridNameConstants.B2)
-                    || (IsGateMaint(d) && msg.CarriageKey == GridNameConstants.MAINT)) {
-                    Displays.Write2MonospaceDisplay(d, msg.Text, FontSizes.CARRIAGE_GFX);
+            foreach (var d in _displaysSingleCarriagesDetailed) {
+                if (IsGateA1(d)) {
+                    Displays.Write2MonospaceDisplay(d, msg.CarriageA1Details, FontSizes.CARRIAGE_GFX);
+                } else if (IsGateA2(d)) {
+                    Displays.Write2MonospaceDisplay(d, msg.CarriageA2Details, FontSizes.CARRIAGE_GFX);
+                } else if (IsGateB1(d)) {
+                    Displays.Write2MonospaceDisplay(d, msg.CarriageB1Details, FontSizes.CARRIAGE_GFX);
+                } else if (IsGateB2(d)) {
+                    Displays.Write2MonospaceDisplay(d, msg.CarriageB2Details, FontSizes.CARRIAGE_GFX);
+                } else if (IsGateMaint(d)) {
+                    Displays.Write2MonospaceDisplay(d, msg.CarriageMaintDetails, FontSizes.CARRIAGE_GFX);
                 }
             }
         }

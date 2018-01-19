@@ -20,24 +20,32 @@ namespace IngameScript {
         //-------------------------------------------------------------------------------
         //  COMMs
         //-------------------------------------------------------------------------------
-        void SendCOMMs_DisplayUpdate(string carriageKey, string displayKey, string text) {
-            if (_antenna == null) return;
-            var msgPayload = new UpdateDisplayMessage(carriageKey, displayKey, text);
-            _comms.AddMessageToQueue(msgPayload);
-        }
-
         void SendAllCOMMsDisplays() {
-            //var currText = GetDisplayText(carriageKey, displayKey);
-            //if (string.Compare(currText, text) == 0) return;
-            //var cKey = MakeDisplayKey(carriageKey, displayKey);
-            //_displayText[cKey] = text;
-            //SendCOMMs_DisplayUpdate(carriageKey, displayKey, _displayText[cKey]);
+            if (_antenna == null) return;
 
-            foreach (var key in _displayText.Keys) {
-                var parts = key.Split('|');
-                if (parts.Length != 2) continue;
-                SendCOMMs_DisplayUpdate(parts[0], parts[1], _displayText[key]);
-            }
+            var msg = new UpdateAllDisplaysMessage();
+            msg.AllCarriages = _displayText[DisplayKeys.ALL_CARRIAGES];
+            msg.AllCarriagesWide = _displayText[DisplayKeys.ALL_CARRIAGES_WIDE];
+
+            msg.AllPassCarriages = _displayText[DisplayKeys.ALL_PASSENGER_CARRIAGES];
+            msg.AllPassCarriagesWide = _displayText[DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE];
+
+            msg.CarriageA1 = _displayText[DisplayKeys.CARRIAGE_A1];
+            msg.CarriageA1Details = _displayText[DisplayKeys.CARRIAGE_A1_DETAIL];
+
+            msg.CarriageA2 = _displayText[DisplayKeys.CARRIAGE_A2];
+            msg.CarriageA2Details = _displayText[DisplayKeys.CARRIAGE_A2_DETAIL];
+
+            msg.CarriageB1 = _displayText[DisplayKeys.CARRIAGE_B1];
+            msg.CarriageB1Details = _displayText[DisplayKeys.CARRIAGE_B1_DETAIL];
+
+            msg.CarriageB2 = _displayText[DisplayKeys.CARRIAGE_B2];
+            msg.CarriageB2Details = _displayText[DisplayKeys.CARRIAGE_B2_DETAIL];
+
+            msg.CarriageMaint = _displayText[DisplayKeys.CARRIAGE_MAINT];
+            msg.CarriageMaintDetails = _displayText[DisplayKeys.CARRIAGE_MAINT_DETAIL];
+
+            _comms.AddMessageToQueue(msg);
         }
 
         void SendCarriageTo(string carriageKey, string destination) {

@@ -231,6 +231,7 @@ namespace IngameScript {
         }
 
         public static void Write2MonospaceDisplay(IMyTextPanel display, string text, float fontSize) {
+            if (text == display.GetPublicText()) return;
             display.Font = LCDFonts.MONOSPACE;
             display.FontSize = fontSize;
             display.WritePublicText(text);

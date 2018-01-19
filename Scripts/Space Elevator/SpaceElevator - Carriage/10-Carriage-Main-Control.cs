@@ -94,7 +94,7 @@ namespace IngameScript {
                 switch (msg.PayloadType) {
                     case StationResponseMessage.TYPE: StationResponseProcessing(msg.Payload); break;
                     case SendCarriageToMessage.TYPE: SendCarriageToProcessing(msg.Payload); break;
-                    case UpdateDisplayMessage.TYPE: DisplayProcessing(msg.Payload); break;
+                    case UpdateAllDisplaysMessage.TYPE: DisplayProcessing(msg.Payload); break;
                 }
                 return;
             }

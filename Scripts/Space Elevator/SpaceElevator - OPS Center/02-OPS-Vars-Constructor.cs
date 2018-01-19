@@ -98,18 +98,13 @@ namespace IngameScript {
         }
 
 
-        static string MakeDisplayKey(string carriageKey, string displayKey) { return $"{carriageKey}|{displayKey}"; }
-
-        string GetDisplayText(string carriageKey, string displayKey) {
-            var cKey = MakeDisplayKey(carriageKey, displayKey);
-            return _displayText.ContainsKey(cKey) ? _displayText[cKey] : string.Empty;
+        string GetDisplayText(string displayKey) {
+            return _displayText.ContainsKey(displayKey) ? _displayText[displayKey] : string.Empty;
         }
-        void SetDisplayText(string carriageKey, string displayKey, string text) {
-            var currText = GetDisplayText(carriageKey, displayKey);
+        void SetDisplayText(string displayKey, string text) {
+            var currText = GetDisplayText(displayKey);
             if (string.Compare(currText, text) == 0) return;
-            var cKey = MakeDisplayKey(carriageKey, displayKey);
-            _displayText[cKey] = text;
-            SendCOMMs_DisplayUpdate(carriageKey, displayKey, _displayText[cKey]);
+            _displayText[displayKey] = text;
         }
 
     }

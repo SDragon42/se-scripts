@@ -69,7 +69,7 @@ namespace IngameScript {
                 switch (msg.PayloadType) {
                     case CarriageStatusMessage.TYPE: CarriageStatusProcessing(msg.SenderGridName, msg.Payload); break;
                     case CarriageRequestMessage.TYPE: CarriageRequestProcessing(msg.SenderGridName, msg.Payload); break;
-                    case UpdateDisplayMessage.TYPE: DisplayProcessing(msg.Payload); break;
+                    case UpdateAllDisplaysMessage.TYPE: DisplayProcessing(msg.Payload); break;
                 }
             } else {
                 if (argument.StartsWith(CMD_DockCarriage)) {

@@ -19,7 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\CarriageStatusMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\StationRequestMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\StationResponseMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\UpdateDisplayMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)COMMs\Payload Messages\UpdateAllDisplaysMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Displays.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GpsInfo.cs" />
