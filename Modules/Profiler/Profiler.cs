@@ -19,12 +19,14 @@ namespace IngameScript {
         const int DEFAULT_MAX_EXECUTIONS = 60;
 
         readonly int _maxExecutions = DEFAULT_MAX_EXECUTIONS;
-        readonly List<double> _log = new List<double>();
+        readonly List<double> _logTime = new List<double>();
+        readonly List<float> _logCost = new List<float>();
         readonly string _screenName;
 
         int _count = 0;
         string _results = string.Empty;
-        double _avgExecution = 0;
+        double _avgExecutionTime = 0;
+        float _avgExecutionCost = 0;
 
         public Profiler(string screenName = "PROFILE", int maxExecutionsToLog = DEFAULT_MAX_EXECUTIONS) {
             _screenName = screenName;
@@ -35,39 +37,43 @@ namespace IngameScript {
             if (_count < _maxExecutions) {
                 _count++;
                 thisObj.Echo($"Profiler:Add - {_maxExecutions - _count}");
-                _log.Add(thisObj.Runtime.LastRunTimeMs);
+                _logTime.Add(thisObj.Runtime.LastRunTimeMs);
+                _logCost.Add(CalcInstuctionCostPercentage(thisObj));
             } else {
                 thisObj.Echo("Profiler:Display");
                 if (_results.Length == 0) {
                     _results = BuildResults();
                     DisplayResults(thisObj, _results);
                 }
-                thisObj.Echo($"Profiler:Avg: {_avgExecution:N6}");
+                thisObj.Echo($"Profiler:Avg Time: {_avgExecutionTime:N6} ms");
+                thisObj.Echo($"Profiler:Avg Cost: {_avgExecutionCost:N6} %");
             }
         }
-
         public void ResetProfiler(MyGridProgram thisObj) {
             _count = 0;
-            _log.Clear();
+            _logTime.Clear();
             _results = string.Empty;
             DisplayResults(thisObj, string.Empty);
         }
 
-        void RemoveExtreams() {
-            var min = _log.Min();
-            var max = _log.Max();
-            _log.Remove(min);
-            _log.Remove(max);
+        static void RemoveExtreams<T>(IList<T> log) {
+            var min = log.Min();
+            var max = log.Max();
+            log.Remove(min);
+            log.Remove(max);
         }
 
         string BuildResults() {
-            RemoveExtreams();
-            _avgExecution = _log.Average();
+            RemoveExtreams(_logTime);
+            _avgExecutionTime = _logTime.Average();
+            RemoveExtreams(_logCost);
+            _avgExecutionCost = _logCost.Average();
 
             var sb = new StringBuilder();
-            sb.Append($"AVG: {_avgExecution:N6}\n");
+            sb.Append($"AVG Time: {_avgExecutionTime:N3} ms\n");
+            sb.Append($"AVG Cost: {_avgExecutionCost:N2} %\n");
             sb.Append("FULL LOG:\n");
-            foreach (var l in _log) sb.Append($"{l:N6}\n");
+            foreach (var l in _logTime) sb.Append($"{l:N6}\n");
             return sb.ToString();
         }
         void DisplayResults(MyGridProgram thisObj, string results) {
@@ -87,9 +93,13 @@ namespace IngameScript {
         /// https://forums.keenswh.com/threads/how-to-measure-the-performance-impact-of-certain-changes-to-ones-code.7395259/#post-1287057132
         /// </remarks>
         public static float ShowExecutionCost(MyGridProgram thisObj) {
+            var percentage = CalcInstuctionCostPercentage(thisObj);
+            thisObj.Echo($"Instructions: {percentage:N2} %");
+            return percentage;
+        }
+        private static float CalcInstuctionCostPercentage(MyGridProgram thisObj) {
             var fper = thisObj.Runtime.CurrentInstructionCount / (float)thisObj.Runtime.MaxInstructionCount;
             var percentage = fper * 100;
-            thisObj.Echo("Instructions: " + percentage.ToString() + "%");
             return percentage;
         }
 
