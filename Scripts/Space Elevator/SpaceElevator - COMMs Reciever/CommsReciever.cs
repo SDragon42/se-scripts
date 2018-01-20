@@ -31,6 +31,7 @@ namespace IngameScript {
         public Program() {
             //Echo = (t) => { }; // Disable Echo
             _settings.InitConfig(_config);
+            _log.Enabled = false;
         }
 
         public void Main(string argument, UpdateType updateSource) {

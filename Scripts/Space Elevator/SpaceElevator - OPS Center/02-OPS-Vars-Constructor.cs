@@ -45,10 +45,11 @@ namespace IngameScript {
         public Program() {
             //Echo = (t) => { }; // Disable Echo
             _debug = new DebugLogging(this);
-            //_debug.Enabled = false;
+            _debug.Enabled = false;
             _debug.EchoMessages = true;
 
             _log = new Logging(20);
+            _log.Enabled = false;
 
             _custConfig = new CustomDataConfig();
             _settings = new ScriptSettings();
