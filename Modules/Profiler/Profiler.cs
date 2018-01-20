@@ -17,19 +17,23 @@ using VRageMath;
 namespace IngameScript {
     class Profiler {
         const int DEFAULT_MAX_EXECUTIONS = 60;
+        const string DEFAULT_SCREEN_NAME = "PROFILE";
 
         readonly int _maxExecutions = DEFAULT_MAX_EXECUTIONS;
         readonly List<double> _logTime = new List<double>();
         readonly List<float> _logCost = new List<float>();
         readonly string _screenName;
+        readonly List<IMyTextPanel> _displays = new List<IMyTextPanel>();
 
         int _count = 0;
         string _results = string.Empty;
         double _avgExecutionTime = 0;
         float _avgExecutionCost = 0;
 
-        public Profiler(string screenName = "PROFILE", int maxExecutionsToLog = DEFAULT_MAX_EXECUTIONS) {
-            _screenName = screenName;
+        public Profiler(string screenName = DEFAULT_SCREEN_NAME, int maxExecutionsToLog = DEFAULT_MAX_EXECUTIONS) {
+            _screenName = screenName?.ToLower() ?? string.Empty;
+            if (_screenName.Length == 0)
+                _screenName = DEFAULT_SCREEN_NAME;
             _maxExecutions = (maxExecutionsToLog > 0) ? maxExecutionsToLog : DEFAULT_MAX_EXECUTIONS;
         }
 
@@ -77,11 +81,18 @@ namespace IngameScript {
             return sb.ToString();
         }
         void DisplayResults(MyGridProgram thisObj, string results) {
-            var screen = thisObj.GridTerminalSystem.GetBlockWithName(_screenName) as IMyTextPanel;
-            if (screen == null) return;
-            screen.WritePublicText(results);
-            screen.ShowPublicTextOnScreen();
+            thisObj.GridTerminalSystem.GetBlocksOfType(_displays, b => {
+                if (b.CubeGrid != thisObj.Me.CubeGrid) return false;
+                if (b.CustomName.ToLower() != _screenName) return false;
+                return true;
+            });
+            if (_displays.Count == 0) return;
+            foreach (var screen in _displays) {
+                screen.WritePublicText(results);
+                screen.ShowPublicTextOnScreen();
+            }
         }
+        
 
 
         /// <summary>Shows the percentage of instructions executed at the current moment.
