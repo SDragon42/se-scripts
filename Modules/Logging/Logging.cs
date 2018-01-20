@@ -30,6 +30,7 @@ namespace IngameScript {
 
 
         public virtual void Clear() {
+            if (!Enabled) return;
             _lines.Clear();
             _lineBuffer = string.Empty;
         }
