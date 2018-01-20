@@ -19,8 +19,8 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             try {
-                _timeLast += Runtime.TimeSinceLastRun.TotalSeconds;
                 _timeTransmitLast += Runtime.TimeSinceLastRun.TotalSeconds;
+                _timeBlockReloadLast += Runtime.TimeSinceLastRun.TotalSeconds;
 
                 Echo("Carriage Control " + _runSymbol.GetSymbol(Runtime));
 
@@ -30,7 +30,7 @@ namespace IngameScript {
                 Echo($"Mode: {GetMode()}");
 
                 LoadConfigSettings();
-                LoadBlockLists(forceBlockReload);
+                LoadBlockLists();
                 EchoBlockLists();
                 if (GetMode() == CarriageMode.Init) SetMode(CarriageMode.Manual_Control);
 
@@ -45,8 +45,6 @@ namespace IngameScript {
                     _comms.TransmitQueue(_antenna);
                     if (_gravityGen != null)
                         _gravityGen.Enabled = (_gravVec.Length() < GRAV_Force_Earth / 2);
-
-                    _timeLast = 0;
 
                     _debug.AppendLine(_log.GetLogText());
                 }

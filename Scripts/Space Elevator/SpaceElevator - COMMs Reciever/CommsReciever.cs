@@ -17,9 +17,9 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        readonly CustomDataConfig _config;
-        readonly ScriptSettings _settings;
-        readonly Logging _log;
+        readonly CustomDataConfig _config = new CustomDataConfig();
+        readonly ScriptSettings _settings = new ScriptSettings();
+        readonly Logging _log = new Logging();
         readonly Queue<CommMessage> _msgQueue = new Queue<CommMessage>();
         readonly List<IMyTerminalBlock> _tempBlocks = new List<IMyTerminalBlock>();
 
@@ -30,11 +30,6 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-
-            _log = new Logging();
-
-            _config = new CustomDataConfig();
-            _settings = new ScriptSettings();
             _settings.InitConfig(_config);
         }
 
@@ -69,7 +64,6 @@ namespace IngameScript {
                     ? UpdateFrequency.Update10
                     : UpdateFrequency.None;
             }
-
         }
 
 

@@ -25,13 +25,13 @@ namespace IngameScript {
         readonly COMMsModule _comms;
         readonly CustomDataConfig _custConfig;
         readonly ScriptSettings _settings;
-        BlocksByOrientation _orientation = new BlocksByOrientation();
+        readonly BlocksByOrientation _orientation = new BlocksByOrientation();
         int _lastCustomDataHash;
-        double _timeLast;
         double _timeTransmitLast;
 
         // Block Lists
         bool _blocksLoaded = false;
+        double _timeBlockReloadLast = 0;
         IMyRemoteControl _rc;
         IMyRadioAntenna _antenna;
         readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
@@ -111,7 +111,7 @@ namespace IngameScript {
 
 
         void LoadBlockLists(bool forceLoad = false) {
-            if (_blocksLoaded && !forceLoad) return;
+            if (_blocksLoaded && !forceLoad && _timeBlockReloadLast <= TIME_ReloadBlockDelay) return;
 
             _rc = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRemoteControl>(GridTerminalSystem, _tempList,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
@@ -157,6 +157,7 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_boardingRamps, b => IsOnThisGrid(b) && IsTaggedCarriage(b));
 
             _blocksLoaded = true;
+            _timeBlockReloadLast = 0;
         }
         void EchoBlockLists() {
             //Echo($"Ascent Thrusters: {_ascentThrusters.Count}");
