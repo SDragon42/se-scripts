@@ -34,8 +34,11 @@ namespace IngameScript {
 
         const double GRAV_Force_Earth = 9.81;
 
-        const double TIME_TransmitDelay = 3.0;
+        const double TIME_TransmitStatusDelay = 3.0;
         const double TIME_ReloadBlockDelay = 10.0;
+
+
+        readonly char[] SepSpace = new char[] { ' ' };
 
     }
 }

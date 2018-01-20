@@ -19,20 +19,19 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             try {
-                _timeTransmitLast += Runtime.TimeSinceLastRun.TotalSeconds;
+                _timeTransmitStatusLast += Runtime.TimeSinceLastRun.TotalSeconds;
                 _timeBlockReloadLast += Runtime.TimeSinceLastRun.TotalSeconds;
 
                 Echo("Carriage Control " + _runSymbol.GetSymbol(Runtime));
 
                 var runInterval = ((updateSource & UpdateType.Update10) == UpdateType.Update10);
-                var forceBlockReload = ((updateSource & UpdateType.Update100) == UpdateType.Update100);
-
-                Echo($"Mode: {GetMode()}");
+                var updateDisplayInterval = ((updateSource & UpdateType.Update100) == UpdateType.Update100);
 
                 LoadConfigSettings();
                 LoadBlockLists();
-                EchoBlockLists();
-                if (GetMode() == CarriageMode.Init) SetMode(CarriageMode.Manual_Control);
+
+                if (GetMode() == CarriageMode.Init)
+                    SetMode(CarriageMode.Manual_Control);
 
                 if (argument.Length > 0)
                     RunCommand(argument);
@@ -49,19 +48,17 @@ namespace IngameScript {
                     _debug.AppendLine(_log.GetLogText());
                 }
 
-                if (forceBlockReload)
+                if (updateDisplayInterval)
                     UpdateDisplays();
 
-                if (_timeTransmitLast >= TIME_TransmitDelay) {
-                    SendStatsMessage();
-                    _timeTransmitLast = 0;
+                if (_timeTransmitStatusLast >= TIME_TransmitStatusDelay) {
+                    Add2Comms_Status();
+                    _timeTransmitStatusLast = 0;
                 }
 
                 if (_displayLog.Count > 0) {
                     var txt = _log.GetLogText();
-                    foreach (var d in _displayLog) {
-                        d.WritePublicText(txt);
-                    }
+                    _displayLog.ForEach(d => d.WritePublicText(txt));
                 }
 
             } catch (Exception ex) {
@@ -75,18 +72,19 @@ namespace IngameScript {
 
         void LoadConfigSettings() {
             var hash = Me.CustomData.GetHashCode();
-            if (hash == _lastCustomDataHash) return;
+            if (hash == _lastCustomDataHash)
+                return;
             _custConfig.ReadFromCustomData(Me);
             _settings.LoadFromSettingDict(_custConfig);
             _custConfig.SaveToCustomData(Me);
             _lastCustomDataHash = hash;
         }
 
+
         void RunCommand(string argument) {
             CommMessage msg = null;
             if (CommMessage.TryParse(argument, out msg)) {
                 // COMMs messages
-
                 if (string.Compare(msg.TargetGridName, Me.CubeGrid.CustomName, true) == 0)
                     _log.AppendLine($"{DateTime.Now.ToLongTimeString()} From: {msg.SenderGridName} | To: {msg.TargetGridName} | Type: {msg.PayloadType}");
                 switch (msg.PayloadType) {
@@ -97,7 +95,7 @@ namespace IngameScript {
                 return;
             }
 
-            var cmdParts = argument.Split(new char[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
+            var cmdParts = argument.Split(SepSpace, 2, StringSplitOptions.RemoveEmptyEntries);
             switch (cmdParts[0]) {
                 case CMD_Reset:
                     LoadBlockLists(true);
@@ -111,11 +109,13 @@ namespace IngameScript {
                     break;
             }
         }
+
         void StationResponseProcessing(string msgPayload) {
             var responseMsg = StationResponseMessage.CreateFromPayload(msgPayload);
             if (responseMsg?.Response == StationResponses.DepartureOk)
                 SetMode(CarriageMode.Awaiting_CarriageReady2Depart);
         }
+
         void SendCarriageToProcessing(string msgPayload) {
             var sendToMsg = SendCarriageToMessage.CreateFromPayload(msgPayload);
             if (sendToMsg == null) return;
@@ -145,9 +145,10 @@ namespace IngameScript {
                 SetMode(CarriageMode.Awaiting_CarriageReady2Depart);
             else {
                 SetMode(CarriageMode.Awaiting_DepartureClearance);
-                SendRequestDepartureClearance(dockedStation.Name);
+                Add2Comms_Request(dockedStation.Name, CarriageRequests.Depart);
             }
         }
+
         private GpsInfo GetDockedPoint(double range) {
             var loc = _rc.GetPosition();
             foreach (var gps in _settings.GpsPoints) {

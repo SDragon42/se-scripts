@@ -69,6 +69,7 @@ namespace IngameScript {
                 SetStatuses();
             }
         }
+
         void SaveLastValues() {
             _rangeToGroundLast = _rangeToGround;
         }
@@ -79,6 +80,16 @@ namespace IngameScript {
             var deceleration = brakeForce / _actualMass;
             return Math.Pow(_rc.GetShipSpeed(), 2) / (2 * deceleration);
         }
+
+        void SetStatuses() {
+            _status.Position = _rc.GetPosition();
+            _status.VerticalSpeed = _verticalSpeed;
+            _status.FuelLevel = _h2TankFilledPercent;
+            _status.CargoMass = _cargoMass;
+            _status.Range2Bottom = _rangeToGround;
+            _status.Range2Top = _rangeToSpace;
+        }
+
 
     }
 }

@@ -23,71 +23,68 @@ namespace IngameScript {
             if (_mode_SpecialUseOnly == value && value != CarriageMode.Manual_Control) return;
             _mode_SpecialUseOnly = value;
 
-            if (!Enum.IsDefined(typeof(CarriageMode), value))
-                _mode_SpecialUseOnly = CarriageMode.Manual_Control;
-
             _status.SetTransit(_destination?.Name, GetMode());
 
             switch (_mode_SpecialUseOnly) {
                 case CarriageMode.Manual_Control:
                     ClearAutopilot(true);
                     _activateSpeedLimiter = false;
+                    _rc.HandBrake = false;
+                    _destination = null;
+                    _travelDirection = TravelDirection.None;
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
-                    _rc.HandBrake = false;
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
-                    _destination = null;
-                    _travelDirection = TravelDirection.None;
                     break;
 
                 case CarriageMode.Transit_Powered:
                     ClearAutopilot(false);
                     _activateSpeedLimiter = false;
+                    _rc.HandBrake = false;
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) { b.Enabled = true; b.Unlock(); b.AutoLock = false; }
-                    _rc.HandBrake = false;
                     foreach (var b in _connectors) b.Disconnect();
                     break;
 
                 case CarriageMode.Transit_Coast:
                     ClearAutopilot(false);
                     _activateSpeedLimiter = false;
+                    _rc.HandBrake = false;
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
-                    _rc.HandBrake = false;
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;
 
                 case CarriageMode.Transit_Slow2Approach:
                     ClearAutopilot(false);
+                    _rc.HandBrake = false;
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
-                    _rc.HandBrake = false;
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;
 
                 case CarriageMode.Transit_Docking:
+                    _rc.HandBrake = false;
                     foreach (var b in _h2Tanks) b.Stockpile = false;
                     foreach (var b in _allThrusters) b.Enabled = true;
                     foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
-                    _rc.HandBrake = false;
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;
 
                 case CarriageMode.Docked:
                     ClearAutopilot(true);
+                    _rc.HandBrake = true;
                     foreach (var b in _h2Tanks) b.Stockpile = true;
                     foreach (var b in _allThrusters) b.Enabled = false;
                     foreach (var b in _landingGears) { b.Enabled = true; b.AutoLock = false; }
-                    _rc.HandBrake = true;
                     foreach (var b in _descentThrusters) b.ThrustOverridePercentage = 0f;
                     foreach (var b in _ascentThrusters) b.ThrustOverridePercentage = 0f;
                     break;
@@ -123,7 +120,6 @@ namespace IngameScript {
                     if (_boardingRampsClear && travelMethod != null)
                         SetMode(CarriageMode.Transit_Powered);
                     break;
-                //case CarriageMode.Awaiting_DepartureClearance: goto case CarriageMode.Transit_Powered;
                 case CarriageMode.Transit_Powered: travelMethod?.Invoke(); break;
                 case CarriageMode.Transit_Coast: travelMethod?.Invoke(); break;
                 case CarriageMode.Transit_Slow2Approach: travelMethod?.Invoke(); break;
@@ -140,7 +136,7 @@ namespace IngameScript {
             var anyLocked = _landingGears.Any(Collect.IsLandingGearLocked);
             if (anyLocked) {
                 SetMode(CarriageMode.Docked);
-                SendDockedMessage(_destination.Name);
+                Add2Comms_Request(_destination.Name, CarriageRequests.Dock);
                 _travelDirection = TravelDirection.None;
                 _destination = null;
             }
@@ -152,6 +148,7 @@ namespace IngameScript {
             _boardingRamps.ForEach(rotor => _boardingRampsClear &= Rotate2Limit(rotor, false));
             if (_gravityGen != null) _gravityGen.FieldSize = new Vector3(GRAV_RANGE_Rampsup, _gravityGen.FieldSize.Y, _gravityGen.FieldSize.Z);
         }
+
         void LowerBoardingRamps() {
             if (_boardingRamps.Count == 0) return;
             if (GetMode() != CarriageMode.Docked && GetMode() != CarriageMode.Manual_Control)
@@ -160,14 +157,14 @@ namespace IngameScript {
             _boardingRamps.ForEach(rotor => Rotate2Limit(rotor, true));
             if (_gravityGen != null) _gravityGen.FieldSize = new Vector3(GRAV_RANGE_RampsDown, _gravityGen.FieldSize.Y, _gravityGen.FieldSize.Z);
         }
+
         bool Rotate2Limit(IMyMotorStator rotor, bool rotateToMax) {
             if (IsRotated2Limit(rotor, rotateToMax)) return true;
-            //rotor.SafetyLock = false;
-            //rotor.SetValueBool("RotorLock", false);
             var velocity = rotateToMax ? RotorConstants.ROTOR_VELOCITY : RotorConstants.ROTOR_VELOCITY * -1;
             rotor.TargetVelocityRPM = velocity;
-            return false; // not in position yet
+            return false;
         }
+
         bool IsRotated2Limit(IMyMotorStator rotor, bool rotateToMax) {
             if (rotor == null) return true;
             var currAngle = Math.Round(rotor.Angle, RotorConstants.RADIAN_ROUND_DIGITS);
@@ -176,6 +173,7 @@ namespace IngameScript {
             var notAtTarget = rotateToMax ? (currAngle < targetAngle) : (currAngle > targetAngle);
             return !notAtTarget;
         }
+
         void CheckRampsAtLimits() {
             var atLimit = true;
             var isRaised = true;
@@ -186,9 +184,6 @@ namespace IngameScript {
                 isRaised &= !rotate2Max && atLimit;
             }
             _boardingRampsClear = isRaised;
-            if (!atLimit) return;
-            //_boardingRamps.ForEach(rotor => rotor.SafetyLock = true);
-            //_boardingRamps.ForEach(rotor => rotor.SetValueBool("RotorLock", true));
         }
 
         void AscentModeOps() {
@@ -227,6 +222,7 @@ namespace IngameScript {
                     break;
             }
         }
+
         void DecentModeOps() {
             _rc.DampenersOverride = false;
             var totalMaxBreakingThrust = _ascentThrusters.Sum(b => b.MaxEffectiveThrust);
@@ -263,6 +259,7 @@ namespace IngameScript {
                     break;
             }
         }
+
         void MaintainSpeed(double targetVertSpeed) {
             var ascentMaxEffectiveThrust = _ascentThrusters.Sum(b => b.MaxEffectiveThrust);
             var decentMaxEffectiveThrust = _descentThrusters.Sum(b => b.MaxEffectiveThrust);

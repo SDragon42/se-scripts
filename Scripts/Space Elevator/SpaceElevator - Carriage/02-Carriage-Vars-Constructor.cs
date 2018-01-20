@@ -17,6 +17,33 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
+        public Program() {
+            //Echo = (t) => { }; // Disable Echo
+            _debug = new DebugLogging(this);
+            _debug.Enabled = false;
+            _debug.EchoMessages = true;
+
+            _log = new Logging(20);
+            _log.Enabled = false;
+
+            _custConfig = new CustomDataConfig();
+            _settings = new ScriptSettings();
+            _settings.InitializeConfig(_custConfig);
+
+            _lastCustomDataHash = -1;
+
+            _runSymbol = new RunningSymbol();
+            _comms = new COMMsModule(Me);
+            _status = new CarriageStatusMessage();
+
+            _mode_SpecialUseOnly = CarriageMode.Init;
+            LoadState();
+
+            Runtime.UpdateFrequency = UpdateFrequency.Update10 | UpdateFrequency.Update100;
+        }
+
+
+
         bool _activateSpeedLimiter = false;
 
         readonly DebugLogging _debug;
@@ -27,7 +54,7 @@ namespace IngameScript {
         readonly ScriptSettings _settings;
         readonly BlocksByOrientation _orientation = new BlocksByOrientation();
         int _lastCustomDataHash;
-        double _timeTransmitLast;
+        double _timeTransmitStatusLast;
 
         // Block Lists
         bool _blocksLoaded = false;
@@ -55,6 +82,7 @@ namespace IngameScript {
         readonly List<IMyTextPanel> _displayFuel = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displayLog = new List<IMyTextPanel>();
         readonly List<IMyCargoContainer> _cargo = new List<IMyCargoContainer>();
+        readonly List<IMyMotorSuspension> _suspension = new List<IMyMotorSuspension>();
         IMyGravityGenerator _gravityGen;
         readonly CarriageStatusMessage _status;
         bool _doCalcStatus = true;
@@ -75,30 +103,7 @@ namespace IngameScript {
         bool _boardingRampsClear = false;
 
 
-        public Program() {
-            //Echo = (t) => { }; // Disable Echo
-            _debug = new DebugLogging(this);
-            _debug.Enabled = false;
-            _debug.EchoMessages = true;
 
-            _log = new Logging(20);
-            _log.Enabled = false;
-
-            _custConfig = new CustomDataConfig();
-            _settings = new ScriptSettings();
-            _settings.InitializeConfig(_custConfig);
-
-            _lastCustomDataHash = -1;
-
-            _runSymbol = new RunningSymbol();
-            _comms = new COMMsModule(Me);
-            _status = new CarriageStatusMessage();
-
-            _mode_SpecialUseOnly = CarriageMode.Init;
-            LoadState();
-
-            Runtime.UpdateFrequency = UpdateFrequency.Update10 | UpdateFrequency.Update100;
-        }
         void LoadState() {
             var states = Storage.Split('\t');
             if (states == null || states.Length != 3) return;
@@ -106,6 +111,7 @@ namespace IngameScript {
             _destination = (string.IsNullOrWhiteSpace(states[1])) ? null : new GpsInfo(states[1]);
             _travelDirection = states[2].ToEnum(defValue: TravelDirection.None);
         }
+
         public void Save() {
             Storage = $"{GetMode()}\t{_destination?.RawGPS}\t{_travelDirection}";
         }
@@ -117,6 +123,8 @@ namespace IngameScript {
             _rc = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRemoteControl>(GridTerminalSystem, _tempList,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
                 IsOnThisGrid);
+            _orientation.Init(_rc);
+
             _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsCommRadioAntenna(b),
                 b => IsOnThisGrid(b) && Collect.IsCommRadioAntenna(b));
@@ -124,53 +132,36 @@ namespace IngameScript {
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
                 IsOnThisGrid);
 
-            _orientation.Init(_rc);
             GridTerminalSystem.GetBlocksOfType(_ascentThrusters, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && _orientation.IsDown(b));
             GridTerminalSystem.GetBlocksOfType(_descentThrusters, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && _orientation.IsUp(b));
             GridTerminalSystem.GetBlocksOfType(_allThrusters, b => IsOnThisGrid(b) && IsTaggedCarriage(b));
-
             CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _connectors,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
                 IsOnThisGrid);
             CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _landingGears,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
                 IsOnThisGrid);
-
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));
             GridTerminalSystem.GetBlocksOfType(_cargo, IsOnThisGrid);
-
             GridTerminalSystem.GetBlocksOfType(_displaysAllCarriages, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES));
             GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES_WIDE));
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES));
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE));
-
             GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE));
             GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriagesDetailed, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE_DETAIL));
-
             GridTerminalSystem.GetBlocksOfType(_displaySpeed, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_SPEED) && Collect.IsCornerLcd(b));
             GridTerminalSystem.GetBlocksOfType(_displayDestination, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_DESTINATION) && Collect.IsCornerLcd(b));
             GridTerminalSystem.GetBlocksOfType(_displayCargo, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_CARGO) && Collect.IsCornerLcd(b));
             GridTerminalSystem.GetBlocksOfType(_displayFuel, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_FUEL) && Collect.IsCornerLcd(b));
             GridTerminalSystem.GetBlocksOfType(_displayLog, b => IsOnThisGrid(b) && b.CustomName == "LCD Panel - Control Log");
-
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsOnThisGrid(b) && IsTaggedCarriage(b));
-
             GridTerminalSystem.GetBlocksOfType(_boardingRamps, b => IsOnThisGrid(b) && IsTaggedCarriage(b));
+            GridTerminalSystem.GetBlocksOfType(_suspension, IsOnThisGrid);
+
+            _suspension.ForEach(s => s.ShowInTerminal = !s.IsAttached);
 
             _blocksLoaded = true;
             _timeBlockReloadLast = 0;
-        }
-        void EchoBlockLists() {
-            //Echo($"Ascent Thrusters: {_ascentThrusters.Count}");
-            //Echo($"Descent Thrusters: {_descentThrusters.Count}");
-            //Echo($"Connectors: {_connectors.Count}");
-            //Echo($"Locking Gears: {_landingGears.Count}");
-            //Echo($"Ramp Rotors: {_boardingRamps.Count}");
-            //Echo($"AirVents: {_airVents.Count}");
-            //Echo($"O2 Tanks: {_o2Tanks.Count}");
-            //Echo($"H2 Tanks: {_h2Tanks.Count}");
-            //Echo($"Displays: {_displaysSingleCarriages.Count}");
-            //Echo($"Cargo: {_cargo.Count}");
         }
 
 

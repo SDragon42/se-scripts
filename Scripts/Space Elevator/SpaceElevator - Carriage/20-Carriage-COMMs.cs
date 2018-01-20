@@ -17,26 +17,16 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        void SetStatuses() {
-            _status.Position = _rc.GetPosition();
-            _status.VerticalSpeed = _verticalSpeed;
-            _status.FuelLevel = _h2TankFilledPercent;
-            _status.CargoMass = _cargoMass;
-            _status.Range2Bottom = _rangeToGround;
-            _status.Range2Top = _rangeToSpace;
-        }
-        void SendStatsMessage() {
-            SetStatuses();
+        void Add2Comms_Status() {
             if (!_settings.SendStatusMessages) return;
             if (_antenna == null) return;
+            SetStatuses();
             _comms.AddMessageToQueue(_status, GridNameConstants.OpsCenter);
         }
-        void SendDockedMessage(string stationName) {
-            var payload = new CarriageRequestMessage(Me.CubeGrid.CustomName, CarriageRequests.Dock);
-            _comms.AddMessageToQueue(payload, stationName);
-        }
-        void SendRequestDepartureClearance(string stationName) {
-            var payload = new CarriageRequestMessage(Me.CubeGrid.CustomName, CarriageRequests.Depart);
+
+        void Add2Comms_Request(string stationName, CarriageRequests request) {
+            if (_antenna == null) return;
+            var payload = new CarriageRequestMessage(Me.CubeGrid.CustomName, request);
             _comms.AddMessageToQueue(payload, stationName);
         }
 
