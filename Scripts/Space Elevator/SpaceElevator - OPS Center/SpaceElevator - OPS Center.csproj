@@ -116,7 +116,6 @@
   <Import Project="..\..\..\Libraries\LCDs\_Helper - LCDs.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Common\_Library - Common.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
-  <Import Project="..\..\..\Modules\Script Debug\_Module - Debug.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Logging\_Module - Logging.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Doors\_Helper - Doors.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Running Symbol\_Module - Running Symbol.projitems" Label="Shared" />

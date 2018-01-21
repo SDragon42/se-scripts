@@ -32,5 +32,8 @@ namespace IngameScript {
         const string TAG_B2 = "[B2]";
         const string TAG_MAINT = "[Maint]";
 
+        const double TIME_ReloadBlockDelay = 10.0;
+        const double TIME_TransmitStatusDelay = 2.0;
+
     }
 }

@@ -19,42 +19,39 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             try {
-                _timeLast += Runtime.TimeSinceLastRun.TotalSeconds;
                 _timeDisplayLast += Runtime.TimeSinceLastRun.TotalSeconds;
+                _timeBlockReloadLast += Runtime.TimeSinceLastRun.TotalSeconds;
                 Echo("OPS Center " + _runSymbol.GetSymbol(Runtime));
 
                 var runInterval = ((updateSource & UpdateType.Update10) == UpdateType.Update10);
-                var forceBlockReload = ((updateSource & UpdateType.Update100) == UpdateType.Update100);
 
                 LoadConfigSettings();
-                LoadBlockLists(forceBlockReload);
-                EchoBlockLists();
+                LoadBlockLists();
 
                 if (!string.IsNullOrEmpty(argument))
                     RunCommand(argument);
 
                 if (runInterval) {
-                    _debug.Clear();
+                    //_debug.Clear();
                     _comms.TransmitQueue(_antenna);
 
                     BuildDisplays();
                     UpdateDisplays();
 
-                    _debug.AppendLine(_log.GetLogText());
-
-                    _timeLast = 0;
+                    //_debug.AppendLine(_log.GetLogText());
                 }
 
-                if (_timeDisplayLast > 2.0) {
+                if (_timeDisplayLast >= TIME_TransmitStatusDelay) {
                     SendAllCOMMsDisplays();
-                    _timeDisplayLast = 0.0;
+                    _timeDisplayLast = 0;
                 }
-            } catch (Exception ex) {
-                _debug.AppendLine(ex.Message);
-                _debug.AppendLine(ex.StackTrace);
-                throw ex;
+                //} catch (Exception ex) {
+                //    //_debug.AppendLine(ex.Message);
+                //    //_debug.AppendLine(ex.StackTrace);
+                //    throw ex;
             } finally {
-                _debug.UpdateDisplay();
+                //_debug.UpdateDisplay();
+                Echo(_log.GetLogText());
             }
         }
 
@@ -65,6 +62,7 @@ namespace IngameScript {
             _settings.LoadFromSettingDict(_custConfig);
             _custConfig.SaveToCustomData(Me);
             _lastCustomDataHash = hash;
+            _log.MaxTextLinesToKeep = _settings.LogLines2Show;
         }
 
         void RunCommand(string argument) {
