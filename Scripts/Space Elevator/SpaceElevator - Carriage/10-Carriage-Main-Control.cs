@@ -18,7 +18,7 @@ namespace IngameScript {
     partial class Program {
 
         public void Main(string argument, UpdateType updateSource) {
-            try {
+            //try {
                 _timeTransmitStatusLast += Runtime.TimeSinceLastRun.TotalSeconds;
                 _timeBlockReloadLast += Runtime.TimeSinceLastRun.TotalSeconds;
 
@@ -37,7 +37,7 @@ namespace IngameScript {
                     RunCommand(argument);
 
                 if (runInterval) {
-                    _debug.Clear();
+                    //_debug.Clear();
                     LoadCalculations();
                     RunModeActions();
                     SaveLastValues();
@@ -45,7 +45,7 @@ namespace IngameScript {
                     if (_gravityGen != null)
                         _gravityGen.Enabled = (_gravVec.Length() < GRAV_Force_Earth / 2);
 
-                    _debug.AppendLine(_log.GetLogText());
+                    //_debug.AppendLine(_log.GetLogText());
                 }
 
                 if (updateDisplayInterval)
@@ -56,18 +56,18 @@ namespace IngameScript {
                     _timeTransmitStatusLast = 0;
                 }
 
-                if (_displayLog.Count > 0) {
-                    var txt = _log.GetLogText();
-                    _displayLog.ForEach(d => d.WritePublicText(txt));
-                }
+                //if (_displayLog.Count > 0) {
+                //    var txt = _log.GetLogText();
+                //    _displayLog.ForEach(d => d.WritePublicText(txt));
+                //}
 
-            } catch (Exception ex) {
-                _debug.AppendLine(ex.Message);
-                _debug.AppendLine(ex.StackTrace);
-                throw ex;
-            } finally {
-                _debug.UpdateDisplay();
-            }
+            //} catch (Exception ex) {
+            //    _debug.AppendLine(ex.Message);
+            //    _debug.AppendLine(ex.StackTrace);
+            //    throw ex;
+            //} finally {
+            //    _debug.UpdateDisplay();
+            //}
         }
 
         void LoadConfigSettings() {
@@ -85,8 +85,8 @@ namespace IngameScript {
             CommMessage msg = null;
             if (CommMessage.TryParse(argument, out msg)) {
                 // COMMs messages
-                if (string.Compare(msg.TargetGridName, Me.CubeGrid.CustomName, true) == 0)
-                    _log.AppendLine($"{DateTime.Now.ToLongTimeString()} From: {msg.SenderGridName} | To: {msg.TargetGridName} | Type: {msg.PayloadType}");
+                //if (string.Compare(msg.TargetGridName, Me.CubeGrid.CustomName, true) == 0)
+                //    _log.AppendLine($"{DateTime.Now.ToLongTimeString()} From: {msg.SenderGridName} | To: {msg.TargetGridName} | Type: {msg.PayloadType}");
                 switch (msg.PayloadType) {
                     case StationResponseMessage.TYPE: StationResponseProcessing(msg.Payload); break;
                     case SendCarriageToMessage.TYPE: SendCarriageToProcessing(msg.Payload); break;

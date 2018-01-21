@@ -116,13 +116,11 @@
   </ItemGroup>
   <Import Project="..\..\..\Modules\Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
   <Import Project="..\Shared\Shared.projitems" Label="Shared" />
-  <Import Project="..\..\..\Modules\Logging\_Module - Logging.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Common\_Library - Common.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Thrusters\_Helper - Thrusters.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Gas Tanks\_Helper - Gas Tanks.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Landing Gears\_Helper - Landing Gears.projitems" Label="Shared" />
-  <Import Project="..\..\..\Modules\Script Debug\_Module - Debug.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\LCDs\_Helper - LCDs.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Cargo and Inventory\_Helper - Cargo and Inventory.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Running Symbol\_Module - Running Symbol.projitems" Label="Shared" />
