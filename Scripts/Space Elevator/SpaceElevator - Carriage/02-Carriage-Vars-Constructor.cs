@@ -52,8 +52,7 @@ namespace IngameScript {
         double _timeTransmitStatusLast;
 
         // Block Lists
-        bool _blocksLoaded = false;
-        double _timeBlockReloadLast = 0;
+        double _timeBlockReloadLast = TIME_ReloadBlockDelay;
         IMyRemoteControl _rc;
         IMyRadioAntenna _antenna;
         readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
@@ -113,7 +112,7 @@ namespace IngameScript {
 
 
         void LoadBlockLists(bool forceLoad = false) {
-            if (_blocksLoaded && !forceLoad && _timeBlockReloadLast <= TIME_ReloadBlockDelay) return;
+            if (!forceLoad && _timeBlockReloadLast <= TIME_ReloadBlockDelay) return;
 
             _rc = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRemoteControl>(GridTerminalSystem, _tempList,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
@@ -155,7 +154,6 @@ namespace IngameScript {
 
             _suspension.ForEach(s => s.ShowInTerminal = !s.IsAttached);
 
-            _blocksLoaded = true;
             _timeBlockReloadLast = 0;
         }
 
