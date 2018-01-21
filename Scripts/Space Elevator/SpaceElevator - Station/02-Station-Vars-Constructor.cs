@@ -17,49 +17,14 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        readonly CustomDataConfig _custConfig;
-        readonly ScriptSettings _settings;
-
-        readonly CarriageVars _A1;
-        readonly CarriageVars _A2;
-        readonly CarriageVars _B1;
-        readonly CarriageVars _B2;
-        readonly CarriageVars _Maint;
-
-        readonly DebugLogging _debug;
-        readonly Logging _log;
-        readonly COMMsModule _comms;
-        readonly RunningSymbol _runSymbol;
-
-        bool _blocksLoaded = false;
-        int _lastCustomDataHash;
-        double _timeLast;
-
-        IMyRadioAntenna _antenna;
-        readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
-        readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
-        readonly List<IMyTextPanel> _displaysAllCarriages = new List<IMyTextPanel>();
-        readonly List<IMyTextPanel> _displaysAllCarriagesWide = new List<IMyTextPanel>();
-        readonly List<IMyTextPanel> _displaysAllPassengerCarriages = new List<IMyTextPanel>();
-        readonly List<IMyTextPanel> _displaysAllPassengerCarriagesWide = new List<IMyTextPanel>();
-        readonly List<IMyTextPanel> _displaysSingleCarriages = new List<IMyTextPanel>();
-        readonly List<IMyTextPanel> _displaysSingleCarriagesDetailed = new List<IMyTextPanel>();
-        readonly List<IMyTerminalBlock> _gateBlocks = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _armLights = new List<IMyTerminalBlock>();
-        readonly List<IMyDoor> _terminalDoors = new List<IMyDoor>();
-
-
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _debug = new DebugLogging(this);
-            _debug.Enabled = false;
-            _debug.EchoMessages = true;
+            //_debug = new DebugLogging(this);
+            //_debug.Enabled = false;
+            //_debug.EchoMessages = true;
 
-            _log = new Logging(50);
             _log.Enabled = false;
 
-            _custConfig = new CustomDataConfig();
-            _settings = new ScriptSettings();
             _settings.InitConfig(_custConfig);
 
             _A1 = new CarriageVars(GridNameConstants.A1);
@@ -78,13 +43,44 @@ namespace IngameScript {
                 }
             }
 
-            _lastCustomDataHash = -1;
-
-            _runSymbol = new RunningSymbol();
             _comms = new COMMsModule(Me);
 
-            Runtime.UpdateFrequency = UpdateFrequency.Update10 | UpdateFrequency.Update100;
+            Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
+
+
+        readonly CustomDataConfig _custConfig = new CustomDataConfig();
+        readonly ScriptSettings _settings = new ScriptSettings();
+
+        readonly CarriageVars _A1;
+        readonly CarriageVars _A2;
+        readonly CarriageVars _B1;
+        readonly CarriageVars _B2;
+        readonly CarriageVars _Maint;
+
+        //readonly DebugLogging _debug;
+        readonly Logging _log = new Logging(ScriptSettings.DEF_NumLogLines);
+        readonly COMMsModule _comms;
+        readonly RunningSymbol _runSymbol = new RunningSymbol();
+
+        double _timeBlockReloadLast = TIME_ReloadBlockDelay;
+        int _lastCustomDataHash = -1;
+        double _timeLast;
+
+        IMyRadioAntenna _antenna;
+        readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
+        readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
+        readonly List<IMyTextPanel> _displaysAllCarriages = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysAllCarriagesWide = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysAllPassengerCarriages = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysAllPassengerCarriagesWide = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysSingleCarriages = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysSingleCarriagesDetailed = new List<IMyTextPanel>();
+        readonly List<IMyTerminalBlock> _gateBlocks = new List<IMyTerminalBlock>();
+        readonly List<IMyTerminalBlock> _armLights = new List<IMyTerminalBlock>();
+        readonly List<IMyDoor> _terminalDoors = new List<IMyDoor>();
+
+
         public void Save() {
             Storage = _A1.ToString() + "\n" +
                 _A2.ToString() + "\n" +
@@ -94,7 +90,7 @@ namespace IngameScript {
         }
 
         void LoadBlockLists(bool forceLoad = false) {
-            if (_blocksLoaded && !forceLoad) return;
+            if (!forceLoad && _timeBlockReloadLast <= TIME_ReloadBlockDelay) return;
 
             _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList,
                 b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsCommRadioAntenna(b),
@@ -109,19 +105,7 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE));
             GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriagesDetailed, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE_DETAIL));
 
-            _blocksLoaded = true;
-        }
-        void EchoBlockLists() {
-            //Echo($"Antenna: {_antenna?.CustomName} | E:{_antenna?.Enabled}  B:{_antenna?.EnableBroadcasting}");
-            //Echo($"H2 Tanks: {_h2Tanks.Count}");
-            //Echo($"Doors: {_autoCloseDoors.Count}");
-            //Echo($"Displays (All Carr): {_displaysAllCarriages.Count}");
-            //Echo($"Displays (W All Carr): {_displaysAllCarriagesWide.Count}");
-            //Echo($"Displays (Pass Carr): {_displaysAllPassengerCarriages.Count}");
-            //Echo($"Displays (W Pass Carr): {_displaysAllPassengerCarriagesWide.Count}");
-            //Echo($"Displays (Single Carr): {_displaysSingleCarriages.Count}");
-            //Echo($"Displays (Single Carr D): {_displaysSingleCarriagesDetailed.Count}");
-            //Echo("");
+            _timeBlockReloadLast = 0;
         }
 
     }

@@ -146,7 +146,6 @@
   <Import Project="..\Shared\Shared.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Gas Tanks\_Helper - Gas Tanks.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Common\_Library - Common.projitems" Label="Shared" />
-  <Import Project="..\..\..\Modules\Script Debug\_Module - Debug.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\LCDs\_Helper - LCDs.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Doors\_Helper - Doors.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Running Symbol\_Module - Running Symbol.projitems" Label="Shared" />

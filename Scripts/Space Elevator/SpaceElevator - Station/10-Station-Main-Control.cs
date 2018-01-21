@@ -23,17 +23,15 @@ namespace IngameScript {
                 Echo("Station Control " + _runSymbol.GetSymbol(Runtime));
 
                 var runInterval = ((updateSource & UpdateType.Update10) == UpdateType.Update10);
-                var forceBlockReload = ((updateSource & UpdateType.Update100) == UpdateType.Update100);
 
                 LoadConfigSettings();
-                LoadBlockLists(forceBlockReload);
-                EchoBlockLists();
+                LoadBlockLists();
 
                 if (!string.IsNullOrEmpty(argument))
                     RunCommand(argument);
 
                 if (runInterval) {
-                    _debug.Clear();
+                    //_debug.Clear();
                     _comms.TransmitQueue(_antenna);
                     RunCarriageDockDepartureActions(TAG_A1, _A1);
                     RunCarriageDockDepartureActions(TAG_A2, _A2);
@@ -43,14 +41,15 @@ namespace IngameScript {
 
                     _timeLast = 0;
 
-                    _debug.AppendLine(_log.GetLogText());
+                    //_debug.AppendLine(_log.GetLogText());
                 }
-            } catch (Exception ex) {
-                _debug.AppendLine(ex.Message);
-                _debug.AppendLine(ex.StackTrace);
-                throw ex;
+            //} catch (Exception ex) {
+            //    //_debug.AppendLine(ex.Message);
+            //    //_debug.AppendLine(ex.StackTrace);
+            //    //throw ex;
             } finally {
-                _debug.UpdateDisplay();
+                Echo(_log.GetLogText());
+                //_debug.UpdateDisplay();
             }
         }
 

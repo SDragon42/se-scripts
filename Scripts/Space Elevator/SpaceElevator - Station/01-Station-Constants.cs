@@ -35,5 +35,7 @@ namespace IngameScript {
         const string TAG_TRANSFER_ARM = "[Transfer Arm]";
         const string TAG_TERMINAL = "[Terminal]";
 
+        const double TIME_ReloadBlockDelay = 10.0;
+
     }
 }

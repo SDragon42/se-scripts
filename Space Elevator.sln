@@ -64,7 +64,6 @@ Global
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
-		Modules\Script Debug\_Module - Debug.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Scripts\Space Elevator\Shared\Shared.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Profiler\_Module - Profiler.projitems*{7ad7003f-2c7c-4f0a-900a-279e82ef75e4}*SharedItemsImports = 13
 		Libraries\Thrusters\_Helper - Thrusters.projitems*{b924ba87-9a65-42f6-a761-bb86c9d713fa}*SharedItemsImports = 13
