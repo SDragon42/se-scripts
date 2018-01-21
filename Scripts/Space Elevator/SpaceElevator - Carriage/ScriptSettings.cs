@@ -23,6 +23,7 @@ namespace IngameScript {
         const double DEFAULT_ApproachDistence = 25.0;
         const bool DEFAULT_GravityDescelEnabled = false;
         const bool DEFAULT_SendStatusMessages = true;
+        const int DEF_NumLogLines = 20;
 
         const string KEY_BlockTag = "Block Tag";
         const string KEY_InvMultiplier = "Inventory Multiplier";
@@ -32,6 +33,8 @@ namespace IngameScript {
         const string KEY_GravityDescelEnabled = "Gravity Decel Enabled";
         const string KEY_SendStatusMessages = "Transmit Status";
         const string KEY_GpsPoint = "GPS Point ";
+        const string KEY_LogDisplayName = "Log LCD Name";
+        const string KEY_LogLinesToShow = "Lines to Show";
 
 
         public void InitializeConfig(CustomDataConfig config) {
@@ -69,6 +72,11 @@ namespace IngameScript {
                              "Additional GPS points can be made by just adding to the key list here.");
             config.AddKey(KEY_GpsPoint + "2");
             config.AddKey(KEY_GpsPoint + "3");
+
+            config.AddKey(KEY_LogDisplayName,
+                description: "The LCD to display the log on. (OPTIONAL)");
+            config.AddKey(KEY_LogLinesToShow,
+                defaultValue: DEF_NumLogLines.ToString());
         }
         public void LoadFromSettingDict(CustomDataConfig config) {
             InventoryMultiplier = config.GetValue(KEY_InvMultiplier).ToInt(DEFAULT_WorldInventoryMultiplier);
@@ -78,6 +86,8 @@ namespace IngameScript {
             GravityDescelEnabled = config.GetValue(KEY_GravityDescelEnabled).ToBoolean(DEFAULT_GravityDescelEnabled);
             BlockTag = config.GetValue(KEY_BlockTag, DEFAULT_BlockTag);
             SendStatusMessages = config.GetValue(KEY_SendStatusMessages).ToBoolean(DEFAULT_SendStatusMessages);
+            LogLcdName = config.GetValue(KEY_LogDisplayName);
+            LogLines2Show = config.GetValue(KEY_LogLinesToShow).ToInt(DEF_NumLogLines);
 
             GpsPoints.Clear();
             var i = 1;
@@ -98,6 +108,8 @@ namespace IngameScript {
             config.SetValue(KEY_GravityDescelEnabled, GravityDescelEnabled.ToString());
             config.SetValue(KEY_BlockTag, BlockTag);
             config.SetValue(KEY_SendStatusMessages, SendStatusMessages.ToString());
+            config.SetValue(KEY_LogDisplayName, LogLcdName);
+            config.SetValue(KEY_LogLinesToShow, LogLines2Show.ToString());
 
             for (var i = 0; i < GpsPoints.Count; i++)
                 config.SetValue(KEY_GpsPoint + i.ToString(), GpsPoints[i].RawGPS);
@@ -111,6 +123,9 @@ namespace IngameScript {
         public bool GravityDescelEnabled { get; private set; }
         public string BlockTag { get; private set; }
         public bool SendStatusMessages { get; private set; }
+        public string LogLcdName { get; private set; }
+        public int LogLines2Show { get; private set; }
+
         public readonly List<GpsInfo> GpsPoints = new List<GpsInfo>();
 
 

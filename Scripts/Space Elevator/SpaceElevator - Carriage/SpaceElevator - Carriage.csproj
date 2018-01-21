@@ -124,6 +124,7 @@
   <Import Project="..\..\..\Libraries\LCDs\_Helper - LCDs.projitems" Label="Shared" />
   <Import Project="..\..\..\Libraries\Cargo and Inventory\_Helper - Cargo and Inventory.projitems" Label="Shared" />
   <Import Project="..\..\..\Modules\Running Symbol\_Module - Running Symbol.projitems" Label="Shared" />
+  <Import Project="..\..\..\Modules\Logging\_Module - Logging.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />

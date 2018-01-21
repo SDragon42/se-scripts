@@ -23,7 +23,6 @@ namespace IngameScript {
             //_debug.Enabled = false;
             //_debug.EchoMessages = true;
 
-            //_log = new Logging(20);
             //_log.Enabled = false;
 
             _custConfig = new CustomDataConfig();
@@ -47,7 +46,7 @@ namespace IngameScript {
         bool _activateSpeedLimiter = false;
 
         //readonly DebugLogging _debug;
-        //readonly Logging _log;
+        readonly Logging _log = new Logging(20);
         readonly RunningSymbol _runSymbol;
         readonly COMMsModule _comms;
         readonly CustomDataConfig _custConfig;
@@ -80,7 +79,7 @@ namespace IngameScript {
         readonly List<IMyTextPanel> _displayDestination = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displayCargo = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displayFuel = new List<IMyTextPanel>();
-        //readonly List<IMyTextPanel> _displayLog = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displayLog = new List<IMyTextPanel>();
         readonly List<IMyCargoContainer> _cargo = new List<IMyCargoContainer>();
         readonly List<IMyMotorSuspension> _suspension = new List<IMyMotorSuspension>();
         IMyGravityGenerator _gravityGen;
@@ -153,7 +152,7 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_displayDestination, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_DESTINATION) && Collect.IsCornerLcd(b));
             GridTerminalSystem.GetBlocksOfType(_displayCargo, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_CARGO) && Collect.IsCornerLcd(b));
             GridTerminalSystem.GetBlocksOfType(_displayFuel, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsTagged(b, DisplayKeys.FLAT_FUEL) && Collect.IsCornerLcd(b));
-            //GridTerminalSystem.GetBlocksOfType(_displayLog, b => IsOnThisGrid(b) && b.CustomName == "LCD Panel - Control Log");
+            GridTerminalSystem.GetBlocksOfType(_displayLog, b => IsOnThisGrid(b) && b.CustomName == _settings.LogLcdName);
             GridTerminalSystem.GetBlocksOfType(_autoCloseDoors, b => IsOnThisGrid(b) && IsTaggedCarriage(b));
             GridTerminalSystem.GetBlocksOfType(_boardingRamps, b => IsOnThisGrid(b) && IsTaggedCarriage(b));
             GridTerminalSystem.GetBlocksOfType(_suspension, IsOnThisGrid);
