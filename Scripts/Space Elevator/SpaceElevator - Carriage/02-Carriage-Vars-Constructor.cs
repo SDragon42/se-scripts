@@ -25,15 +25,11 @@ namespace IngameScript {
 
             //_log.Enabled = false;
 
-            _custConfig = new CustomDataConfig();
-            _settings = new ScriptSettings();
             _settings.InitializeConfig(_custConfig);
 
             _lastCustomDataHash = -1;
 
-            _runSymbol = new RunningSymbol();
             _comms = new COMMsModule(Me);
-            _status = new CarriageStatusMessage();
 
             _mode_SpecialUseOnly = CarriageMode.Init;
             LoadState();
@@ -46,11 +42,11 @@ namespace IngameScript {
         bool _activateSpeedLimiter = false;
 
         //readonly DebugLogging _debug;
-        readonly Logging _log = new Logging(20);
-        readonly RunningSymbol _runSymbol;
+        readonly Logging _log = new Logging(ScriptSettings.DEF_NumLogLines);
+        readonly RunningSymbol _runSymbol = new RunningSymbol();
         readonly COMMsModule _comms;
-        readonly CustomDataConfig _custConfig;
-        readonly ScriptSettings _settings;
+        readonly CustomDataConfig _custConfig = new CustomDataConfig();
+        readonly ScriptSettings _settings = new ScriptSettings();
         readonly BlocksByOrientation _orientation = new BlocksByOrientation();
         int _lastCustomDataHash;
         double _timeTransmitStatusLast;
@@ -83,7 +79,7 @@ namespace IngameScript {
         readonly List<IMyCargoContainer> _cargo = new List<IMyCargoContainer>();
         readonly List<IMyMotorSuspension> _suspension = new List<IMyMotorSuspension>();
         IMyGravityGenerator _gravityGen;
-        readonly CarriageStatusMessage _status;
+        readonly CarriageStatusMessage _status = new CarriageStatusMessage();
         bool _doCalcStatus = true;
 
         //  Flight calculations

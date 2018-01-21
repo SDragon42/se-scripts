@@ -23,7 +23,7 @@ namespace IngameScript {
         const double DEFAULT_ApproachDistence = 25.0;
         const bool DEFAULT_GravityDescelEnabled = false;
         const bool DEFAULT_SendStatusMessages = true;
-        const int DEF_NumLogLines = 20;
+        public const int DEF_NumLogLines = 20;
 
         const string KEY_BlockTag = "Block Tag";
         const string KEY_InvMultiplier = "Inventory Multiplier";
