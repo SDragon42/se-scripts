@@ -45,12 +45,13 @@ namespace IngameScript {
                     SendAllCOMMsDisplays();
                     _timeDisplayLast = 0;
                 }
-                //} catch (Exception ex) {
-                //    //_debug.AppendLine(ex.Message);
-                //    //_debug.AppendLine(ex.StackTrace);
-                //    throw ex;
+            } catch (Exception ex) {
+                Echo("##########");
+                Echo(ex.Message);
+                Echo(ex.StackTrace);
+                Echo("##########");
+                throw ex;
             } finally {
-                //_debug.UpdateDisplay();
                 Echo(_log.GetLogText());
             }
         }

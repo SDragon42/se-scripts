@@ -36,6 +36,7 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             try {
+                Echo("COMMs Receiver");
                 LoadConfigSettings();
 
                 _targetProgram = GetBlockWithName<IMyProgrammableBlock>(_settings.ProgramBlockName);
@@ -49,16 +50,20 @@ namespace IngameScript {
                 ProcessArgument(argument);
                 ProcessQueue();
 
-                var logText = "TIME | FROM | MSG Type\n" + _log.GetLogText();
-                Echo(logText);
+                if (_log.Enabled) {
+                    var logText = "TIME | FROM | MSG Type\n" + _log.GetLogText();
+                    Echo(logText);
 
-                if (_display != null) {
-                    _display.ShowPublicTextOnScreen();
-                    _display.WritePublicText(logText);
+                    if (_display != null) {
+                        _display.ShowPublicTextOnScreen();
+                        _display.WritePublicText(logText);
+                    }
                 }
             } catch (Exception ex) {
+                Echo("##########");
                 Echo(ex.Message);
                 Echo(ex.StackTrace);
+                Echo("##########");
                 throw ex;
             } finally {
                 Runtime.UpdateFrequency = (_msgQueue.Count > 0)

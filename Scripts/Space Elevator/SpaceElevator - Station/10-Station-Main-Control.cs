@@ -19,7 +19,7 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             try {
-                _timeLast += Runtime.TimeSinceLastRun.TotalSeconds;
+                _timeBlockReloadLast += Runtime.TimeSinceLastRun.TotalSeconds;
                 Echo("Station Control " + _runSymbol.GetSymbol(Runtime));
 
                 var runInterval = ((updateSource & UpdateType.Update10) == UpdateType.Update10);
@@ -39,17 +39,16 @@ namespace IngameScript {
                     RunCarriageDockDepartureActions(TAG_B2, _B2);
                     RunCarriageDockDepartureActions(TAG_MAINT, _Maint);
 
-                    _timeLast = 0;
-
                     //_debug.AppendLine(_log.GetLogText());
                 }
-            //} catch (Exception ex) {
-            //    //_debug.AppendLine(ex.Message);
-            //    //_debug.AppendLine(ex.StackTrace);
-            //    //throw ex;
+            } catch (Exception ex) {
+                Echo("##########");
+                Echo(ex.Message);
+                Echo(ex.StackTrace);
+                Echo("##########");
+                throw ex;
             } finally {
                 Echo(_log.GetLogText());
-                //_debug.UpdateDisplay();
             }
         }
 

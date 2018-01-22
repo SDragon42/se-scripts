@@ -56,15 +56,20 @@ namespace IngameScript {
                     _timeTransmitStatusLast = 0;
                 }
 
-                if (_displayLog.Count > 0) {
-                    var txt = _log.GetLogText();
-                    _displayLog.ForEach(d => d.WritePublicText(txt));
+                if (_log.Enabled) {
+                    var logText = _log.GetLogText();
+                    Echo(logText);
+                    foreach (var d in _displayLog) {
+                        d.ShowPublicTextOnScreen();
+                        d.WritePublicText(logText);
+                    }
                 }
-
-                //} catch (Exception ex) {
-                //    //_debug.AppendLine(ex.Message);
-                //    //_debug.AppendLine(ex.StackTrace);
-                //    throw ex;
+            } catch (Exception ex) {
+                Echo("##########");
+                Echo(ex.Message);
+                Echo(ex.StackTrace);
+                Echo("##########");
+                throw ex;
             } finally {
                 Echo(_log.GetLogText());
             }

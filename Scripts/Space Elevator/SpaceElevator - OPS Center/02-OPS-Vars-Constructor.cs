@@ -53,7 +53,7 @@ namespace IngameScript {
 
 
 
-        double _timeBlockReloadLast = TIME_ReloadBlockDelay;
+        double _timeBlockReloadLast = TIME_ReloadBlockDelay * 2;
         int _lastCustomDataHash;
         //double _timeLast;
         double _timeDisplayLast;
@@ -75,7 +75,7 @@ namespace IngameScript {
         }
 
         void LoadBlockLists(bool forceLoad = false) {
-            if (!forceLoad && _timeBlockReloadLast <= TIME_ReloadBlockDelay) return;
+            if (!forceLoad && _timeBlockReloadLast < TIME_ReloadBlockDelay) return;
 
             _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList,
                 b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsCommRadioAntenna(b),

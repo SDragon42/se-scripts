@@ -63,9 +63,8 @@ namespace IngameScript {
         readonly COMMsModule _comms;
         readonly RunningSymbol _runSymbol = new RunningSymbol();
 
-        double _timeBlockReloadLast = TIME_ReloadBlockDelay;
+        double _timeBlockReloadLast = TIME_ReloadBlockDelay * 2;
         int _lastCustomDataHash = -1;
-        double _timeLast;
 
         IMyRadioAntenna _antenna;
         readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
@@ -90,7 +89,7 @@ namespace IngameScript {
         }
 
         void LoadBlockLists(bool forceLoad = false) {
-            if (!forceLoad && _timeBlockReloadLast <= TIME_ReloadBlockDelay) return;
+            if (!forceLoad && _timeBlockReloadLast < TIME_ReloadBlockDelay) return;
 
             _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList,
                 b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsCommRadioAntenna(b),
