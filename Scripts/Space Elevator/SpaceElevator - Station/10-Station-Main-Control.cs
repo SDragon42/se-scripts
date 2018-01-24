@@ -31,15 +31,12 @@ namespace IngameScript {
                     RunCommand(argument);
 
                 if (runInterval) {
-                    //_debug.Clear();
                     _comms.TransmitQueue(_antenna);
                     RunCarriageDockDepartureActions(TAG_A1, _A1);
                     RunCarriageDockDepartureActions(TAG_A2, _A2);
                     RunCarriageDockDepartureActions(TAG_B1, _B1);
                     RunCarriageDockDepartureActions(TAG_B2, _B2);
                     RunCarriageDockDepartureActions(TAG_MAINT, _Maint);
-
-                    //_debug.AppendLine(_log.GetLogText());
                 }
             } catch (Exception ex) {
                 Echo("##########");
@@ -62,6 +59,7 @@ namespace IngameScript {
         }
 
         void RunCommand(string argument) {
+            //_log.AppendLine(argument);
             CommMessage msg = null;
             if (CommMessage.TryParse(argument, out msg)) {
                 switch (msg.PayloadType) {
@@ -88,6 +86,7 @@ namespace IngameScript {
         }
 
         void CarriageRequestProcessing(string carriageName, string msgPayload) {
+            _log.AppendLine($"C.Request - Carriage: {carriageName}");
             var message = CarriageRequestMessage.CreateFromPayload(msgPayload);
             var carriage = GetCarriageVar(carriageName);
             if (message == null || carriage == null) return;
@@ -104,6 +103,7 @@ namespace IngameScript {
             }
         }
         void CarriageStatusProcessing(string carriageName, string msgPayload) {
+            _log.AppendLine($"C.Status - Carriage: {carriageName}");
             var message = CarriageStatusMessage.CreateFromPayload(msgPayload);
             var carriage = GetCarriageVar(carriageName);
             if (message == null || carriage == null) return;

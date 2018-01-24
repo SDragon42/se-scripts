@@ -20,15 +20,8 @@ namespace IngameScript {
         bool IsOnThisGrid(IMyTerminalBlock b) => Me.CubeGrid == b.CubeGrid;
         bool IsTaggedStation(IMyTerminalBlock b) => Collect.IsTagged(b, _settings.StationTag);
 
-        bool IsDoorOnStationOnly(IMyTerminalBlock b) => IsTaggedStation(b) && !IsTaggedTerminal(b) && !IsTaggedTransfer(b) && Collect.IsHumanDoor(b);
-
-        bool IsTaggedTerminal(IMyTerminalBlock b) => Collect.IsTagged(b, _settings.TerminalTag);
-        bool IsOnTerminal(IMyTerminalBlock b) => IsTaggedStation(b) && IsTaggedTerminal(b);
-        bool IsDoorOnTerminal(IMyTerminalBlock b) => IsTaggedStation(b) && IsTaggedTerminal(b) && Collect.IsHumanDoor(b);
-
-        bool IsTaggedTransfer(IMyTerminalBlock b) => Collect.IsTagged(b, _settings.TransferTag);
-        bool IsOnTransferArm(IMyTerminalBlock b) => IsTaggedStation(b) && IsTaggedTransfer(b);
-        bool IsLightOnTransferArm(IMyTerminalBlock b) => IsTaggedStation(b) && IsTaggedTransfer(b) && (b is IMyInteriorLight || b is IMyReflectorLight);
+        bool IsOnTerminal(IMyTerminalBlock b) => IsTaggedStation(b) && Collect.IsTagged(b, _settings.TerminalTag);
+        bool IsOnTransferArm(IMyTerminalBlock b) => IsTaggedStation(b) && Collect.IsTagged(b, _settings.TransferTag);
 
         bool IsGateA1(IMyTerminalBlock b) => Collect.IsTagged(b, TAG_A1);
         bool IsGateA2(IMyTerminalBlock b) => Collect.IsTagged(b, TAG_A2);

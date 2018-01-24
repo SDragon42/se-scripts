@@ -23,7 +23,7 @@ namespace IngameScript {
             //_debug.Enabled = false;
             //_debug.EchoMessages = true;
 
-            _log.Enabled = false;
+            //_log.Enabled = false;
 
             _settings.InitConfig(_custConfig);
 
@@ -58,7 +58,6 @@ namespace IngameScript {
         readonly CarriageVars _B2;
         readonly CarriageVars _Maint;
 
-        //readonly DebugLogging _debug;
         readonly Logging _log = new Logging(ScriptSettings.DEF_NumLogLines);
         readonly COMMsModule _comms;
         readonly RunningSymbol _runSymbol = new RunningSymbol();
@@ -75,9 +74,9 @@ namespace IngameScript {
         readonly List<IMyTextPanel> _displaysAllPassengerCarriagesWide = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysSingleCarriages = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysSingleCarriagesDetailed = new List<IMyTextPanel>();
-        readonly List<IMyTerminalBlock> _gateBlocks = new List<IMyTerminalBlock>();
-        readonly List<IMyTerminalBlock> _armLights = new List<IMyTerminalBlock>();
-        readonly List<IMyDoor> _terminalDoors = new List<IMyDoor>();
+
+        readonly List<IMyTerminalBlock> _gateTerminal = new List<IMyTerminalBlock>();
+        readonly List<IMyTerminalBlock> _gateTransfer = new List<IMyTerminalBlock>();
 
 
         public void Save() {
@@ -100,9 +99,11 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_displaysAllCarriagesWide, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_CARRIAGES_WIDE));
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES));
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE));
-
             GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE));
             GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriagesDetailed, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE_DETAIL));
+
+            GridTerminalSystem.GetBlocksOfType(_gateTerminal, b => IsOnTerminal(b));
+            GridTerminalSystem.GetBlocksOfType(_gateTransfer, b => IsOnTransferArm(b));
 
             _timeBlockReloadLast = 0;
         }

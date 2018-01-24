@@ -22,26 +22,17 @@ namespace IngameScript {
         //-------------------------------------------------------------------------------
 
         void RunCarriageDockDepartureActions(string gateTag, CarriageVars carriage) {
-
-            GridTerminalSystem.SearchBlocksOfName(gateTag, _gateBlocks, IsTaggedStation);
-            GridTerminalSystem.SearchBlocksOfName(gateTag, _armLights, IsLightOnTransferArm);
-            var _armRotor = GetFirstBlockInList<IMyMotorAdvancedStator>(_gateBlocks, IsOnTransferArm);
-            var _armPiston = GetFirstBlockInList<IMyPistonBase>(_gateBlocks, IsOnTransferArm);
-            var _armConnector = GetFirstBlockInList<IMyShipConnector>(_gateBlocks, IsOnTransferArm);
-            var _terminalPiston = GetFirstBlockInList<IMyPistonBase>(_gateBlocks, IsOnTerminal);
-            GridTerminalSystem.GetBlocksOfType(_terminalDoors, b => Collect.IsTagged(b, gateTag) && IsOnTerminal(b));
-
             var CanSendConnectedMessage = false;
             var CanSendDisconnectedMessage = false;
 
             var newState = HookupState.Disconnecting;
             if (carriage.Connect) {
-                var completed = ConnectArm(_armRotor, _armPiston, _armConnector, _terminalPiston);
-                completed &= ExtendRamp(_armRotor, _armPiston, _armConnector, _terminalPiston);
+                var completed = ConnectToCarriage(gateTag, _gateTransfer);
+                completed &= ConnectToCarriage(gateTag, _gateTerminal);
                 newState = completed ? HookupState.Connected : HookupState.Connecting;
             } else {
-                var completed = DisconnectArm(_armRotor, _armPiston, _armConnector, _terminalPiston);
-                completed &= RetractRamp(_armRotor, _armPiston, _armConnector, _terminalPiston);
+                var completed = DisconnectFromCarriage(gateTag, _gateTransfer);
+                completed &= DisconnectFromCarriage(gateTag, _gateTerminal);
                 newState = completed ? HookupState.Disconnected : HookupState.Disconnecting;
             }
 
@@ -61,127 +52,125 @@ namespace IngameScript {
             }
         }
 
-        bool ConnectArm(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston) {
-            // turn on lights
-            foreach (var light in _armLights) {
-                ((IMyFunctionalBlock)light).Enabled = true;
-            }
-
-            // rotate arm
-            if (_armRotor != null) {
-                var currAngle = Math.Round(_armRotor.Angle, RotorConstants.RADIAN_ROUND_DIGITS);
-                var maxAngle = Math.Round(_armRotor.UpperLimitRad, RotorConstants.RADIAN_ROUND_DIGITS);
-                if (currAngle < maxAngle) {
-                    //_armRotor.SafetyLock = false;
-                    //_armRotor.SetValueBool("RotorLock", false);
-                    _armRotor.TargetVelocityRPM = RotorConstants.ROTOR_VELOCITY;
-                    return false; // not in position yet
+        bool DisconnectFromCarriage(string gateTag, List<IMyTerminalBlock> blocks) {
+            // Doors
+            var doors = GetBlocksOfType<IMyDoor>(gateTag, blocks, Collect.IsDoor);
+            var allClosed = true;
+            foreach (var door in doors) {
+                if (door.Status == DoorStatus.Closed) {
+                    door.Enabled = false;
+                } else {
+                    allClosed = false;
+                    door.Enabled = true;
+                    if (door.Status != DoorStatus.Closing)
+                        door.CloseDoor();
                 }
-                //_armRotor.SafetyLock = true;
-                //_armRotor.SetValueBool("RotorLock", true);
+            }
+            if (!allClosed) return false;
+
+            // Connectors
+            var connector = GetBlockOfType<IMyShipConnector>(gateTag, blocks);
+            if (connector != null && connector.Status == MyShipConnectorStatus.Connected) {
+                connector.Disconnect();
+                if (connector.Status == MyShipConnectorStatus.Connected)
+                    return false;
             }
 
-            if (_armConnector == null) return false;
-            // extend piston - extends till the piston can connect
-            if (_armConnector.Status == MyShipConnectorStatus.Unconnected) {
-                if (_armPiston != null) {
-                    //_armPiston.SafetyLock = false;
-                    _armPiston.Extend();
+            // Pistons
+            var piston = GetBlockOfType<IMyPistonBase>(gateTag, blocks);
+            if (piston != null) {
+                piston.Retract();
+                if (piston.CurrentPosition > piston.MinLimit)
+                    return false;
+            }
+
+            // Rotors
+            var rotors = GetBlocksOfType<IMyMotorStator>(gateTag, blocks);
+            var terminate = false;
+            foreach (var rotor in rotors) {
+                var currAngle = Math.Round(rotor.Angle, RotorConstants.RADIAN_ROUND_DIGITS);
+                var minAngle = Math.Round(rotor.LowerLimitRad, RotorConstants.RADIAN_ROUND_DIGITS);
+                if (currAngle > minAngle) {
+                    rotor.TargetVelocityRPM = RotorConstants.ROTOR_VELOCITY * -1;
+                    terminate = true;
+                }
+            }
+            if (terminate) return false;
+
+            // Lights
+            var lights = GetBlocksOfType<IMyFunctionalBlock>(gateTag, blocks, b => (b is IMyInteriorLight || b is IMyReflectorLight));
+            foreach (var light in lights) light.Enabled = false;
+
+            // Done
+            return true;
+        }
+        bool ConnectToCarriage(string gateTag, List<IMyTerminalBlock> blocks) {
+            // Lights
+            var lights = GetBlocksOfType<IMyFunctionalBlock>(gateTag, blocks, b => (b is IMyInteriorLight || b is IMyReflectorLight));
+            foreach (var light in lights) light.Enabled = true;
+
+            // Rotors
+            var rotors = GetBlocksOfType<IMyMotorStator>(gateTag, blocks);
+            var terminate = false;
+            foreach (var rotor in rotors) {
+                var currAngle = Math.Round(rotor.Angle, RotorConstants.RADIAN_ROUND_DIGITS);
+                var maxAngle = Math.Round(rotor.UpperLimitRad, RotorConstants.RADIAN_ROUND_DIGITS);
+                if (currAngle < maxAngle) {
+                    rotor.TargetVelocityRPM = RotorConstants.ROTOR_VELOCITY;
+                    //return false; // not in position yet
+                    terminate = true;
+                }
+            }
+            if (terminate) return false;
+
+            // Pistons / Connectors
+            var piston = GetBlockOfType<IMyPistonBase>(gateTag, blocks);
+            var connector = GetBlockOfType<IMyShipConnector>(gateTag, blocks);
+            if (connector == null || connector.Status == MyShipConnectorStatus.Unconnected) {
+                if (piston != null) {
+                    piston.Extend();
+                    if (piston.CurrentPosition < piston.MaxLimit) return false;
                 }
             } else {
-                if (_armPiston != null)
-                    //_armPiston.SafetyLock = true;
-                    _armConnector.Connect();
+                //if (piston != null)
+                connector?.Connect();
             }
 
-            return (_armConnector.Status == MyShipConnectorStatus.Connected);
-        }
-        bool DisconnectArm(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston) {
-            // retract piston
-            if (_armConnector == null) return false;
-            _armConnector.Disconnect();
-            if (_armPiston != null) {
-                if (_armPiston.CurrentPosition > _armPiston.MinLimit) {
-                    //_armPiston.SafetyLock = false;
-                    _armPiston.Retract();
-                    return false; // not fully retracted
+            if (connector != null)
+                return (connector.Status == MyShipConnectorStatus.Connected);
+
+            // Doors
+            var doors = GetBlocksOfType<IMyDoor>(gateTag, blocks, Collect.IsDoor);
+            var allOpen = true;
+            foreach (var door in doors) {
+                if (door.Status == DoorStatus.Open) {
+                    door.Enabled = false;
+                } else {
+                    allOpen = false;
+                    door.Enabled = true;
+                    if (door.Status != DoorStatus.Opening)
+                        door.OpenDoor();
                 }
-                //_armPiston.SafetyLock = true;
             }
+            if (!allOpen) return false;
 
-            // rotate arm
-            if (_armRotor != null) {
-                var currAngle = Math.Round(_armRotor.Angle, RotorConstants.RADIAN_ROUND_DIGITS);
-                var minAngle = Math.Round(_armRotor.LowerLimitRad, RotorConstants.RADIAN_ROUND_DIGITS);
-                if (currAngle > minAngle) {
-                    //_armRotor.SafetyLock = false;
-                    //_armRotor.SetValueBool("RotorLock", false);
-                    _armRotor.TargetVelocityRPM = RotorConstants.ROTOR_VELOCITY * -1;
-                    return false; // not fully retracted
-                }
-                //_armRotor.SafetyLock = true;
-                //_armRotor.SetValueBool("RotorLock", true);
-            }
-
-            // turn off lights
-            foreach (var light in _armLights) {
-                ((IMyFunctionalBlock)light).Enabled = false;
-            }
-
+            // Done
             return true;
         }
 
-        bool ExtendRamp(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston) {
-            // extend piston
-            if (_terminalPiston != null) {
-                _terminalPiston.Extend();
-                if (_terminalPiston.CurrentPosition < _terminalPiston.MaxLimit) return false;
+
+        IEnumerable<T> GetBlocksOfType<T>(string gateTag, List<IMyTerminalBlock> blocks, Func<IMyTerminalBlock, bool> collect = null) {
+            foreach (var b in blocks) {
+                if (Collect.IsTagged(b, gateTag) && b is T && (collect?.Invoke(b) ?? true))
+                    yield return (T)b;
             }
-
-            // open doors
-            if (_terminalDoors != null) {
-                var allOpen = true;
-                foreach (var door in _terminalDoors) {
-                    if (door.Status == DoorStatus.Open) {
-                        door.Enabled = false;
-                    } else {
-                        allOpen = false;
-                        door.Enabled = true;
-                        if (door.Status != DoorStatus.Opening)
-                            door.OpenDoor();
-                    }
-                }
-
-                if (!allOpen) return false;
-            }
-
-            return true;
         }
-        bool RetractRamp(IMyMotorAdvancedStator _armRotor, IMyPistonBase _armPiston, IMyShipConnector _armConnector, IMyPistonBase _terminalPiston) {
-            // Close doors
-            if (_terminalDoors != null) {
-                var allClosed = true;
-                foreach (var door in _terminalDoors) {
-                    if (door.Status == DoorStatus.Closed) {
-                        door.Enabled = false;
-                    } else {
-                        allClosed = false;
-                        door.Enabled = true;
-                        if (door.Status != DoorStatus.Closing)
-                            door.CloseDoor();
-                    }
-
-                }
-                if (!allClosed) return false;
+        T GetBlockOfType<T>(string gateTag, List<IMyTerminalBlock> blocks, Func<IMyTerminalBlock, bool> collect = null) {
+            foreach (var b in blocks) {
+                if (Collect.IsTagged(b, gateTag) && b is T && (collect?.Invoke(b) ?? true))
+                    return (T)b;
             }
-
-            // retract piston
-            if (_terminalPiston != null) {
-                _terminalPiston.Retract();
-                return !(_terminalPiston.CurrentPosition > _terminalPiston.MinLimit);
-            }
-
-            return true;
+            return default(T);
         }
 
     }
