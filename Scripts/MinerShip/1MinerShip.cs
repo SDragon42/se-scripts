@@ -22,11 +22,12 @@ namespace IngameScript {
         const string CMD_SAFETY = "safety-cutoff";
         const string CMD_SCAN = "scan-range";
 
+        const double BLOCK_RELOAD_TIME = 10;
+
         readonly RunningSymbol _runSymbol;
         readonly DockSecure _dockSecure;
         readonly Proximity _proximity;
         readonly ScriptSettings _settings = new ScriptSettings();
-        readonly TimeInterval _clearRangeInterval;
 
         readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
         readonly List<IMyTextPanel> ProxDisplays = new List<IMyTextPanel>();
@@ -37,23 +38,34 @@ namespace IngameScript {
 
         RangeInfo _foreRangeInfo;
 
+        double _timeLastBlockLoad = BLOCK_RELOAD_TIME * 2;
+        double _timeLastCleared = 0;
+
         public Program() {
             //Echo = (t) => { }; // Disable Echo
             _runSymbol = new RunningSymbol();
             _dockSecure = new DockSecure();
             _proximity = new Proximity();
             _settings.InitConfig(Me, _dockSecure, _proximity);
-            _clearRangeInterval = new TimeInterval(_settings.ForwardDisplayClearTime);
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
         public void Main(string argument, UpdateType updateSource) {
-            Echo("Miner ship v1.1b " + _runSymbol.GetSymbol(Runtime));
+            _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
+            _timeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
+            var timeTilUpdate = Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1;
+            Echo("Miner ship v1.2 " + _runSymbol.GetSymbol(Runtime));
+            Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.");
+            Echo("");
+            Echo("Configure script in 'Custom Data'");
 
             _settings.LoadConfig(Me, _dockSecure, _proximity);
-            _dockSecure.Init(this);
-            _clearRangeInterval.RecordTime(Runtime);
-            LoadBlocks();
+
+            if (_timeLastBlockLoad >= BLOCK_RELOAD_TIME) {
+                _dockSecure.Init(this);
+                LoadBlocks();
+                _timeLastBlockLoad = 0;
+            }
 
             if (argument.Length > 0) {
                 switch (argument.ToLower()) {
@@ -70,8 +82,9 @@ namespace IngameScript {
                 UpdateProximity();
             }
 
-            if (_clearRangeInterval.AtNextInterval) {
+            if (_timeLastCleared >= _settings.ForwardDisplayClearTime) {
                 ForeRangeDisplays.ForEach(d => Write2ForeDisplay(d, ""));
+                _timeLastCleared = 0;
             }
         }
 
@@ -103,13 +116,11 @@ namespace IngameScript {
         }
 
         void ScanAhead() {
-            Echo("ScanAhead()");
             if (_foreRangeCamera == null) return;
             _foreRangeInfo = Ranger.GetDetailedRange(_foreRangeCamera, _settings.ForwardScanRange);
             var text = BuildForwardDisplayText();
-            Echo(text);
             ForeRangeDisplays.ForEach(d => Write2ForeDisplay(d, text));
-            _clearRangeInterval.Reset();
+            _timeLastCleared = 0;
         }
         string BuildForwardDisplayText() {
             return
@@ -134,26 +145,19 @@ namespace IngameScript {
         void LoadBlocks() {
             _sc = GetShipControler();
 
-            Echo($"Prox. Tag: {_proximity.Tag}");
             GridTerminalSystem.GetBlocksOfType(ProxDisplays,
                 b => IsOnThisGrid(b)
                 && _proximity.Tag?.Length > 0
                 && b.CustomName.Contains(_proximity.Tag));
-            Echo($"Prox. LCDs: {ProxDisplays.Count}");
 
-            Echo($"Fore. Tag: {_settings.ForwardScanTag}");
             GridTerminalSystem.GetBlocksOfType(ForeRangeDisplays,
                 b => IsOnThisGrid(b)
                 && _settings.ForwardScanTag?.Length > 0
                 && b.CustomName.Contains(_settings.ForwardScanTag));
-            Echo($"Fore. LCDs: {ForeRangeDisplays.Count}");
-            Echo($"Clear: {_settings.ForwardDisplayClearTime} s");
 
             _foreRangeCamera = GetForwardRangeCamera();
-            Echo($"Fore. Camera: {(_foreRangeCamera != null ? 1 : 0)}");
 
             GridTerminalSystem.GetBlocksOfType(Drills, IsOnThisGrid);
-            Echo($"Drills: {Drills.Count}");
         }
         IMyShipController GetShipControler() {
             GridTerminalSystem.GetBlocksOfType<IMyCockpit>(_tmp, IsOnThisGrid);

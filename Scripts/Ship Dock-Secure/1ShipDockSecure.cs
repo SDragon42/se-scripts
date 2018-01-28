@@ -42,7 +42,6 @@ namespace IngameScript {
             Echo("");
             Echo("Configure script in 'Custom Data'");
 
-
             if (argument.Length == 0 && (updateSource & UpdateType.Trigger) > 0) {
                 Echo("Execution via Timer block is no longer needed.");
                 return;
