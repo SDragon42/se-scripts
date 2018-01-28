@@ -20,20 +20,28 @@ namespace IngameScript {
         const string CMD_UNDOCK = "undock";
         const string CMD_TOGGLE = "toggle-dock";
 
-        readonly RunningSymbol _runSymbol;
-        readonly DockSecure _dockSecure;
+        const double BLOCK_RELOAD_TIME = 10;
+
+        readonly RunningSymbol _runSymbol = new RunningSymbol();
+        readonly DockSecure _dockSecure = new DockSecure();
         readonly ScriptSettings _settings = new ScriptSettings();
+
+        double _timeLastBlockLoad = BLOCK_RELOAD_TIME * 2;
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _runSymbol = new RunningSymbol();
-            _dockSecure = new DockSecure();
             _settings.InitConfig(Me, _dockSecure);
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
         public void Main(string argument, UpdateType updateSource) {
-            Echo("Dock-Secure v1.3.2 " + _runSymbol.GetSymbol(Runtime));
+            _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
+            var timeTilUpdate = Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1;
+            Echo("Dock-Secure v1.3.3 " + _runSymbol.GetSymbol(Runtime));
+            Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.");
+            Echo("");
+            Echo("Configure script in 'Custom Data'");
+
 
             if (argument.Length == 0 && (updateSource & UpdateType.Trigger) > 0) {
                 Echo("Execution via Timer block is no longer needed.");
@@ -41,7 +49,11 @@ namespace IngameScript {
             }
 
             _settings.LoadConfig(Me, _dockSecure);
-            _dockSecure.Init(this);
+
+            if (_timeLastBlockLoad >= BLOCK_RELOAD_TIME) {
+                _dockSecure.Init(this);
+                _timeLastBlockLoad = 0;
+            }
 
             if (argument.Length > 0) {
                 switch (argument.ToLower()) {
