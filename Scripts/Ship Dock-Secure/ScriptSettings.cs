@@ -34,7 +34,7 @@ namespace IngameScript {
 
         public void InitConfig(IMyProgrammableBlock me, DockSecure dsm, Action postLoadAction = null) {
             _config.AddKey(KEY_AUTO_OFF,
-                description: "This will turn on/off systems automactically when the ship undocks/docks via a\nconnector or landing gear.",
+                description: "This will turn on/off systems automatically when the ship undocks/docks via a\nconnector or landing gear.",
                 defaultValue: bool.TrueString);
             _config.AddKey(KEY_AUTO_ON,
                 defaultValue: bool.TrueString);
