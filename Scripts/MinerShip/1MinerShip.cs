@@ -72,14 +72,14 @@ namespace IngameScript {
                 switch (argument.ToLower()) {
                     case CMD_DOCK: _dockSecure.Dock(); break;
                     case CMD_UNDOCK: _dockSecure.UnDock(); break;
-                    case CMD_TOGGLE: _dockSecure.DockUndock(); break;
+                    case CMD_TOGGLE: _dockSecure.ToggleDock(); break;
                     case CMD_SAFETY: TurnOffDrills(); break;
                     case CMD_SCAN: ScanAhead(); break;
                 }
             }
 
             if ((updateSource & UpdateType.Update10) > 0) {
-                _dockSecure.AutoDockUndock();
+                _dockSecure.AutoToggleDock();
 
                 if (!_dockSecure.IsDocked)
                     UpdateProximity();
