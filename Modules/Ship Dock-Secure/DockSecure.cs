@@ -44,7 +44,7 @@ namespace IngameScript {
             thisObj.GridTerminalSystem.GetBlocksOfType(_landingGears, IsOnThisGrid);
             thisObj.GridTerminalSystem.GetBlocksOfType(_connectors, IsOnThisGrid);
         }
-        public void AutoDockUndock() {
+        public void AutoToggleDock() {
             SetStates();
             if (_wasLockedLastRun == IsDocked) return;
             _wasLockedLastRun = IsDocked;
@@ -54,7 +54,7 @@ namespace IngameScript {
             else if (!IsDocked && Auto_On)
                 TurnOnSystems();
         }
-        public void DockUndock() {
+        public void ToggleDock() {
             SetStates();
             if (IsDocked)
                 UnDock();
@@ -85,7 +85,6 @@ namespace IngameScript {
             _toggleBlocks.ForEach(b => b.Enabled = true);
         }
 
-
         void SetStates() {
             IsDocked = _landingGears.Where(Collect.IsLandingGearLocked).Any()
                 || _connectors.Where(Collect.IsConnectorConnected).Any();
@@ -110,7 +109,7 @@ namespace IngameScript {
             return false;
         }
 
-        bool IsOnThisGrid(IMyTerminalBlock b) { return thisObj.Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
+        bool IsOnThisGrid(IMyTerminalBlock b) => thisObj.Me.CubeGrid == b.CubeGrid;
 
     }
 }
