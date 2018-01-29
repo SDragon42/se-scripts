@@ -61,8 +61,9 @@ namespace IngameScript {
 
             _settings.LoadConfig(Me, _dockSecure, _proximity);
 
-            if (_timeLastBlockLoad >= BLOCK_RELOAD_TIME) {
-                _dockSecure.Init(this);
+            var reloadBlocks = (_timeLastBlockLoad >= BLOCK_RELOAD_TIME);
+            _dockSecure.Init(this, reloadBlocks);
+            if (reloadBlocks) {
                 LoadBlocks();
                 _timeLastBlockLoad = 0;
             }
@@ -79,7 +80,9 @@ namespace IngameScript {
 
             if ((updateSource & UpdateType.Update10) > 0) {
                 _dockSecure.AutoDockUndock();
-                UpdateProximity();
+
+                if (!_dockSecure.IsDocked)
+                    UpdateProximity();
             }
 
             if (_timeLastCleared >= _settings.ForwardDisplayClearTime) {
