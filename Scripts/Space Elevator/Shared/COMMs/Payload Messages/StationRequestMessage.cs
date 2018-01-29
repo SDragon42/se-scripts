@@ -15,23 +15,25 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    enum StationRequests { RequestCarriage }
+    partial class Program {
+        enum StationRequests { RequestCarriage }
 
-    class StationRequestMessage : BasePayloadMessage {
-        public const string TYPE = "StationRequestMessage";
-        public static StationRequestMessage CreateFromPayload(string message) {
-            var obj = new StationRequestMessage();
-            obj.LoadFromPayload(message);
-            return obj;
+        class StationRequestMessage : BasePayloadMessage {
+            public const string TYPE = "StationRequestMessage";
+            public static StationRequestMessage CreateFromPayload(string message) {
+                var obj = new StationRequestMessage();
+                obj.LoadFromPayload(message);
+                return obj;
+            }
+
+            private StationRequestMessage() : base(TYPE) { }
+            public StationRequestMessage(StationRequests request, string extra = null) : base(TYPE) {
+                _msgParts = new string[] { request.ToString(), extra ?? string.Empty };
+            }
+
+            public StationRequests Request => _msgParts[0].ToEnum<StationRequests>();
+            public string Extra => _msgParts[1];
+
         }
-
-        private StationRequestMessage() : base(TYPE) { }
-        public StationRequestMessage(StationRequests request, string extra = null) : base(TYPE) {
-            _msgParts = new string[] { request.ToString(), extra ?? string.Empty };
-        }
-
-        public StationRequests Request => _msgParts[0].ToEnum<StationRequests>();
-        public string Extra => _msgParts[1];
-
     }
 }

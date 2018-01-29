@@ -15,8 +15,10 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    static partial class Collect {
-        public static bool IsOrientedForward(IMyTerminalBlock b) => (b.Orientation.TransformDirectionInverse(b.Orientation.Forward) == Base6Directions.Direction.Forward);
-        public static bool IsTagged(IMyTerminalBlock b, string tag) => b.CustomName.ToLower().Contains(tag.ToLower());
+    partial class Program {
+        static partial class Collect {
+            public static bool IsOrientedForward(IMyTerminalBlock b) => (b.Orientation.TransformDirectionInverse(b.Orientation.Forward) == Base6Directions.Direction.Forward);
+            public static bool IsTagged(IMyTerminalBlock b, string tag) => b.CustomName.ToLower().Contains(tag.ToLower());
+        }
     }
 }

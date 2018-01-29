@@ -14,9 +14,10 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript
-{
-    class Airlocks {
+namespace IngameScript {
+    partial class Program {
+        class Airlocks {
 
+        }
     }
 }

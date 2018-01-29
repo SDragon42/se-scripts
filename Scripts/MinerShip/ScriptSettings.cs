@@ -15,90 +15,92 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    class ScriptSettings {
-        const string KEY_AUTO_OFF = "Auto Turn OFF Systems";
-        const string KEY_AUTO_ON = "Auto Turn ON Systems";
-        const string KEY_ToggleThrusters = "Thrusters On/Off";
-        const string KEY_ToggleGyros = "Gyros On/Off";
-        const string KEY_ToggleLights = "Lights On/Off";
-        const string KEY_ToggleBeacons = "Beacons On/Off";
-        const string KEY_ToggleRadioAntennas = "Radio Antennas On/Off";
-        const string KEY_ToggleSensors = "Sensors On/Off";
-        const string KEY_ToggleOreDetectors = "Ore Detectors On/Off";
-        const string KEY_TurnOffSpotLights = "Spotlights Off";
+    partial class Program {
+        class ScriptSettings {
+            const string KEY_AUTO_OFF = "Auto Turn OFF Systems";
+            const string KEY_AUTO_ON = "Auto Turn ON Systems";
+            const string KEY_ToggleThrusters = "Thrusters On/Off";
+            const string KEY_ToggleGyros = "Gyros On/Off";
+            const string KEY_ToggleLights = "Lights On/Off";
+            const string KEY_ToggleBeacons = "Beacons On/Off";
+            const string KEY_ToggleRadioAntennas = "Radio Antennas On/Off";
+            const string KEY_ToggleSensors = "Sensors On/Off";
+            const string KEY_ToggleOreDetectors = "Ore Detectors On/Off";
+            const string KEY_TurnOffSpotLights = "Spotlights Off";
 
-        const string KEY_ProximityTag = "Proximity Tag";
-        const string KEY_ProximityRange = "Proximity Range (m)";
+            const string KEY_ProximityTag = "Proximity Tag";
+            const string KEY_ProximityRange = "Proximity Range (m)";
 
-        const string KEY_ForwardTag = "Forward Range Tag";
-        const string KEY_ForwardRange = "Forward Range (m)";
-        const string KEY_ForwardClearTime = "Display Time (seconds)";
+            const string KEY_ForwardTag = "Forward Range Tag";
+            const string KEY_ForwardRange = "Forward Range (m)";
+            const string KEY_ForwardClearTime = "Display Time (seconds)";
 
-        readonly CustomDataConfig _config = new CustomDataConfig();
-        int _configHashCode = 0;
+            readonly CustomDataConfig _config = new CustomDataConfig();
+            int _configHashCode = 0;
 
-        public void InitConfig(IMyProgrammableBlock me, DockSecure dsm, Proximity pm) {
-            _config.AddKey(KEY_AUTO_OFF,
-                description: "This will turn off systems automatically when the ship docks via a\nconnector or landing gear.",
-                defaultValue: bool.TrueString);
-            _config.AddKey(KEY_AUTO_ON,
-                defaultValue: bool.TrueString);
+            public void InitConfig(IMyProgrammableBlock me, DockSecure dsm, Proximity pm) {
+                _config.AddKey(KEY_AUTO_OFF,
+                    description: "This will turn off systems automatically when the ship docks via a\nconnector or landing gear.",
+                    defaultValue: bool.TrueString);
+                _config.AddKey(KEY_AUTO_ON,
+                    defaultValue: bool.TrueString);
 
-            _config.AddKey(KEY_ToggleThrusters,
-                description: "This are the block types to toggle On/Off.",
-                defaultValue: bool.TrueString);
-            _config.AddKey(KEY_ToggleGyros, defaultValue: bool.TrueString);
-            _config.AddKey(KEY_ToggleLights, defaultValue: bool.TrueString);
-            _config.AddKey(KEY_ToggleBeacons, defaultValue: bool.TrueString);
-            _config.AddKey(KEY_ToggleRadioAntennas, defaultValue: bool.TrueString);
-            _config.AddKey(KEY_ToggleSensors, defaultValue: bool.TrueString);
-            _config.AddKey(KEY_ToggleOreDetectors, defaultValue: bool.TrueString);
-            _config.AddKey(KEY_TurnOffSpotLights,
-                description: "This are the block types to only turn off.",
-                defaultValue: bool.TrueString);
+                _config.AddKey(KEY_ToggleThrusters,
+                    description: "This are the block types to toggle On/Off.",
+                    defaultValue: bool.TrueString);
+                _config.AddKey(KEY_ToggleGyros, defaultValue: bool.TrueString);
+                _config.AddKey(KEY_ToggleLights, defaultValue: bool.TrueString);
+                _config.AddKey(KEY_ToggleBeacons, defaultValue: bool.TrueString);
+                _config.AddKey(KEY_ToggleRadioAntennas, defaultValue: bool.TrueString);
+                _config.AddKey(KEY_ToggleSensors, defaultValue: bool.TrueString);
+                _config.AddKey(KEY_ToggleOreDetectors, defaultValue: bool.TrueString);
+                _config.AddKey(KEY_TurnOffSpotLights,
+                    description: "This are the block types to only turn off.",
+                    defaultValue: bool.TrueString);
 
-            _config.AddKey(KEY_ProximityTag,
-                description: "Proximity range settings");
-            _config.AddKey(KEY_ProximityRange,
-                defaultValue: "100");
+                _config.AddKey(KEY_ProximityTag,
+                    description: "Proximity range settings");
+                _config.AddKey(KEY_ProximityRange,
+                    defaultValue: "100");
 
-            _config.AddKey(KEY_ForwardTag,
-                description: "Foreward range settings.");
-            _config.AddKey(KEY_ForwardRange,
-                defaultValue: "15000");
-            _config.AddKey(KEY_ForwardClearTime,
-                defaultValue: "5");
+                _config.AddKey(KEY_ForwardTag,
+                    description: "Forward range settings.");
+                _config.AddKey(KEY_ForwardRange,
+                    defaultValue: "15000");
+                _config.AddKey(KEY_ForwardClearTime,
+                    defaultValue: "5");
 
-            LoadConfig(me, dsm, pm);
+                LoadConfig(me, dsm, pm);
+            }
+            public void LoadConfig(IMyProgrammableBlock me, DockSecure dsm, Proximity pm) {
+                if (_configHashCode == me.CustomData.GetHashCode())
+                    return;
+                _config.ReadFromCustomData(me, true);
+                _config.SaveToCustomData(me);
+                _configHashCode = me.CustomData.GetHashCode();
+
+                dsm.Auto_On = _config.GetValue(KEY_AUTO_ON).ToBoolean();
+                dsm.Auto_Off = _config.GetValue(KEY_AUTO_OFF).ToBoolean();
+                dsm.Thrusters_OnOff = _config.GetValue(KEY_ToggleThrusters).ToBoolean();
+                dsm.Gyros_OnOff = _config.GetValue(KEY_ToggleGyros).ToBoolean();
+                dsm.Lights_OnOff = _config.GetValue(KEY_ToggleLights).ToBoolean();
+                dsm.Beacons_OnOff = _config.GetValue(KEY_ToggleBeacons).ToBoolean();
+                dsm.RadioAntennas_OnOff = _config.GetValue(KEY_ToggleRadioAntennas).ToBoolean();
+                dsm.Sensors_OnOff = _config.GetValue(KEY_ToggleSensors).ToBoolean();
+                dsm.OreDetectors_OnOff = _config.GetValue(KEY_ToggleOreDetectors).ToBoolean();
+                dsm.Spotlights_Off = _config.GetValue(KEY_TurnOffSpotLights).ToBoolean();
+
+                pm.Tag = _config.GetValue(KEY_ProximityTag);
+                pm.ScanRange = _config.GetValue(KEY_ProximityRange).ToDouble();
+
+                ForwardScanTag = _config.GetValue(KEY_ForwardTag);
+                ForwardScanRange = _config.GetValue(KEY_ForwardRange).ToDouble();
+                ForwardDisplayClearTime = _config.GetValue(KEY_ForwardClearTime).ToDouble();
+            }
+
+            public string ForwardScanTag { get; private set; }
+            public double ForwardScanRange { get; private set; }
+            public double ForwardDisplayClearTime { get; private set; }
         }
-        public void LoadConfig(IMyProgrammableBlock me, DockSecure dsm, Proximity pm) {
-            if (_configHashCode == me.CustomData.GetHashCode())
-                return;
-            _config.ReadFromCustomData(me, true);
-            _config.SaveToCustomData(me);
-            _configHashCode = me.CustomData.GetHashCode();
-
-            dsm.Auto_On = _config.GetValue(KEY_AUTO_ON).ToBoolean();
-            dsm.Auto_Off = _config.GetValue(KEY_AUTO_OFF).ToBoolean();
-            dsm.Thrusters_OnOff = _config.GetValue(KEY_ToggleThrusters).ToBoolean();
-            dsm.Gyros_OnOff = _config.GetValue(KEY_ToggleGyros).ToBoolean();
-            dsm.Lights_OnOff = _config.GetValue(KEY_ToggleLights).ToBoolean();
-            dsm.Beacons_OnOff = _config.GetValue(KEY_ToggleBeacons).ToBoolean();
-            dsm.RadioAntennas_OnOff = _config.GetValue(KEY_ToggleRadioAntennas).ToBoolean();
-            dsm.Sensors_OnOff = _config.GetValue(KEY_ToggleSensors).ToBoolean();
-            dsm.OreDetectors_OnOff = _config.GetValue(KEY_ToggleOreDetectors).ToBoolean();
-            dsm.Spotlights_Off = _config.GetValue(KEY_TurnOffSpotLights).ToBoolean();
-
-            pm.Tag = _config.GetValue(KEY_ProximityTag);
-            pm.ScanRange = _config.GetValue(KEY_ProximityRange).ToDouble();
-
-            ForwardScanTag = _config.GetValue(KEY_ForwardTag);
-            ForwardScanRange = _config.GetValue(KEY_ForwardRange).ToDouble();
-            ForwardDisplayClearTime = _config.GetValue(KEY_ForwardClearTime).ToDouble();
-        }
-
-        public string ForwardScanTag { get; private set; }
-        public double ForwardScanRange { get; private set; }
-        public double ForwardDisplayClearTime { get; private set; }
     }
 }

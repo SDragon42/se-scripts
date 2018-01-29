@@ -15,8 +15,10 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    static class Common {
-        public static bool IsLessThen<T>(T value, T other) where T : IComparable { return value.CompareTo(other) < 0; }
-        public static bool IsGreaterThen<T>(T value, T other) where T : IComparable { return value.CompareTo(other) > 0; }
+    partial class Program {
+        static class Common {
+            public static bool IsLessThen<T>(T value, T other) where T : IComparable { return value.CompareTo(other) < 0; }
+            public static bool IsGreaterThen<T>(T value, T other) where T : IComparable { return value.CompareTo(other) > 0; }
+        }
     }
 }

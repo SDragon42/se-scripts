@@ -3,5 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace IngameScript {
-    enum Direction { Forward, Backward, Up, Down, Left, Right }
+    partial class Program {
+        enum Direction { Forward, Backward, Up, Down, Left, Right }
+    }
 }

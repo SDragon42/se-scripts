@@ -3,5 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace IngameScript {
-    enum TravelDirection { None, Ascent, Descent }
+    partial class Program {
+        enum TravelDirection { None, Ascent, Descent }
+    }
 }

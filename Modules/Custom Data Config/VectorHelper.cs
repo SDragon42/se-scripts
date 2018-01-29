@@ -15,30 +15,32 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    static class VectorHelper {
-        public static Vector3D GpsToVector(string gpsCoordinate) {
-            string name;
-            Vector3D position;
-            GpsToVector(gpsCoordinate, out name, out position);
-            return position;
-        }
+    partial class Program {
+        static class VectorHelper {
+            public static Vector3D GpsToVector(string gpsCoordinate) {
+                string name;
+                Vector3D position;
+                GpsToVector(gpsCoordinate, out name, out position);
+                return position;
+            }
 
-        public static void GpsToVector(string gpsCoordinate, out string name, out Vector3D position) {
-            name = string.Empty;
-            position = Vector3D.Zero;
+            public static void GpsToVector(string gpsCoordinate, out string name, out Vector3D position) {
+                name = string.Empty;
+                position = Vector3D.Zero;
 
-            var gpsParts = gpsCoordinate.Split(':');
-            if (gpsParts == null || gpsParts.Length < 5) return;
+                var gpsParts = gpsCoordinate.Split(':');
+                if (gpsParts == null || gpsParts.Length < 5) return;
 
-            name = gpsParts[1];
-            position = new Vector3D(
-                double.Parse(gpsParts[2]),
-                double.Parse(gpsParts[3]),
-                double.Parse(gpsParts[4]));
-        }
+                name = gpsParts[1];
+                position = new Vector3D(
+                    double.Parse(gpsParts[2]),
+                    double.Parse(gpsParts[3]),
+                    double.Parse(gpsParts[4]));
+            }
 
-        public static string VectortoGps(Vector3D v) {
-            return $"GPS:Position:{v.X}:{v.Y}:{v.Z}:";
+            public static string VectortoGps(Vector3D v) {
+                return $"GPS:Position:{v.X}:{v.Y}:{v.Z}:";
+            }
         }
     }
 }

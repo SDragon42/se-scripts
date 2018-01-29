@@ -15,8 +15,10 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    static partial class Collect {
-        public static bool IsCommRadioAntenna(IMyTerminalBlock b) => (b is IMyRadioAntenna && IsCommRadioAntenna((IMyRadioAntenna)b));
-        public static bool IsCommRadioAntenna(IMyRadioAntenna b) => (b.Enabled && b.EnableBroadcasting);
+    partial class Program {
+        static partial class Collect {
+            public static bool IsCommRadioAntenna(IMyTerminalBlock b) => (b is IMyRadioAntenna && IsCommRadioAntenna((IMyRadioAntenna)b));
+            public static bool IsCommRadioAntenna(IMyRadioAntenna b) => (b.Enabled && b.EnableBroadcasting);
+        }
     }
 }

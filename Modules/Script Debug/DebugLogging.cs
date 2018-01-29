@@ -14,55 +14,58 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
-namespace IngameScript {
-    class DebugLogging : Logging {
-        public const string DefaultDebugPanelName = "DEBUG";
+namespace IngameScript
+{
+    partial class Program {
+        class DebugLogging : Logging {
+            public const string DefaultDebugPanelName = "DEBUG";
 
-        readonly List<IMyTextPanel> _debugDisplays = new List<IMyTextPanel>();
+            readonly List<IMyTextPanel> _debugDisplays = new List<IMyTextPanel>();
 
-        readonly MyGridProgram _thisObj;
-        readonly string _debugDisplayName;
-
-
-        public DebugLogging(MyGridProgram thisObj, string debugDisplayName = null) {
-            _thisObj = thisObj;
-            _debugDisplayName = string.IsNullOrWhiteSpace(debugDisplayName) ? DefaultDebugPanelName : debugDisplayName;
-            MaxTextLinesToKeep = -1;
-        }
+            readonly MyGridProgram _thisObj;
+            readonly string _debugDisplayName;
 
 
-        public bool EchoMessages { get; set; }
-
-
-        void Init() {
-            _thisObj.GridTerminalSystem.GetBlocksOfType(_debugDisplays, IsValidDebugDisplay);
-            foreach (var display in _debugDisplays) {
-                display.ShowTextureOnScreen();
-                display.ShowPublicTextOnScreen();
+            public DebugLogging(MyGridProgram thisObj, string debugDisplayName = null) {
+                _thisObj = thisObj;
+                _debugDisplayName = string.IsNullOrWhiteSpace(debugDisplayName) ? DefaultDebugPanelName : debugDisplayName;
+                MaxTextLinesToKeep = -1;
             }
-        }
-        bool IsValidDebugDisplay(IMyTerminalBlock b) {
-            if (b.CubeGrid != _thisObj.Me.CubeGrid) return false;
-            return (string.Compare(b.CustomName, _debugDisplayName, true) == 0);
-        }
 
 
-        public override void Clear() {
-            base.Clear();
-            if (!Enabled) return;
-            Init();
-            WriteToDisplays(string.Empty);
-        }
-        public void UpdateDisplay() {
-            if (!Enabled) return;
-            var text = GetLogText();
-            Init();
-            if (EchoMessages) _thisObj.Echo(text);
-            WriteToDisplays(text);
-        }
-        void WriteToDisplays(string text) {
-            if (!Enabled) return;
-            _debugDisplays.ForEach(d => d.WritePublicText(text));
+            public bool EchoMessages { get; set; }
+
+
+            void Init() {
+                _thisObj.GridTerminalSystem.GetBlocksOfType(_debugDisplays, IsValidDebugDisplay);
+                foreach (var display in _debugDisplays) {
+                    display.ShowTextureOnScreen();
+                    display.ShowPublicTextOnScreen();
+                }
+            }
+            bool IsValidDebugDisplay(IMyTerminalBlock b) {
+                if (b.CubeGrid != _thisObj.Me.CubeGrid) return false;
+                return (string.Compare(b.CustomName, _debugDisplayName, true) == 0);
+            }
+
+
+            public override void Clear() {
+                base.Clear();
+                if (!Enabled) return;
+                Init();
+                WriteToDisplays(string.Empty);
+            }
+            public void UpdateDisplay() {
+                if (!Enabled) return;
+                var text = GetLogText();
+                Init();
+                if (EchoMessages) _thisObj.Echo(text);
+                WriteToDisplays(text);
+            }
+            void WriteToDisplays(string text) {
+                if (!Enabled) return;
+                _debugDisplays.ForEach(d => d.WritePublicText(text));
+            }
         }
     }
 }

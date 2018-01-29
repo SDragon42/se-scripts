@@ -15,12 +15,14 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    class FontChar {
-        public FontChar(int width, IList<int> points) {
-            Width = width;
-            Points = points;
+    partial class Program {
+        class FontChar {
+            public FontChar(int width, IList<int> points) {
+                Width = width;
+                Points = points;
+            }
+            public int Width { get; private set; }
+            public IList<int> Points { get; private set; }
         }
-        public int Width { get; private set; }
-        public IList<int> Points { get; private set; }
     }
 }

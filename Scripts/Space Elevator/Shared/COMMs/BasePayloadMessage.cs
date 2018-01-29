@@ -15,23 +15,25 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    abstract class BasePayloadMessage {
-        protected const char DELIMITER = '\t';
-        protected string[] _msgParts;
+    partial class Program {
+        abstract class BasePayloadMessage {
+            protected const char DELIMITER = '\t';
+            protected string[] _msgParts;
 
-        protected BasePayloadMessage(string messageType) {
-            MessageType = messageType;
+            protected BasePayloadMessage(string messageType) {
+                MessageType = messageType;
+            }
+            public void LoadFromPayload(string message) {
+                var parts = message.Split(DELIMITER);
+                if (_msgParts != null && parts.Length != _msgParts.Length) return;
+                _msgParts = parts;
+            }
+
+            public string MessageType { get; private set; }
+
+            public override string ToString() => string.Join(DELIMITER.ToString(), _msgParts);
+
+            protected string Set(string value) => value ?? string.Empty;
         }
-        public void LoadFromPayload(string message) {
-            var parts = message.Split(DELIMITER);
-            if (_msgParts != null && parts.Length != _msgParts.Length) return;
-            _msgParts = parts;
-        }
-
-        public string MessageType { get; private set; }
-
-        public override string ToString() => string.Join(DELIMITER.ToString(), _msgParts);
-
-        protected string Set(string value) => value ?? string.Empty;
     }
 }

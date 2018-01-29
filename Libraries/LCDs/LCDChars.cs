@@ -15,21 +15,23 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    static class LCDChars {
-        // alex-thatradarguy: for the xbox character codes
-        // http://steamcommunity.com/sharedfiles/filedetails/?id=627416824
-        // TODO: Change Names to be X-BOX button names
-        public const string XBox_A = "\uE001";
-        public const string XBox_X = "\uE002";
-        public const string XBox_B = "\uE003";
-        public const string XBox_Y = "\uE004";
-        public const string XBox_Menu = "\uE00E";
-        public const string XBox_Back = "\uE00D";
-        public const string XBox_DPad = "\uE00F";
-        public const string XBox_RB = "\uE006"; // Wider Color Constants
+    partial class Program {
+        static class LCDChars {
+            // alex-thatradarguy: for the xbox character codes
+            // http://steamcommunity.com/sharedfiles/filedetails/?id=627416824
+            // TODO: Change Names to be X-BOX button names
+            public const string XBox_A = "\uE001";
+            public const string XBox_X = "\uE002";
+            public const string XBox_B = "\uE003";
+            public const string XBox_Y = "\uE004";
+            public const string XBox_Menu = "\uE00E";
+            public const string XBox_Back = "\uE00D";
+            public const string XBox_DPad = "\uE00F";
+            public const string XBox_RB = "\uE006"; // Wider Color Constants
 
-        public static char ColorChar(int r, int g, int b) {
-            return (char)(0xE100 + (MathHelper.Clamp(r, 0, 7) << 6) + (MathHelper.Clamp(g, 0, 7) << 3) + MathHelper.Clamp(b, 0, 7));
+            public static char ColorChar(int r, int g, int b) {
+                return (char)(0xE100 + (MathHelper.Clamp(r, 0, 7) << 6) + (MathHelper.Clamp(g, 0, 7) << 3) + MathHelper.Clamp(b, 0, 7));
+            }
         }
     }
 }

@@ -15,5 +15,7 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    enum HookupState { Connected, Connecting, Disconnected, Disconnecting }
+    partial class Program {
+        enum HookupState { Connected, Connecting, Disconnected, Disconnecting }
+    }
 }

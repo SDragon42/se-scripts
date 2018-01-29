@@ -15,19 +15,21 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    class SendCarriageToMessage : BasePayloadMessage {
-        public const string TYPE = "SendCarriageToMessage";
-        public static SendCarriageToMessage CreateFromPayload(string message) {
-            var obj = new SendCarriageToMessage();
-            obj.LoadFromPayload(message);
-            return obj;
-        }
+    partial class Program {
+        class SendCarriageToMessage : BasePayloadMessage {
+            public const string TYPE = "SendCarriageToMessage";
+            public static SendCarriageToMessage CreateFromPayload(string message) {
+                var obj = new SendCarriageToMessage();
+                obj.LoadFromPayload(message);
+                return obj;
+            }
 
-        private SendCarriageToMessage() : base(TYPE) { }
-        public SendCarriageToMessage(string destination) : base(TYPE) {
-            _msgParts = new string[] { destination };
-        }
+            private SendCarriageToMessage() : base(TYPE) { }
+            public SendCarriageToMessage(string destination) : base(TYPE) {
+                _msgParts = new string[] { destination };
+            }
 
-        public string Destination => _msgParts[0];
+            public string Destination => _msgParts[0];
+        }
     }
 }

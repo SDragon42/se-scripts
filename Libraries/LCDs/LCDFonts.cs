@@ -15,8 +15,10 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    static class LCDFonts {
-        public const string DEBUG = "Debug";
-        public const string MONOSPACE = "Monospace";
+    partial class Program {
+        static class LCDFonts {
+            public const string DEBUG = "Debug";
+            public const string MONOSPACE = "Monospace";
+        }
     }
 }

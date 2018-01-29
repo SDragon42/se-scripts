@@ -15,18 +15,20 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    struct RangeInfo {
-        public static RangeInfo Empty => new RangeInfo(new MyDetectedEntityInfo(), null);
+    partial class Program {
+        struct RangeInfo {
+            public static RangeInfo Empty => new RangeInfo(new MyDetectedEntityInfo(), null);
 
-        public RangeInfo(MyDetectedEntityInfo info, double? range) {
-            _info = info;
-            _range = range;
+            public RangeInfo(MyDetectedEntityInfo info, double? range) {
+                _info = info;
+                _range = range;
+            }
+
+            readonly double? _range;
+            public double? Range => _range;
+
+            readonly MyDetectedEntityInfo _info;
+            public MyDetectedEntityInfo DetectedEntity => _info;
         }
-
-        readonly double? _range;
-        public double? Range => _range;
-
-        readonly MyDetectedEntityInfo _info;
-        public MyDetectedEntityInfo DetectedEntity => _info;
     }
 }
