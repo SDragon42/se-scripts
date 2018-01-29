@@ -49,8 +49,9 @@ namespace IngameScript {
 
             _settings.LoadConfig(Me, _dockSecure);
 
-            if (_timeLastBlockLoad >= BLOCK_RELOAD_TIME) {
-                _dockSecure.Init(this);
+            var reloadBlocks = (_timeLastBlockLoad >= BLOCK_RELOAD_TIME);
+            _dockSecure.Init(this, reloadBlocks);
+            if (reloadBlocks) {
                 _timeLastBlockLoad = 0;
             }
 
@@ -58,13 +59,13 @@ namespace IngameScript {
                 switch (argument.ToLower()) {
                     case CMD_DOCK: _dockSecure.Dock(); break;
                     case CMD_UNDOCK: _dockSecure.UnDock(); break;
-                    case CMD_TOGGLE: _dockSecure.DockUndock(); break;
+                    case CMD_TOGGLE: _dockSecure.ToggleDock(); break;
                 }
                 return;
             }
 
             if ((updateSource & UpdateType.Update10) > 0) {
-                _dockSecure.AutoDockUndock();
+                _dockSecure.AutoToggleDock();
             }
 
         }
