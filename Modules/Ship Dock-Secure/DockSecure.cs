@@ -35,40 +35,44 @@ namespace IngameScript {
         public bool Sorters_Off { get; set; }
         public bool Spotlights_Off { get; set; }
 
+        public bool IsDocked { get; private set; }
 
 
-        public void Init(MyGridProgram thisObj) {
+        public void Init(MyGridProgram thisObj, bool findBlocks = true) {
             this.thisObj = thisObj;
+            if (!findBlocks) return;
             thisObj.GridTerminalSystem.GetBlocksOfType(_landingGears, IsOnThisGrid);
             thisObj.GridTerminalSystem.GetBlocksOfType(_connectors, IsOnThisGrid);
         }
         public void AutoDockUndock() {
-            var isDockedNow = IsDocked();
-            if (_wasLockedLastRun == isDockedNow) return;
-            _wasLockedLastRun = isDockedNow;
+            SetStates();
+            if (_wasLockedLastRun == IsDocked) return;
+            _wasLockedLastRun = IsDocked;
 
-            if (isDockedNow && Auto_Off)
+            if (IsDocked && Auto_Off)
                 TurnOffSystems();
-            else if (!isDockedNow && Auto_On)
+            else if (!IsDocked && Auto_On)
                 TurnOnSystems();
         }
         public void DockUndock() {
-            if (IsDocked())
+            SetStates();
+            if (IsDocked)
                 UnDock();
             else
                 Dock();
         }
         public void Dock() {
-            var good2Go = IsDocked() || IsReadyToDock();
-            if (!good2Go) return;
-            TurnOffSystems();
             _landingGears.ForEach(b => b.Lock());
             _connectors.ForEach(b => b.Connect());
+            SetStates();
+            if (IsDocked)
+                TurnOffSystems();
         }
         public void UnDock() {
             TurnOnSystems();
             _landingGears.ForEach(b => b.Unlock());
             _connectors.ForEach(b => b.Disconnect());
+            IsDocked = false;
         }
 
 
@@ -82,15 +86,9 @@ namespace IngameScript {
         }
 
 
-        bool IsDocked() {
-            var docked = _landingGears.Where(Collect.IsLandingGearLocked).Any();
-            docked |= _connectors.Where(Collect.IsConnectorConnected).Any();
-            return docked;
-        }
-        bool IsReadyToDock() {
-            var ready = _landingGears.Where(Collect.IsLandingGearReadyToLock).Any();
-            ready |= _connectors.Where(Collect.IsConnectorConnectable).Any();
-            return ready;
+        void SetStates() {
+            IsDocked = _landingGears.Where(Collect.IsLandingGearLocked).Any()
+                || _connectors.Where(Collect.IsConnectorConnected).Any();
         }
 
         bool IsBlock2TurnON(IMyTerminalBlock b) {
