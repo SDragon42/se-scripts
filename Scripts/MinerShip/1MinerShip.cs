@@ -21,31 +21,28 @@ namespace IngameScript {
         const string CMD_TOGGLE = "toggle-dock";
         const string CMD_SAFETY = "safety-cutoff";
         const string CMD_SCAN = "scan-range";
+        const string CMD_TOOLS = "toggle-tools";
 
         const double BLOCK_RELOAD_TIME = 10;
 
-        readonly RunningSymbol _runSymbol;
-        readonly DockSecure _dockSecure;
-        readonly Proximity _proximity;
         readonly ScriptSettings _settings = new ScriptSettings();
+        readonly RunningSymbol _runSymbol = new RunningSymbol();
+        readonly DockSecure _dockSecure = new DockSecure();
+        readonly Proximity _proximity = new Proximity();
+        RangeInfo _foreRangeInfo;
 
         readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
         readonly List<IMyTextPanel> ProxDisplays = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> ForeRangeDisplays = new List<IMyTextPanel>();
-        readonly List<IMyShipDrill> Drills = new List<IMyShipDrill>();
+        readonly List<IMyFunctionalBlock> Tools = new List<IMyFunctionalBlock>();
         IMyShipController _sc = null;
         IMyCameraBlock _foreRangeCamera = null;
-
-        RangeInfo _foreRangeInfo;
 
         double _timeLastBlockLoad = BLOCK_RELOAD_TIME * 2;
         double _timeLastCleared = 0;
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _runSymbol = new RunningSymbol();
-            _dockSecure = new DockSecure();
-            _proximity = new Proximity();
             _settings.InitConfig(Me, _dockSecure, _proximity);
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
@@ -54,7 +51,7 @@ namespace IngameScript {
             _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
             _timeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
             var timeTilUpdate = Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1;
-            Echo("Miner ship v1.2 " + _runSymbol.GetSymbol(Runtime));
+            Echo("Tool Ship OS v1.3 " + _runSymbol.GetSymbol(Runtime));
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.");
             Echo("");
             Echo("Configure script in 'Custom Data'");
@@ -73,8 +70,9 @@ namespace IngameScript {
                     case CMD_DOCK: _dockSecure.Dock(); break;
                     case CMD_UNDOCK: _dockSecure.UnDock(); break;
                     case CMD_TOGGLE: _dockSecure.ToggleDock(); break;
-                    case CMD_SAFETY: TurnOffDrills(); break;
+                    case CMD_SAFETY: TurnOffTools(); break;
                     case CMD_SCAN: ScanAhead(); break;
+                    case CMD_TOOLS: ToggleToolsOnOff(); break;
                 }
             }
 
@@ -138,8 +136,11 @@ namespace IngameScript {
             display.ShowPublicTextOnScreen();
         }
 
-        void TurnOffDrills() {
-            Drills.ForEach(b => b.Enabled = false);
+        void TurnOffTools() {
+            Tools.ForEach(b => b.Enabled = false);
+        }
+        void ToggleToolsOnOff() {
+            Tools.ForEach(b => b.Enabled = !b.Enabled);
         }
 
 
@@ -150,7 +151,7 @@ namespace IngameScript {
 
             GridTerminalSystem.GetBlocksOfType(ProxDisplays,
                 b => IsOnThisGrid(b)
-                && _proximity.Tag?.Length > 0
+                && _proximity.Tag.Length > 0
                 && b.CustomName.Contains(_proximity.Tag));
 
             GridTerminalSystem.GetBlocksOfType(ForeRangeDisplays,
@@ -160,7 +161,7 @@ namespace IngameScript {
 
             _foreRangeCamera = GetForwardRangeCamera();
 
-            GridTerminalSystem.GetBlocksOfType(Drills, IsOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(Tools, b => IsOnThisGrid(b) && IsToolBlock(b));
         }
         IMyShipController GetShipControler() {
             GridTerminalSystem.GetBlocksOfType<IMyCockpit>(_tmp, IsOnThisGrid);
@@ -179,6 +180,7 @@ namespace IngameScript {
         }
 
 
-        bool IsOnThisGrid(IMyTerminalBlock b) { return b.CubeGrid == Me.CubeGrid; }
+        bool IsOnThisGrid(IMyTerminalBlock b) => b.CubeGrid == Me.CubeGrid;
+        bool IsToolBlock(IMyTerminalBlock b) => b is IMyShipDrill || b is IMyShipWelder || b is IMyShipGrinder;
     }
 }
