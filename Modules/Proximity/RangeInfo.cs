@@ -16,8 +16,8 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        struct RangeInfo {
-            public static RangeInfo Empty => new RangeInfo(new MyDetectedEntityInfo(), null);
+        class RangeInfo {
+            public static readonly RangeInfo Empty = new RangeInfo(new MyDetectedEntityInfo(), null);
 
             public RangeInfo(MyDetectedEntityInfo info, double? range) {
                 _info = info;

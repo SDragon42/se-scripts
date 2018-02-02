@@ -17,7 +17,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
         class Proximity {
-            const double SCAN_RANGE = 100.0;
+            const double DEF_SCAN_RANGE = 100.0;
 
             readonly List<IMyCameraBlock> _cameras = new List<IMyCameraBlock>();
             readonly List<Direction> KeyList;
@@ -25,6 +25,7 @@ namespace IngameScript {
             readonly Dictionary<Direction, double?> _prevProx = new Dictionary<Direction, double?>();
 
             public Proximity() {
+                ScanRange = DEF_SCAN_RANGE;
                 KeyList = Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList();
                 foreach (var key in KeyList) {
                     _currProx.Add(key, null);
@@ -38,13 +39,12 @@ namespace IngameScript {
             string _tag = string.Empty;
             public string Tag { get { return _tag; } set { _tag = value?.Trim() ?? string.Empty; } }
 
-            double _scanRange = SCAN_RANGE;
-            public double ScanRange { get { return _scanRange; } set { _scanRange = value; } }
+            public double ScanRange { get; set; }
 
             public double? GetRange(Direction dir) => _currProx[dir];
             public double? GetRangeDiff(Direction dir) => _currProx[dir] - _prevProx[dir];
 
-            public void RunScan(MyGridProgram thisObj, IMyShipController sc) {
+            public void RunScan(MyGridProgram mgp, IMyShipController sc) {
                 foreach (var key in KeyList) {
                     _prevProx[key] = _currProx[key];
                     _currProx[key] = null;
@@ -56,17 +56,17 @@ namespace IngameScript {
                 }
 
                 if (_orientation != null) {
-                    _currProx[Direction.Forward] = GetMinimumRange(thisObj, _orientation.IsForward);
-                    _currProx[Direction.Backward] = GetMinimumRange(thisObj, _orientation.IsBackward);
-                    _currProx[Direction.Left] = GetMinimumRange(thisObj, _orientation.IsLeft);
-                    _currProx[Direction.Right] = GetMinimumRange(thisObj, _orientation.IsRight);
-                    _currProx[Direction.Up] = GetMinimumRange(thisObj, _orientation.IsUp);
-                    _currProx[Direction.Down] = GetMinimumRange(thisObj, _orientation.IsDown);
+                    _currProx[Direction.Forward] = GetMinimumRange(mgp, _orientation.IsForward);
+                    _currProx[Direction.Backward] = GetMinimumRange(mgp, _orientation.IsBackward);
+                    _currProx[Direction.Left] = GetMinimumRange(mgp, _orientation.IsLeft);
+                    _currProx[Direction.Right] = GetMinimumRange(mgp, _orientation.IsRight);
+                    _currProx[Direction.Up] = GetMinimumRange(mgp, _orientation.IsUp);
+                    _currProx[Direction.Down] = GetMinimumRange(mgp, _orientation.IsDown);
                 }
             }
 
-            double? GetMinimumRange(MyGridProgram thisObj, Func<IMyTerminalBlock, bool> directionMethod) {
-                thisObj.GridTerminalSystem.GetBlocksOfType(_cameras, b => IsTaggedBlock(b) && directionMethod(b));
+            double? GetMinimumRange(MyGridProgram mpg, Func<IMyTerminalBlock, bool> directionMethod) {
+                mpg.GridTerminalSystem.GetBlocksOfType(_cameras, b => IsTaggedBlock(b) && directionMethod(b));
                 var range = _cameras
                     .Select(c => Ranger.GetDetailedRange(c, ScanRange))
                     .Min(r => r.Range);
