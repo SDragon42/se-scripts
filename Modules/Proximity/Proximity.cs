@@ -19,36 +19,40 @@ namespace IngameScript {
         class Proximity {
             const double DEF_SCAN_RANGE = 100.0;
 
-            readonly List<IMyCameraBlock> _cameras = new List<IMyCameraBlock>();
             readonly List<Direction> KeyList;
-            readonly Dictionary<Direction, double?> _currProx = new Dictionary<Direction, double?>();
-            readonly Dictionary<Direction, double?> _prevProx = new Dictionary<Direction, double?>();
+            readonly Dictionary<Direction, double?> _prox1 = new Dictionary<Direction, double?>();
+            readonly Dictionary<Direction, double?> _prox2 = new Dictionary<Direction, double?>();
+
+            Dictionary<Direction, double?> _currProx;
+            Dictionary<Direction, double?> _prevProx;
+
+            BlocksByOrientation _orientation;
+            IMyShipController _sc;
+
+            public double ScanRange { get; set; }
+
+
 
             public Proximity() {
                 ScanRange = DEF_SCAN_RANGE;
                 KeyList = Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList();
                 foreach (var key in KeyList) {
-                    _currProx.Add(key, null);
-                    _prevProx.Add(key, null);
+                    _prox1.Add(key, null);
+                    _prox2.Add(key, null);
                 }
+
+                _currProx = _prox1;
+                _prevProx = _prox2;
             }
+            
 
-            BlocksByOrientation _orientation;
-            IMyShipController _sc;
-
-            string _tag = string.Empty;
-            public string Tag { get { return _tag; } set { _tag = value?.Trim() ?? string.Empty; } }
-
-            public double ScanRange { get; set; }
 
             public double? GetRange(Direction dir) => _currProx[dir];
             public double? GetRangeDiff(Direction dir) => _currProx[dir] - _prevProx[dir];
 
-            public void RunScan(MyGridProgram mgp, IMyShipController sc) {
-                foreach (var key in KeyList) {
-                    _prevProx[key] = _currProx[key];
-                    _currProx[key] = null;
-                }
+            public void RunScan(MyGridProgram mgp, IMyShipController sc, List<IMyCameraBlock> cameras) {
+                SwapProxyLists();
+                KeyList.ForEach(k => _currProx[k] = null);
 
                 if (_sc != sc) {
                     _sc = sc;
@@ -56,28 +60,33 @@ namespace IngameScript {
                 }
 
                 if (_orientation != null) {
-                    _currProx[Direction.Forward] = GetMinimumRange(mgp, _orientation.IsForward);
-                    _currProx[Direction.Backward] = GetMinimumRange(mgp, _orientation.IsBackward);
-                    _currProx[Direction.Left] = GetMinimumRange(mgp, _orientation.IsLeft);
-                    _currProx[Direction.Right] = GetMinimumRange(mgp, _orientation.IsRight);
-                    _currProx[Direction.Up] = GetMinimumRange(mgp, _orientation.IsUp);
-                    _currProx[Direction.Down] = GetMinimumRange(mgp, _orientation.IsDown);
+                    _currProx[Direction.Forward] = GetMinimumRange(mgp, cameras, _orientation.IsForward);
+                    _currProx[Direction.Backward] = GetMinimumRange(mgp, cameras, _orientation.IsBackward);
+                    _currProx[Direction.Left] = GetMinimumRange(mgp, cameras, _orientation.IsLeft);
+                    _currProx[Direction.Right] = GetMinimumRange(mgp, cameras, _orientation.IsRight);
+                    _currProx[Direction.Up] = GetMinimumRange(mgp, cameras, _orientation.IsUp);
+                    _currProx[Direction.Down] = GetMinimumRange(mgp, cameras, _orientation.IsDown);
                 }
             }
 
-            double? GetMinimumRange(MyGridProgram mpg, Func<IMyTerminalBlock, bool> directionMethod) {
-                mpg.GridTerminalSystem.GetBlocksOfType(_cameras, b => IsTaggedBlock(b) && directionMethod(b));
-                var range = _cameras
+            void SwapProxyLists() {
+                if (_prevProx == _prox1) {
+                    _currProx = _prox1;
+                    _prevProx = _prox2;
+                } else {
+                    _currProx = _prox2;
+                    _prevProx = _prox1;
+                }
+            }
+
+            double? GetMinimumRange(MyGridProgram mpg, List<IMyCameraBlock> cameras, Func<IMyTerminalBlock, bool> directionMethod) {
+                var range = cameras
+                    .Where(c => directionMethod(c))
                     .Select(c => Ranger.GetDetailedRange(c, ScanRange))
                     .Min(r => r.Range);
                 return (range < ScanRange) ? range : null;
             }
 
-
-            bool IsTaggedBlock(IMyTerminalBlock b) {
-                if (_tag.Length == 0) return true;
-                return b.CustomName.ToLower().Contains(_tag);
-            }
         }
     }
 }
