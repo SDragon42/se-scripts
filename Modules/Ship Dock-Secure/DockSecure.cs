@@ -21,8 +21,9 @@ namespace IngameScript {
             readonly List<IMyLandingGear> _landingGears = new List<IMyLandingGear>();
             readonly List<IMyShipConnector> _connectors = new List<IMyShipConnector>();
 
-            bool _wasLockedLastRun = false;
             MyGridProgram thisObj;
+            bool _wasLockedLastRun = false;
+            bool _isLocked = false;
 
             public bool Auto_On { get; set; }
             public bool Auto_Off { get; set; }
@@ -46,18 +47,24 @@ namespace IngameScript {
                 thisObj.GridTerminalSystem.GetBlocksOfType(_connectors, IsOnThisGrid);
             }
             public void AutoToggleDock() {
-                SetStates();
-                if (_wasLockedLastRun == IsDocked) return;
-                _wasLockedLastRun = IsDocked;
+                CheckIfLocked();
+                if (_wasLockedLastRun == _isLocked) return;
+                _wasLockedLastRun = _isLocked;
 
-                if (IsDocked && Auto_Off)
-                    TurnOffSystems();
-                else if (!IsDocked && Auto_On)
-                    TurnOnSystems();
+                if (_isLocked) {
+                    if (Auto_Off) {
+                        TurnOffSystems();
+                        IsDocked = true;
+                    }
+                } else  {
+                    if (Auto_On)
+                        TurnOnSystems();
+                    IsDocked = false;
+                }
             }
             public void ToggleDock() {
-                SetStates();
-                if (IsDocked)
+                CheckIfLocked();
+                if (_isLocked)
                     UnDock();
                 else
                     Dock();
@@ -65,14 +72,17 @@ namespace IngameScript {
             public void Dock() {
                 _landingGears.ForEach(b => b.Lock());
                 _connectors.ForEach(b => b.Connect());
-                SetStates();
-                if (IsDocked)
+                CheckIfLocked();
+                if (_isLocked) {
                     TurnOffSystems();
+                    IsDocked = true;
+                }
             }
             public void UnDock() {
                 TurnOnSystems();
                 _landingGears.ForEach(b => b.Unlock());
                 _connectors.ForEach(b => b.Disconnect());
+                _isLocked = false;
                 IsDocked = false;
             }
 
@@ -86,9 +96,13 @@ namespace IngameScript {
                 _toggleBlocks.ForEach(b => b.Enabled = true);
             }
 
-            void SetStates() {
-                IsDocked = _landingGears.Where(Collect.IsLandingGearLocked).Any()
-                    || _connectors.Where(Collect.IsConnectorConnected).Any();
+            void CheckIfLocked() {
+                _isLocked = _connectors.Where(Collect.IsConnectorConnected).Any();
+                if (_isLocked) {
+                    IsDocked = true;
+                    return;
+                }
+                _isLocked = _landingGears.Where(Collect.IsLandingGearLocked).Any();
             }
 
             bool IsBlock2TurnON(IMyTerminalBlock b) {
