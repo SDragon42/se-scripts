@@ -30,6 +30,9 @@ namespace IngameScript {
 
             const string KEY_ProximityTag = "Proximity Tag";
             const string KEY_ProximityRange = "Proximity Range (m)";
+            const string KEY_ProximityAlert = "Proximity Alert On/Off";
+            const string KEY_ProximityAlertRange = "Proximity Alert Range (m)";
+            const string KEY_ProximityAlertSpeed = "Proximity Alert Speed (m/s)";
 
             const string KEY_ForwardTag = "Forward Range Tag";
             const string KEY_ForwardRange = "Forward Range (m)";
@@ -38,7 +41,7 @@ namespace IngameScript {
             readonly CustomDataConfig _config = new CustomDataConfig();
             int _configHashCode = 0;
 
-            public void InitConfig(IMyProgrammableBlock me, DockSecure dsm, Proximity pm) {
+            public void InitConfig(IMyProgrammableBlock me, DockSecure dsm) {
                 _config.AddKey(KEY_AUTO_OFF,
                     description: "This will turn off systems automatically when the ship docks via a\nconnector or landing gear.",
                     defaultValue: bool.TrueString);
@@ -62,6 +65,12 @@ namespace IngameScript {
                     description: "Proximity range settings");
                 _config.AddKey(KEY_ProximityRange,
                     defaultValue: "100");
+                _config.AddKey(KEY_ProximityAlert,
+                    defaultValue: bool.FalseString);
+                _config.AddKey(KEY_ProximityAlertRange,
+                    defaultValue: "10");
+                _config.AddKey(KEY_ProximityAlertSpeed,
+                    defaultValue: "1.5");
 
                 _config.AddKey(KEY_ForwardTag,
                     description: "Forward range settings.");
@@ -70,9 +79,9 @@ namespace IngameScript {
                 _config.AddKey(KEY_ForwardClearTime,
                     defaultValue: "5");
 
-                LoadConfig(me, dsm, pm);
+                LoadConfig(me, dsm);
             }
-            public void LoadConfig(IMyProgrammableBlock me, DockSecure dsm, Proximity pm) {
+            public void LoadConfig(IMyProgrammableBlock me, DockSecure dsm) {
                 if (_configHashCode == me.CustomData.GetHashCode())
                     return;
                 _config.ReadFromCustomData(me, true);
@@ -90,13 +99,22 @@ namespace IngameScript {
                 dsm.OreDetectors_OnOff = _config.GetValue(KEY_ToggleOreDetectors).ToBoolean();
                 dsm.Spotlights_Off = _config.GetValue(KEY_TurnOffSpotLights).ToBoolean();
 
-                pm.Tag = _config.GetValue(KEY_ProximityTag);
-                pm.ScanRange = _config.GetValue(KEY_ProximityRange).ToDouble();
+                ProximityTag = _config.GetValue(KEY_ProximityTag);
+                ProximityScanRange = _config.GetValue(KEY_ProximityRange).ToDouble();
+                ProximityAlert = _config.GetValue(KEY_ProximityAlert).ToBoolean();
+                ProximityAlertRange = _config.GetValue(KEY_ProximityAlertRange).ToDouble();
+                ProximityAlertSpeed = _config.GetValue(KEY_ProximityAlertSpeed).ToDouble();
 
                 ForwardScanTag = _config.GetValue(KEY_ForwardTag);
                 ForwardScanRange = _config.GetValue(KEY_ForwardRange).ToDouble();
                 ForwardDisplayClearTime = _config.GetValue(KEY_ForwardClearTime).ToDouble();
             }
+
+            public string ProximityTag { get; private set; }
+            public double ProximityScanRange { get; private set; }
+            public bool ProximityAlert { get; private set; }
+            public double ProximityAlertRange { get; private set; }
+            public double ProximityAlertSpeed { get; private set; }
 
             public string ForwardScanTag { get; private set; }
             public double ForwardScanRange { get; private set; }

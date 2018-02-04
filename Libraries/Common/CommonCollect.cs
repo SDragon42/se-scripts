@@ -18,7 +18,10 @@ namespace IngameScript {
     partial class Program {
         static partial class Collect {
             public static bool IsOrientedForward(IMyTerminalBlock b) => (b.Orientation.TransformDirectionInverse(b.Orientation.Forward) == Base6Directions.Direction.Forward);
-            public static bool IsTagged(IMyTerminalBlock b, string tag) => b.CustomName.ToLower().Contains(tag.ToLower());
+            public static bool IsTagged(IMyTerminalBlock b, string tag) {
+                if (tag == null || tag.Length == 0) return false;
+                return b.CustomName.ToLower().Contains(tag.ToLower());
+            }
         }
     }
 }
