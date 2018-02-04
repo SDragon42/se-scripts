@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tool Ship Systems", "Scripts\Tool Ship Systems\Tool Ship Systems.csproj", "{81E47C39-106A-4B63-8E4C-8F693BA3D6DA}"
 EndProject
@@ -25,13 +25,13 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Landing Gears", "
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Direction", "Libraries\Direction\_Helper - Direction.shproj", "{7E912F4A-7C61-4AEA-82E1-259FE4357B0B}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Time Interval", "Modules\Time Interval\_Module - Time Interval.shproj", "{243C42A9-6084-40C4-A1C4-5D0D61A5F1E1}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Logging", "Modules\Logging\_Module - Logging.shproj", "{5A5BCC5C-0965-4CF1-B4C0-9F4925F33878}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Modules\Time Interval\_Module - Time Interval.projitems*{243c42a9-6084-40c4-a1c4-5d0d61a5f1e1}*SharedItemsImports = 13
 		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{2ac28b0a-1f4d-4423-b244-64fbf8a94354}*SharedItemsImports = 13
 		Libraries\Connectors\_Helper - Connectors.projitems*{5401fcb1-dddd-4ab5-b78d-0c3ae14d202c}*SharedItemsImports = 13
+		Modules\Logging\_Module - Logging.projitems*{5a5bcc5c-0965-4cf1-b4c0-9f4925f33878}*SharedItemsImports = 13
 		Libraries\Direction\_Helper - Direction.projitems*{7e912f4a-7c61-4aea-82e1-259fe4357b0b}*SharedItemsImports = 13
 		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Libraries\Common\_Library - Common.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
@@ -40,6 +40,7 @@ Global
 		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Libraries\LCDs\_Helper - LCDs.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
+		Modules\Logging\_Module - Logging.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Modules\Proximity\_Module - Proximity.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4

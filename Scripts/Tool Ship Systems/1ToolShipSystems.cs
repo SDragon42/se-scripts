@@ -16,12 +16,12 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
+        const string CMD_DOCK_TOGGLE = "dock-toggle";
         const string CMD_DOCK = "dock";
         const string CMD_UNDOCK = "undock";
-        const string CMD_TOGGLE = "toggle-dock";
-        const string CMD_SAFETY = "safety-cutoff";
         const string CMD_SCAN = "scan-range";
-        const string CMD_TOOLS = "toggle-tools";
+        const string CMD_TOOLS_TOGGLE = "tools-toggle";
+        const string CMD_TOOLS_OFF = "tools-off";
 
         const double BLOCK_RELOAD_TIME = 10;
 
@@ -29,7 +29,7 @@ namespace IngameScript {
         readonly RunningSymbol _running = new RunningSymbol();
         readonly DockSecure _dockSecure = new DockSecure();
         readonly Proximity _proximity = new Proximity();
-        RangeInfo _foreRangeInfo;
+        readonly Logging _log = new Logging();
 
         readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
         readonly List<IMyTextPanel> _proxDisplayList = new List<IMyTextPanel>();
@@ -37,9 +37,11 @@ namespace IngameScript {
         readonly List<IMySoundBlock> _proxSpeakerList = new List<IMySoundBlock>();
         readonly List<IMyTextPanel> _foreRangeDisplayList = new List<IMyTextPanel>();
         readonly List<IMyFunctionalBlock> _toolList = new List<IMyFunctionalBlock>();
+
         IMyShipController _sc = null;
         IMyCameraBlock _foreRangeCamera = null;
         bool _alertSounding = false;
+        RangeInfo _foreRangeInfo;
 
         double _timeLastBlockLoad = BLOCK_RELOAD_TIME * 2;
         double _timeLastCleared = 0;
@@ -73,13 +75,15 @@ namespace IngameScript {
             }
 
             if (argument.Length > 0) {
+                _log.AppendLine($"CMD: {argument}");
                 switch (argument.ToLower()) {
                     case CMD_DOCK: _dockSecure.Dock(); break;
                     case CMD_UNDOCK: _dockSecure.UnDock(); break;
-                    case CMD_TOGGLE: _dockSecure.ToggleDock(); break;
-                    case CMD_SAFETY: TurnOffTools(); break;
+                    case CMD_DOCK_TOGGLE: _dockSecure.ToggleDock(); break;
+                    case CMD_TOOLS_OFF: TurnOffTools(); break;
                     case CMD_SCAN: ScanAhead(); break;
-                    case CMD_TOOLS: ToggleToolsOnOff(); break;
+                    case CMD_TOOLS_TOGGLE: ToggleToolsOnOff(); break;
+                    default: _log.AppendLine($"CMD Unrecognized"); break;
                 }
             }
 
@@ -92,6 +96,8 @@ namespace IngameScript {
                 _foreRangeDisplayList.ForEach(d => Write2ForeDisplay(d, ""));
                 _timeLastCleared = 0;
             }
+
+            Echo("\nlog ----------\n" + _log.GetLogText());
         }
 
 
