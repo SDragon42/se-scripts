@@ -90,10 +90,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MDKUtilities">
-      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\g0urj3cs.xws\MDKUtilities.dll</HintPath>
+      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\q1dva24u.koq\MDKUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\g0urj3cs.xws\Analyzers\MDKAnalyzer.dll" />
+    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\q1dva24u.koq\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="01-Carriage-Constants.cs" />
