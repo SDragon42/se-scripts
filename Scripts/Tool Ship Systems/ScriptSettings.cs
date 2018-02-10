@@ -62,9 +62,10 @@ namespace IngameScript {
                     defaultValue: bool.TrueString);
 
                 _config.AddKey(KEY_ProximityTag,
-                    description: "Proximity range settings");
+                    description: "Proximity range settings",
+                    defaultValue: "[proximity]");
                 _config.AddKey(KEY_ProximityRange,
-                    defaultValue: "100");
+                    defaultValue: "50");
                 _config.AddKey(KEY_ProximityAlert,
                     defaultValue: bool.FalseString);
                 _config.AddKey(KEY_ProximityAlertRange,
@@ -73,7 +74,8 @@ namespace IngameScript {
                     defaultValue: "1.5");
 
                 _config.AddKey(KEY_ForwardTag,
-                    description: "Forward range settings.");
+                    description: "Forward range settings.",
+                    defaultValue: "[range]");
                 _config.AddKey(KEY_ForwardRange,
                     defaultValue: "15000");
                 _config.AddKey(KEY_ForwardClearTime,
