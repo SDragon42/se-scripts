@@ -18,11 +18,11 @@ namespace IngameScript {
     partial class Program {
         static partial class Collect {
             public static bool IsCargoContainer(IMyTerminalBlock b) => b is IMyCargoContainer;
-            public static bool IsSmallBlockSmallCargoContainer(IMyTerminalBlock b) => (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == CargoHelper.SUBTYPE_SmBlock_SmContainer);
-            public static bool IsSmallBlockMediumCargoContainer(IMyTerminalBlock b) => (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == CargoHelper.SUBTYPE_SmBlock_MdContainer);
-            public static bool IsSmallBlockLargeCargoContainer(IMyTerminalBlock b) => (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == CargoHelper.SUBTYPE_SmBlock_LgContainer);
-            public static bool IsLargeBlockSmallCargoContainer(IMyTerminalBlock b) => (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == CargoHelper.SUBTYPE_LgBlock_SmContainer);
-            public static bool IsLargeBlockLargeCargoContainer(IMyTerminalBlock b) => (IsCargoContainer(b) && b.BlockDefinition.SubtypeId == CargoHelper.SUBTYPE_LgBlock_LgContainer);
+            public static bool IsSmallBlockSmallCargoContainer(IMyTerminalBlock b) => IsCargoContainer(b) && b.BlockDefinition.SubtypeId == CargoHelper.SUBTYPE_SmBlock_SmContainer;
+            public static bool IsSmallBlockMediumCargoContainer(IMyTerminalBlock b) => IsCargoContainer(b) && b.BlockDefinition.SubtypeId == CargoHelper.SUBTYPE_SmBlock_MdContainer;
+            public static bool IsSmallBlockLargeCargoContainer(IMyTerminalBlock b) => IsCargoContainer(b) && b.BlockDefinition.SubtypeId == CargoHelper.SUBTYPE_SmBlock_LgContainer;
+            public static bool IsLargeBlockSmallCargoContainer(IMyTerminalBlock b) => IsCargoContainer(b) && b.BlockDefinition.SubtypeId == CargoHelper.SUBTYPE_LgBlock_SmContainer;
+            public static bool IsLargeBlockLargeCargoContainer(IMyTerminalBlock b) => IsCargoContainer(b) && b.BlockDefinition.SubtypeId == CargoHelper.SUBTYPE_LgBlock_LgContainer;
         }
     }
 }

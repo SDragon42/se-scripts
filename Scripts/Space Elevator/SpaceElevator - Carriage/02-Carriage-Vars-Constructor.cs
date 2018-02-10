@@ -114,25 +114,25 @@ namespace IngameScript {
         void LoadBlockLists(bool forceLoad = false) {
             if (!forceLoad && _timeBlockReloadLast < TIME_ReloadBlockDelay) return;
 
-            _rc = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRemoteControl>(GridTerminalSystem, _tempList,
+            _rc = GridTerminalSystem.GetFirstblockOfTypeWithFirst<IMyRemoteControl>(_tempList,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
                 IsOnThisGrid);
             _orientation.Init(_rc);
 
-            _antenna = CollectHelper.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(GridTerminalSystem, _tempList,
+            _antenna = GridTerminalSystem.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(_tempList,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsCommRadioAntenna(b),
                 b => IsOnThisGrid(b) && Collect.IsCommRadioAntenna(b));
-            _gravityGen = CollectHelper.GetFirstblockOfTypeWithFirst<IMyGravityGenerator>(GridTerminalSystem, _tempList,
+            _gravityGen = GridTerminalSystem.GetFirstblockOfTypeWithFirst<IMyGravityGenerator>(_tempList,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
                 IsOnThisGrid);
 
             GridTerminalSystem.GetBlocksOfType(_ascentThrusters, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && _orientation.IsDown(b));
             GridTerminalSystem.GetBlocksOfType(_descentThrusters, b => IsOnThisGrid(b) && IsTaggedCarriage(b) && _orientation.IsUp(b));
             GridTerminalSystem.GetBlocksOfType(_allThrusters, b => IsOnThisGrid(b) && IsTaggedCarriage(b));
-            CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _connectors,
+            GridTerminalSystem.GetblocksOfTypeWithFirst(_connectors,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
                 IsOnThisGrid);
-            CollectHelper.GetblocksOfTypeWithFirst(GridTerminalSystem, _landingGears,
+            GridTerminalSystem.GetblocksOfTypeWithFirst(_landingGears,
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
                 IsOnThisGrid);
             GridTerminalSystem.GetBlocksOfType(_h2Tanks, b => IsOnThisGrid(b) && Collect.IsHydrogenTank(b));

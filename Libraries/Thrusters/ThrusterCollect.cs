@@ -18,9 +18,9 @@ namespace IngameScript {
     partial class Program {
         static partial class Collect {
             public static bool IsThruster(IMyTerminalBlock b) => b is IMyThrust;
-            public static bool IsThrusterIon(IMyTerminalBlock b) => (IsThruster(b) && !IsThrusterHydrogen(b) && !IsThrusterAtmospheric(b));
-            public static bool IsThrusterHydrogen(IMyTerminalBlock b) => (IsThruster(b) && b.BlockDefinition.SubtypeId.Contains("Hydro"));
-            public static bool IsThrusterAtmospheric(IMyTerminalBlock b) => (IsThruster(b) && b.BlockDefinition.SubtypeId.Contains("Atmo"));
+            public static bool IsThrusterIon(IMyTerminalBlock b) => IsThruster(b) && !IsThrusterHydrogen(b) && !IsThrusterAtmospheric(b);
+            public static bool IsThrusterHydrogen(IMyTerminalBlock b) => IsThruster(b) && b.BlockDefinition.SubtypeId.Contains("Hydro");
+            public static bool IsThrusterAtmospheric(IMyTerminalBlock b) => IsThruster(b) && b.BlockDefinition.SubtypeId.Contains("Atmo");
         }
     }
 }

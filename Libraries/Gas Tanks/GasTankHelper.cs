@@ -30,11 +30,8 @@ namespace IngameScript {
 
                 return (tankCount > 0) ? totalPercent / tankCount : 0f;
             }
-            public static double GetTanksFillPercentage(List<IMyGasTank> tankList) {
-                //var totalPercent = tankList.Sum(t => t.FilledRatio);
-                //return (tankList.Count > 0) ? totalPercent / tankList.Count : 0f;
-                return tankList.Average(t => t.FilledRatio);
-            }
+            public static double GetTanksFillPercentage(List<IMyGasTank> tankList) => tankList.Average(t => t.FilledRatio);
+            
         }
     }
 }

@@ -18,8 +18,8 @@ namespace IngameScript {
     partial class Program {
         static partial class Collect {
             public static bool IsGasTank(IMyTerminalBlock b) => b is IMyGasTank;
-            public static bool IsOxygenTank(IMyTerminalBlock b) => (IsGasTank(b) && !b.BlockDefinition.SubtypeId.Contains("Hydro"));
-            public static bool IsHydrogenTank(IMyTerminalBlock b) => (IsGasTank(b) && b.BlockDefinition.SubtypeId.Contains("Hydro"));
+            public static bool IsOxygenTank(IMyTerminalBlock b) => IsGasTank(b) && !b.BlockDefinition.SubtypeId.Contains("Hydro");
+            public static bool IsHydrogenTank(IMyTerminalBlock b) => IsGasTank(b) && b.BlockDefinition.SubtypeId.Contains("Hydro");
         }
     }
 }
