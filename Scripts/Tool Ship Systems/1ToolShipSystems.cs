@@ -49,7 +49,7 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _settings.InitConfig(Me, _dockSecure);
+            _settings.InitConfig(Me);
             _proximity.ScanRange = _settings.ProximityScanRange;
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
@@ -58,8 +58,8 @@ namespace IngameScript {
         public void Main(string argument, UpdateType updateSource) {
             _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
             _timeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
-            var timeTilUpdate = Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1;
-            Echo("Tool Ship Systems " + _running.GetSymbol(Runtime));
+            var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
+            Echo("Tool Ship Systems v1.3 " + _running.GetSymbol(Runtime));
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.");
             Echo("");
             Echo("Configure script in 'Custom Data'");
@@ -159,7 +159,7 @@ namespace IngameScript {
             var txtLeft = GetFormattedRange(Direction.Left);
             var txtRight = GetFormattedRange(Direction.Right);
             var txtBack = GetFormattedRange(Direction.Backward);
-            return $"Prox  {txtUp}\n {txtLeft}<{txtBack}>{txtRight}\n      {txtDown}";
+            return $"      {txtUp}\n {txtLeft}<{txtBack}>{txtRight}\n      {txtDown}";
         }
         string GetFormattedRange(Direction dir) {
             var range = _proximity.GetRange(dir);
