@@ -59,7 +59,7 @@ namespace IngameScript {
             _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
             _timeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
             var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
-            Echo("Tool Ship Systems v1.3 " + _running.GetSymbol(Runtime));
+            Echo("Utility Ship Systems v1.3 " + _running.GetSymbol(Runtime));
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.");
             Echo("");
             Echo("Configure script in 'Custom Data'");

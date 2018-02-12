@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tool Ship Systems", "Scripts\Tool Ship Systems\Tool Ship Systems.csproj", "{81E47C39-106A-4B63-8E4C-8F693BA3D6DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility Ship Systems", "Scripts\Utility Ship Systems\Utility Ship Systems.csproj", "{81E47C39-106A-4B63-8E4C-8F693BA3D6DA}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Library - Common", "Libraries\Common\_Library - Common.shproj", "{C96CFE92-41D3-47DF-8A4A-C17A71C8E459}"
 EndProject
