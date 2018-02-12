@@ -4,7 +4,7 @@ By SDragon42
 ver 1.3.4    2018-02-11
 ------------------------------------------------------------
 
-This will turn blocks off and on when docking a ship. This is setup to be fully automatic by default, but can be changed to 
+Turns blocks On/Off when docking a ship. It is setup to be fully automatic by default, but can be changed to 
 partial or manual if desired.
 The configuration for the script is set in the "Custom Data" window.
 
