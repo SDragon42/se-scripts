@@ -40,7 +40,6 @@ Global
 		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Libraries\LCDs\_Helper - LCDs.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Modules\Logging\_Module - Logging.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Modules\Proximity\_Module - Proximity.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
