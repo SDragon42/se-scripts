@@ -30,14 +30,14 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            _settings.InitConfig(Me, _dockSecure);
+            _settings.InitConfig(Me);
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
         public void Main(string argument, UpdateType updateSource) {
             _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
-            var timeTilUpdate = Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1;
-            Echo("Dock-Secure v1.3.3 " + _runSymbol.GetSymbol(Runtime));
+            var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
+            Echo("Dock-Secure v1.3.4 " + _runSymbol.GetSymbol(Runtime));
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.");
             Echo("");
             Echo("Configure script in 'Custom Data'");

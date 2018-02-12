@@ -1,15 +1,27 @@
 ﻿/***********************************************************
 Ship Docking Secure
 By SDragon42
+ver 1.3.4    2018-02-11
 ------------------------------------------------------------
-This is a docking control that can either be operated either automatically or manually.
 
-Version 1.3.3  -  01/27/2018
-    Blocks are re-loaded every 10 seconds now.
+This will turn blocks off and on when docking a ship. This is setup to be fully automatic by default, but can be changed to 
+partial or manual if desired.
+The configuration for the script is set in the "Custom Data" window.
 
-Version 1.3.2  -  11/19/2017
-    Changed to be self-executing.
 
-Version 1.3.1
-    Added support for a manual dock/undock toggle.
+The following commands can be used when running in partial/manual mode:
+
+dock
+    Will "dock" the ship if any of the connectors and landing gears are in locking range.
+    If the ship can dock, then it will turn off the blocks that a set in the custom data configuration.
+
+undock
+    Will "Undock" the ship by turning on the blocks that a set in the custom data configuration.
+    It will then unlock all the connectors and landing gears.
+
+dock-toggle
+    This dock the ship if it isn't docked, but can be.
+    Or it will un-dock the ship if it is docked.
+
+
 ***********************************************************/

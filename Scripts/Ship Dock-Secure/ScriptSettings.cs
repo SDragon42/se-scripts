@@ -33,9 +33,10 @@ namespace IngameScript {
             readonly CustomDataConfig _config = new CustomDataConfig();
             int _configHashCode = 0;
 
-            public void InitConfig(IMyProgrammableBlock me, DockSecure dsm, Action postLoadAction = null) {
+            public void InitConfig(IMyProgrammableBlock me) {
+                _config.Clear();
                 _config.AddKey(KEY_AUTO_OFF,
-                    description: "This will turn on/off systems automatically when the ship undocks/docks via a\nconnector or landing gear.",
+                    description: "This will turn on/off systems automatically when the ship undocks/docks \nvia a connector or landing gear.",
                     defaultValue: bool.TrueString);
                 _config.AddKey(KEY_AUTO_ON,
                     defaultValue: bool.TrueString);
@@ -54,13 +55,12 @@ namespace IngameScript {
                     description: "This are the block types to only turn off.",
                     defaultValue: bool.TrueString);
                 _config.AddKey(KEY_TurnOffSorters, defaultValue: bool.TrueString);
-
-                LoadConfig(me, dsm, postLoadAction);
             }
             public void LoadConfig(IMyProgrammableBlock me, DockSecure dsm, Action postLoadAction = null) {
                 if (_configHashCode == me.CustomData.GetHashCode())
                     return;
-                _config.ReadFromCustomData(me, true);
+                InitConfig(me);
+                _config.ReadFromCustomData(me);
                 _config.SaveToCustomData(me);
                 _configHashCode = me.CustomData.GetHashCode();
 
