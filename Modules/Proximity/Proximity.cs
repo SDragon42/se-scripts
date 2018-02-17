@@ -84,7 +84,11 @@ namespace IngameScript {
                     .Where(c => directionMethod(c))
                     .Select(c => Ranger.GetDetailedRange(c, ScanRange))
                     .Min(r => r.Range);
-                return (range < ScanRange) ? range : null;
+                //return (range < ScanRange) ? range : null;
+                if (!range.HasValue) return null;
+                if (range > ScanRange) return null;
+                if (range < 0.000001) return null;
+                return range;
             }
 
         }
