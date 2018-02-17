@@ -61,11 +61,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group Renamer", "Scripts\Gr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Initialize Blocks", "Scripts\Initialize Blocks\Initialize Blocks.csproj", "{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launch Center", "Scripts\SD Launch System\Launch Center\Launch Center.csproj", "{F72618CE-2343-4963-8438-25E06C58F15F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Launch Center", "Scripts\SDLS - Launch Center\SDLS - Launch Center.csproj", "{F72618CE-2343-4963-8438-25E06C58F15F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Booster", "Scripts\SD Launch System\SDLS - Booster\SDLS - Booster.csproj", "{0685E93C-4346-4DD3-AE1C-C22A47B27812}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Booster", "Scripts\SDLS - Booster\SDLS - Booster.csproj", "{0685E93C-4346-4DD3-AE1C-C22A47B27812}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Orbiter", "Scripts\SD Launch System\SDLS - Orbiter\SDLS - Orbiter.csproj", "{051CE348-0F02-4849-B6D7-B97DE3C1003E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Orbiter", "Scripts\SDLS - Orbiter\SDLS - Orbiter.csproj", "{051CE348-0F02-4849-B6D7-B97DE3C1003E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ship Dock-Secure", "Scripts\Ship Dock-Secure\Ship Dock-Secure.csproj", "{055B7D17-D6EB-49BA-B45D-715A83A40F92}"
 EndProject
@@ -73,15 +73,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TWR Calculator", "Scripts\T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility Ship Systems", "Scripts\Utility Ship Systems\Utility Ship Systems.csproj", "{81E47C39-106A-4B63-8E4C-8F693BA3D6DA}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Scripts\Space Elevator\Shared\Shared.shproj", "{0A117477-6C2A-40AC-A8EB-FDCD2DFE11BA}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SpaceElevator - Shared", "Scripts\SpaceElevator - Shared\SpaceElevator - Shared.shproj", "{0A117477-6C2A-40AC-A8EB-FDCD2DFE11BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Carriage", "Scripts\Space Elevator\SpaceElevator - Carriage\SpaceElevator - Carriage.csproj", "{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Carriage", "Scripts\SpaceElevator - Carriage\SpaceElevator - Carriage.csproj", "{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - COMMs Reciever", "Scripts\Space Elevator\SpaceElevator - COMMs Reciever\SpaceElevator - COMMs Reciever.csproj", "{07280390-4C98-4B20-A2EB-F4DBE5713CEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - COMMs Reciever", "Scripts\SpaceElevator - COMMs Reciever\SpaceElevator - COMMs Reciever.csproj", "{07280390-4C98-4B20-A2EB-F4DBE5713CEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - OPS Center", "Scripts\Space Elevator\SpaceElevator - OPS Center\SpaceElevator - OPS Center.csproj", "{FE456DAE-1E85-4D99-A25D-AA819E217AF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - OPS Center", "Scripts\SpaceElevator - OPS Center\SpaceElevator - OPS Center.csproj", "{FE456DAE-1E85-4D99-A25D-AA819E217AF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Station", "Scripts\Space Elevator\SpaceElevator - Station\SpaceElevator - Station.csproj", "{7668C9B9-78DE-4B35-A141-D528F0704D4A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Station", "Scripts\SpaceElevator - Station\SpaceElevator - Station.csproj", "{7668C9B9-78DE-4B35-A141-D528F0704D4A}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -95,8 +95,8 @@ Global
 		Libraries\LCDs\_Helper - LCDs.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
-		Scripts\Space Elevator\Shared\Shared.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
-		Scripts\Space Elevator\Shared\Shared.projitems*{0a117477-6c2a-40ac-a8eb-fdcd2dfe11ba}*SharedItemsImports = 13
+		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
+		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{0a117477-6c2a-40ac-a8eb-fdcd2dfe11ba}*SharedItemsImports = 13
 		Modules\Script Debug\_Module - Debug.projitems*{0b16b361-c30e-48fd-87ea-37defd087559}*SharedItemsImports = 13
 		Modules\Flight Data Recorder\_Module - Flight Data Recorder.projitems*{0f7f7179-f8cb-4376-940c-d9047e7d1fb3}*SharedItemsImports = 13
 		Libraries\LCDs Dot Matrix\_Helper - LCDs Dot Matrix.projitems*{19f5cff5-d5ef-4112-85c8-7a7bb91c23fa}*SharedItemsImports = 13
@@ -121,7 +121,7 @@ Global
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
-		Scripts\Space Elevator\Shared\Shared.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
+		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Modules\Profiler\_Module - Profiler.projitems*{7ad7003f-2c7c-4f0a-900a-279e82ef75e4}*SharedItemsImports = 13
 		Libraries\Direction\_Helper - Direction.projitems*{7e912f4a-7c61-4aea-82e1-259fe4357b0b}*SharedItemsImports = 13
 		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
@@ -175,7 +175,7 @@ Global
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Scripts\Space Elevator\Shared\Shared.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{dd940528-1a03-4ab3-9504-3aa93571e5ec}*SharedItemsImports = 13
 		Libraries\Doors\_Helper - Doors.projitems*{e503bebe-817d-4bed-9072-7bfcb95415b8}*SharedItemsImports = 13
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{e8d8cee9-6e84-4124-8a02-fb2b7bb494f4}*SharedItemsImports = 13
@@ -187,7 +187,7 @@ Global
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
-		Scripts\Space Elevator\Shared\Shared.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

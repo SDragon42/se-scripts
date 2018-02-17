@@ -4,14 +4,29 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{07280390-4C98-4B20-A2EB-F4DBE5713CEF}</ProjectGuid>
+    <ProjectGuid>{7668C9B9-78DE-4B35-A141-D528F0704D4A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>IngameScript</RootNamespace>
-    <AssemblyName>SpaceElevator - COMMs Reviever</AssemblyName>
+    <AssemblyName>SpaceElevator - Station</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -96,21 +111,44 @@
     <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\q1dva24u.koq\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="01-Station-Constants.cs" />
+    <Compile Include="02-Station-Vars-Constructor.cs" />
+    <Compile Include="20-Station-COMMs.cs" />
+    <Compile Include="30-Station-Displays.cs" />
+    <Compile Include="50-Station-Actions.cs" />
+    <Compile Include="60-Station-Collects.cs" />
+    <Compile Include="CarriageVars.cs" />
+    <Compile Include="HookupState.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <Compile Include="CommsReciever.cs" />
+    <Compile Include="10-Station-Main-Control.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
-    <AdditionalFiles Include="MDK\whitelist.cache" />
     <Compile Include="ScriptSettings.cs" />
+    <AdditionalFiles Include="MDK\whitelist.cache" />
   </ItemGroup>
-  <Import Project="..\..\..\Modules\Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
-  <Import Project="..\Shared\Shared.projitems" Label="Shared" />
-  <Import Project="..\..\..\Modules\Logging\_Module - Logging.projitems" Label="Shared" />
-  <Import Project="..\..\..\Libraries\Common\_Library - Common.projitems" Label="Shared" />
-  <Import Project="..\..\..\Libraries\LCDs\_Helper - LCDs.projitems" Label="Shared" />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="..\..\Modules\Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
+  <Import Project="..\..\Modules\Logging\_Module - Logging.projitems" Label="Shared" />
+  <Import Project="..\SpaceElevator - Shared\SpaceElevator - Shared.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Gas Tanks\_Helper - Gas Tanks.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Common\_Library - Common.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\LCDs\_Helper - LCDs.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Doors\_Helper - Doors.projitems" Label="Shared" />
+  <Import Project="..\..\Modules\Running Symbol\_Module - Running Symbol.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />
