@@ -16,6 +16,10 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
+
+        //IEnumerator<bool>
+        readonly List<IEnumerator<bool>> _Operations = new List<IEnumerator<bool>>();
+
         public Program() {
         }
 
@@ -23,6 +27,10 @@ namespace IngameScript {
         }
 
         public void Main(string argument, UpdateType updateSource) {
+
         }
+
+
+
     }
 }
