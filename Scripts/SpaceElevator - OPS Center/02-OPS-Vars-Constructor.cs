@@ -23,7 +23,7 @@ namespace IngameScript {
             //_debug.Enabled = false;
             //_debug.EchoMessages = true;
 
-            _log.Enabled = false;
+            //_log.Enabled = false;
 
             _settings.InitConfig(_custConfig);
 

@@ -32,17 +32,14 @@ namespace IngameScript {
                     RunCommand(argument);
 
                 if (runInterval) {
-                    //_debug.Clear();
                     _comms.TransmitQueue(_antenna);
 
                     BuildDisplays();
                     UpdateDisplays();
-
-                    //_debug.AppendLine(_log.GetLogText());
                 }
 
                 if (_timeDisplayLast >= TIME_TransmitStatusDelay) {
-                    SendAllCOMMsDisplays();
+                    COMMs_UpdateAllDisplaysMessage();
                     _timeDisplayLast = 0;
                 }
             } catch (Exception ex) {
@@ -71,15 +68,14 @@ namespace IngameScript {
             if (CommMessage.TryParse(argument, out msg)) {
                 switch (msg.PayloadType) {
                     case CarriageStatusMessage.TYPE: CarriageStatusProcessing(msg.SenderGridName, msg.Payload); break;
-                    //case CarriageRequestMessage.TYPE: CarriageRequestProcessing(msg.SenderGridName, msg.Payload); break;
                     case StationRequestMessage.TYPE: CarriageRequestedProcessing(msg.SenderGridName, msg.Payload); break;
                 }
             } else {
                 if (argument.StartsWith(CMD_SendCarriage)) {
-                    //argument = argument.Remove(0, CMD_DockCarriage.Length).Trim();
-                    //var carriage = GetCarriageVar(argument);
-                    //if (carriage != null)
-                    //    carriage.Connect = true;
+                    var parts = argument.Remove(0, CMD_SendCarriage.Length).Trim().Split(new char[] { ' ' }, 2);
+                    if (parts.Length >= 2) {
+                        SendCarriageToStation(parts[0].Trim(), parts[1].Trim());
+                    }
                 }
             }
         }
@@ -87,7 +83,7 @@ namespace IngameScript {
         void CarriageStatusProcessing(string carriageName, string msgPayload) {
             var status = CarriageStatusMessage.CreateFromPayload(msgPayload);
             _carriageStatuses[carriageName] = status;
-            _log.AppendLine($"{DateTime.Now.ToLongTimeString()}|{carriageName}");
+            //_log.AppendLine($"{DateTime.Now.ToLongTimeString()}|{carriageName}");
         }
 
 

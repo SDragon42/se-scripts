@@ -24,11 +24,15 @@ namespace IngameScript {
             var msg = StationRequestMessage.CreateFromPayload(msgPayload);
             if (msg.Request != StationRequests.RequestCarriage) return;
 
-            _log.AppendLine($"Car RQ - S:{fromStationName}  C:{msg.Extra}");
+            SendCarriageToStation(msg.Extra, fromStationName);
+        }
+
+        void SendCarriageToStation(string toTerminal, string toStationName) {
+            _log.AppendLine($"{DateTime.Now.ToLongTimeString()}|Car RQ - C:{toTerminal}  S:{toStationName}");
 
             string[] carriageKeys;
 
-            switch (msg.Extra) {
+            switch (toTerminal) {
                 case GridNameConstants.TERMINAL_A: carriageKeys = new string[] { GridNameConstants.A1, GridNameConstants.A2 }; break;
                 case GridNameConstants.TERMINAL_A1: carriageKeys = new string[] { GridNameConstants.A1 }; break;
                 case GridNameConstants.TERMINAL_A2: carriageKeys = new string[] { GridNameConstants.A2 }; break;
@@ -45,21 +49,21 @@ namespace IngameScript {
             foreach (var x in carriageKeys) {
                 if (!_carriageStatuses.ContainsKey(x)) continue;
                 var car = _carriageStatuses[x];
-                if (car.Destination == fromStationName) return; // carriage already on the way
+                if (car.Destination == toStationName) return; // carriage already on the way
                 if (car.InTransit) continue;
                 if (car.Destination == "Docked") {
-                    if (fromStationName == GridNameConstants.GroundStation && car.Range2Bottom < car.Range2Top && Math.Abs(car.Range2Top - car.Range2Bottom) > 10000.0)
+                    if (toStationName == GridNameConstants.GroundStation && car.Range2Bottom < car.Range2Top && Math.Abs(car.Range2Top - car.Range2Bottom) > 10000.0)
                         return; // already docked at station
-                    if (fromStationName == GridNameConstants.SpaceStation && car.Range2Bottom > car.Range2Top && Math.Abs(car.Range2Top - car.Range2Bottom) > 10000.0)
+                    if (toStationName == GridNameConstants.SpaceStation && car.Range2Bottom > car.Range2Top && Math.Abs(car.Range2Top - car.Range2Bottom) > 10000.0)
                         return; // already docked at station
-                    if (fromStationName == GridNameConstants.RetransStation && Math.Abs(car.Range2Top - car.Range2Bottom) < 10000.0)
+                    if (toStationName == GridNameConstants.RetransStation && Math.Abs(car.Range2Top - car.Range2Bottom) < 10000.0)
                         return; // already docked at station
                 }
                 carKey = x;
             }
 
             if (carKey != null)
-                SendCarriageTo(carKey, fromStationName);
+                COMMs_SendCarriageToMessage(carKey, toStationName);
         }
 
     }

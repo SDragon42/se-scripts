@@ -20,7 +20,7 @@ namespace IngameScript {
         //-------------------------------------------------------------------------------
         //  COMMs
         //-------------------------------------------------------------------------------
-        void SendAllCOMMsDisplays() {
+        void COMMs_UpdateAllDisplaysMessage() {
             if (_antenna == null) return;
 
             var msg = new UpdateAllDisplaysMessage();
@@ -48,7 +48,7 @@ namespace IngameScript {
             _comms.AddMessageToQueue(msg);
         }
 
-        void SendCarriageTo(string carriageKey, string destination) {
+        void COMMs_SendCarriageToMessage(string carriageKey, string destination) {
             if (_antenna == null) return;
             var msgPayload = new SendCarriageToMessage(destination);
             _comms.AddMessageToQueue(msgPayload, carriageKey);
