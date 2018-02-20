@@ -36,9 +36,17 @@ namespace IngameScript {
         IMyTextPanel _twrDisplay;
         IMyShipController _sc;
         BlocksByOrientation _orientation = new BlocksByOrientation();
+        int _configHashCode = 0;
 
         public Program() {
             _config = new CustomDataConfig();
+
+            LoadConfig();
+        }
+
+        void LoadConfig() {
+            if (_configHashCode == Me.CustomData.GetHashCode())
+                return;
 
             _config.AddKey(KeyRCName,
                 description: "Name of the remote control block.",
@@ -47,13 +55,16 @@ namespace IngameScript {
                 description: "Name of the display to show results on.",
                 defaultValue: "");
             _config.AddKey(KeyMass2Ignore,
-                description: "The amount of mass to ignore from TWR calcuations.",
+                description: "The amount of mass to ignore from TWR calculations.",
                 defaultValue: "0");
+
+            _config.ReadFromCustomData(Me, true);
+            _config.SaveToCustomData(Me);
+            _configHashCode = Me.CustomData.GetHashCode();
         }
 
         public void Main(string argument) {
-            _config.ReadFromCustomData(Me, true);
-            _config.SaveToCustomData(Me);
+            LoadConfig();
 
             _sc = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyRCName)) as IMyShipController;
             if (_sc == null) {
