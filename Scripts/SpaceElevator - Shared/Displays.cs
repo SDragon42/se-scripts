@@ -18,6 +18,8 @@ namespace IngameScript {
     partial class Program {
         static class Displays {
 
+            const string WIDE_LCD_SEPERATOR = "   "; // " │ "
+
             public static string BuildAllCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint, bool wide = false) {
                 const int max = 15;
 
@@ -30,7 +32,7 @@ namespace IngameScript {
                 IEnumerator<string> detailLines = (wide) ? GetAllCarriagesDetailLines(a1, a2, b1, b2, maint).GetEnumerator() : null;
                 Func<string> GetNext;
                 if (wide)
-                    GetNext = () => detailLines?.MoveNext() ?? false ? detailLines.Current : " │ ";
+                    GetNext = () => detailLines?.MoveNext() ?? false ? detailLines.Current : WIDE_LCD_SEPERATOR;
                 else
                     GetNext = () => string.Empty;
 
@@ -57,14 +59,14 @@ namespace IngameScript {
                 return sb.ToString();
             }
             static IEnumerable<string> GetAllCarriagesDetailLines(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, CarriageStatusMessage maint) {
-                yield return " │ ";
-                yield return " │ ";
-                yield return " │ ";
-                foreach (var txt in GetCarriageDetails(GridNameConstants.A2, a2)) yield return " │ " + txt;
-                foreach (var txt in GetCarriageDetails(GridNameConstants.A1, a1)) yield return " │ " + txt;
-                foreach (var txt in GetCarriageDetails(GridNameConstants.MAINT, maint)) yield return " │ " + txt;
-                foreach (var txt in GetCarriageDetails(GridNameConstants.B1, b1)) yield return " │ " + txt;
-                foreach (var txt in GetCarriageDetails(GridNameConstants.B2, b2)) yield return " │ " + txt;
+                yield return WIDE_LCD_SEPERATOR;
+                yield return WIDE_LCD_SEPERATOR;
+                yield return WIDE_LCD_SEPERATOR;
+                foreach (var txt in GetCarriageDetails(GridNameConstants.A2, a2)) yield return WIDE_LCD_SEPERATOR + txt;
+                foreach (var txt in GetCarriageDetails(GridNameConstants.A1, a1)) yield return WIDE_LCD_SEPERATOR + txt;
+                foreach (var txt in GetCarriageDetails(GridNameConstants.MAINT, maint)) yield return WIDE_LCD_SEPERATOR + txt;
+                foreach (var txt in GetCarriageDetails(GridNameConstants.B1, b1)) yield return WIDE_LCD_SEPERATOR + txt;
+                foreach (var txt in GetCarriageDetails(GridNameConstants.B2, b2)) yield return WIDE_LCD_SEPERATOR + txt;
             }
 
             public static string BuildAllPassengerCarriageDisplayText(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2, bool wide = false) {
@@ -78,7 +80,7 @@ namespace IngameScript {
                 IEnumerator<string> detailLines = (wide) ? GetPassengerCarriagesDetailLines(a1, a2, b1, b2).GetEnumerator() : null;
                 Func<string> GetNext;
                 if (wide)
-                    GetNext = () => detailLines?.MoveNext() ?? false ? detailLines.Current : " │ ";
+                    GetNext = () => detailLines?.MoveNext() ?? false ? detailLines.Current : WIDE_LCD_SEPERATOR;
                 else
                     GetNext = () => string.Empty;
 
@@ -102,16 +104,16 @@ namespace IngameScript {
                 return sb.ToString();
             }
             static IEnumerable<string> GetPassengerCarriagesDetailLines(CarriageStatusMessage a1, CarriageStatusMessage a2, CarriageStatusMessage b1, CarriageStatusMessage b2) {
-                yield return " │ ";
-                yield return " │ ";
-                yield return " │ ";
-                foreach (var txt in GetCarriageDetails(GridNameConstants.A2, a2)) yield return " │ " + txt;
-                yield return " │ ";
-                foreach (var txt in GetCarriageDetails(GridNameConstants.A1, a1)) yield return " │ " + txt;
-                yield return " │ ";
-                foreach (var txt in GetCarriageDetails(GridNameConstants.B1, b1)) yield return " │ " + txt;
-                yield return " │ ";
-                foreach (var txt in GetCarriageDetails(GridNameConstants.B2, b2)) yield return " │ " + txt;
+                yield return WIDE_LCD_SEPERATOR;
+                yield return WIDE_LCD_SEPERATOR;
+                yield return WIDE_LCD_SEPERATOR;
+                foreach (var txt in GetCarriageDetails(GridNameConstants.A2, a2)) yield return WIDE_LCD_SEPERATOR + txt;
+                yield return WIDE_LCD_SEPERATOR;
+                foreach (var txt in GetCarriageDetails(GridNameConstants.A1, a1)) yield return WIDE_LCD_SEPERATOR + txt;
+                yield return WIDE_LCD_SEPERATOR;
+                foreach (var txt in GetCarriageDetails(GridNameConstants.B1, b1)) yield return WIDE_LCD_SEPERATOR + txt;
+                yield return WIDE_LCD_SEPERATOR;
+                foreach (var txt in GetCarriageDetails(GridNameConstants.B2, b2)) yield return WIDE_LCD_SEPERATOR + txt;
             }
 
             public static string BuildOneCarriageDisplay(string carriageName, CarriageStatusMessage carriageStatus, bool opsDetail = false, bool retransRingMarker = false) {
