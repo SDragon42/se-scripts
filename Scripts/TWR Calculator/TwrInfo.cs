@@ -18,24 +18,34 @@ namespace IngameScript {
     partial class Program {
         class TwrInfo {
             public TwrInfo(List<IMyThrust> _thrusters, Direction direction, float totalMass) {
-                var massNewtons = ConvertMass2Newtons(totalMass);
+                var massNewtons = totalMass / 0.101971621;
 
-                Thrust_Direction = direction.ToString();
+                Thrust_Direction = direction;
                 NumThrusters = _thrusters.Count;
-                Thrust = _thrusters.Sum(b => b.MaxThrust);
-                TWR = Thrust / massNewtons;
-                EffectiveThrust = _thrusters.Sum(b => b.MaxEffectiveThrust);
-                EffectiveTWR = EffectiveThrust / massNewtons;
+                Thrust = new EffectiveMax<double>(
+                    _thrusters.Sum(b => (double)b.MaxEffectiveThrust),
+                    _thrusters.Sum(b => (double)b.MaxThrust));
+
+                TWR = new EffectiveMax<double>(
+                    Thrust.Effective / massNewtons,
+                    Thrust.Maximum / massNewtons);
             }
 
-            public string Thrust_Direction { get; private set; }
-            public double Thrust { get; private set; }
-            public double TWR { get; private set; }
-            public double EffectiveThrust { get; private set; }
-            public double EffectiveTWR { get; private set; }
+            public Direction Thrust_Direction { get; private set; }
+            public EffectiveMax<double> Thrust { get; private set; }
+            public EffectiveMax<double> TWR { get; private set; }
             public int NumThrusters { get; private set; }
 
-            double ConvertMass2Newtons(float mass_kg) => (mass_kg / 0.101971621);
+
+        }
+
+        class EffectiveMax<T> {
+            public EffectiveMax(T effective, T maximum) {
+                Effective = effective;
+                Maximum = maximum;
+            }
+            public T Effective { get; private set; }
+            public T Maximum { get; private set; }
         }
     }
 }

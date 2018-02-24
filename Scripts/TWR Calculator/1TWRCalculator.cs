@@ -20,32 +20,19 @@ namespace IngameScript {
         const string KeyDisplayName = "Display Name";
         const string KeyMass2Ignore = "Ignore Mass";
 
-        readonly CustomDataConfig _config;
+        readonly BlocksByOrientation _orientation = new BlocksByOrientation();
+        readonly CustomDataConfig _config = new CustomDataConfig();
         readonly List<IMyThrust> _thrusters = new List<IMyThrust>();
         readonly List<Direction> _calcDirections = new List<Direction>();
-        readonly Direction[] _allDirections = new Direction[]
-        {
-            Direction.Forward,
-            Direction.Backward,
-            Direction.Left,
-            Direction.Right,
-            Direction.Up,
-            Direction.Down
-        };
 
-        IMyTextPanel _twrDisplay;
-        IMyShipController _sc;
-        BlocksByOrientation _orientation = new BlocksByOrientation();
         int _configHashCode = 0;
 
         public Program() {
-            _config = new CustomDataConfig();
-
-            LoadConfig();
+            LoadConfig(true);
         }
 
-        void LoadConfig() {
-            if (_configHashCode == Me.CustomData.GetHashCode())
+        void LoadConfig(bool force = false) {
+            if (_configHashCode == Me.CustomData.GetHashCode() && !force)
                 return;
 
             _config.AddKey(KeyRCName,
@@ -66,28 +53,46 @@ namespace IngameScript {
         public void Main(string argument) {
             LoadConfig();
 
-            _sc = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyRCName)) as IMyShipController;
-            if (_sc == null) {
-                Echo($"config '{KeyRCName}' with name '{_config.GetValue(KeyRCName)}' was not found.");
+            var sc = GetShipController();
+            if (sc == null) {
+                Echo("No ship controller found.");
                 return;
             }
+            Echo($"Using: " + sc.CustomName);
 
-            _orientation.Init(_sc);
-
+            _orientation.Init(sc);
             _calcDirections.Clear();
+
             if (argument.Length > 0)
                 _calcDirections.Add(DirectionHelper.GetDirectionFromString(argument));
             else
-                _calcDirections.AddArray(_allDirections);
+                _calcDirections.AddArray(new Direction[] { Direction.Forward, Direction.Backward, Direction.Left, Direction.Right, Direction.Up, Direction.Down });
 
             var mass2Ignore = _config.GetValue(KeyMass2Ignore).ToInt();
-            var totalMass = _sc.CalculateShipMass().TotalMass - mass2Ignore;
+            var totalMass = sc.CalculateShipMass().TotalMass - mass2Ignore;
             var resultText = BuildText(totalMass);
 
             // Display results
             Echo(resultText);
-            _twrDisplay = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyDisplayName)) as IMyTextPanel;
-            _twrDisplay?.WritePublicText(resultText);
+            var twrDisplay = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyDisplayName)) as IMyTextPanel;
+            if (twrDisplay != null) {
+                twrDisplay.ShowPublicTextOnScreen();
+                twrDisplay.WritePublicText(resultText);
+            }
+        }
+
+        IMyShipController GetShipController() {
+            var name = _config.GetValue(KeyRCName);
+            var sc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyShipController>(
+                b => b is IMyRemoteControl && b.CustomName == name,
+                b => b is IMyCockpit && b.CustomName == name
+                );
+            if (sc != null) return sc;
+            sc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyShipController>(
+                b => b is IMyRemoteControl,
+                b => b is IMyCockpit
+                );
+            return sc;
         }
 
         string BuildText(float totalMass) {
@@ -96,18 +101,16 @@ namespace IngameScript {
             sb.AppendLine();
             foreach (var dir in _calcDirections) {
                 var info = CalcTwrInDirection(totalMass, dir);
-                sb.AppendLine($"Accel Dir: {info.Thrust_Direction}");
-                sb.AppendLine($"MAX Thrust: {info.Thrust / 1000.0:N0} kN");
-                sb.AppendLine($"T/W R: {info.TWR:N2}");
-                sb.AppendLine($"# Thrusters: {_thrusters.Count:N0}");
+                sb.AppendLine($"{_thrusters.Count:N0} {info.Thrust_Direction} Thrusters");
+                sb.AppendLine("    Effective / Maximum");
+                sb.AppendLine($"T: {info.Thrust.Effective / 1000.0,7:N0} kN / {info.Thrust.Maximum / 1000.0:N0} kN");
+                sb.AppendLine($"TWR: {info.TWR.Effective,8:N2} / {info.TWR.Maximum:N2}");
                 sb.AppendLine();
             }
             return sb.ToString();
         }
 
         TwrInfo CalcTwrInDirection(float totalMass, Direction direction) {
-            var massNewtons = ConvertMass2Newtons(totalMass);
-
             Func<IMyTerminalBlock, bool> isDirection;
             switch (direction) {
                 case Direction.Forward: isDirection = _orientation.IsBackward; break;
@@ -123,9 +126,7 @@ namespace IngameScript {
             return new TwrInfo(_thrusters, direction, totalMass);
         }
 
-        static double ConvertMass2Newtons(float mass_kg) { return (mass_kg / 0.101971621); }
-
-        bool IsOnThisGrid(IMyTerminalBlock b) { return Me.CubeGrid.EntityId == b.CubeGrid.EntityId; }
+        bool IsOnThisGrid(IMyTerminalBlock b) => Me.CubeGrid.EntityId == b.CubeGrid.EntityId;
 
     }
 }
