@@ -55,7 +55,6 @@ namespace IngameScript {
         double _timeBlockReloadLast = TIME_ReloadBlockDelay * 2;
         IMyRemoteControl _rc;
         IMyRadioAntenna _antenna;
-        readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
         readonly List<IMyThrust> _ascentThrusters = new List<IMyThrust>();
         readonly List<IMyThrust> _descentThrusters = new List<IMyThrust>();
         readonly List<IMyThrust> _allThrusters = new List<IMyThrust>();
@@ -114,15 +113,15 @@ namespace IngameScript {
         void LoadBlockLists(bool forceLoad = false) {
             if (!forceLoad && _timeBlockReloadLast < TIME_ReloadBlockDelay) return;
 
-            _rc = GridTerminalSystem.GetFirstblockOfTypeWithFirst<IMyRemoteControl>(_tempList,
+            _rc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>(
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
                 IsOnThisGrid);
             _orientation.Init(_rc);
 
-            _antenna = GridTerminalSystem.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(_tempList,
+            _antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b) && Collect.IsCommRadioAntenna(b),
                 b => IsOnThisGrid(b) && Collect.IsCommRadioAntenna(b));
-            _gravityGen = GridTerminalSystem.GetFirstblockOfTypeWithFirst<IMyGravityGenerator>(_tempList,
+            _gravityGen = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyGravityGenerator>(
                 b => IsOnThisGrid(b) && IsTaggedCarriage(b),
                 IsOnThisGrid);
 

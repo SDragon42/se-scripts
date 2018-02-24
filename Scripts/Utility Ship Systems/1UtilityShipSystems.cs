@@ -30,7 +30,6 @@ namespace IngameScript {
         readonly DockSecure _dockSecure = new DockSecure();
         readonly Proximity _proximity = new Proximity();
 
-        readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
         readonly List<IMyCameraBlock> _proxCameraList = new List<IMyCameraBlock>();
         readonly List<IMySoundBlock> _proxSpeakerList = new List<IMySoundBlock>();
         readonly List<IMyFunctionalBlock> _toolList = new List<IMyFunctionalBlock>();
@@ -208,9 +207,9 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_proxSpeakerList, b => IsOnThisGrid(b) && IsProximityBlock(b));
             GridTerminalSystem.GetBlocksOfType(_displayList, b => IsOnThisGrid(b) && (IsProximityBlock(b) || IsForwardRangeBlock(b)));
 
-            _foreRangeCamera = GridTerminalSystem.GetFirstblockOfTypeWithFirst<IMyCameraBlock>(_tmp, b => IsOnThisGrid(b) && IsForwardRangeBlock(b));
+            _foreRangeCamera = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCameraBlock>(b => IsOnThisGrid(b) && IsForwardRangeBlock(b));
 
-            _sc = GridTerminalSystem.GetFirstblockOfTypeWithFirst<IMyShipController>(_tmp,
+            _sc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyShipController>(
                 b => IsOnThisGrid(b) && b is IMyCockpit && ((IMyCockpit)b).IsMainCockpit,
                 b => IsOnThisGrid(b) && b is IMyCockpit,
                 b => IsOnThisGrid(b) && b is IMyRemoteControl);

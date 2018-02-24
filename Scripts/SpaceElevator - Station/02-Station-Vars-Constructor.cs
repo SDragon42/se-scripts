@@ -66,7 +66,6 @@ namespace IngameScript {
         int _lastCustomDataHash = -1;
 
         IMyRadioAntenna _antenna;
-        readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
         readonly List<IMyGasTank> _h2Tanks = new List<IMyGasTank>();
         readonly List<IMyTextPanel> _displaysAllCarriages = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysAllCarriagesWide = new List<IMyTextPanel>();
@@ -90,7 +89,7 @@ namespace IngameScript {
         void LoadBlockLists(bool forceLoad = false) {
             if (!forceLoad && _timeBlockReloadLast < TIME_ReloadBlockDelay) return;
 
-            _antenna = GridTerminalSystem.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(_tempList,
+            _antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(
                 b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsCommRadioAntenna(b),
                 b => IsOnThisGrid(b) && Collect.IsCommRadioAntenna(b));
 

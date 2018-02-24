@@ -64,7 +64,6 @@ namespace IngameScript {
         readonly List<IMyTextPanel> _displaysAllPassengerCarriages = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysAllPassengerCarriagesWide = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysSingleCarriages = new List<IMyTextPanel>();
-        readonly List<IMyTerminalBlock> _tempList = new List<IMyTerminalBlock>();
 
         readonly Dictionary<string, string> _displayText = new Dictionary<string, string>();
         readonly Dictionary<string, CarriageStatusMessage> _carriageStatuses = new Dictionary<string, CarriageStatusMessage>();
@@ -77,7 +76,7 @@ namespace IngameScript {
         void LoadBlockLists(bool forceLoad = false) {
             if (!forceLoad && _timeBlockReloadLast < TIME_ReloadBlockDelay) return;
 
-            _antenna = GridTerminalSystem.GetFirstblockOfTypeWithFirst<IMyRadioAntenna>(_tempList,
+            _antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(
                 b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsCommRadioAntenna(b),
                 b => IsOnThisGrid(b) && Collect.IsCommRadioAntenna(b));
 
