@@ -33,8 +33,6 @@ namespace IngameScript {
         const string TAG_B1 = "[B1]";
         const string TAG_B2 = "[B2]";
         const string TAG_MAINT = "[Maint]";
-        const string TAG_TRANSFER_ARM = "[Transfer Arm]";
-        const string TAG_TERMINAL = "[Terminal]";
 
         const double TIME_ReloadBlockDelay = 10.0;
 

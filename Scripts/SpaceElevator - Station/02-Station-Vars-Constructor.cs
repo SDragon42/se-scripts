@@ -58,7 +58,7 @@ namespace IngameScript {
         readonly CarriageVars _B2;
         readonly CarriageVars _Maint;
 
-        readonly Logging _log = new Logging(ScriptSettings.DEF_NumLogLines);
+        readonly Logging _log = new Logging(20);
         readonly COMMsModule _comms;
         readonly RunningSymbol _runSymbol = new RunningSymbol();
 
@@ -73,6 +73,7 @@ namespace IngameScript {
         readonly List<IMyTextPanel> _displaysAllPassengerCarriagesWide = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysSingleCarriages = new List<IMyTextPanel>();
         readonly List<IMyTextPanel> _displaysSingleCarriagesDetailed = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> _displaysLog = new List<IMyTextPanel>();
 
         readonly List<IMyTerminalBlock> _gateTerminal = new List<IMyTerminalBlock>();
         readonly List<IMyTerminalBlock> _gateTransfer = new List<IMyTerminalBlock>();
@@ -100,6 +101,7 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_displaysAllPassengerCarriagesWide, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.ALL_PASSENGER_CARRIAGES_WIDE));
             GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriages, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE));
             GridTerminalSystem.GetBlocksOfType(_displaysSingleCarriagesDetailed, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.SINGLE_CARRIAGE_DETAIL));
+            GridTerminalSystem.GetBlocksOfType(_displaysLog, b => IsOnThisGrid(b) && IsTaggedStation(b) && Collect.IsTagged(b, DisplayKeys.CONTROL_LOG));
 
             GridTerminalSystem.GetBlocksOfType(_gateTerminal, b => IsOnTerminal(b));
             GridTerminalSystem.GetBlocksOfType(_gateTransfer, b => IsOnTransferArm(b));

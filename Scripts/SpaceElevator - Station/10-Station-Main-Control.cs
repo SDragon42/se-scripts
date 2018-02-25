@@ -27,6 +27,8 @@ namespace IngameScript {
                 LoadConfigSettings();
                 LoadBlockLists();
 
+                Echo($"LOGs: {_displaysLog.Count}");
+
                 if (!string.IsNullOrEmpty(argument))
                     RunCommand(argument);
 
@@ -45,7 +47,7 @@ namespace IngameScript {
                 Echo("##########");
                 throw ex;
             } finally {
-                Echo(_log.GetLogText());
+                OutputLog();
             }
         }
 
@@ -59,7 +61,6 @@ namespace IngameScript {
         }
 
         void RunCommand(string argument) {
-            //_log.AppendLine(argument);
             CommMessage msg = null;
             if (CommMessage.TryParse(argument, out msg)) {
                 switch (msg.PayloadType) {
@@ -68,6 +69,7 @@ namespace IngameScript {
                     case UpdateAllDisplaysMessage.TYPE: DisplayProcessing(msg.Payload); break;
                 }
             } else {
+                _log.AppendLine($"{DateTime.Now.ToLongTimeString()} CMD: {argument}");
                 if (argument.StartsWith(CMD_DockCarriage)) {
                     argument = argument.Remove(0, CMD_DockCarriage.Length).Trim();
                     var carriage = GetCarriageVar(argument);
@@ -123,12 +125,18 @@ namespace IngameScript {
             return null;
         }
 
-        public static T GetFirstBlockInList<T>(List<IMyTerminalBlock> blockList, Func<IMyTerminalBlock, bool> collect) where T : class {
+        static T GetFirstBlockInList<T>(List<IMyTerminalBlock> blockList, Func<IMyTerminalBlock, bool> collect) where T : class {
             foreach (var b in blockList) {
                 if (!(b is T)) continue;
                 if (collect(b)) return (T)b;
             }
             return null;
+        }
+
+        void OutputLog() {
+            var logText = _log.GetLogText();
+            Echo(logText);
+            _displaysLog.ForEach(d => Displays.Write2MonospaceDisplay(d, logText, FontSizes.LOG));
         }
 
     }

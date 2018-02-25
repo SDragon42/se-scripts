@@ -77,6 +77,9 @@ namespace IngameScript {
             public const string FLAT_DESTINATION = "[lcd-destination]";
             public const string FLAT_CARGO = "[lcd-cargo]";
             public const string FLAT_FUEL = "[lcd-fuel]";
+
+            public const string CONTROL_LOG = "[control-log]";
+            public const string COMMS_LOG = "[comm-log]";
         }
 
         static class FontSizes {
@@ -85,6 +88,7 @@ namespace IngameScript {
             public const float SPEED = 1.3f;
             public const float FUEL = 1.3f;
             public const float CARGO = 1.3f;
+            public const float LOG = 0.5f;
         }
     }
 }
