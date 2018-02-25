@@ -69,7 +69,7 @@ namespace IngameScript {
                 _calcDirections.AddArray(new Direction[] { Direction.Forward, Direction.Backward, Direction.Left, Direction.Right, Direction.Up, Direction.Down });
 
             var mass2Ignore = _config.GetValue(KeyMass2Ignore).ToInt();
-            var totalMass = sc.CalculateShipMass().TotalMass - mass2Ignore;
+            var totalMass = sc.CalculateShipMass().PhysicalMass - mass2Ignore;
             var resultText = BuildText(totalMass);
 
             // Display results
