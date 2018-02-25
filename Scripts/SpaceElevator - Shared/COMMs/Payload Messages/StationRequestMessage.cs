@@ -16,7 +16,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        enum StationRequests { RequestCarriage }
+        enum StationRequests { RequestCarriage, SendCarriageTo }
 
         class StationRequestMessage : BasePayloadMessage {
             public const string TYPE = "StationRequestMessage";

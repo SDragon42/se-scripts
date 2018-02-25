@@ -22,6 +22,7 @@ namespace IngameScript {
         const string CMD_DockCarriage = "dock";
         const string CMD_UndockCarriage = "undock";
         const string CMD_RequestCarriage = "request-carriage";
+        const string CMD_SendCarriage = "send";
 
 
         //-------------------------------------------------------------------------------

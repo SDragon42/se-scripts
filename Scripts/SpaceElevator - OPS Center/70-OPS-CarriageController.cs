@@ -22,9 +22,15 @@ namespace IngameScript {
         void CarriageRequestedProcessing(string fromStationName, string msgPayload) {
             //_carriageStatuses
             var msg = StationRequestMessage.CreateFromPayload(msgPayload);
-            if (msg.Request != StationRequests.RequestCarriage) return;
-
-            SendCarriageToStation(msg.Extra, fromStationName);
+            switch (msg.Request) {
+                case StationRequests.RequestCarriage: SendCarriageToStation(msg.Extra, fromStationName); break;
+                case StationRequests.SendCarriageTo:
+                    var parts = msg.Extra.Split(new char[] { ' ' }, 2);
+                    if (parts.Length >= 2) {
+                        SendCarriageToStation(parts[0].Trim(), parts[1].Trim());
+                    }
+                    break;
+            }
         }
 
         void SendCarriageToStation(string toTerminal, string toStationName) {

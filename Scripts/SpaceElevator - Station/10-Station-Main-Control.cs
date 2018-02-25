@@ -81,6 +81,11 @@ namespace IngameScript {
                 } else if (argument.StartsWith(CMD_RequestCarriage)) {
                     argument = argument.Remove(0, CMD_RequestCarriage.Length).Trim();
                     SendCarriageRequestMessage(argument);
+                } else if (argument.StartsWith(CMD_SendCarriage)) {
+                    var parts = argument.Remove(0, CMD_SendCarriage.Length).Trim().Split(new char[] { ' ' }, 2);
+                    if (parts.Length >= 2) {
+                        SendCarriageToRequestMessage(parts[0].Trim(), parts[1].Trim());
+                    }
                 }
             }
         }
