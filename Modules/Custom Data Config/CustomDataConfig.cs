@@ -26,14 +26,12 @@ namespace IngameScript {
                 _items.Clear();
             }
 
-            public void AddKey(object key, string description = "", string defaultValue = "") {
-                var sKey = key.ToString();
-                if (_items.ContainsKey(sKey)) return;
-                _items.Add(sKey, new ConfigItem(description, defaultValue));
+            public void AddKey(string key, string description = "", string defaultValue = "") {
+                if (_items.ContainsKey(key)) return;
+                _items.Add(key, new ConfigItem(description, defaultValue));
             }
-            public bool ContainsKey(object key) {
-                var sKey = key.ToString();
-                return _items.ContainsKey(sKey);
+            public bool ContainsKey(string key) {
+                return _items.ContainsKey(key);
             }
 
 
@@ -69,30 +67,14 @@ namespace IngameScript {
             }
 
 
-            public void SetValue<T>(object key, T val) {
-                var sKey = key.ToString();
-                if (!_items.ContainsKey(sKey)) return;
-                _items[sKey].Value = (val != null) ? val.ToString() : string.Empty;
+            public void SetValue<T>(string key, T val) {
+                if (!_items.ContainsKey(key)) return;
+                _items[key].Value = (val != null) ? val.ToString() : string.Empty;
             }
-            public string GetValue(object key, string defVal = "") {
-                var sKey = key.ToString();
-                if (!_items.ContainsKey(sKey)) return defVal;
-                return _items[sKey].Value;
+            public string GetValue(string key, string defVal = "") {
+                if (!_items.ContainsKey(key)) return defVal;
+                return _items[key].Value;
             }
-
-
-            class ConfigItem {
-                public ConfigItem(string description, string val) {
-                    Description = description ?? string.Empty;
-                    Value = val;
-                }
-
-                public string Description { get; private set; }
-
-                string _value;
-                public string Value { get { return _value; } set { _value = value ?? string.Empty; } }
-            }
-
         }
     }
 }
