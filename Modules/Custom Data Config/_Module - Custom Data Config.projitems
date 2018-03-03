@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CustomDataConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CustomDataConfig2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VectorHelper.cs" />
   </ItemGroup>
 </Project>
