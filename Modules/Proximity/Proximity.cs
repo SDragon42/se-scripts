@@ -50,7 +50,7 @@ namespace IngameScript {
             public double? GetRange(Direction dir) => _currProx[dir];
             public double? GetRangeDiff(Direction dir) => _currProx[dir] - _prevProx[dir];
 
-            public void RunScan(MyGridProgram mgp, IMyShipController sc, List<IMyCameraBlock> cameras) {
+            public void RunScan(MyGridProgram mgp, IMyShipController sc, List<ProxCamera> cameras) {
                 SwapProxyLists();
                 KeyList.ForEach(k => _currProx[k] = null);
 
@@ -79,15 +79,14 @@ namespace IngameScript {
                 }
             }
 
-            double? GetMinimumRange(MyGridProgram mpg, List<IMyCameraBlock> cameras, Func<IMyTerminalBlock, bool> directionMethod) {
+            double? GetMinimumRange(MyGridProgram mpg, List<ProxCamera> cameras, Func<IMyTerminalBlock, bool> directionMethod) {
                 var range = cameras
-                    .Where(c => directionMethod(c))
-                    .Select(c => Ranger.GetDetailedRange(c, ScanRange))
+                    .Where(c => directionMethod(c.Camera))
+                    .Select(c => Ranger.GetDetailedRange(c.Camera, ScanRange, c.Offset))
                     .Min(r => r.Range);
-                //return (range < ScanRange) ? range : null;
                 if (!range.HasValue) return null;
                 if (range > ScanRange) return null;
-                if (range < 0.000001) return null;
+                //if (range < 0.000001) return null;
                 return range;
             }
 

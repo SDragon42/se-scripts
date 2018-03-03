@@ -29,8 +29,10 @@ namespace IngameScript {
         readonly RunningSymbol _running = new RunningSymbol();
         readonly DockSecure _dockSecure = new DockSecure();
         readonly Proximity _proximity = new Proximity();
+        readonly CustomDataConfig2 _proxConfig = new CustomDataConfig2("Proximity");
 
-        readonly List<IMyCameraBlock> _proxCameraList = new List<IMyCameraBlock>();
+        readonly List<IMyTerminalBlock> _tmpList = new List<IMyTerminalBlock>();
+        readonly List<ProxCamera> _proxCameraList = new List<ProxCamera>();
         readonly List<IMySoundBlock> _proxSpeakerList = new List<IMySoundBlock>();
         readonly List<IMyFunctionalBlock> _toolList = new List<IMyFunctionalBlock>();
         readonly List<IMyTextPanel> _displayList = new List<IMyTextPanel>();
@@ -51,6 +53,8 @@ namespace IngameScript {
             _settings.InitConfig(Me);
             _proximity.ScanRange = _settings.ProximityScanRange;
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
+
+            _proxConfig.AddKey("Range Offset", "0.0");
         }
 
         public void Main(string argument, UpdateType updateSource) {
@@ -203,9 +207,16 @@ namespace IngameScript {
 
         void LoadBlocks() {
             GridTerminalSystem.GetBlocksOfType(_toolList, b => IsOnThisGrid(b) && IsToolBlock(b));
-            GridTerminalSystem.GetBlocksOfType(_proxCameraList, b => IsOnThisGrid(b) && IsProximityBlock(b));
             GridTerminalSystem.GetBlocksOfType(_proxSpeakerList, b => IsOnThisGrid(b) && IsProximityBlock(b));
             GridTerminalSystem.GetBlocksOfType(_displayList, b => IsOnThisGrid(b) && (IsProximityBlock(b) || IsForwardRangeBlock(b)));
+            GridTerminalSystem.GetBlocksOfType<IMyCameraBlock>(_tmpList, b => IsOnThisGrid(b) && IsProximityBlock(b));
+            _proxCameraList.Clear();
+            foreach (var b in _tmpList) {
+                _proxConfig.SetValue("Range Offset", 0.0);
+                _proxConfig.Load(b);
+                _proxCameraList.Add(new ProxCamera((IMyCameraBlock)b, _proxConfig.GetValue("Range Offset").ToDouble(0)));
+                _proxConfig.Save(b);
+            }
 
             _foreRangeCamera = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCameraBlock>(b => IsOnThisGrid(b) && IsForwardRangeBlock(b));
 
