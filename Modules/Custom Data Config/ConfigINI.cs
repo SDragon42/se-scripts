@@ -17,13 +17,16 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
         class ConfigINI : ConfigBase<string> {
+            protected readonly static char[] SepColon = new char[] { ':' };
+
             readonly string _section;
 
             public ConfigINI(string section) {
-                _section = $"[{section}]";
+                _section = $"<{section}>";
             }
 
-            public void AddKey<T>(string key, T initalValue = default(T)) {
+            public void AddKey(string key) => AddKey(key, string.Empty);
+            public void AddKey<T>(string key, T initalValue) {
                 if (!ContainsKey(key)) Items.Add(key, initalValue?.ToString() ?? string.Empty);
             }
 
@@ -42,14 +45,14 @@ namespace IngameScript {
                 if (string.IsNullOrEmpty(mySection)) return;
 
                 var lines = mySection.Split(SepNewLine)
-                    .Select(i => i.Split(SepEquals, 2))
+                    .Select(i => i.Split(SepColon, 2))
                     .Where(p => p.Length == 2);
                 foreach (var cfgItem in lines) {
                     if (!ContainsKey(cfgItem[0])) {
                         if (addIfMissing)
-                            AddKey(cfgItem[0], cfgItem[1]);
+                            AddKey(cfgItem[0], cfgItem[1].Trim());
                     } else
-                        Items[cfgItem[0]] = cfgItem[1];
+                        Items[cfgItem[0]] = cfgItem[1].Trim();
                 }
             }
             public override void Save(IMyTerminalBlock block) {
@@ -85,7 +88,7 @@ namespace IngameScript {
                 var sb = new StringBuilder();
                 sb.Append(_section + "\n");
                 foreach (var sKey in Items.Keys)
-                    sb.Append(sKey + "=" + Items[sKey] + "\n");
+                    sb.Append(sKey + ": " + Items[sKey] + "\n");
                 return sb.ToString().Trim();
             }
         }
