@@ -16,26 +16,19 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        class CustomDataConfig {
-            readonly char[] SepNewLine = new char[] { '\n' };
-            readonly char[] SepEquals = new char[] { '=' };
-            readonly Dictionary<string, ConfigItem> _items = new Dictionary<string, ConfigItem>();
-
-
-            public void Clear() {
-                _items.Clear();
-            }
-
+        class ConfigCustom : ConfigBase<ConfigItem> {
             public void AddKey(string key, string description = "", string defaultValue = "") {
-                if (_items.ContainsKey(key)) return;
-                _items.Add(key, new ConfigItem(description, defaultValue));
-            }
-            public bool ContainsKey(string key) {
-                return _items.ContainsKey(key);
+                if (!ContainsKey(key)) _items.Add(key, new ConfigItem(description, defaultValue));
             }
 
+            public string GetValue(string key, string defVal = "") {
+                return ContainsKey(key) ? _items[key].Value : defVal;
+            }
+            public void SetValue<T>(string key, T val) {
+                if (ContainsKey(key)) _items[key].Value = (val != null) ? val.ToString() : string.Empty;
+            }
 
-            public void ReadFromCustomData(IMyTerminalBlock b, bool addIfMissing = false) {
+            public override void Load(IMyTerminalBlock b, bool addIfMissing = false) {
                 if (b == null) return;
                 var datalines = b.CustomData.Split(SepNewLine, StringSplitOptions.None);
                 foreach (var line in datalines) {
@@ -47,7 +40,7 @@ namespace IngameScript {
                     if (parts.Length != 2) continue;
 
                     var readKey = parts[0].Trim();
-                    if (!_items.ContainsKey(readKey)) {
+                    if (!ContainsKey(readKey)) {
                         if (!addIfMissing) continue;
                         AddKey(readKey);
                     }
@@ -55,7 +48,7 @@ namespace IngameScript {
                     _items[readKey].Value = parts[1].Trim();
                 }
             }
-            public void SaveToCustomData(IMyTerminalBlock b) {
+            public override void Save(IMyTerminalBlock b) {
                 if (b == null) return;
                 var sb = new StringBuilder();
                 foreach (var sKey in _items.Keys) {
@@ -64,16 +57,6 @@ namespace IngameScript {
                     sb.Append(sKey + " = " + _items[sKey].Value + "\n");
                 }
                 b.CustomData = sb.ToString().Trim();
-            }
-
-
-            public void SetValue<T>(string key, T val) {
-                if (!_items.ContainsKey(key)) return;
-                _items[key].Value = (val != null) ? val.ToString() : string.Empty;
-            }
-            public string GetValue(string key, string defVal = "") {
-                if (!_items.ContainsKey(key)) return defVal;
-                return _items[key].Value;
             }
         }
     }

@@ -16,77 +16,70 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        class CustomDataConfig2 {
-            readonly static string[] SepBlankLine = new string[] { "\n\n" };
-            readonly static char[] SepNewLine = new char[] { '\n' };
-            readonly static char[] SepEquals = new char[] { '=' };
-
+        class ConfigINI : ConfigBase<string> {
             readonly string _section;
-            readonly Dictionary<string, string> _items = new Dictionary<string, string>();
 
-            public CustomDataConfig2(string section) {
+            public ConfigINI(string section) {
                 _section = $"[{section}]";
             }
 
             public void AddKey(string key, string defaultValue = "") {
-                if (!_items.ContainsKey(key)) _items.Add(key, defaultValue);
+                if (!ContainsKey(key)) _items.Add(key, defaultValue);
             }
 
-            public void Load(IMyTerminalBlock b, bool addIfMissing = false) {
-                if (b == null) return;
-                var sec = GetSections(b.CustomData)
-                    .Where(d => d.StartsWith(_section))
-                    .FirstOrDefault();
-                if (string.IsNullOrEmpty(sec)) return;
+            public string GetValue(string key, string defVal = "") {
+                return ContainsKey(key) ? _items[key] : defVal;
+            }
+            public void SetValue<T>(string key, T val) {
+                if (ContainsKey(key)) _items[key] = (val != null) ? val.ToString() : string.Empty;
+            }
 
-                var lines = sec.Split(SepNewLine)
+            public override void Load(IMyTerminalBlock b, bool addIfMissing = false) {
+                if (b == null) return;
+                var mySection = GetSections(b.CustomData)
+                    .Where(IsMySection)
+                    .FirstOrDefault();
+                if (string.IsNullOrEmpty(mySection)) return;
+
+                var lines = mySection.Split(SepNewLine)
                     .Select(i => i.Split(SepEquals, 2))
                     .Where(p => p.Length == 2);
                 foreach (var cfgItem in lines) {
-                    if (!_items.ContainsKey(cfgItem[0])) {
+                    if (!ContainsKey(cfgItem[0])) {
                         if (addIfMissing)
                             AddKey(cfgItem[0], cfgItem[1]);
                     } else
                         _items[cfgItem[0]] = cfgItem[1];
                 }
             }
-            public void Save(IMyTerminalBlock b) {
+            public override void Save(IMyTerminalBlock b) {
                 if (b == null) return;
+                var allSections = GetSections(b.CustomData);
                 var written = false;
                 var sb = new StringBuilder();
-                var sections = GetSections(b.CustomData);
-                var sec = "";
-                Action addSection = () => {
+                Action<string> addSection = (sec) => {
                     if (sec.Length == 0) return;
                     if (sb.Length > 0) sb.Append("\n");
                     sb.Append(sec + "\n");
                 };
-                for (var i = 0; i < sections.Length; i++) {
-                    sec = sections[i].Trim();
-                    if (sec.StartsWith(_section)) {
+                for (var i = 0; i < allSections.Length; i++) {
+                    var sec = allSections[i].Trim();
+                    if (IsMySection(sec)) {
                         sec = BuildSection();
                         written = true;
                     }
-                    addSection();
+                    addSection(sec);
                 }
 
-                if (!written) {
-                    sec = BuildSection();
-                    addSection();
-                }
+                if (!written) addSection(BuildSection());
 
                 b.CustomData = sb.ToString().Trim();
             }
 
-            public void SetValue<T>(string key, T val) {
-                if (!_items.ContainsKey(key)) return;
-                _items[key] = (val != null) ? val.ToString() : string.Empty;
-            }
-            public string GetValue(string key, string defVal = "") {
-                return _items.ContainsKey(key) ? _items[key] : defVal;
-            }
+            bool IsMySection(string t) => t.StartsWith(_section);
 
             string[] GetSections(string data) => data.Split(SepBlankLine, StringSplitOptions.RemoveEmptyEntries);
+
             string BuildSection() {
                 if (_items.Count == 0) return string.Empty;
                 var sb = new StringBuilder();
