@@ -38,7 +38,7 @@ namespace IngameScript {
             const string KEY_LogLinesToShow = "Lines to Show";
 
 
-            public void InitializeConfig(CustomDataConfig config) {
+            public void InitializeConfig(ConfigCustom config) {
                 config.Clear();
                 config.AddKey(KEY_BlockTag,
                     description: "This is the name tag to add to the blocks so that the script can\ncontrol them.",
@@ -79,7 +79,7 @@ namespace IngameScript {
                 config.AddKey(KEY_LogLinesToShow,
                     defaultValue: DEF_NumLogLines.ToString());
             }
-            public void LoadFromSettingDict(CustomDataConfig config) {
+            public void LoadFromSettingDict(ConfigCustom config) {
                 InventoryMultiplier = config.GetValue(KEY_InvMultiplier).ToInt(DEFAULT_WorldInventoryMultiplier);
                 TravelSpeed = config.GetValue(KEY_TravelSpeed).ToDouble(DEFAULT_TravelSpeed);
                 DockSpeed = config.GetValue(KEY_DockSpeed).ToFloat(DEFAULT_DockSpeed);
@@ -101,7 +101,7 @@ namespace IngameScript {
                         GpsPoints.Add(gps);
                 }
             }
-            public void BuidSettingDict(CustomDataConfig config) {
+            public void BuidSettingDict(ConfigCustom config) {
                 config.SetValue(KEY_InvMultiplier, InventoryMultiplier.ToString());
                 config.SetValue(KEY_TravelSpeed, TravelSpeed.ToString());
                 config.SetValue(KEY_DockSpeed, DockSpeed.ToString());

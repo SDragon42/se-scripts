@@ -15,7 +15,7 @@ namespace IngameScript {
             const string KEY_TerminalTag = "Terminal Tag";
             const string KEY_TransferTag = "Transfer Arm Tag";
 
-            public void InitConfig(CustomDataConfig config) {
+            public void InitConfig(ConfigCustom config) {
                 config.AddKey(KEY_StationTag,
                     description: "This is the name tag to add to the blocks so that the script can\ncontrol them.",
                     defaultValue: DEFAULT_StationTag);
@@ -24,12 +24,12 @@ namespace IngameScript {
                 config.AddKey(KEY_TransferTag,
                     defaultValue: DEFAULT_TransferTag);
             }
-            public void LoadFromSettingDict(CustomDataConfig config) {
+            public void LoadFromSettingDict(ConfigCustom config) {
                 StationTag = config.GetValue(KEY_StationTag, DEFAULT_StationTag);
                 TerminalTag = config.GetValue(KEY_TerminalTag, DEFAULT_TerminalTag);
                 TransferTag = config.GetValue(KEY_TransferTag, DEFAULT_TransferTag);
             }
-            public void BuidSettingDict(CustomDataConfig config) {
+            public void BuidSettingDict(ConfigCustom config) {
                 config.SetValue(KEY_StationTag, StationTag);
                 config.SetValue(KEY_TerminalTag, TerminalTag);
                 config.SetValue(KEY_TransferTag, TransferTag);

@@ -29,7 +29,7 @@ namespace IngameScript {
         readonly RunningSymbol _running = new RunningSymbol();
         readonly DockSecure _dockSecure = new DockSecure();
         readonly Proximity _proximity = new Proximity();
-        readonly CustomDataConfig2 _proxConfig = new CustomDataConfig2("Proximity");
+        readonly ConfigINI _proxConfig = new ConfigINI("Proximity");
 
         readonly List<IMyTerminalBlock> _tmpList = new List<IMyTerminalBlock>();
         readonly List<ProxCamera> _proxCameraList = new List<ProxCamera>();

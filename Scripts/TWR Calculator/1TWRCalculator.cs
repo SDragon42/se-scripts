@@ -21,7 +21,7 @@ namespace IngameScript {
         const string KeyMass2Ignore = "Ignore Mass";
 
         readonly BlocksByOrientation _orientation = new BlocksByOrientation();
-        readonly CustomDataConfig _config = new CustomDataConfig();
+        readonly ConfigCustom _config = new ConfigCustom();
         readonly List<IMyThrust> _thrusters = new List<IMyThrust>();
         readonly List<Direction> _calcDirections = new List<Direction>();
 
@@ -45,8 +45,8 @@ namespace IngameScript {
                 description: "The amount of mass to ignore from TWR calculations.",
                 defaultValue: "0");
 
-            _config.ReadFromCustomData(Me, true);
-            _config.SaveToCustomData(Me);
+            _config.Load(Me, true);
+            _config.Save(Me);
             _configHashCode = Me.CustomData.GetHashCode();
         }
 

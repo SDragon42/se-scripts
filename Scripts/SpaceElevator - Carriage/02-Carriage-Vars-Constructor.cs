@@ -45,7 +45,7 @@ namespace IngameScript {
         readonly Logging _log = new Logging(ScriptSettings.DEF_NumLogLines);
         readonly RunningSymbol _runSymbol = new RunningSymbol();
         readonly COMMsModule _comms;
-        readonly CustomDataConfig _custConfig = new CustomDataConfig();
+        readonly ConfigCustom _custConfig = new ConfigCustom();
         readonly ScriptSettings _settings = new ScriptSettings();
         readonly BlocksByOrientation _orientation = new BlocksByOrientation();
         int _lastCustomDataHash;

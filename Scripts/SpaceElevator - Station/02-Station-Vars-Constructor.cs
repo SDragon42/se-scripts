@@ -49,7 +49,7 @@ namespace IngameScript {
         }
 
 
-        readonly CustomDataConfig _custConfig = new CustomDataConfig();
+        readonly ConfigCustom _custConfig = new ConfigCustom();
         readonly ScriptSettings _settings = new ScriptSettings();
 
         readonly CarriageVars _A1;

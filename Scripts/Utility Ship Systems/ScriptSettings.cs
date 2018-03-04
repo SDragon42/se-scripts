@@ -38,7 +38,7 @@ namespace IngameScript {
             const string KEY_ForwardRange = "Forward Range (m)";
             const string KEY_ForwardClearTime = "Display Time (seconds)";
 
-            readonly CustomDataConfig _config = new CustomDataConfig();
+            readonly ConfigCustom _config = new ConfigCustom();
             int _configHashCode = 0;
 
             public void InitConfig(IMyProgrammableBlock me) {
@@ -85,8 +85,8 @@ namespace IngameScript {
                 if (_configHashCode == me.CustomData.GetHashCode())
                     return;
                 InitConfig(me);
-                _config.ReadFromCustomData(me);
-                _config.SaveToCustomData(me);
+                _config.Load(me);
+                _config.Save(me);
                 _configHashCode = me.CustomData.GetHashCode();
 
                 dsm.Auto_On = _config.GetValue(KEY_AUTO_ON).ToBoolean();

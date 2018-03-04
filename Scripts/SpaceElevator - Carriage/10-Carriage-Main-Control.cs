@@ -79,9 +79,9 @@ namespace IngameScript {
             var hash = Me.CustomData.GetHashCode();
             if (hash == _lastCustomDataHash)
                 return;
-            _custConfig.ReadFromCustomData(Me);
+            _custConfig.Load(Me);
             _settings.LoadFromSettingDict(_custConfig);
-            _custConfig.SaveToCustomData(Me);
+            _custConfig.Save(Me);
             _lastCustomDataHash = hash;
             _log.MaxTextLinesToKeep = _settings.LogLines2Show;
         }

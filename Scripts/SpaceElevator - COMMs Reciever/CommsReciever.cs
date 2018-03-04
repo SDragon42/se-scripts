@@ -17,7 +17,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        readonly CustomDataConfig _config = new CustomDataConfig();
+        readonly ConfigCustom _config = new ConfigCustom();
         readonly ScriptSettings _settings = new ScriptSettings();
         readonly Logging _log = new Logging();
         readonly Queue<CommMessage> _msgQueue = new Queue<CommMessage>();
@@ -82,9 +82,9 @@ namespace IngameScript {
         void LoadConfigSettings() {
             var hash = Me.CustomData.GetHashCode();
             if (hash == _configHash) return;
-            _config.ReadFromCustomData(Me);
+            _config.Load(Me);
             _settings.LoadFromSettingDict(_config);
-            _config.SaveToCustomData(Me);
+            _config.Save(Me);
             _configHash = hash;
             _log.MaxTextLinesToKeep = _settings.LogLines2Show;
         }

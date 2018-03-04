@@ -44,7 +44,7 @@ namespace IngameScript {
         }
 
 
-        readonly CustomDataConfig _custConfig = new CustomDataConfig();
+        readonly ConfigCustom _custConfig = new ConfigCustom();
         readonly ScriptSettings _settings = new ScriptSettings();
         //readonly DebugLogging _debug;
         readonly Logging _log = new Logging(ScriptSettings.DEF_NumLogLines);
