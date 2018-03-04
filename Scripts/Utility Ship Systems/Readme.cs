@@ -1,7 +1,7 @@
 ﻿/***********************************************************
 Utility Ship Systems
 By SDragon42
-ver 1.4.1    2018-02-15
+ver 1.5    2018-xx-xx
 ------------------------------------------------------------
 
 Turns blocks On/Off when docking a ship. It is setup to be fully automatic by default, but can be changed to 

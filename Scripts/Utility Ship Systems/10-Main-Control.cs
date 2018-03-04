@@ -16,58 +16,16 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
-        const string CMD_DOCK_TOGGLE = "dock-toggle";
-        const string CMD_DOCK = "dock";
-        const string CMD_UNDOCK = "undock";
-        const string CMD_SCAN = "scan-range";
-        const string CMD_TOOLS_TOGGLE = "tools-toggle";
-        const string CMD_TOOLS_OFF = "tools-off";
-
-        const double BLOCK_RELOAD_TIME = 10;
-
-        readonly ScriptSettings _settings = new ScriptSettings();
-        readonly RunningSymbol _running = new RunningSymbol();
-        readonly DockSecure _dockSecure = new DockSecure();
-        readonly Proximity _proximity = new Proximity();
-        readonly ConfigINI _proxConfig = new ConfigINI("Proximity");
-
-        readonly List<IMyTerminalBlock> _tmpList = new List<IMyTerminalBlock>();
-        readonly List<ProxCamera> _proxCameraList = new List<ProxCamera>();
-        readonly List<IMySoundBlock> _proxSpeakerList = new List<IMySoundBlock>();
-        readonly List<IMyFunctionalBlock> _toolList = new List<IMyFunctionalBlock>();
-        readonly List<IMyTextPanel> _displayList = new List<IMyTextPanel>();
-
-        IMyShipController _sc = null;
-        IMyCameraBlock _foreRangeCamera = null;
-        bool _alertSounding = false;
-        RangeInfo _foreRangeInfo;
-
-        double _timeLastBlockLoad = BLOCK_RELOAD_TIME * 2;
-        double _timeLastCleared = 0;
-        bool _reloadBlocks;
-        string _proximityText = string.Empty;
-        string _scanRangeText = string.Empty;
-
-        public Program() {
-            //Echo = (t) => { }; // Disable Echo
-            _settings.InitConfig(Me);
-            _proximity.ScanRange = _settings.ProximityScanRange;
-            Runtime.UpdateFrequency = UpdateFrequency.Update10;
-
-            _proxConfig.AddKey("Range Offset", "0.0");
-        }
-
         public void Main(string argument, UpdateType updateSource) {
             _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
             _timeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
             var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
-            Echo("Utility Ship Systems v1.4.1 " + _running.GetSymbol(Runtime));
+            Echo($"Utility Ship Systems {VERSION} {_running.GetSymbol(Runtime)}");
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.");
             Echo("");
             Echo("Configure script in 'Custom Data'");
 
-            _settings.LoadConfig(Me, _dockSecure);
-            _proximity.ScanRange = _settings.ProximityScanRange;
+            LoadConfigs();
 
             _reloadBlocks = (_timeLastBlockLoad >= BLOCK_RELOAD_TIME);
             _dockSecure.Init(this, _reloadBlocks);
@@ -92,7 +50,7 @@ namespace IngameScript {
                 UpdateProximity();
             }
 
-            if (_timeLastCleared >= _settings.ForwardDisplayClearTime && _scanRangeText.Length > 0) {
+            if (_timeLastCleared >= ForwardDisplayClearTime && _scanRangeText.Length > 0) {
                 _scanRangeText = string.Empty;
                 _timeLastCleared = 0;
             }
@@ -138,7 +96,7 @@ namespace IngameScript {
         bool SetAlert(Direction dir, double speed) {
             var range = _proximity.GetRange(dir);
             var diff = _proximity.GetRangeDiff(dir);
-            if (diff < 0 && speed >= _settings.ProximityAlertSpeed && range <= _settings.ProximityAlertRange) {
+            if (diff < 0 && speed >= ProximityAlertSpeed && range <= ProximityAlertRange) {
                 TurnOnProximityAlert();
                 return true;
             }
@@ -147,7 +105,7 @@ namespace IngameScript {
         void TurnOnProximityAlert() {
             if (_alertSounding)
                 return;
-            if (!_settings.ProximityAlert)
+            if (!ProximityAlert)
                 return;
             _proxSpeakerList.ForEach(s => s.Play());
             _alertSounding = true;
@@ -181,7 +139,7 @@ namespace IngameScript {
 
         void ScanAhead() {
             if (_foreRangeCamera == null) return;
-            _foreRangeInfo = Ranger.GetDetailedRange(_foreRangeCamera, _settings.ForwardScanRange);
+            _foreRangeInfo = Ranger.GetDetailedRange(_foreRangeCamera, ForwardScanRange);
             BuildForwardDisplayText();
             _timeLastCleared = 0;
         }
@@ -204,31 +162,5 @@ namespace IngameScript {
         void ToggleToolsOnOff() {
             _toolList.ForEach(b => b.Enabled = !b.Enabled);
         }
-
-        void LoadBlocks() {
-            GridTerminalSystem.GetBlocksOfType(_toolList, b => IsOnThisGrid(b) && IsToolBlock(b));
-            GridTerminalSystem.GetBlocksOfType(_proxSpeakerList, b => IsOnThisGrid(b) && IsProximityBlock(b));
-            GridTerminalSystem.GetBlocksOfType(_displayList, b => IsOnThisGrid(b) && (IsProximityBlock(b) || IsForwardRangeBlock(b)));
-            GridTerminalSystem.GetBlocksOfType<IMyCameraBlock>(_tmpList, b => IsOnThisGrid(b) && IsProximityBlock(b));
-            _proxCameraList.Clear();
-            foreach (var b in _tmpList) {
-                _proxConfig.SetValue("Range Offset", 0.0);
-                _proxConfig.Load(b);
-                _proxCameraList.Add(new ProxCamera((IMyCameraBlock)b, _proxConfig.GetValue("Range Offset").ToDouble(0)));
-                _proxConfig.Save(b);
-            }
-
-            _foreRangeCamera = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCameraBlock>(b => IsOnThisGrid(b) && IsForwardRangeBlock(b));
-
-            _sc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyShipController>(
-                b => IsOnThisGrid(b) && b is IMyCockpit && ((IMyCockpit)b).IsMainCockpit,
-                b => IsOnThisGrid(b) && b is IMyCockpit,
-                b => IsOnThisGrid(b) && b is IMyRemoteControl);
-        }
-
-        bool IsOnThisGrid(IMyTerminalBlock b) => b.CubeGrid == Me.CubeGrid;
-        bool IsToolBlock(IMyTerminalBlock b) => b is IMyShipDrill || b is IMyShipWelder || b is IMyShipGrinder;
-        bool IsProximityBlock(IMyTerminalBlock b) => Collect.IsTagged(b, _settings.ProximityTag);
-        bool IsForwardRangeBlock(IMyTerminalBlock b) => Collect.IsTagged(b, _settings.ForwardScanTag);
     }
 }
