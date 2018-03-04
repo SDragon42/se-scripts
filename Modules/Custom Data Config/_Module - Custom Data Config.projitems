@@ -13,6 +13,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConfigItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigCustom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigINI.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VectorHelper.cs" />
   </ItemGroup>
 </Project>
