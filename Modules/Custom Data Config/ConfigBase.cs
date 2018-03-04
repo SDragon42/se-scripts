@@ -22,11 +22,11 @@ namespace IngameScript
         protected readonly static char[] SepNewLine = new char[] { '\n' };
         protected readonly static char[] SepEquals = new char[] { '=' };
 
-        protected readonly Dictionary<string, K> _items = new Dictionary<string, K>();
+        protected readonly Dictionary<string, K> Items = new Dictionary<string, K>();
 
-        public void Clear() => _items.Clear();
+        public void Clear() => Items.Clear();
 
-        public bool ContainsKey(string key) => _items.ContainsKey(key);
+        public bool ContainsKey(string key) => Items.ContainsKey(key);
 
         public abstract void Load(IMyTerminalBlock block, bool addIfMissing = false);
         public abstract void Save(IMyTerminalBlock block);

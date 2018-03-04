@@ -18,14 +18,14 @@ namespace IngameScript {
     partial class Program {
         class ConfigCustom : ConfigBase<ConfigItem> {
             public void AddKey(string key, string description = "", string defaultValue = "") {
-                if (!ContainsKey(key)) _items.Add(key, new ConfigItem(description, defaultValue));
+                if (!ContainsKey(key)) Items.Add(key, new ConfigItem(description, defaultValue));
             }
 
             public string GetValue(string key, string defVal = "") {
-                return ContainsKey(key) ? _items[key].Value : defVal;
+                return ContainsKey(key) ? Items[key].Value : defVal;
             }
             public void SetValue<T>(string key, T val) {
-                if (ContainsKey(key)) _items[key].Value = (val != null) ? val.ToString() : string.Empty;
+                if (ContainsKey(key)) Items[key].Value = (val != null) ? val.ToString() : string.Empty;
             }
 
             public override void Load(IMyTerminalBlock b, bool addIfMissing = false) {
@@ -45,16 +45,16 @@ namespace IngameScript {
                         AddKey(readKey);
                     }
 
-                    _items[readKey].Value = parts[1].Trim();
+                    Items[readKey].Value = parts[1].Trim();
                 }
             }
             public override void Save(IMyTerminalBlock b) {
                 if (b == null) return;
                 var sb = new StringBuilder();
-                foreach (var sKey in _items.Keys) {
-                    if (_items[sKey].Description.Length > 0)
-                        sb.Append("\n# " + _items[sKey].Description.Replace("\n", "\n# ") + "\n");
-                    sb.Append(sKey + " = " + _items[sKey].Value + "\n");
+                foreach (var sKey in Items.Keys) {
+                    if (Items[sKey].Description.Length > 0)
+                        sb.Append("\n# " + Items[sKey].Description.Replace("\n", "\n# ") + "\n");
+                    sb.Append(sKey + " = " + Items[sKey].Value + "\n");
                 }
                 b.CustomData = sb.ToString().Trim();
             }

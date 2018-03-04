@@ -23,20 +23,20 @@ namespace IngameScript {
                 _section = $"[{section}]";
             }
 
-            public void AddKey(string key, string defaultValue = "") {
-                if (!ContainsKey(key)) _items.Add(key, defaultValue);
+            public void AddKey<T>(string key, T initalValue = default(T)) {
+                if (!ContainsKey(key)) Items.Add(key, initalValue?.ToString() ?? string.Empty);
             }
 
-            public string GetValue(string key, string defVal = "") {
-                return ContainsKey(key) ? _items[key] : defVal;
+            public string GetValue(string key, string defaultValue = "") {
+                return ContainsKey(key) ? Items[key] : defaultValue;
             }
-            public void SetValue<T>(string key, T val) {
-                if (ContainsKey(key)) _items[key] = (val != null) ? val.ToString() : string.Empty;
+            public void SetValue<T>(string key, T value) {
+                if (ContainsKey(key)) Items[key] = value?.ToString() ?? string.Empty;
             }
 
-            public override void Load(IMyTerminalBlock b, bool addIfMissing = false) {
-                if (b == null) return;
-                var mySection = GetSections(b.CustomData)
+            public override void Load(IMyTerminalBlock block, bool addIfMissing = false) {
+                if (block == null) return;
+                var mySection = GetSections(block.CustomData)
                     .Where(IsMySection)
                     .FirstOrDefault();
                 if (string.IsNullOrEmpty(mySection)) return;
@@ -49,12 +49,12 @@ namespace IngameScript {
                         if (addIfMissing)
                             AddKey(cfgItem[0], cfgItem[1]);
                     } else
-                        _items[cfgItem[0]] = cfgItem[1];
+                        Items[cfgItem[0]] = cfgItem[1];
                 }
             }
-            public override void Save(IMyTerminalBlock b) {
-                if (b == null) return;
-                var allSections = GetSections(b.CustomData);
+            public override void Save(IMyTerminalBlock block) {
+                if (block == null) return;
+                var allSections = GetSections(block.CustomData);
                 var written = false;
                 var sb = new StringBuilder();
                 Action<string> addSection = (sec) => {
@@ -73,19 +73,19 @@ namespace IngameScript {
 
                 if (!written) addSection(BuildSection());
 
-                b.CustomData = sb.ToString().Trim();
+                block.CustomData = sb.ToString().Trim();
             }
 
-            bool IsMySection(string t) => t.StartsWith(_section);
+            bool IsMySection(string text) => text.StartsWith(_section);
 
             string[] GetSections(string data) => data.Split(SepBlankLine, StringSplitOptions.RemoveEmptyEntries);
 
             string BuildSection() {
-                if (_items.Count == 0) return string.Empty;
+                if (Items.Count == 0) return string.Empty;
                 var sb = new StringBuilder();
                 sb.Append(_section + "\n");
-                foreach (var sKey in _items.Keys)
-                    sb.Append(sKey + "=" + _items[sKey] + "\n");
+                foreach (var sKey in Items.Keys)
+                    sb.Append(sKey + "=" + Items[sKey] + "\n");
                 return sb.ToString().Trim();
             }
         }
