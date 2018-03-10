@@ -20,15 +20,25 @@ namespace IngameScript {
     // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
     static class ExtensionMethods {
         public static void GetblocksOfTypeWithFirst<T>(this IMyGridTerminalSystem gts, List<IMyTerminalBlock> blockList, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class, IMyTerminalBlock {
-            foreach (var collect in collectMethods) {
-                gts.GetBlocksOfType<T>(blockList, collect);
+            if (collectMethods == null || collectMethods.Length == 0) {
+                gts.GetBlocksOfType<T>(blockList);
                 if (blockList.Count > 0) return;
+            } else {
+                foreach (var collect in collectMethods) {
+                    gts.GetBlocksOfType<T>(blockList, collect);
+                    if (blockList.Count > 0) return;
+                }
             }
         }
         public static void GetblocksOfTypeWithFirst<T>(this IMyGridTerminalSystem gts, List<T> blockList, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class, IMyTerminalBlock {
-            foreach (var collect in collectMethods) {
-                gts.GetBlocksOfType(blockList, collect);
+            if (collectMethods == null || collectMethods.Length == 0) {
+                gts.GetBlocksOfType<T>(blockList);
                 if (blockList.Count > 0) return;
+            } else {
+                foreach (var collect in collectMethods) {
+                    gts.GetBlocksOfType(blockList, collect);
+                    if (blockList.Count > 0) return;
+                }
             }
         }
 
