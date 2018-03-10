@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{90533C51-8B80-4D39-9722-4CD89BFCB84C}"
 EndProject
@@ -83,6 +83,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - OPS Center"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Station", "Scripts\SpaceElevator - Station\SpaceElevator - Station.csproj", "{7668C9B9-78DE-4B35-A141-D528F0704D4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - GrassHopper", "Scripts\SDLS - GrassHopper\SDLS - GrassHopper.csproj", "{3983C820-0311-4F8F-AE3A-6BD54F1DA500}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\Common\_Library - Common.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
@@ -104,6 +106,10 @@ Global
 		Modules\Time Interval\_Module - Time Interval.projitems*{243c42a9-6084-40c4-a1c4-5d0d61a5f1e1}*SharedItemsImports = 13
 		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{2ac28b0a-1f4d-4423-b244-64fbf8a94354}*SharedItemsImports = 13
 		Libraries\Gas Tanks\_Helper - Gas Tanks.projitems*{35bbb9de-40b9-4e5a-aa79-49394bfa1435}*SharedItemsImports = 13
+		Libraries\Common\_Library - Common.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
+		Libraries\Thrusters\_Helper - Thrusters.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
+		Modules\Logging\_Module - Logging.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
+		Modules\Running Symbol\_Module - Running Symbol.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
 		Libraries\Cargo and Inventory\_Helper - Cargo and Inventory.projitems*{4e20775e-fe3c-4ae3-8e2d-a7b43ee30ed4}*SharedItemsImports = 13
 		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
 		Libraries\Common\_Library - Common.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
@@ -226,6 +232,8 @@ Global
 		{FE456DAE-1E85-4D99-A25D-AA819E217AF3}.Debug|x64.Build.0 = Debug|x64
 		{7668C9B9-78DE-4B35-A141-D528F0704D4A}.Debug|x64.ActiveCfg = Debug|x64
 		{7668C9B9-78DE-4B35-A141-D528F0704D4A}.Debug|x64.Build.0 = Debug|x64
+		{3983C820-0311-4F8F-AE3A-6BD54F1DA500}.Debug|x64.ActiveCfg = Debug|x64
+		{3983C820-0311-4F8F-AE3A-6BD54F1DA500}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
