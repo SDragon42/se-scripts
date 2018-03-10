@@ -19,11 +19,6 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            //_debug = new DebugLogging(this);
-            //_debug.Enabled = false;
-            //_debug.EchoMessages = true;
-
-            //_log.Enabled = false;
 
             _settings.InitializeConfig(_custConfig);
 
@@ -41,7 +36,6 @@ namespace IngameScript {
 
         bool _activateSpeedLimiter = false;
 
-        //readonly DebugLogging _debug;
         readonly Logging _log = new Logging(ScriptSettings.DEF_NumLogLines);
         readonly RunningSymbol _runSymbol = new RunningSymbol();
         readonly COMMsModule _comms;

@@ -83,7 +83,6 @@ namespace IngameScript {
         void CarriageStatusProcessing(string carriageName, string msgPayload) {
             var status = CarriageStatusMessage.CreateFromPayload(msgPayload);
             _carriageStatuses[carriageName] = status;
-            //_log.AppendLine($"{DateTime.Now.ToLongTimeString()}|{carriageName}");
         }
 
 

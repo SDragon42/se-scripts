@@ -20,7 +20,6 @@ namespace IngameScript {
     partial class Program {
 
         void CarriageRequestedProcessing(string fromStationName, string msgPayload) {
-            //_carriageStatuses
             var msg = StationRequestMessage.CreateFromPayload(msgPayload);
             switch (msg.Request) {
                 case StationRequests.RequestCarriage: SendCarriageToStation(msg.Extra, fromStationName); break;

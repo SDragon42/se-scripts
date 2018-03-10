@@ -52,18 +52,6 @@ namespace IngameScript {
 
             _h2TankFilledPercent = GasTankHelper.GetTanksFillPercentage(_h2Tanks);
 
-            //var speed = Math.Round(_verticalSpeed, 1);
-            //var speedDir = "--";
-            //if (speed > 0) speedDir = @"/\";
-            //if (speed < 0) speedDir = @"\/";
-
-            //_debug.AppendLine($"Speed: {speedDir}  {Math.Abs(_verticalSpeed):N1}");
-            //_debug.AppendLine($"Lift T/W r: {totalMaxBreakingThrust / _gravityForceOnShip:N2}");
-            //_debug.AppendLine($"Brake Dist: {brakeingRange:N2}");
-            //_debug.AppendLine("");
-            //_debug.AppendLine($"Range to Destination: {_rangeToDestination:N2} m");
-            //_debug.AppendLine($"Range to Ground: {_rangeToGround:N2} m");
-
             if (_doCalcStatus) {
                 _doCalcStatus = false;
                 SetStatuses();

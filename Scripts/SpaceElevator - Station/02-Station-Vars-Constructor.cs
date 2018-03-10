@@ -19,11 +19,6 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            //_debug = new DebugLogging(this);
-            //_debug.Enabled = false;
-            //_debug.EchoMessages = true;
-
-            //_log.Enabled = false;
 
             _settings.InitConfig(_custConfig);
 

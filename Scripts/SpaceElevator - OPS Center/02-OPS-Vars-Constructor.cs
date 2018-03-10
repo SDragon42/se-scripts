@@ -19,11 +19,6 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            //_debug = new DebugLogging(this);
-            //_debug.Enabled = false;
-            //_debug.EchoMessages = true;
-
-            //_log.Enabled = false;
 
             _settings.InitConfig(_custConfig);
 
@@ -46,7 +41,6 @@ namespace IngameScript {
 
         readonly ConfigCustom _custConfig = new ConfigCustom();
         readonly ScriptSettings _settings = new ScriptSettings();
-        //readonly DebugLogging _debug;
         readonly Logging _log = new Logging(ScriptSettings.DEF_NumLogLines);
         readonly COMMsModule _comms;
         readonly RunningSymbol _runSymbol = new RunningSymbol();
@@ -55,7 +49,6 @@ namespace IngameScript {
 
         double _timeBlockReloadLast = TIME_ReloadBlockDelay * 2;
         int _lastCustomDataHash;
-        //double _timeLast;
         double _timeDisplayLast;
 
         IMyRadioAntenna _antenna;

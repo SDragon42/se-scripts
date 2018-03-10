@@ -117,7 +117,6 @@ namespace IngameScript {
                 var maxAngle = Math.Round(rotor.UpperLimitRad, RotorConstants.RADIAN_ROUND_DIGITS);
                 if (currAngle < maxAngle) {
                     rotor.TargetVelocityRPM = RotorConstants.ROTOR_VELOCITY;
-                    //return false; // not in position yet
                     terminate = true;
                 }
             }
@@ -132,7 +131,6 @@ namespace IngameScript {
                     if (piston.CurrentPosition < piston.MaxLimit) return false;
                 }
             } else {
-                //if (piston != null)
                 connector?.Connect();
             }
 
