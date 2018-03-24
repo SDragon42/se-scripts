@@ -87,12 +87,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - GrassHopper", "Scrip
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Libraries\Cargo and Inventory\_Helper - Cargo and Inventory.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Libraries\Connectors\_Helper - Connectors.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Libraries\Direction\_Helper - Direction.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Libraries\Gas Tanks\_Helper - Gas Tanks.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Libraries\Thrusters\_Helper - Thrusters.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Modules\Logging\_Module - Logging.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Modules\Running Symbol\_Module - Running Symbol.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Modules\Vector Align\_Module - Vector Align.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
 		Libraries\Common\_Library - Common.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		Libraries\Connectors\_Helper - Connectors.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
+		Modules\Logging\_Module - Logging.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
+		Modules\Running Symbol\_Module - Running Symbol.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
 		Libraries\Common\_Library - Common.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		Libraries\LCDs\_Helper - LCDs.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
