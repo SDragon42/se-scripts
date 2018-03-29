@@ -90,12 +90,13 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MDKUtilities">
-      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\ocmtoykj.zq2\MDKUtilities.dll</HintPath>
+      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\nivj32dn.eet\MDKUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\ocmtoykj.zq2\Analyzers\MDKAnalyzer.dll" />
+    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\nivj32dn.eet\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="50-Launch.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -105,6 +106,17 @@
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
   </ItemGroup>
+  <Import Project="..\..\Modules\Logging\_Module - Logging.projitems" Label="Shared" />
+  <Import Project="..\..\Modules\Running Symbol\_Module - Running Symbol.projitems" Label="Shared" />
+  <Import Project="..\..\Modules\Vector Align\_Module - Vector Align.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Gas Tanks\_Helper - Gas Tanks.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Landing Gears\_Helper - Landing Gears.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Thrusters\_Helper - Thrusters.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Cargo and Inventory\_Helper - Cargo and Inventory.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Connectors\_Helper - Connectors.projitems" Label="Shared" />
+  <Import Project="..\..\Libraries\Direction\_Helper - Direction.projitems" Label="Shared" />
+  <Import Project="..\..\Modules\Custom Data Config\_Module - Custom Data Config.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />

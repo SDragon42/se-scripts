@@ -15,19 +15,11 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    partial class Program : MyGridProgram {
-
-        readonly RunningSymbol Running = new RunningSymbol();
-
-        public Program() {
-            Runtime.UpdateFrequency = UpdateFrequency.Update10;
-        }
-
-        public void Save() {
-        }
-
-        public void Main(string argument, UpdateType updateSource) {
-            Echo(Running.GetSymbol(Runtime));
+    partial class Program {
+        enum Modes {
+            Standby,
+            Stage,
+            Land
         }
     }
 }
