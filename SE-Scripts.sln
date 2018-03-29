@@ -85,6 +85,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Station", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - GrassHopper", "Scripts\SDLS - GrassHopper\SDLS - GrassHopper.csproj", "{3983C820-0311-4F8F-AE3A-6BD54F1DA500}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - StateMachine", "Modules\State Machine\_Module - StateMachine.shproj", "{0AB460FA-7256-48C7-9FAA-57B58813CFA9}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
@@ -112,6 +114,7 @@ Global
 		Modules\Logging\_Module - Logging.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{0a117477-6c2a-40ac-a8eb-fdcd2dfe11ba}*SharedItemsImports = 13
+		Modules\State Machine\_Module - StateMachine.projitems*{0ab460fa-7256-48c7-9faa-57b58813cfa9}*SharedItemsImports = 13
 		Modules\Script Debug\_Module - Debug.projitems*{0b16b361-c30e-48fd-87ea-37defd087559}*SharedItemsImports = 13
 		Modules\Flight Data Recorder\_Module - Flight Data Recorder.projitems*{0f7f7179-f8cb-4376-940c-d9047e7d1fb3}*SharedItemsImports = 13
 		Libraries\LCDs Dot Matrix\_Helper - LCDs Dot Matrix.projitems*{19f5cff5-d5ef-4112-85c8-7a7bb91c23fa}*SharedItemsImports = 13
@@ -203,8 +206,11 @@ Global
 		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{eed1e4ac-d5ca-447a-bf3c-34c0e9b961fe}*SharedItemsImports = 13
 		Libraries\Common\_Library - Common.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
 		Libraries\Connectors\_Helper - Connectors.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
+		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
+		Modules\Script Debug\_Module - Debug.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
+		Modules\State Machine\_Module - StateMachine.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
 		Libraries\Common\_Library - Common.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Libraries\Doors\_Helper - Doors.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Libraries\LCDs\_Helper - LCDs.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
