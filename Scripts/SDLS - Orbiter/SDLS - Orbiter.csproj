@@ -96,12 +96,14 @@
     <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\nivj32dn.eet\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="02-Orbiter-Vars-Constructor.cs" />
+    <Compile Include="10-Orbiter-Main.cs" />
     <Compile Include="50-Launch.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <Compile Include="01-Orbiter.cs" />
+    <Compile Include="01-Orbiter-Constants.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
