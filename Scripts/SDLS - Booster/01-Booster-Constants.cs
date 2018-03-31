@@ -17,17 +17,8 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        readonly RunningSymbol Running = new RunningSymbol();
-
-        public Program() {
-            Runtime.UpdateFrequency = UpdateFrequency.Update10;
-        }
-
-        public void Save() {
-        }
-
-        public void Main(string argument, UpdateType updateSource) {
-            Echo(Running.GetSymbol(Runtime));
-        }
+        const string CMD_SHUTDOWN = "shutdown";
+        const string CMD_STANDBY = "standby";
+        const string CMD_STAGE = "stage";
     }
 }

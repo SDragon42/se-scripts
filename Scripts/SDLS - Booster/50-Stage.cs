@@ -17,7 +17,58 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
         IEnumerator<bool> Sequence_Stage() {
+            //BreakingThrusters.ForEach(t => t.Enabled = true);
+            //yield return true;
+
+            // Enable Stage Thrusters
+            StageThrusters.ForEach(t => t.ThrustOverridePercentage = 1F);
             yield return true;
+
+            // Detach booster
+            StageClamps.ForEach(r => r.Detach());
+            yield return true;
+
+            BoosterControl.DampenersOverride = false;
+            // Wait 2 seconds
+            var delay = new TimeInterval(2);
+            while (!delay.AtNextInterval) { yield return true; delay.RecordTime(Runtime); }
+
+            // Turn on all Maneuver Thrusters
+            BoosterControl.DampenersOverride = true;
+            StageThrusters.ForEach(t => t.ThrustOverridePercentage = 0F);
+            AscentThrusters.ForEach(DisableThruster);
+
+            BreakingThrusters.ForEach(t => { t.Enabled = true; t.ThrustOverridePercentage = 1F; });
+            //yield return true;
+
+            // Wait 2 seconds
+            delay = new TimeInterval(2);
+            while (!delay.AtNextInterval) { yield return true; delay.RecordTime(Runtime); }
+
+            // setup for final descent
+            BreakingThrusters.ForEach(DisableThruster);
+            Parachutes.ForEach(p => p.Enabled = true);
+            BoosterControl.DampenersOverride = false;
+            yield return true;
+
+            var lastPos = BoosterControl.GetPosition();
+            yield return true;
+
+            while (true) {
+                var currPos = BoosterControl.GetPosition();
+                var dis = Vector3D.Distance(lastPos, currPos);
+                if (Math.Round(dis, 3) <= 0)
+                    break;
+                lastPos = currPos;
+                yield return true;
+            }
+
+            AllThrusters.ForEach(DisableThruster);
+        }
+
+        static void DisableThruster(IMyThrust t) {
+            t.Enabled = false;
+            t.ThrustOverridePercentage = 0F;
         }
     }
 }
