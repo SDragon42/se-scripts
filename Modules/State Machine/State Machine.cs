@@ -48,6 +48,11 @@ namespace IngameScript {
                 AllTasks.Remove(key);
             }
 
+            public void RemoveAll() {
+                foreach (var p in AllTasks) p.Value.Dispose();
+                AllTasks.Clear();
+            }
+
             public bool HasKey(string key) => AllTasks.ContainsKey(key);
         }
     }
