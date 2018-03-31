@@ -17,8 +17,6 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
         IEnumerator<bool> Sequence_Stage() {
-            //BreakingThrusters.ForEach(t => t.Enabled = true);
-            //yield return true;
 
             // Enable Stage Thrusters
             StageThrusters.ForEach(t => t.ThrustOverridePercentage = 1F);
