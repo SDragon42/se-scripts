@@ -34,7 +34,6 @@ namespace IngameScript {
         readonly List<IMyThrust> AllThrusters = new List<IMyThrust>();
         readonly List<IMyThrust> ManeuverThrusters = new List<IMyThrust>();
         readonly List<IMyThrust> StageThrusters = new List<IMyThrust>();
-        readonly List<IMyThrust> BreakingThrusters = new List<IMyThrust>();
         readonly List<IMyThrust> LandingThrusters1 = new List<IMyThrust>();
         readonly List<IMyThrust> LandingThrusters2 = new List<IMyThrust>();
         readonly List<IMyThrust> LandingThrusters3 = new List<IMyThrust>();
@@ -46,6 +45,7 @@ namespace IngameScript {
 
         public Program() {
             Debug = new DebugLogging(this);
+            Debug.EchoMessages = true;
             //Debug.Enabled = false;
 
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
@@ -74,7 +74,6 @@ namespace IngameScript {
             // Thrusters
             ManeuverThrusters.Clear();
             StageThrusters.Clear();
-            BreakingThrusters.Clear();
             LandingThrusters1.Clear();
             LandingThrusters2.Clear();
             LandingThrusters3.Clear();
@@ -85,29 +84,28 @@ namespace IngameScript {
                 if (Collect.IsTagged(b, "[land-1]")) LandingThrusters1.Add(b);
                 if (Collect.IsTagged(b, "[land-2]")) LandingThrusters2.Add(b);
                 if (Collect.IsTagged(b, "[land-3]")) LandingThrusters3.Add(b);
-                if (Collect.IsTagged(b, "[breaking]")) BreakingThrusters.Add(b);
                 if (Collect.IsTagged(b, "[main]")) AscentThrusters.Add(b);
                 return true;
             });
 
+            // Staging Thrusters
+            StageThrusters.AddRange(AllThrusters.Where(Orientation.IsUp)); // slow down thrusters
             if (StageClamps.Count > 0) {
                 var a = StageClamps[0].Orientation.TransformDirectionInverse(Base6Directions.Direction.Down);
-                var st = ManeuverThrusters
-                    .Where(t => a == t.Orientation.TransformDirection(Base6Directions.Direction.Forward));
+                var st = ManeuverThrusters.Where(t => a == t.Orientation.TransformDirection(Base6Directions.Direction.Forward));
                 StageThrusters.AddRange(st);
             }
 
-            //Debug.AppendLine($"Gyros: {Gyros.Count}");
-            //Debug.AppendLine($"Parachutes: {Parachutes.Count}");
-            //Debug.AppendLine($"Ascent T: {AscentThrusters.Count}");
-            //Debug.AppendLine($"ManeuverThrusters T: {ManeuverThrusters.Count}");
-            //Debug.AppendLine($"Breaking T: {BreakingThrusters.Count}");
-            //Debug.AppendLine($"Landing1 T: {LandingThrusters1.Count}");
-            //Debug.AppendLine($"Landing2 T: {LandingThrusters2.Count}");
-            //Debug.AppendLine($"Landing3 T: {LandingThrusters3.Count}");
-            //Debug.AppendLine($"Staging T: {StageThrusters.Count}");
-            //Debug.AppendLine($"Launch Clamps: {LaunchClamps.Count}");
-            //Debug.AppendLine($"Stage Clamps: {StageClamps.Count}");
+            Debug.AppendLine($"Gyros: {Gyros.Count}");
+            Debug.AppendLine($"Parachutes: {Parachutes.Count}");
+            Debug.AppendLine($"Launch Clamps: {LaunchClamps.Count}");
+            Debug.AppendLine($"Stage Clamps: {StageClamps.Count}");
+            Debug.AppendLine($"Ascent T: {AscentThrusters.Count}");
+            Debug.AppendLine($"ManeuverThrusters T: {ManeuverThrusters.Count}");
+            Debug.AppendLine($"Staging T: {StageThrusters.Count}");
+            Debug.AppendLine($"Landing1 T: {LandingThrusters1.Count}");
+            Debug.AppendLine($"Landing2 T: {LandingThrusters2.Count}");
+            Debug.AppendLine($"Landing3 T: {LandingThrusters3.Count}");
 
             _loaded = true;
         }

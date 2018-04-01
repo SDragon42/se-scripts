@@ -26,8 +26,8 @@ namespace IngameScript {
             StageClamps.ForEach(r => r.Detach());
             yield return true;
 
-            BoosterControl.DampenersOverride = false;
             // Wait 2 seconds
+            BoosterControl.DampenersOverride = false;
             var delay = new TimeInterval(2);
             while (!delay.AtNextInterval) { yield return true; delay.RecordTime(Runtime); }
 
@@ -36,15 +36,7 @@ namespace IngameScript {
             StageThrusters.ForEach(t => t.ThrustOverridePercentage = 0F);
             AscentThrusters.ForEach(DisableThruster);
 
-            BreakingThrusters.ForEach(t => { t.Enabled = true; t.ThrustOverridePercentage = 1F; });
-            //yield return true;
-
-            // Wait 2 seconds
-            delay = new TimeInterval(2);
-            while (!delay.AtNextInterval) { yield return true; delay.RecordTime(Runtime); }
-
             // setup for final descent
-            BreakingThrusters.ForEach(DisableThruster);
             Parachutes.ForEach(p => p.Enabled = true);
             BoosterControl.DampenersOverride = false;
             LandingGears.ForEach(g => g.AutoLock = true);
