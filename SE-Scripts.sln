@@ -113,6 +113,7 @@ Global
 		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
 		Libraries\Common\_Library - Common.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
+		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
 		Libraries\Thrusters\_Helper - Thrusters.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
 		Modules\Flight Data Recorder\_Module - Flight Data Recorder.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4

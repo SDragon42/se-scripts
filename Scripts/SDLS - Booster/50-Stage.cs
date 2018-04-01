@@ -47,6 +47,10 @@ namespace IngameScript {
             BreakingThrusters.ForEach(DisableThruster);
             Parachutes.ForEach(p => p.Enabled = true);
             BoosterControl.DampenersOverride = false;
+            LandingGears.ForEach(g => g.AutoLock = true);
+            Antenna.Enabled = true;
+            Antenna.EnableBroadcasting = true;
+            //Beacon.Enabled = true;
             yield return true;
 
             var lastPos = BoosterControl.GetPosition();
@@ -55,13 +59,14 @@ namespace IngameScript {
             while (true) {
                 var currPos = BoosterControl.GetPosition();
                 var dis = Vector3D.Distance(lastPos, currPos);
-                if (Math.Round(dis, 3) <= 0)
-                    break;
+                if (Math.Round(dis, 3) <= 0) break;
+                if (LandingGears.Any(Collect.IsLandingGearLocked)) break;
                 lastPos = currPos;
                 yield return true;
             }
 
             AllThrusters.ForEach(DisableThruster);
+            LandingGears.ForEach(g => g.AutoLock = false);
         }
 
         static void DisableThruster(IMyThrust t) {
