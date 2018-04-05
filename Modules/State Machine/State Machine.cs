@@ -20,11 +20,14 @@ namespace IngameScript {
             readonly List<string> Keys2Remove = new List<string>();
             readonly Dictionary<string, IEnumerator<bool>> AllTasks = new Dictionary<string, IEnumerator<bool>>();
 
-            public void RunAll() {
+            public bool RunAll() {
+                bool ranOp = false;
                 foreach (var key in AllTasks.Keys) {
                     var task = AllTasks[key];
                     if (!task.MoveNext() || !task.Current)
                         Keys2Remove.Add(key);
+                    else
+                        ranOp = true;
                 }
 
                 while (Keys2Remove.Count > 0) {
@@ -32,6 +35,8 @@ namespace IngameScript {
                     Keys2Remove.RemoveAt(0);
                     Remove(key);
                 }
+
+                return ranOp;
             }
 
             public void Add(IEnumerator<bool> task) => Add(DateTime.Now.ToString(), task);
