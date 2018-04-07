@@ -120,7 +120,6 @@ Global
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
 		Modules\Script Debug\_Module - Debug.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
 		Modules\State Machine\_Module - StateMachine.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Modules\Time Interval\_Module - Time Interval.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
 		Modules\Vector Align\_Module - Vector Align.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
 		Libraries\Common\_Library - Common.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		Libraries\LCDs\_Helper - LCDs.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
@@ -193,6 +192,7 @@ Global
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		Modules\Script Debug\_Module - Debug.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
+		Modules\State Machine\_Module - StateMachine.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		Modules\Time Interval\_Module - Time Interval.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		Modules\Vector Align\_Module - Vector Align.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{a55a9841-6a1a-4c62-937f-e2b471e894ed}*SharedItemsImports = 13

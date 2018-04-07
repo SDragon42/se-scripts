@@ -116,7 +116,6 @@
   <Import Project="..\..\Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems" Label="Shared" />
   <Import Project="..\..\Libraries\Thrusters\_Helper - Thrusters.projitems" Label="Shared" />
   <Import Project="..\..\Libraries\Common\_Library - Common.projitems" Label="Shared" />
-  <Import Project="..\..\Modules\Time Interval\_Module - Time Interval.projitems" Label="Shared" />
   <Import Project="..\..\Modules\Flight Data Recorder\_Module - Flight Data Recorder.projitems" Label="Shared" />
   <Import Project="..\..\Modules\Vector Align\_Module - Vector Align.projitems" Label="Shared" />
   <Import Project="..\..\Libraries\Landing Gears\_Helper - Landing Gears.projitems" Label="Shared" />

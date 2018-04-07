@@ -21,7 +21,7 @@ namespace IngameScript {
         readonly RunningSymbol Running = new RunningSymbol();
         readonly Logging Log = new Logging(100);
         readonly DebugLogging Debug;
-        readonly StateMachine Operations = new StateMachine();
+        readonly StateMachine<bool> Operations = new StateMachine<bool>(r => r);
         readonly BlocksByOrientation Orientation = new BlocksByOrientation();
 
         //Lists
@@ -42,6 +42,8 @@ namespace IngameScript {
         IMyRemoteControl BoosterControl = null;
         IMyRadioAntenna Antenna = null;
         IMyBeacon Beacon = null;
+
+        TimeSpan UpTime = TimeSpan.Zero;
 
         public Program() {
             Debug = new DebugLogging(this);
@@ -96,16 +98,16 @@ namespace IngameScript {
                 StageThrusters.AddRange(st);
             }
 
-            Debug.AppendLine($"Gyros: {Gyros.Count}");
-            Debug.AppendLine($"Parachutes: {Parachutes.Count}");
-            Debug.AppendLine($"Launch Clamps: {LaunchClamps.Count}");
-            Debug.AppendLine($"Stage Clamps: {StageClamps.Count}");
-            Debug.AppendLine($"Ascent T: {AscentThrusters.Count}");
-            Debug.AppendLine($"ManeuverThrusters T: {ManeuverThrusters.Count}");
-            Debug.AppendLine($"Staging T: {StageThrusters.Count}");
-            Debug.AppendLine($"Landing1 T: {LandingThrusters1.Count}");
-            Debug.AppendLine($"Landing2 T: {LandingThrusters2.Count}");
-            Debug.AppendLine($"Landing3 T: {LandingThrusters3.Count}");
+            //Debug.AppendLine($"Gyros: {Gyros.Count}");
+            //Debug.AppendLine($"Parachutes: {Parachutes.Count}");
+            //Debug.AppendLine($"Launch Clamps: {LaunchClamps.Count}");
+            //Debug.AppendLine($"Stage Clamps: {StageClamps.Count}");
+            //Debug.AppendLine($"Ascent T: {AscentThrusters.Count}");
+            //Debug.AppendLine($"ManeuverThrusters T: {ManeuverThrusters.Count}");
+            //Debug.AppendLine($"Staging T: {StageThrusters.Count}");
+            //Debug.AppendLine($"Landing1 T: {LandingThrusters1.Count}");
+            //Debug.AppendLine($"Landing2 T: {LandingThrusters2.Count}");
+            //Debug.AppendLine($"Landing3 T: {LandingThrusters3.Count}");
 
             _loaded = true;
         }

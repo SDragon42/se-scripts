@@ -17,6 +17,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
         public void Main(string argument, UpdateType updateSource) {
+            UpTime += Runtime.TimeSinceLastRun;
             Echo(Running.GetSymbol(Runtime));
 
             try {
@@ -45,21 +46,33 @@ namespace IngameScript {
             if (argument.Length == 0) return;
             switch (argument?.ToLower()) {
                 case CMD_SHUTDOWN:
-                    AllThrusters.ForEach(DisableThruster);
-                    Operations.RemoveAll();
-                    //Operations.Add("boom", ConnectBoom2("launch-pad", 0.5F));
+                    Shutdown();
                     break;
                 case CMD_STANDBY:
-                    //Operations.Add("boom", RetractBoom2("launch-pad", -0.5F), replace: true);
-                    LoadBlocks();
+                    Standby();
                     break;
                 case CMD_STAGE:
-                    Operations.Add("stage", Sequence_Stage());
+                    Stage();
                     break;
             }
         }
 
+        void Standby() {
+            LoadBlocks();
+        }
 
+        void Shutdown() {
+            AllThrusters.ForEach(DisableThruster);
+            Operations.Clear();
+            Runtime.UpdateFrequency = UpdateFrequency.None;
+        }
 
+        void Stage() {
+            Operations.Add("stage", Sequence_Stage());
+        }
+
+        void Recovery() {
+            Operations.Clear();
+        }
     }
 }
