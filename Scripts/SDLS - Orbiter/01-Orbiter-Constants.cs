@@ -20,11 +20,7 @@ namespace IngameScript {
 
 
 
-        enum Mode { Standby }
-
-
-
-
+        //enum Mode { Standby }
 
     }
 }

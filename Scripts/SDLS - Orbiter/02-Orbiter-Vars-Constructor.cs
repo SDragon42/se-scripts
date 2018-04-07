@@ -20,11 +20,19 @@ namespace IngameScript {
         // Modules
         readonly RunningSymbol Running = new RunningSymbol();
         readonly Logging Log = new Logging(40);
+        readonly DebugLogging Debug;
+        readonly FlightDataRecorder Fdr;
+        readonly StateMachine<bool> Operations = new StateMachine<bool>(r => r);
+        readonly BlocksByOrientation Orientation = new BlocksByOrientation();
 
         //Lists
 
 
         public Program() {
+            Debug = new DebugLogging(this);
+
+            Fdr = new FlightDataRecorder(new string[] { "" }, 1000);
+
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
