@@ -22,7 +22,7 @@ namespace IngameScript {
         readonly Logging Log = new Logging(20);
         readonly ConfigINI Config = new ConfigINI("Launch Pad");
         readonly DebugLogging Debug;
-        readonly StateMachine Operations = new StateMachine();
+        readonly StateMachine<bool> Operations = new StateMachine<bool>(r => r);
 
         //Lists
         readonly List<IMyTerminalBlock> _blocks = new List<IMyTerminalBlock>();
