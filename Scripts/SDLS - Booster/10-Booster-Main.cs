@@ -18,20 +18,14 @@ namespace IngameScript {
     partial class Program {
         public void Main(string argument, UpdateType updateSource) {
             UpTime += Runtime.TimeSinceLastRun;
-            Echo(Running.GetSymbol(Runtime));
+            if ((updateSource & UpdateType.Update10) == UpdateType.Update10) {
+                Echo(Running.GetSymbol(Runtime));
+            }
 
             try {
                 LoadBlocks();
-
-                // Process Arguments
-                ProcessArguments(argument);
-
-                // Run State Machines
-                if ((updateSource & UpdateType.Update10) == UpdateType.Update10) {
-                    Operations.RunAll();
-                }
-
-                // Display LOG
+                ProcessArguments(argument.ToLower());
+                Operations.RunAll();
                 Echo(Log.GetLogText());
             } catch (Exception ex) {
                 Echo(ex.ToString());
@@ -43,36 +37,32 @@ namespace IngameScript {
 
 
         void ProcessArguments(string argument) {
-            if (argument.Length == 0) return;
-            switch (argument?.ToLower()) {
-                case CMD_SHUTDOWN:
-                    Shutdown();
-                    break;
-                case CMD_STANDBY:
-                    Standby();
-                    break;
-                case CMD_STAGE:
-                    Stage();
-                    break;
-            }
+            if (!Commands.ContainsKey(argument)) return;
+            Commands[argument]?.Invoke();
         }
 
-        void Standby() {
-            LoadBlocks();
+        void Reload() {
+            Log.AppendLine("CMD: " + CMD_RELOAD);
+            LoadBlocks(true);
         }
-
         void Shutdown() {
+            Log.AppendLine("CMD: " + CMD_SHUTDOWN);
+            if (Antenna != null) Antenna.Enabled = false;
+            if (Beacon != null) Beacon.Enabled = false;
             AllThrusters.ForEach(DisableThruster);
+            Parachutes.ForEach(b => b.Enabled = false);
+            Gyros.ForEach(b => b.Enabled = false);
+            LandingGears.ForEach(b => b.AutoLock = false);
             Operations.Clear();
             Runtime.UpdateFrequency = UpdateFrequency.None;
+            Log.Clear();
         }
 
         void Stage() {
-            Operations.Add("stage", Sequence_Stage());
+            Log.AppendLine("CMD: " + CMD_STAGE);
+            Runtime.UpdateFrequency = UpdateFrequency.Update10;
+            Operations.Add(Sequence_Stage());
         }
 
-        void Recovery() {
-            Operations.Clear();
-        }
     }
 }

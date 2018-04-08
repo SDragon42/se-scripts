@@ -45,12 +45,16 @@ namespace IngameScript {
 
         TimeSpan UpTime = TimeSpan.Zero;
 
+        readonly Dictionary<string, Action> Commands = new Dictionary<string, Action>();
+
         public Program() {
             Debug = new DebugLogging(this);
             Debug.EchoMessages = true;
-            //Debug.Enabled = false;
+            Debug.Enabled = false;
 
-            Runtime.UpdateFrequency = UpdateFrequency.Update10;
+            Commands.Add(CMD_RELOAD, Reload);
+            Commands.Add(CMD_STAGE, Stage);
+            Commands.Add(CMD_SHUTDOWN, Shutdown);
         }
 
         public void Save() {

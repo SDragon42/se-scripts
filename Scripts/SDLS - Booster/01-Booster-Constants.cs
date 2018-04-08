@@ -18,7 +18,7 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
 
         const string CMD_SHUTDOWN = "shutdown";
-        const string CMD_STANDBY = "standby";
+        const string CMD_RELOAD = "reload";
         const string CMD_STAGE = "stage";
     }
 }

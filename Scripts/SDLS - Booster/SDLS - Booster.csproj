@@ -98,7 +98,7 @@
   <ItemGroup>
     <Compile Include="02-Booster-Vars-Constructor.cs" />
     <Compile Include="10-Booster-Main.cs" />
-    <Compile Include="50-Stage.cs" />
+    <Compile Include="50-Booster-Stage.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

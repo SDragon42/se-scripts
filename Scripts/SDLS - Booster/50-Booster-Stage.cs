@@ -41,10 +41,17 @@ namespace IngameScript {
             yield return true;
             while (UpTime.Subtract(delay).TotalSeconds < 2.0) yield return true;
 
+            // Wait 10 seconds
+            delay = UpTime;
+            StageThrusters.ForEach(t => t.ThrustOverridePercentage = 0F);
+            yield return true;
+            while (UpTime.Subtract(delay).TotalSeconds < 10.0) yield return true;
+
+
+
             // Turn on all Maneuver Thrusters
             WriteLog("Stop Drift");
             BoosterControl.DampenersOverride = true;
-            StageThrusters.ForEach(t => t.ThrustOverridePercentage = 0F);
             AscentThrusters.ForEach(DisableThruster);
             Antenna.Enabled = true;
             Antenna.EnableBroadcasting = true;
@@ -81,6 +88,25 @@ namespace IngameScript {
             WriteLog("Secure for recovery");
             AllThrusters.ForEach(DisableThruster);
             LandingGears.ForEach(g => g.AutoLock = false);
+
+            // Pulse Beacon
+            if (Beacon == null) {
+                yield return false;
+            } else {
+                delay = UpTime;
+                double delayAmount = 0.0;
+                while (true) {
+                    var diff = UpTime.Subtract(delay).TotalSeconds;
+                    if (diff >= delayAmount) {
+                        Beacon.Enabled = !Beacon.Enabled;
+                        delay = UpTime;
+                        delayAmount = Beacon.Enabled
+                            ? 2.0
+                            : 5.0;
+                    }
+                    yield return true;
+                }
+            }
         }
 
         static void DisableThruster(IMyThrust t) {
