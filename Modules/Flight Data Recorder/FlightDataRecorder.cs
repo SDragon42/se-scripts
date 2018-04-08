@@ -17,54 +17,45 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
         class FlightDataRecorder {
-            readonly Logging _log;
-            readonly Dictionary<string, string> _items;
-            readonly string[] _keyList;
+            readonly Logging Log;
+            readonly Dictionary<string, string> Items;
 
-            public FlightDataRecorder(string[] keyList, int maxNumLogEntries = 100) {
-                _keyList = keyList;
+            public FlightDataRecorder(IList<string> keyList, int maxNumLogEntries = 100) {
                 if (maxNumLogEntries < 1) maxNumLogEntries = 1;
-                _log = new Logging(maxNumLogEntries);
-                _items = new Dictionary<string, string>();
-                foreach (var key in _keyList) _items.Add(key, string.Empty);
+                Log = new Logging(maxNumLogEntries);
+                Items = new Dictionary<string, string>();
+                foreach (var key in keyList) Items.Add(key, string.Empty);
                 ClearLog();
             }
 
             public bool Enabled {
-                get { return _log.Enabled; }
-                set { _log.Enabled = value; }
+                get { return Log.Enabled; }
+                set { Log.Enabled = value; }
             }
 
 
             public void ClearEntry() {
                 if (!Enabled) return;
-                foreach (var key in _keyList) _items[key] = string.Empty;
+                foreach (var key in Items.Keys) Items[key] = string.Empty;
             }
             public void RecordEntry() {
                 if (!Enabled) return;
-                _log.Append(DateTime.Now.ToString("HH:mm:ss.f"));
-                foreach (var key in _keyList) _log.Append("\t" + _items[key]);
-                _log.Append("\n");
-            }
-            public void SetEntry(object key, string val) {
-                SetEntry(key.ToString(), val);
+                Log.Append(DateTime.Now.ToString("HH:mm:ss.f"));
+                foreach (var key in Items.Keys) Log.Append("\t" + Items[key]);
+                Log.Append("\n");
             }
             public void SetEntry(string key, string val) {
                 if (!Enabled) return;
-                if (_items.ContainsKey(key))
-                    _items[key] = val;
+                if (Items.ContainsKey(key))
+                    Items[key] = val;
             }
 
             public void ClearLog() {
                 if (!Enabled) return;
-                _log.Clear();
-                // Create Log Header
-                _log.Append($"Time\t{string.Join("\t", _keyList)}\n");
+                Log.Clear();
+                Log.Append($"Time\t{string.Join("\t", Items.Keys)}\n");
             }
-            public string GetLog() {
-                if (!Enabled) return string.Empty;
-                return _log.ToString();
-            }
+            public string GetLog() => Log.GetLogText();
         }
     }
 }
