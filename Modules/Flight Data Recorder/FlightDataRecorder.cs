@@ -30,7 +30,10 @@ namespace IngameScript {
                 ClearLog();
             }
 
-            public bool Enabled { get; set; }
+            public bool Enabled {
+                get { return _log.Enabled; }
+                set { _log.Enabled = value; }
+            }
 
 
             public void ClearEntry() {
