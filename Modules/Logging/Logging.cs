@@ -17,14 +17,15 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
         class Logging {
+
+            readonly List<string> Lines = new List<string>();
+
             public Logging(int maxLines2Keep = 10) {
                 Enabled = true;
                 MaxTextLinesToKeep = maxLines2Keep;
             }
 
-            protected readonly List<string> _lines = new List<string>();
-
-            string _lineBuffer = string.Empty;
+            string LineBuffer = string.Empty;
 
             public bool Enabled { get; set; }
             public int MaxTextLinesToKeep { get; set; }
@@ -32,13 +33,13 @@ namespace IngameScript {
 
             public virtual void Clear() {
                 if (!Enabled) return;
-                _lines.Clear();
-                _lineBuffer = string.Empty;
+                Lines.Clear();
+                LineBuffer = string.Empty;
             }
 
             public void Append(string text, params object[] args) {
                 if (!Enabled) return;
-                _lineBuffer += string.Format(text, args);
+                LineBuffer += string.Format(text, args);
             }
 
             public void AppendLine() {
@@ -47,21 +48,21 @@ namespace IngameScript {
             public void AppendLine(string text, params object[] args) {
                 if (!Enabled) return;
                 Append(text, args);
-                _lines.Add(_lineBuffer);
-                _lineBuffer = string.Empty;
+                Lines.Add(LineBuffer);
+                LineBuffer = string.Empty;
             }
 
             public string GetLogText() {
                 if (!Enabled) return string.Empty;
                 if (MaxTextLinesToKeep > 0) {
-                    while (_lines.Count > MaxTextLinesToKeep)
-                        _lines.RemoveAt(0);
+                    while (Lines.Count > MaxTextLinesToKeep)
+                        Lines.RemoveAt(0);
                 }
                 var sb = new StringBuilder();
-                for (var i = 0; i < _lines.Count; i++)
-                    sb.AppendLine(_lines[i]);
-                if (!string.IsNullOrWhiteSpace(_lineBuffer))
-                    sb.AppendLine(_lineBuffer);
+                for (var i = 0; i < Lines.Count; i++)
+                    sb.AppendLine(Lines[i]);
+                if (!string.IsNullOrWhiteSpace(LineBuffer))
+                    sb.AppendLine(LineBuffer);
                 return sb.ToString();
             }
         }
