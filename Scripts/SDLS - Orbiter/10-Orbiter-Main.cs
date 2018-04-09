@@ -17,11 +17,14 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
         public void Main(string argument, UpdateType updateSource) {
-            Echo(Running.GetSymbol(Runtime));
+            UpTime += Runtime.TimeSinceLastRun;
+            if ((updateSource & UpdateType.Update10) == UpdateType.Update10) {
+                Echo(Running.GetSymbol(Runtime));
+            }
 
             if (updateSource.HasFlag(UpdateType.Terminal)) {
                 switch (argument.ToLower()) {
-                    case CMD_Standby:
+                    case CMD_STANDBY:
                         Runtime.UpdateFrequency = UpdateFrequency.None;
                         break;
                     default:

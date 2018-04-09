@@ -16,11 +16,16 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
-        const string CMD_Standby = "standby";
 
+        const string CMD_STANDBY = "standby";
 
-
-        //enum Mode { Standby }
+        const string TAG_MAIN = "[main]";
+        //const string TAG_MANEUVER = "[maneuver]";
+        //const string TAG_LANDING1 = "[land-1]";
+        //const string TAG_LANDING2 = "[land-2]";
+        //const string TAG_LANDING3 = "[land-3]";
+        const string TAG_LAUNCH_CLAMP = "[launch-clamp]";
+        const string TAG_STAGING_CLAMP = "[stage-clamp]";
 
     }
 }
