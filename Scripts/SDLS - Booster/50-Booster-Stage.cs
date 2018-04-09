@@ -16,6 +16,14 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+        IEnumerator<bool> Sequence_GravAlign() {
+            while (true) {
+                Echo($"Align: {AlignDir}");
+                VAlign.AlignWithGravity(Remote, AlignDir, Gyros);
+                yield return true;
+            }
+        }
+
         IEnumerator<bool> Sequence_Stage() {
             TimeSpan start = UpTime;
             TimeSpan delay;
@@ -36,7 +44,7 @@ namespace IngameScript {
             StageClamps.ForEach(r => r.Detach());
 
             // Wait 2 seconds
-            BoosterControl.DampenersOverride = false;
+            Remote.DampenersOverride = false;
             delay = UpTime;
             yield return true;
             while (UpTime.Subtract(delay).TotalSeconds < 2.0) yield return true;
@@ -47,11 +55,10 @@ namespace IngameScript {
             yield return true;
             while (UpTime.Subtract(delay).TotalSeconds < 10.0) yield return true;
 
-
-
             // Turn on all Maneuver Thrusters
+            Operations.Add("VAlign", Sequence_GravAlign());
             WriteLog("Stop Drift");
-            BoosterControl.DampenersOverride = true;
+            Remote.DampenersOverride = true;
             AscentThrusters.ForEach(DisableThruster);
             Antenna.Enabled = true;
             Antenna.EnableBroadcasting = true;
@@ -60,7 +67,7 @@ namespace IngameScript {
             // Wait till Alt < 5000
             while (true) {
                 double elevation;
-                if (!BoosterControl.TryGetPlanetElevation(MyPlanetElevation.Surface, out elevation)) yield return true;
+                if (!Remote.TryGetPlanetElevation(MyPlanetElevation.Surface, out elevation)) yield return true;
                 if (elevation < 5000) break;
                 yield return true;
             }
@@ -68,15 +75,15 @@ namespace IngameScript {
             // setup for final descent
             WriteLog("Init Final");
             Parachutes.ForEach(p => p.Enabled = true);
-            BoosterControl.DampenersOverride = false;
+            Remote.DampenersOverride = false;
             LandingGears.ForEach(g => g.AutoLock = true);
             //Beacon.Enabled = true;
-            var lastPos = BoosterControl.GetPosition();
+            var lastPos = Remote.GetPosition();
             yield return true;
 
             // Wait till no longer moving
             while (true) {
-                var currPos = BoosterControl.GetPosition();
+                var currPos = Remote.GetPosition();
                 var dis = Vector3D.Distance(lastPos, currPos);
                 if (Math.Round(dis, 3) <= 0) break;
                 if (LandingGears.Any(Collect.IsLandingGearLocked)) break;

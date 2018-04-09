@@ -18,7 +18,8 @@ namespace IngameScript {
     partial class Program {
         public void Main(string argument, UpdateType updateSource) {
             UpTime += Runtime.TimeSinceLastRun;
-            if ((updateSource & UpdateType.Update10) == UpdateType.Update10) {
+            if (updateSource.HasFlag(UpdateType.Update1)) {
+                //if ((updateSource & UpdateType.Update10) == UpdateType.Update10) {
                 Echo(Running.GetSymbol(Runtime));
             }
 
@@ -26,6 +27,7 @@ namespace IngameScript {
                 LoadBlocks();
                 ProcessArguments(argument.ToLower());
                 Operations.RunAll();
+                Operations.RemoveCompleted();
                 Echo(Log.GetLogText());
             } catch (Exception ex) {
                 Echo(ex.ToString());
@@ -51,6 +53,7 @@ namespace IngameScript {
             if (Beacon != null) Beacon.Enabled = false;
             AllThrusters.ForEach(DisableThruster);
             Parachutes.ForEach(b => b.Enabled = false);
+            VAlign.gyrosOff(Gyros);
             Gyros.ForEach(b => b.Enabled = false);
             LandingGears.ForEach(b => b.AutoLock = false);
             Operations.Clear();
@@ -60,8 +63,14 @@ namespace IngameScript {
 
         void Stage() {
             Log.AppendLine("CMD: " + CMD_STAGE);
-            Runtime.UpdateFrequency = UpdateFrequency.Update10;
-            Operations.Add(Sequence_Stage());
+            Runtime.UpdateFrequency = UpdateFrequency.Update1;
+            Operations.Add("Staging", Sequence_Stage());
+        }
+
+        void ChangeDir() {
+            AlignDir = (AlignDir == Direction.Down)
+                ? Direction.Left
+                : Direction.Down;
         }
 
     }

@@ -20,5 +20,14 @@ namespace IngameScript {
         const string CMD_SHUTDOWN = "shutdown";
         const string CMD_RELOAD = "reload";
         const string CMD_STAGE = "stage";
+
+        const string TAG_MAIN = "[main]";
+        const string TAG_MANEUVER = "[maneuver]";
+        //const string TAG_LANDING1 = "[land-1]";
+        //const string TAG_LANDING2 = "[land-2]";
+        //const string TAG_LANDING3 = "[land-3]";
+        //const string TAG_LAUNCH_CLAMP = "[launch-clamp]";
+        const string TAG_STAGING_CLAMP = "[stage-clamp]";
+
     }
 }

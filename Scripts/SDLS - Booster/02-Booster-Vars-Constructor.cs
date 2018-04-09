@@ -23,27 +23,31 @@ namespace IngameScript {
         readonly DebugLogging Debug;
         readonly StateMachine<bool> Operations = new StateMachine<bool>(r => r);
         readonly BlocksByOrientation Orientation = new BlocksByOrientation();
+        readonly VectorAlign VAlign = new VectorAlign();
 
-        //Lists
-        readonly List<IMyTerminalBlock> _blocks = new List<IMyTerminalBlock>();
+        // Lists
         readonly List<IMyParachute> Parachutes = new List<IMyParachute>();
         readonly List<IMyGyro> Gyros = new List<IMyGyro>();
         readonly List<IMyLandingGear> LandingGears = new List<IMyLandingGear>();
-        readonly List<IMyMotorStator> LaunchClamps = new List<IMyMotorStator>();
+        //readonly List<IMyMotorStator> LaunchClamps = new List<IMyMotorStator>();
         readonly List<IMyMotorStator> StageClamps = new List<IMyMotorStator>();
         readonly List<IMyThrust> AllThrusters = new List<IMyThrust>();
         readonly List<IMyThrust> ManeuverThrusters = new List<IMyThrust>();
         readonly List<IMyThrust> StageThrusters = new List<IMyThrust>();
-        readonly List<IMyThrust> LandingThrusters1 = new List<IMyThrust>();
-        readonly List<IMyThrust> LandingThrusters2 = new List<IMyThrust>();
-        readonly List<IMyThrust> LandingThrusters3 = new List<IMyThrust>();
+        //readonly List<IMyThrust> LandingThrusters1 = new List<IMyThrust>();
+        //readonly List<IMyThrust> LandingThrusters2 = new List<IMyThrust>();
+        //readonly List<IMyThrust> LandingThrusters3 = new List<IMyThrust>();
         readonly List<IMyThrust> AscentThrusters = new List<IMyThrust>();
 
-        IMyRemoteControl BoosterControl = null;
+        // Single Blocks
+        IMyRemoteControl Remote = null;
         IMyRadioAntenna Antenna = null;
         IMyBeacon Beacon = null;
 
+        // Other
         TimeSpan UpTime = TimeSpan.Zero;
+        bool BlocksLoaded = false;
+        Direction AlignDir = Direction.Down;
 
         readonly Dictionary<string, Action> Commands = new Dictionary<string, Action>();
 
@@ -55,42 +59,42 @@ namespace IngameScript {
             Commands.Add(CMD_RELOAD, Reload);
             Commands.Add(CMD_STAGE, Stage);
             Commands.Add(CMD_SHUTDOWN, Shutdown);
+            Commands.Add("t", ChangeDir);
         }
 
         public void Save() {
         }
 
 
-        bool _loaded = false;
         void LoadBlocks(bool force = false) {
-            if (_loaded && !force) return;
+            if (BlocksLoaded && !force) return;
 
-            BoosterControl = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>(IsSameGrid);
+            Remote = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>(IsSameGrid);
             Antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(IsSameGrid);
             Beacon = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyBeacon>(IsSameGrid);
 
-            Orientation.Init(BoosterControl);
+            Orientation.Init(Remote);
 
             GridTerminalSystem.GetBlocksOfType(Parachutes, IsSameGrid);
             GridTerminalSystem.GetBlocksOfType(Gyros, IsSameGrid);
             GridTerminalSystem.GetBlocksOfType(LandingGears, IsSameGrid);
-            GridTerminalSystem.GetBlocksOfType(LaunchClamps, b => IsSameGrid(b) && Collect.IsTagged(b, "[launch-clamp]"));
-            GridTerminalSystem.GetBlocksOfType(StageClamps, b => IsSameGrid(b) && Collect.IsTagged(b, "[stage-clamp]"));
+            //GridTerminalSystem.GetBlocksOfType(LaunchClamps, b => IsSameGrid(b) && Collect.IsTagged(b, TAG_LAUNCH_CLAMP));
+            GridTerminalSystem.GetBlocksOfType(StageClamps, b => IsSameGrid(b) && Collect.IsTagged(b, TAG_STAGING_CLAMP));
 
             // Thrusters
             ManeuverThrusters.Clear();
             StageThrusters.Clear();
-            LandingThrusters1.Clear();
-            LandingThrusters2.Clear();
-            LandingThrusters3.Clear();
+            //LandingThrusters1.Clear();
+            //LandingThrusters2.Clear();
+            //LandingThrusters3.Clear();
             AscentThrusters.Clear();
             GridTerminalSystem.GetBlocksOfType(AllThrusters, b => {
                 if (!IsSameGrid(b)) return false;
-                if (Collect.IsTagged(b, "[maneuver]")) ManeuverThrusters.Add(b);
-                if (Collect.IsTagged(b, "[land-1]")) LandingThrusters1.Add(b);
-                if (Collect.IsTagged(b, "[land-2]")) LandingThrusters2.Add(b);
-                if (Collect.IsTagged(b, "[land-3]")) LandingThrusters3.Add(b);
-                if (Collect.IsTagged(b, "[main]")) AscentThrusters.Add(b);
+                if (Collect.IsTagged(b, TAG_MANEUVER)) ManeuverThrusters.Add(b);
+                //if (Collect.IsTagged(b, TAG_LANDING1)) LandingThrusters1.Add(b);
+                //if (Collect.IsTagged(b, TAG_LANDING2)) LandingThrusters2.Add(b);
+                //if (Collect.IsTagged(b, TAG_LANDING3)) LandingThrusters3.Add(b);
+                if (Collect.IsTagged(b, TAG_MAIN)) AscentThrusters.Add(b);
                 return true;
             });
 
@@ -102,18 +106,18 @@ namespace IngameScript {
                 StageThrusters.AddRange(st);
             }
 
-            //Debug.AppendLine($"Gyros: {Gyros.Count}");
-            //Debug.AppendLine($"Parachutes: {Parachutes.Count}");
+            Debug.AppendLine($"Gyros: {Gyros.Count}");
+            Debug.AppendLine($"Parachutes: {Parachutes.Count}");
             //Debug.AppendLine($"Launch Clamps: {LaunchClamps.Count}");
-            //Debug.AppendLine($"Stage Clamps: {StageClamps.Count}");
-            //Debug.AppendLine($"Ascent T: {AscentThrusters.Count}");
-            //Debug.AppendLine($"ManeuverThrusters T: {ManeuverThrusters.Count}");
-            //Debug.AppendLine($"Staging T: {StageThrusters.Count}");
+            Debug.AppendLine($"Stage Clamps: {StageClamps.Count}");
+            Debug.AppendLine($"Ascent T: {AscentThrusters.Count}");
+            Debug.AppendLine($"ManeuverThrusters T: {ManeuverThrusters.Count}");
+            Debug.AppendLine($"Staging T: {StageThrusters.Count}");
             //Debug.AppendLine($"Landing1 T: {LandingThrusters1.Count}");
             //Debug.AppendLine($"Landing2 T: {LandingThrusters2.Count}");
             //Debug.AppendLine($"Landing3 T: {LandingThrusters3.Count}");
 
-            _loaded = true;
+            BlocksLoaded = true;
         }
 
         bool IsSameGrid(IMyTerminalBlock b) => Me.CubeGrid == b.CubeGrid;
