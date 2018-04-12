@@ -18,8 +18,7 @@ namespace IngameScript {
     partial class Program {
         public void Main(string argument, UpdateType updateSource) {
             UpTime += Runtime.TimeSinceLastRun;
-            if (updateSource.HasFlag(UpdateType.Update1)) {
-                //if ((updateSource & UpdateType.Update10) == UpdateType.Update10) {
+            if (updateSource.HasFlag(UpdateType.Update1) || updateSource.HasFlag(UpdateType.Update10) || updateSource.HasFlag(UpdateType.Update100)) {
                 Echo(Running.GetSymbol(Runtime));
             }
 

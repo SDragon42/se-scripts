@@ -38,6 +38,7 @@ namespace IngameScript {
         //readonly List<IMyThrust> LandingThrusters2 = new List<IMyThrust>();
         //readonly List<IMyThrust> LandingThrusters3 = new List<IMyThrust>();
         readonly List<IMyThrust> AscentThrusters = new List<IMyThrust>();
+        readonly List<IMyGasTank> H2Tanks = new List<IMyGasTank>();
 
         // Single Blocks
         IMyRemoteControl Remote = null;
@@ -78,22 +79,16 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(Parachutes, IsSameGrid);
             GridTerminalSystem.GetBlocksOfType(Gyros, IsSameGrid);
             GridTerminalSystem.GetBlocksOfType(LandingGears, IsSameGrid);
-            //GridTerminalSystem.GetBlocksOfType(LaunchClamps, b => IsSameGrid(b) && Collect.IsTagged(b, TAG_LAUNCH_CLAMP));
             GridTerminalSystem.GetBlocksOfType(StageClamps, b => IsSameGrid(b) && Collect.IsTagged(b, TAG_STAGING_CLAMP));
+            GridTerminalSystem.GetBlocksOfType(H2Tanks, IsSameGrid);
 
             // Thrusters
             ManeuverThrusters.Clear();
             StageThrusters.Clear();
-            //LandingThrusters1.Clear();
-            //LandingThrusters2.Clear();
-            //LandingThrusters3.Clear();
             AscentThrusters.Clear();
             GridTerminalSystem.GetBlocksOfType(AllThrusters, b => {
                 if (!IsSameGrid(b)) return false;
                 if (Collect.IsTagged(b, TAG_MANEUVER)) ManeuverThrusters.Add(b);
-                //if (Collect.IsTagged(b, TAG_LANDING1)) LandingThrusters1.Add(b);
-                //if (Collect.IsTagged(b, TAG_LANDING2)) LandingThrusters2.Add(b);
-                //if (Collect.IsTagged(b, TAG_LANDING3)) LandingThrusters3.Add(b);
                 if (Collect.IsTagged(b, TAG_MAIN)) AscentThrusters.Add(b);
                 return true;
             });
@@ -108,14 +103,10 @@ namespace IngameScript {
 
             Debug.AppendLine($"Gyros: {Gyros.Count}");
             Debug.AppendLine($"Parachutes: {Parachutes.Count}");
-            //Debug.AppendLine($"Launch Clamps: {LaunchClamps.Count}");
             Debug.AppendLine($"Stage Clamps: {StageClamps.Count}");
             Debug.AppendLine($"Ascent T: {AscentThrusters.Count}");
             Debug.AppendLine($"ManeuverThrusters T: {ManeuverThrusters.Count}");
             Debug.AppendLine($"Staging T: {StageThrusters.Count}");
-            //Debug.AppendLine($"Landing1 T: {LandingThrusters1.Count}");
-            //Debug.AppendLine($"Landing2 T: {LandingThrusters2.Count}");
-            //Debug.AppendLine($"Landing3 T: {LandingThrusters3.Count}");
 
             BlocksLoaded = true;
         }
