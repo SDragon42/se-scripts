@@ -48,7 +48,6 @@ namespace IngameScript {
         // Other
         TimeSpan UpTime = TimeSpan.Zero;
         bool BlocksLoaded = false;
-        Direction AlignDir = Direction.Down;
 
         readonly Dictionary<string, Action> Commands = new Dictionary<string, Action>();
 
@@ -60,7 +59,6 @@ namespace IngameScript {
             Commands.Add(CMD_RELOAD, Reload);
             Commands.Add(CMD_STAGE, Stage);
             Commands.Add(CMD_SHUTDOWN, Shutdown);
-            Commands.Add("t", ChangeDir);
         }
 
         public void Save() {

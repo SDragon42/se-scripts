@@ -18,8 +18,7 @@ namespace IngameScript {
     partial class Program {
         IEnumerator<bool> Sequence_GravAlign() {
             while (true) {
-                Echo($"Align: {AlignDir}");
-                VAlign.AlignWithGravity(Remote, AlignDir, Gyros);
+                VAlign.AlignWithGravity(Remote, Direction.Down, Gyros);
                 yield return true;
             }
         }

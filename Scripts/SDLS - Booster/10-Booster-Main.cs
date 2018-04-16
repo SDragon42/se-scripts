@@ -66,11 +66,5 @@ namespace IngameScript {
             Operations.Add("Staging", Sequence_Stage());
         }
 
-        void ChangeDir() {
-            AlignDir = (AlignDir == Direction.Down)
-                ? Direction.Left
-                : Direction.Down;
-        }
-
     }
 }
