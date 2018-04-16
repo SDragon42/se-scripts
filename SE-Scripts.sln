@@ -100,6 +100,7 @@ Global
 		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
 		Modules\Flight Data Recorder\_Module - Flight Data Recorder.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
 		Modules\Logging\_Module - Logging.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Modules\Profiler\_Module - Profiler.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
 		Modules\Running Symbol\_Module - Running Symbol.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
 		Modules\Script Debug\_Module - Debug.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
 		Modules\State Machine\_Module - StateMachine.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
