@@ -35,6 +35,8 @@ namespace IngameScript {
         readonly List<IMyThrust> ManeuverThrusters = new List<IMyThrust>();
         readonly List<IMyThrust> StageThrusters = new List<IMyThrust>();
         readonly List<IMyThrust> AscentThrusters = new List<IMyThrust>();
+        readonly List<IMyGasTank> H2Tanks = new List<IMyGasTank>();
+        readonly Dictionary<string, List<IMyGasTank>> StageH2Tank = new Dictionary<string, List<IMyGasTank>>();
 
         // Single Blocks
         IMyRemoteControl Remote = null;
@@ -44,6 +46,8 @@ namespace IngameScript {
         // Other
         TimeSpan UpTime = TimeSpan.Zero;
         bool BlocksLoaded = false;
+
+        readonly Dictionary<string, Action> Commands = new Dictionary<string, Action>();
 
         public Program() {
             Debug = new DebugLogging(this);

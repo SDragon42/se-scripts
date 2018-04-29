@@ -18,6 +18,11 @@ namespace IngameScript {
     partial class Program {
         IEnumerator<bool> Sequence_Launch() {
             yield return true;
+
+            // Turn on Thrusters
+            // Activate gravity align
+            // boosters to full
+            // disconnect launch clamps
         }
     }
 }

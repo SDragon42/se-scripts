@@ -18,20 +18,38 @@ namespace IngameScript {
     partial class Program {
         public void Main(string argument, UpdateType updateSource) {
             UpTime += Runtime.TimeSinceLastRun;
-            if ((updateSource & UpdateType.Update10) == UpdateType.Update10) {
+            if ((updateSource.HasFlag(UpdateType.Update10))) {
                 Echo(Running.GetSymbol(Runtime));
             }
 
-            if (updateSource.HasFlag(UpdateType.Terminal)) {
-                switch (argument.ToLower()) {
-                    case CMD_STANDBY:
-                        Runtime.UpdateFrequency = UpdateFrequency.None;
-                        break;
-                    default:
-                        Runtime.UpdateFrequency |= UpdateFrequency.Update10;
-                        break;
-                }
+            try {
+                LoadBlocks();
+                ProcessArguments(argument.ToLower());
+                Operations.RunAll();
+                Operations.RemoveCompleted();
+                Echo(Log.GetLogText());
+            } catch (Exception ex) {
+                Echo(ex.ToString());
+                throw;
+            } finally {
+                Debug?.UpdateDisplay();
             }
+            //if (updateSource.HasFlag(UpdateType.Terminal)) {
+            //    switch (argument.ToLower()) {
+            //        case CMD_STANDBY:
+            //            Runtime.UpdateFrequency = UpdateFrequency.None;
+            //            break;
+            //        default:
+            //            Runtime.UpdateFrequency |= UpdateFrequency.Update10;
+            //            break;
+            //    }
+            //}
         }
+
+        void ProcessArguments(string argument) {
+            if (!Commands.ContainsKey(argument)) return;
+            Commands[argument]?.Invoke();
+        }
+
     }
 }
