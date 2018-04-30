@@ -15,9 +15,7 @@ using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    // This template is intended for extension classes. For most purposes you're going to want a normal
-    // utility class.
-    // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods
+    #region mdk preserve
     static class ExtensionMethods {
         public static void GetblocksOfTypeWithFirst<T>(this IMyGridTerminalSystem gts, List<IMyTerminalBlock> blockList, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class, IMyTerminalBlock {
             if (collectMethods == null || collectMethods.Length == 0) {
@@ -80,4 +78,5 @@ namespace IngameScript {
             return val;
         }
     }
+    #endregion
 }
