@@ -17,11 +17,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
         static class CargoHelper {
-            public const string SUBTYPE_SmBlock_SmContainer = "SmallBlockSmallContainer";
-            public const string SUBTYPE_SmBlock_MdContainer = "SmallBlockMediumContainer";
-            public const string SUBTYPE_SmBlock_LgContainer = "SmallBlockLargeContainer";
-            public const string SUBTYPE_LgBlock_SmContainer = "LargeBlockSmallContainer";
-            public const string SUBTYPE_LgBlock_LgContainer = "LargeBlockLargeContainer";
+            
 
             public const long MaxVolume_SmBlock_SmContainer = 125000;
             public const long MaxVolume_SmBlock_MdContainer = 3375000;
@@ -47,11 +43,11 @@ namespace IngameScript {
             public static long GetDefaultMaxVolume(IMyCargoContainer b) {
                 if (b != null)
                     switch (b.BlockDefinition.SubtypeId) {
-                        case SUBTYPE_SmBlock_SmContainer: return MaxVolume_SmBlock_SmContainer;
-                        case SUBTYPE_SmBlock_MdContainer: return MaxVolume_SmBlock_MdContainer;
-                        case SUBTYPE_SmBlock_LgContainer: return MaxVolume_SmBlock_LgContainer;
-                        case SUBTYPE_LgBlock_SmContainer: return MaxVolume_LgBlock_SmContainer;
-                        case SUBTYPE_LgBlock_LgContainer: return MaxVolume_LgBlock_LgContainer;
+                        case SubTypes.SmBlock_SmContainer: return MaxVolume_SmBlock_SmContainer;
+                        case SubTypes.SmBlock_MdContainer: return MaxVolume_SmBlock_MdContainer;
+                        case SubTypes.SmBlock_LgContainer: return MaxVolume_SmBlock_LgContainer;
+                        case SubTypes.LgBlock_SmContainer: return MaxVolume_LgBlock_SmContainer;
+                        case SubTypes.LgBlock_LgContainer: return MaxVolume_LgBlock_LgContainer;
                     }
                 return 0;
             }

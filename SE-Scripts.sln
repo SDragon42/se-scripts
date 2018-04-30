@@ -5,56 +5,6 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{90533C51-8B80-4D39-9722-4CD89BFCB84C}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Block Orientation Predicate", "Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.shproj", "{EED1E4AC-D5CA-447A-BF3C-34C0E9B961FE}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Cargo and Inventory", "Libraries\Cargo and Inventory\_Helper - Cargo and Inventory.shproj", "{4E20775E-FE3C-4AE3-8E2D-A7B43EE30ED4}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Library - Common", "Libraries\Common\_Library - Common.shproj", "{C96CFE92-41D3-47DF-8A4A-C17A71C8E459}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Connectors", "Libraries\Connectors\_Helper - Connectors.shproj", "{5401FCB1-DDDD-4AB5-B78D-0C3AE14D202C}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Direction", "Libraries\Direction\_Helper - Direction.shproj", "{7E912F4A-7C61-4AEA-82E1-259FE4357B0B}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Doors", "Libraries\Doors\_Helper - Doors.shproj", "{E503BEBE-817D-4BED-9072-7BFCB95415B8}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Gas Tanks", "Libraries\Gas Tanks\_Helper - Gas Tanks.shproj", "{35BBB9DE-40B9-4E5A-AA79-49394BFA1435}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Landing Gears", "Libraries\Landing Gears\_Helper - Landing Gears.shproj", "{2AC28B0A-1F4D-4423-B244-64FBF8A94354}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - LCDs", "Libraries\LCDs\_Helper - LCDs.shproj", "{EC64A080-A572-41F9-A535-6152D0A647F3}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - LCDs Dot Matrix", "Libraries\LCDs Dot Matrix\_Helper - LCDs Dot Matrix.shproj", "{19F5CFF5-D5EF-4112-85C8-7A7BB91C23FA}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Helper - Thrusters", "Libraries\Thrusters\_Helper - Thrusters.shproj", "{B924BA87-9A65-42F6-A761-BB86C9D713FA}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Compass", "Modules\Compass\_Module - Compass.shproj", "{61D703EE-85BA-47E5-B1B7-E512B20D7203}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Custom Data Config", "Modules\Custom Data Config\_Module - Custom Data Config.shproj", "{DD940528-1A03-4AB3-9504-3AA93571E5EC}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Door Closer", "Modules\Door Closer\_Module - Door Closer.shproj", "{CE1D6A6C-A380-4FA8-A306-2F81AA4A7E33}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Flight Data Recorder", "Modules\Flight Data Recorder\_Module - Flight Data Recorder.shproj", "{0F7F7179-F8CB-4376-940C-D9047E7D1FB3}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Group Renamer", "Modules\Group Renamer\_Module - Group Renamer.shproj", "{AFF70F69-CE5D-4D97-8288-41F3F8C3FC65}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Logging", "Modules\Logging\_Module - Logging.shproj", "{5A5BCC5C-0965-4CF1-B4C0-9F4925F33878}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Profiler", "Modules\Profiler\_Module - Profiler.shproj", "{7AD7003F-2C7C-4F0A-900A-279E82EF75E4}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Proximity", "Modules\Proximity\_Module - Proximity.shproj", "{86D47374-54D9-46F5-9FD4-FB21E53A1291}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Running Symbol", "Modules\Running Symbol\_Module - Running Symbol.shproj", "{E8D8CEE9-6E84-4124-8A02-FB2B7BB494F4}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Debug", "Modules\Script Debug\_Module - Debug.shproj", "{0B16B361-C30E-48FD-87EA-37DEFD087559}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Ship Dock-Secure", "Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.shproj", "{A55A9841-6A1A-4C62-937F-E2B471E894ED}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Time Interval", "Modules\Time Interval\_Module - Time Interval.shproj", "{243C42A9-6084-40C4-A1C4-5D0D61A5F1E1}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Vector Align", "Modules\Vector Align\_Module - Vector Align.shproj", "{7204DD88-D4C2-4FE4-BBF8-E632497B7EFE}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - Airlocks", "Modules\Airlocks\_Module - Airlocks.shproj", "{1EF81A9A-E190-482E-A500-6EE62FB1A653}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ackermann-Steering", "Scripts\Ackermann-Steering\Ackermann-Steering.csproj", "{7C33E0EF-4F54-42E2-A4F9-D9B6592AA315}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group Renamer", "Scripts\Group Renamer\Group Renamer.csproj", "{CC0335A2-8809-4A3B-A480-EC10767619FA}"
@@ -85,155 +35,28 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Station", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - GrassHopper", "Scripts\SDLS - GrassHopper\SDLS - GrassHopper.csproj", "{3983C820-0311-4F8F-AE3A-6BD54F1DA500}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Module - StateMachine", "Modules\State Machine\_Module - StateMachine.shproj", "{0AB460FA-7256-48C7-9FAA-57B58813CFA9}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Library", "Library\Library.shproj", "{931480A0-EDD2-41AF-AC91-8FB13E5ED08A}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Libraries\Cargo and Inventory\_Helper - Cargo and Inventory.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Libraries\Common\_Library - Common.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Libraries\Connectors\_Helper - Connectors.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Libraries\Direction\_Helper - Direction.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Libraries\Gas Tanks\_Helper - Gas Tanks.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Libraries\Thrusters\_Helper - Thrusters.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Modules\Flight Data Recorder\_Module - Flight Data Recorder.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Modules\Logging\_Module - Logging.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Modules\Profiler\_Module - Profiler.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Modules\Running Symbol\_Module - Running Symbol.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Modules\Script Debug\_Module - Debug.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Modules\State Machine\_Module - StateMachine.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Modules\Time Interval\_Module - Time Interval.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Modules\Vector Align\_Module - Vector Align.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Libraries\Common\_Library - Common.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
-		Libraries\Connectors\_Helper - Connectors.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
-		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
-		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
-		Modules\Running Symbol\_Module - Running Symbol.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
-		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
-		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Libraries\Common\_Library - Common.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Libraries\Direction\_Helper - Direction.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Libraries\Thrusters\_Helper - Thrusters.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Modules\Flight Data Recorder\_Module - Flight Data Recorder.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Modules\Logging\_Module - Logging.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Modules\Profiler\_Module - Profiler.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Modules\Running Symbol\_Module - Running Symbol.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Modules\Script Debug\_Module - Debug.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Modules\State Machine\_Module - StateMachine.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Modules\Vector Align\_Module - Vector Align.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Libraries\Common\_Library - Common.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
-		Libraries\LCDs\_Helper - LCDs.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
-		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
-		Modules\Logging\_Module - Logging.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
+		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Library\Library.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
+		Library\Library.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
+		Library\Library.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{0a117477-6c2a-40ac-a8eb-fdcd2dfe11ba}*SharedItemsImports = 13
-		Modules\State Machine\_Module - StateMachine.projitems*{0ab460fa-7256-48c7-9faa-57b58813cfa9}*SharedItemsImports = 13
-		Modules\Script Debug\_Module - Debug.projitems*{0b16b361-c30e-48fd-87ea-37defd087559}*SharedItemsImports = 13
-		Modules\Flight Data Recorder\_Module - Flight Data Recorder.projitems*{0f7f7179-f8cb-4376-940c-d9047e7d1fb3}*SharedItemsImports = 13
-		Libraries\LCDs Dot Matrix\_Helper - LCDs Dot Matrix.projitems*{19f5cff5-d5ef-4112-85c8-7a7bb91c23fa}*SharedItemsImports = 13
-		Modules\Airlocks\_Module - Airlocks.projitems*{1ef81a9a-e190-482e-a500-6ee62fb1a653}*SharedItemsImports = 13
-		Modules\Time Interval\_Module - Time Interval.projitems*{243c42a9-6084-40c4-a1c4-5d0d61a5f1e1}*SharedItemsImports = 13
-		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{2ac28b0a-1f4d-4423-b244-64fbf8a94354}*SharedItemsImports = 13
-		Libraries\Gas Tanks\_Helper - Gas Tanks.projitems*{35bbb9de-40b9-4e5a-aa79-49394bfa1435}*SharedItemsImports = 13
-		Libraries\Common\_Library - Common.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
-		Libraries\Thrusters\_Helper - Thrusters.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
-		Modules\Logging\_Module - Logging.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
-		Modules\Running Symbol\_Module - Running Symbol.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
-		Libraries\Cargo and Inventory\_Helper - Cargo and Inventory.projitems*{4e20775e-fe3c-4ae3-8e2d-a7b43ee30ed4}*SharedItemsImports = 13
-		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
-		Libraries\Common\_Library - Common.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
-		Libraries\Direction\_Helper - Direction.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
-		Libraries\Thrusters\_Helper - Thrusters.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
-		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
-		Libraries\Connectors\_Helper - Connectors.projitems*{5401fcb1-dddd-4ab5-b78d-0c3ae14d202c}*SharedItemsImports = 13
-		Modules\Logging\_Module - Logging.projitems*{5a5bcc5c-0965-4cf1-b4c0-9f4925f33878}*SharedItemsImports = 13
-		Modules\Compass\_Module - Compass.projitems*{61d703ee-85ba-47e5-b1b7-e512b20d7203}*SharedItemsImports = 13
-		Modules\Vector Align\_Module - Vector Align.projitems*{7204dd88-d4c2-4fe4-bbf8-e632497b7efe}*SharedItemsImports = 13
-		Libraries\Common\_Library - Common.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
-		Libraries\Doors\_Helper - Doors.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
-		Libraries\Gas Tanks\_Helper - Gas Tanks.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
-		Libraries\LCDs\_Helper - LCDs.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
-		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
-		Modules\Logging\_Module - Logging.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
-		Modules\Running Symbol\_Module - Running Symbol.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
+		Library\Library.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
+		Library\Library.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
+		Library\Library.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
-		Modules\Profiler\_Module - Profiler.projitems*{7ad7003f-2c7c-4f0a-900a-279e82ef75e4}*SharedItemsImports = 13
-		Libraries\Direction\_Helper - Direction.projitems*{7e912f4a-7c61-4aea-82e1-259fe4357b0b}*SharedItemsImports = 13
-		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Libraries\Common\_Library - Common.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Libraries\Connectors\_Helper - Connectors.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Libraries\Direction\_Helper - Direction.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Libraries\LCDs\_Helper - LCDs.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Modules\Proximity\_Module - Proximity.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Modules\Running Symbol\_Module - Running Symbol.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Modules\Proximity\_Module - Proximity.projitems*{86d47374-54d9-46f5-9fd4-fb21e53a1291}*SharedItemsImports = 13
-		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Libraries\Cargo and Inventory\_Helper - Cargo and Inventory.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Libraries\Common\_Library - Common.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Libraries\Connectors\_Helper - Connectors.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Libraries\Direction\_Helper - Direction.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Libraries\Doors\_Helper - Doors.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Libraries\Gas Tanks\_Helper - Gas Tanks.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Libraries\LCDs\_Helper - LCDs.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Libraries\Thrusters\_Helper - Thrusters.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Airlocks\_Module - Airlocks.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Compass\_Module - Compass.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Door Closer\_Module - Door Closer.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Flight Data Recorder\_Module - Flight Data Recorder.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Group Renamer\_Module - Group Renamer.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Logging\_Module - Logging.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Profiler\_Module - Profiler.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Proximity\_Module - Proximity.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Running Symbol\_Module - Running Symbol.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Script Debug\_Module - Debug.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\State Machine\_Module - StateMachine.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Time Interval\_Module - Time Interval.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Vector Align\_Module - Vector Align.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
-		Modules\Ship Dock-Secure\_Module - Ship Dock-Secure.projitems*{a55a9841-6a1a-4c62-937f-e2b471e894ed}*SharedItemsImports = 13
-		Modules\Group Renamer\_Module - Group Renamer.projitems*{aff70f69-ce5d-4d97-8288-41f3f8c3fc65}*SharedItemsImports = 13
-		Libraries\Thrusters\_Helper - Thrusters.projitems*{b924ba87-9a65-42f6-a761-bb86c9d713fa}*SharedItemsImports = 13
-		Libraries\Common\_Library - Common.projitems*{c96cfe92-41d3-47df-8a4a-c17a71c8e459}*SharedItemsImports = 13
-		Modules\Group Renamer\_Module - Group Renamer.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
-		Modules\Door Closer\_Module - Door Closer.projitems*{ce1d6a6c-a380-4fa8-a306-2f81aa4a7e33}*SharedItemsImports = 13
-		Modules\Group Renamer\_Module - Group Renamer.projitems*{d29a0752-9c90-49ab-b1cc-3228eca57f3f}*SharedItemsImports = 4
-		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Libraries\Cargo and Inventory\_Helper - Cargo and Inventory.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Libraries\Common\_Library - Common.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Libraries\Gas Tanks\_Helper - Gas Tanks.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Libraries\Landing Gears\_Helper - Landing Gears.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Libraries\LCDs\_Helper - LCDs.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Libraries\Thrusters\_Helper - Thrusters.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Modules\Logging\_Module - Logging.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Modules\Running Symbol\_Module - Running Symbol.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		Library\Library.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
+		Library\Library.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
+		Library\Library.projitems*{931480a0-edd2-41af-ac91-8fb13e5ed08a}*SharedItemsImports = 13
+		Library\Library.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
+		Library\Library.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{dd940528-1a03-4ab3-9504-3aa93571e5ec}*SharedItemsImports = 13
-		Libraries\Doors\_Helper - Doors.projitems*{e503bebe-817d-4bed-9072-7bfcb95415b8}*SharedItemsImports = 13
-		Modules\Running Symbol\_Module - Running Symbol.projitems*{e8d8cee9-6e84-4124-8a02-fb2b7bb494f4}*SharedItemsImports = 13
-		Libraries\LCDs\_Helper - LCDs.projitems*{ec64a080-a572-41f9-a535-6152d0a647f3}*SharedItemsImports = 13
-		Libraries\Block Orientation Predicate\_Helper - Block Orientation Predicate.projitems*{eed1e4ac-d5ca-447a-bf3c-34c0e9b961fe}*SharedItemsImports = 13
-		Libraries\Common\_Library - Common.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
-		Libraries\Connectors\_Helper - Connectors.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
-		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
-		Modules\Logging\_Module - Logging.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
-		Modules\Running Symbol\_Module - Running Symbol.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
-		Modules\Script Debug\_Module - Debug.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
-		Modules\State Machine\_Module - StateMachine.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
-		Libraries\Common\_Library - Common.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
-		Libraries\Doors\_Helper - Doors.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
-		Libraries\LCDs\_Helper - LCDs.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
-		Modules\Custom Data Config\_Module - Custom Data Config.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
-		Modules\Logging\_Module - Logging.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
-		Modules\Running Symbol\_Module - Running Symbol.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		Library\Library.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
+		Library\Library.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
