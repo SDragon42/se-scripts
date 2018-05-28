@@ -36,32 +36,7 @@ namespace IngameScript {
             public float accLeft;
             public float accUp;
 
-            class Filter {
-                float[] values;
-                int numValues;
-                int index;
-
-                public Filter(int num) {
-                    index = 0;
-                    if (num > 0) numValues = num; else numValues = 1;
-                    values = new float[numValues];
-                    Array.Clear(values, index, numValues);
-                }
-
-                public void Add(float value) {
-                    if (index >= numValues) index = 0;
-                    values[index] = value;
-                    index++;
-                }
-
-                public float Get() {
-                    float sum = 0.0f;
-                    for (int ix = 0; ix < numValues; ix++) {
-                        sum += values[ix];
-                    }
-                    return (float)(sum / numValues);
-                }
-            }
+            
 
             public LinearSpeed(IMyTerminalBlock refB) {
                 prevForwardSpd = float.NaN;
