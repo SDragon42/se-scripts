@@ -48,7 +48,7 @@ namespace IngameScript {
             }
 
             public void Update() {
-                MatrixD refBase = MatrixD.Normalize(refBlock.WorldMatrix);
+                var refBase = MatrixD.Normalize(refBlock.WorldMatrix);
                 Vector3D? pos = refBlock.GetPosition();
                 /*** Linear speed and acceleration ***/
                 speedVector = new Vector3D(0, 0, 0);

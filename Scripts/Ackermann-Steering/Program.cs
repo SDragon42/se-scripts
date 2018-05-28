@@ -40,18 +40,18 @@ namespace IngameScript {
 
         static MyGridProgram GP;
 
+        readonly List<IMyMotorSuspension> wheels = new List<IMyMotorSuspension>();
+        readonly List<IMyRemoteControl> blocks = new List<IMyRemoteControl>();
+
         public void Main(string argument) {
-            List<IMyTerminalBlock> wheels = new List<IMyTerminalBlock>();
-            GridTerminalSystem.GetBlocksOfType<IMyMotorSuspension>(wheels,
-                x => (x.CubeGrid == Me.CubeGrid) && (x.IsWorking));
+            GridTerminalSystem.GetBlocksOfType(wheels, x => (x.CubeGrid == Me.CubeGrid) && (x.IsWorking));
             if (wheelController == null || argument == "reset" || wheelController.WheelAdded(wheels.Count)) {
-                List<IMyTerminalBlock> blocks = new List<IMyTerminalBlock>();
                 GP = this;
-                GridTerminalSystem.GetBlocksOfType<IMyRemoteControl>(blocks, x => (x.CubeGrid == Me.CubeGrid));
+                GridTerminalSystem.GetBlocksOfType(blocks, x => (x.CubeGrid == Me.CubeGrid));
 
                 // Lets initialize an example wheel controller
                 wheelController = new WheelController(
-                        blocks.Count == 0 ? Me : blocks[0],
+                        blocks.Count == 0 ? Me : (IMyTerminalBlock)blocks[0],
                         wheels,
                         2f,
                         4f,

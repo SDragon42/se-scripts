@@ -25,18 +25,18 @@ namespace IngameScript {
             bool rear;
             float AngleLeft;
             float AngleRight;
-            float AngleMax;
+            readonly float AngleMax;
             MatrixD MatrixLocal;
             //MatrixD MatrixLocalInv;
             float SteerSpeedLeft, SteerSpeedRight;
             float ReturnSpeedLeft, ReturnSpeedRight;
             float LastAngle;
             float LastDirection;
-            float frictionInside;
-            float frictionOutside;
-            float frictionBrakInside;
-            float frictionBrakOutside;
-            float slideSpeedLimit;
+            readonly float frictionInside;
+            readonly float frictionOutside;
+            readonly float frictionBrakInside;
+            readonly float frictionBrakOutside;
+            readonly float slideSpeedLimit;
 
             public Wheel(IMyMotorSuspension block, MatrixD matrix, float angleMax) {
                 Block = block;
@@ -71,10 +71,10 @@ namespace IngameScript {
                 if ((Block == null) || !Block.IsWorking)
                     return false;
 
-                bool outside = false;
+                var outside = false;
 
-                float CurrentAngle = Block.SteerAngle;
-                float CurrentDirection = CurrentAngle - LastAngle;
+                var CurrentAngle = Block.SteerAngle;
+                var CurrentDirection = CurrentAngle - LastAngle;
 
                 if (Block.SteerAngle > 0.001f) {
                     outside = !leftSide;
@@ -113,8 +113,8 @@ namespace IngameScript {
             }
 
             public void SetFocus(float focusLeft, float focusRight, float steerSpeedFactor, float returnSpeedFactor) {
-                float X = (float)MatrixLocal.Translation.GetDim(0);
-                float Z = (float)MatrixLocal.Translation.GetDim(2);
+                var X = (float)MatrixLocal.Translation.GetDim(0);
+                var Z = (float)MatrixLocal.Translation.GetDim(2);
                 AngleRight = (float)Math.Abs(Math.Atan(Z / ((Z > 0 ? focusLeft : focusRight) - X)));
                 AngleLeft = (float)Math.Abs(Math.Atan(Z / ((Z > 0 ? focusRight : focusLeft) - X)));
                 front = Z < 0.0f;

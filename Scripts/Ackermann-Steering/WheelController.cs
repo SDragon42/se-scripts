@@ -22,14 +22,14 @@ namespace IngameScript {
                 { "Small", new Vector3D(0, 0, -0.6) }
             };
 
-            string EchoString;
+            readonly string EchoString;
 
             List<Wheel> Wheels = new List<Wheel>();
             int prevNumWheels;
             IMyTerminalBlock anchor;
             public Vector3D? center;
-            float SteerSpeedFactor;
-            float ReturnSpeedFactor;
+            readonly float SteerSpeedFactor;
+            readonly float ReturnSpeedFactor;
 
             /*
                 @anchor - The anchor block which gets used as reference for position and orientation.
@@ -38,35 +38,35 @@ namespace IngameScript {
                 @returnSpeedFactor - This is a proportional factor for total return speed over the max angle.
                 @offset - The additional offset in forward and right direction.
             */
-            public WheelController(IMyTerminalBlock refBlock, List<IMyTerminalBlock> wheels, float steerSpeedFactor,
+            public WheelController(IMyTerminalBlock refBlock, List<IMyMotorSuspension> wheels, float steerSpeedFactor,
                 float steerReturnFactor, Vector3D offset) {
                 Wheels.Clear();
                 anchor = refBlock;
-                MatrixD anchorMatrixInv = MatrixD.Invert(Anchor.WorldMatrix);
+                var anchorMatrixInv = MatrixD.Invert(Anchor.WorldMatrix);
                 center = null;
 
                 if (debug) EchoString = "";
                 SteerSpeedFactor = steerSpeedFactor;
                 ReturnSpeedFactor = steerReturnFactor;
 
-                double FocusLeft = double.MaxValue;
-                double FocusRight = double.MinValue;
+                var FocusLeft = double.MaxValue;
+                var FocusRight = double.MinValue;
 
-                Vector3I anchorPosGrid = anchor.Position;
+                var anchorPosGrid = anchor.Position;
 
-                for (int i = 0; i < wheels.Count; i++) {
+                for (var i = 0; i < wheels.Count; i++) {
                     // Check if the wheel actually is a suspension wheel.
-                    IMyMotorSuspension wheel = wheels[i] as IMyMotorSuspension;
+                    var wheel = wheels[i];
                     if (wheel == null)
                         continue;
 
                     // Get the transformed local matrix in respect to the new anchor with offset.
-                    MatrixD wheelMatrix = wheel.WorldMatrix * anchorMatrixInv;
+                    var wheelMatrix = wheel.WorldMatrix * anchorMatrixInv;
 
-                    MatrixD wheelMatrixInv = wheelMatrix;
+                    var wheelMatrixInv = wheelMatrix;
                     wheelMatrixInv.Translation = new Vector3D(0, 0, 0);
                     wheelMatrixInv = MatrixD.Invert(wheelMatrixInv);
-                    Vector3D wheelOffset = WheelOffsetLookup.ContainsKey(wheel.BlockDefinition.SubtypeId) ?
+                    var wheelOffset = WheelOffsetLookup.ContainsKey(wheel.BlockDefinition.SubtypeId) ?
                         WheelOffsetLookup[wheel.BlockDefinition.SubtypeId] : WheelOffsetLookup[wheel.CubeGrid.GridSizeEnum.ToString()];
                     wheelOffset = Vector3D.Transform(wheelOffset - offset, wheelMatrixInv);
                     wheelMatrix.Translation += wheelOffset;
@@ -74,15 +74,15 @@ namespace IngameScript {
                     if (i > 0) center = center.Value + wheel.GetPosition();
                     else center = wheel.GetPosition();
 
-                    float maxSteerAngle = wheel.GetMaximum<float>("MaxSteerAngle");
+                    var maxSteerAngle = wheel.GetMaximum<float>("MaxSteerAngle");
                     if (wheel.CustomName.Contains("MaxSteerAngle=")) {
-                        string[] split = wheel.CustomName.Split(' ');
-                        for (int j = 0; j < split.Length; j++) {
+                        var split = wheel.CustomName.Split(' ');
+                        for (var j = 0; j < split.Length; j++) {
                             if (!split[j].StartsWith("MaxSteerAngle="))
                                 continue;
                             split[j] = split[j].Replace("MaxSteerAngle=", "");
-                            float angle = 0;
-                            bool isDegree = split[j].EndsWith("°");
+                            var angle = 0F;
+                            var isDegree = split[j].EndsWith("°");
                             if (isDegree)
                                 split[j] = split[j].Replace("°", "");
                             if (!float.TryParse(split[j], out angle))
@@ -95,12 +95,12 @@ namespace IngameScript {
                                 maxSteerAngle = angle;
                         }
                     }
-                    double Z = wheelMatrix.Translation.GetDim(2);
-                    double tan = Math.Tan(maxSteerAngle);
-                    double deltaX = Math.Abs(Z / tan);
-                    double X = wheelMatrix.Translation.GetDim(0);
-                    double CurrentFocusLeft = X - deltaX;
-                    double CurrentFocusRight = X + deltaX;
+                    var Z = wheelMatrix.Translation.GetDim(2);
+                    var tan = Math.Tan(maxSteerAngle);
+                    var deltaX = Math.Abs(Z / tan);
+                    var X = wheelMatrix.Translation.GetDim(0);
+                    var CurrentFocusLeft = X - deltaX;
+                    var CurrentFocusRight = X + deltaX;
                     //DEBUG
                     if (debug) EchoString += string.Format("> {0}\nX:{1:0.00} - Z:{2:0.00}", wheel.CustomName, wheelMatrix.Translation.GetDim(0), wheelMatrix.Translation.GetDim(2));
                     //GP.Echo(string.Format("> {0}\nX:{3} - Z\nangle: {4:0.000} - tan: {5:0.000}\n{1}:{2}",wheel.CustomName, CurrentFocusLeft, CurrentFocusRight,X,Z,maxSteerAngle,tan));
@@ -119,14 +119,14 @@ namespace IngameScript {
                 if (debug) GP.Echo(EchoString);
                 prevNumWheels = Wheels.Count;
                 if (center.HasValue) center = center / prevNumWheels;
-                for (int i = 0; i < Wheels.Count; i++) {
+                for (var i = 0; i < Wheels.Count; i++) {
                     Wheels[i].SetFocus((float)FocusLeft, (float)FocusRight, SteerSpeedFactor, ReturnSpeedFactor);
                 }
             }
 
             public void Update(float forwSpd, float leftSpd) {
                 Wheels.RemoveAll(x => !x.IsFunctional());
-                for (int i = 0; i < Wheels.Count; i++) {
+                for (var i = 0; i < Wheels.Count; i++) {
                     Wheels[i].Update(forwSpd, leftSpd);
                 }
                 prevNumWheels = Wheels.Count;
