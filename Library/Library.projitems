@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>931480a0-edd2-41af-ac91-8fb13e5ed08a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Library</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Airlocks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AutoDoorCloser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BlocksByOrientation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CargoHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CompassHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigCustom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigINI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DebugLogging.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Direction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DirectionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DockSecure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtensionMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FlightDataRecorder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FontChar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Font_X.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GasTankHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GroupRenamer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LCDChars.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LCDFonts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Profiler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProxCamera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Proximity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RangeInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ranger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RenameMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RunningSymbol.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)State Machine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SubTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThrusterHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimeInterval.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VectorAlign.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VectorHelper.cs" />
+  </ItemGroup>
+</Project>
