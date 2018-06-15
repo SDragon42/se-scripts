@@ -42,6 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)RunningSymbol.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)State Machine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SubTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThrusterHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeInterval.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VectorAlign.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VectorHelper.cs" />
