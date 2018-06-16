@@ -25,12 +25,12 @@ namespace IngameScript {
             }
 
             public static bool IsConnector(IMyTerminalBlock b) => b is IMyShipConnector;
-            public static bool IsConnectorConnectable(IMyTerminalBlock b) { return IsConnectorConnectable(b as IMyShipConnector); }
-            public static bool IsConnectorConnectable(IMyShipConnector b) { return (b?.Status == MyShipConnectorStatus.Connectable); }
-            public static bool IsConnectorConnected(IMyTerminalBlock b) { return IsConnectorConnected(b as IMyShipConnector); }
-            public static bool IsConnectorConnected(IMyShipConnector b) { return (b?.Status == MyShipConnectorStatus.Connected); }
-            public static bool IsConnectorUnconnected(IMyTerminalBlock b) { return IsConnectorUnconnected(b as IMyShipConnector); }
-            public static bool IsConnectorUnconnected(IMyShipConnector b) { return (b?.Status == MyShipConnectorStatus.Unconnected); }
+            public static bool IsConnectorConnectable(IMyTerminalBlock b) => IsConnectorConnectable(b as IMyShipConnector);
+            public static bool IsConnectorConnectable(IMyShipConnector b) => b?.Status == MyShipConnectorStatus.Connectable;
+            public static bool IsConnectorConnected(IMyTerminalBlock b) => IsConnectorConnected(b as IMyShipConnector);
+            public static bool IsConnectorConnected(IMyShipConnector b) => b?.Status == MyShipConnectorStatus.Connected;
+            public static bool IsConnectorUnconnected(IMyTerminalBlock b) => IsConnectorUnconnected(b as IMyShipConnector);
+            public static bool IsConnectorUnconnected(IMyShipConnector b) => b?.Status == MyShipConnectorStatus.Unconnected;
 
             public static bool IsDoor(IMyTerminalBlock b) => b is IMyDoor;
             public static bool IsBasicDoor(IMyTerminalBlock b) => !(IsSlidingDoor(b) || IsHangarDoor(b));
