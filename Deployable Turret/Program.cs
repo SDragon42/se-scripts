@@ -18,20 +18,34 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
 
         const double BLOCK_RELOAD_TIME = 10.0;
+        const UpdateFrequency UPDATE_RATE = UpdateFrequency.Update100;
 
-        readonly List<IMyTerminalBlock> FoundBlocks = new List<IMyTerminalBlock>();
-        readonly List<IMyParachute> Parachutes = new List<IMyParachute>();
-        readonly List<IMyInteriorLight> Lights = new List<IMyInteriorLight>();
-        readonly List<IMyDecoy> Decoys = new List<IMyDecoy>();
+        //Modules
+        readonly RunningSymbol Running = new RunningSymbol();
+        readonly ConfigINI Config = new ConfigINI("Sandbag Turret Defense");
 
+
+        //Blocks
         IMyLargeTurretBase Turret;
         IMyBatteryBlock Battery;
         IMyRadioAntenna Antenna;
+        readonly List<IMyParachute> Parachutes = new List<IMyParachute>();
+        readonly List<IMyDecoy> Decoys = new List<IMyDecoy>();
+        readonly List<IMyLandingGear> LandingGears = new List<IMyLandingGear>();
+        readonly List<IMyInteriorLight> ParachuteLights = new List<IMyInteriorLight>();
+        readonly List<IMyInteriorLight> DisarmedLights = new List<IMyInteriorLight>();
+
 
         double timeLastBlockLoad = BLOCK_RELOAD_TIME;
+        int configHashCode = 0;
 
         public Program() {
-            //Runtime.UpdateFrequency = UpdateFrequency.Update100;
+            Config.AddKey("COMM Group Name", "Sandbag");
+            Config.AddKey("Use COMMs", true);
+            Config.AddKey("Status Lights", true);
+            Config.AddKey("Status Antenna", true);
+
+            //Runtime.UpdateFrequency = UPDATE_RATE;
         }
 
         public void Save() {
@@ -39,15 +53,26 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
+
+            UpdateConfig();
+
             var isTerminalRun = updateSource.HasFlag(UpdateType.Terminal);
+            var isCommRun = updateSource.HasFlag(UpdateType.Antenna);
+            var isTriggerRun = updateSource.HasFlag(UpdateType.Trigger);
+            var isAutoRun = updateSource.HasFlag(UpdateType.Update100);
+            //if (isAutoRun)
+            if (Runtime.UpdateFrequency.HasFlag(UPDATE_RATE))
+                Echo("Sandbag " + Running.GetSymbol(Runtime));
 
             if (timeLastBlockLoad >= BLOCK_RELOAD_TIME || isTerminalRun) {
                 timeLastBlockLoad = 0;
                 ClearBlocks();
                 LoadBlocks();
                 InitBlocks();
-                if (isTerminalRun)
-                    EchoFoundBlocks();
+            }
+
+            if (isCommRun) {
+
             }
             /*
              * Beacon shows ammo level
@@ -57,8 +82,16 @@ namespace IngameScript {
              */
         }
 
+        void UpdateConfig() {
+            var x = Me.CustomData.GetHashCode();
+            if (x == configHashCode) return;
+            Config.Load(Me);
+            Config.Save(Me);
+            configHashCode = Me.CustomData.GetHashCode();
+        }
+
         void ClearBlocks() {
-            Lights.Clear();
+            ParachuteLights.Clear();
             Decoys.Clear();
             Parachutes.Clear();
 
@@ -67,50 +100,77 @@ namespace IngameScript {
             Turret = null;
         }
         void LoadBlocks() {
-            GridTerminalSystem.GetBlocksOfType(FoundBlocks, block => block.CubeGrid == Me.CubeGrid);
-            var sb = new StringBuilder();
-            foreach (var b in FoundBlocks) {
-                b.ShowInTerminal = true;
+            Battery = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyBatteryBlock>(OnSameGrid);
+            Turret = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyLargeTurretBase>(OnSameGrid);
+            Antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(OnSameGrid);
 
-                if (b is IMyDecoy) {
-                    Decoys.Add((IMyDecoy)b);
-                } else if (b is IMyParachute) {
-                    Parachutes.Add((IMyParachute)b);
-                } else if (b is IMyInteriorLight) {
-                    Lights.Add((IMyInteriorLight)b);
-                } else if (b is IMyBatteryBlock) {
-                    if (Battery == null) Battery = (IMyBatteryBlock)b;
-                } else if (b is IMyLargeTurretBase) {
-                    if (Turret == null) Turret = (IMyLargeTurretBase)b;
-                } else if (b is IMyRadioAntenna) {
-                    if (Antenna == null) Antenna = (IMyRadioAntenna)b;
-                } else {
+            GridTerminalSystem.GetBlocksOfType(Decoys, OnSameGrid);
+            GridTerminalSystem.GetBlocksOfType(Parachutes, OnSameGrid);
+            GridTerminalSystem.GetBlocksOfType(LandingGears, OnSameGrid);
 
-                }
+            GridTerminalSystem.GetBlocksOfType(ParachuteLights, OnParachuteBlock);
+            GridTerminalSystem.GetBlocksOfType(DisarmedLights, b => !OnParachuteBlock(b));
+        }
+        bool OnSameGrid(IMyTerminalBlock b) => b.CubeGrid == Me.CubeGrid;
+        bool OnParachuteBlock(IMyTerminalBlock b) {
+            foreach (var para in Parachutes) {
+                var blockDist = (b.Position - para.Position).Length();
+                if (blockDist == 1) return true;
             }
-            Me.CustomData = sb.ToString();
+            return false;
         }
-        void EchoFoundBlocks() {
-            Echo($"Decoys: {Decoys.Count}");
-            Echo($"Parachutes: {Parachutes.Count}");
-            Echo($"lights: {Lights.Count}");
-            Echo("Turret: " + (Turret != null));
-            Echo("Battery: " + (Battery != null));
-            Echo("Antenna: " + (Antenna != null));
-        }
+
+        //void EchoFoundBlocks() {
+        //    Echo($"Decoys: {Decoys.Count}");
+        //    Echo($"Parachutes: {Parachutes.Count}");
+        //    Echo($"Para lights: {ParachuteLights.Count}");
+        //    Echo($"DArm lights: {DisarmedLights.Count}");
+        //    Echo("Turret: " + (Turret != null));
+        //    Echo("Battery: " + (Battery != null));
+        //    Echo("Antenna: " + (Antenna != null));
+        //}
         void InitBlocks() {
-            var blinkOffsetInterval = 100f / Lights.Count;
+            var blinkOffsetInterval = 100f / ParachuteLights.Count;
             var blinkOff = 0f;
-            foreach (var light in Lights) {
-                light.Color = Color.Red;
-                light.Radius = 2f;
-                light.BlinkIntervalSeconds = 1f;
-                light.BlinkLength = blinkOffsetInterval;
-                light.BlinkOffset = blinkOff;
-                light.Enabled = false;
-                light.ShowInTerminal = false;
+            foreach (var b in ParachuteLights) {
+                b.Color = Color.Orange;
+                b.Radius = 2f;
+                b.BlinkIntervalSeconds = 1f;
+                b.BlinkLength = blinkOffsetInterval;
+                b.BlinkOffset = blinkOff;
+                b.Enabled = false;
+                b.ShowInTerminal = false;
+                b.CustomName = "Light - Parachute Warning";
                 blinkOff += blinkOffsetInterval;
             }
+
+            foreach (var b in DisarmedLights) {
+                b.Color = Color.Red;
+                b.Radius = 5f;
+                b.BlinkIntervalSeconds = 0f;
+                b.BlinkLength = 0f; ;
+                b.BlinkOffset = 0f;
+                b.Enabled = false;
+                b.ShowInTerminal = false;
+                b.CustomName = "Light - Disarmed";
+            }
+
+            foreach (var b in Decoys) {
+                b.ShowInTerminal = false;
+                b.CustomName = "Decoy";
+            }
+
+            foreach (var b in Parachutes) {
+                b.ShowInTerminal = true;
+                b.CustomName = "Parachute";
+            }
+
+            foreach (var b in LandingGears) {
+                b.ShowInTerminal = true;
+                b.CustomName = "Parachute";
+            }
+
+            RenameMethods.NumberRenameTo(LandingGears, "LandingGear");
         }
 
     }
