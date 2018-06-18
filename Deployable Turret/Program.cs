@@ -20,10 +20,11 @@ namespace IngameScript {
         const double BLOCK_RELOAD_TIME = 10.0;
         const UpdateFrequency UPDATE_RATE = UpdateFrequency.Update100;
 
-        //Modules
-        readonly RunningSymbol Running = new RunningSymbol();
-        readonly ConfigINI Config = new ConfigINI("Sandbag Turret Defense");
+        //const string KEY_USE_COMMS = "Use COMMs";
 
+        //Modules
+        readonly ConfigINI Config = new ConfigINI("Sandbag Turret Defense");
+        readonly Settings settings = new Settings();
 
         //Blocks
         IMyLargeTurretBase Turret;
@@ -40,12 +41,13 @@ namespace IngameScript {
         int configHashCode = 0;
 
         public Program() {
-            Config.AddKey("COMM Group Name", "Sandbag");
-            Config.AddKey("Use COMMs", true);
-            Config.AddKey("Status Lights", true);
-            Config.AddKey("Status Antenna", true);
+            Config.AddKey(ConfigKeys.COMM_GROUP_NAME, "Sandbag");
+            Config.AddKey(ConfigKeys.STEALTH_MODE, false);
+            Config.AddKey(ConfigKeys.STATUS_LIGHTS, true);
+            Config.AddKey(ConfigKeys.STATUS_ANTENNA, true);
+            Config.AddKey(ConfigKeys.STATUS_COMMS, true);
 
-            //Runtime.UpdateFrequency = UPDATE_RATE;
+            Runtime.UpdateFrequency = UPDATE_RATE;
         }
 
         public void Save() {
@@ -58,11 +60,8 @@ namespace IngameScript {
 
             var isTerminalRun = updateSource.HasFlag(UpdateType.Terminal);
             var isCommRun = updateSource.HasFlag(UpdateType.Antenna);
-            var isTriggerRun = updateSource.HasFlag(UpdateType.Trigger);
-            var isAutoRun = updateSource.HasFlag(UpdateType.Update100);
-            //if (isAutoRun)
-            if (Runtime.UpdateFrequency.HasFlag(UPDATE_RATE))
-                Echo("Sandbag " + Running.GetSymbol(Runtime));
+            //var isTriggerRun = updateSource.HasFlag(UpdateType.Trigger);
+            //var isAutoRun = updateSource.HasFlag(UpdateType.Update100);
 
             if (timeLastBlockLoad >= BLOCK_RELOAD_TIME || isTerminalRun) {
                 timeLastBlockLoad = 0;
@@ -74,12 +73,67 @@ namespace IngameScript {
             if (isCommRun) {
 
             }
+
+
+            // Get info
+            var disarmedLightsEnabled = false;
+            var ammoAmount = 0L;
+            if (Turret != null) {
+                ammoAmount = GetInventoryItemCount(Turret.GetInventory()) / 1000000L;
+                if (ammoAmount == 0)
+                    Turret.Enabled = false;
+                disarmedLightsEnabled |= !Turret.Enabled;
+            }
+
+            var canvasAmount = 0L;
+            var emptyParachutes = false;
+            foreach (var para in Parachutes) {
+                var tmp = GetInventoryItemCount(para.GetInventory()) / 1000000L;
+                canvasAmount += tmp;
+                Echo($"{para.CustomName}: {tmp}");
+                if (tmp == 0)
+                    emptyParachutes = true;
+            }
+
+
+            Echo($"Disarmed: {disarmedLightsEnabled}");
+            Echo($"Ammo: {ammoAmount}");
+
+            // Disarmed Lights
+            SetLights(DisarmedLights, disarmedLightsEnabled);
+            SetLights(ParachuteLights, emptyParachutes);
+
+
+
+
+            if (settings.ShowStatusAntenna) {
+                Antenna.CustomName = "";
+            } else {
+                Antenna.CustomName = "";
+            }
+
             /*
              * Beacon shows ammo level
              * Ammo Below threshold - strobe beacon
              * Check Parachutes
              * Not enough parachutes? turn on strobing lights
              */
+
+            Antenna.Enabled = !settings.StealthMode;
+            if (Antenna.EnableBroadcasting) {
+            }
+        }
+
+        long GetInventoryItemCount(IMyInventory inven) {
+            var amount = 0L;
+            foreach (var item in inven.GetItems())
+                amount += item.Amount.RawValue;
+            return amount;
+        }
+
+        void SetLights(List<IMyInteriorLight> lights, bool enabled) {
+            if (!settings.ShowStatusLights) enabled = false;
+            foreach (var b in lights) b.Enabled = enabled;
         }
 
         void UpdateConfig() {
@@ -88,6 +142,7 @@ namespace IngameScript {
             Config.Load(Me);
             Config.Save(Me);
             configHashCode = Me.CustomData.GetHashCode();
+            settings.Load(Config);
         }
 
         void ClearBlocks() {
@@ -120,15 +175,6 @@ namespace IngameScript {
             return false;
         }
 
-        //void EchoFoundBlocks() {
-        //    Echo($"Decoys: {Decoys.Count}");
-        //    Echo($"Parachutes: {Parachutes.Count}");
-        //    Echo($"Para lights: {ParachuteLights.Count}");
-        //    Echo($"DArm lights: {DisarmedLights.Count}");
-        //    Echo("Turret: " + (Turret != null));
-        //    Echo("Battery: " + (Battery != null));
-        //    Echo("Antenna: " + (Antenna != null));
-        //}
         void InitBlocks() {
             var blinkOffsetInterval = 100f / ParachuteLights.Count;
             var blinkOff = 0f;
