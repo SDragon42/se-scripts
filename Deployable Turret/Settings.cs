@@ -19,7 +19,7 @@ namespace IngameScript {
         class Settings {
 
             public void InitConfig(ConfigINI config) {
-                config.AddKey(ConfigKeys.COMM_GROUP_NAME, "Sandbag");
+                config.AddKey(ConfigKeys.COMM_GROUP_NAME, "sandbag");
                 config.AddKey(ConfigKeys.STEALTH_MODE, false);
                 config.AddKey(ConfigKeys.STATUS_LIGHTS, true);
                 config.AddKey(ConfigKeys.STATUS_ANTENNA, true);

@@ -66,6 +66,7 @@ namespace IngameScript {
             }
 
             if (isCommRun) {
+                ProcessCommand(argument?.ToLower());
             }
 
 
@@ -88,9 +89,6 @@ namespace IngameScript {
                     emptyParachutes = true;
             }
 
-            Echo($"Disarmed: {disarmedLightsEnabled}");
-            Echo($"Ammo: {ammoAmount}");
-
             // Set Lights
             SetLights(disarmedLights, disarmedLightsEnabled);
             SetLights(parachuteLights, emptyParachutes);
@@ -102,8 +100,6 @@ namespace IngameScript {
             antenna.CustomName = antennaMessage;
 
             antenna.EnableBroadcasting = !settings.StealthMode;
-            //if (antenna.EnableBroadcasting) {
-            //}
         }
 
         long GetInventoryItemCount(IMyInventory inven) {
@@ -201,5 +197,10 @@ namespace IngameScript {
             RenameMethods.NumberRenameTo(landingGears, "LandingGear");
         }
 
+        static char[] CMD_SPLIT = new char[] { ' ' };
+        void ProcessCommand(string command) {
+            if (string.IsNullOrWhiteSpace(command)) return;
+            var cmdParts = command.Split(CMD_SPLIT, StringSplitOptions.RemoveEmptyEntries);
+        }
     }
 }

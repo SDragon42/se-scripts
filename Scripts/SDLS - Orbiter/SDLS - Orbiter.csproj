@@ -90,10 +90,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MDKUtilities">
-      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\qkrw1gvm.ntd\MDKUtilities.dll</HintPath>
+      <HintPath>C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\tjoshttd.xqm\MDKUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\qkrw1gvm.ntd\Analyzers\MDKAnalyzer.dll" />
+    <Analyzer Include="C:\Users\Nathen\AppData\Local\Microsoft\VisualStudio\15.0_cddcc008\Extensions\tjoshttd.xqm\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="02-Orbiter-Vars-Constructor.cs" />
