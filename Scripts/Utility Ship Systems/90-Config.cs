@@ -101,5 +101,22 @@ namespace IngameScript {
             ForwardDisplayClearTime = _ini.Get(Key_RangeDisplayTime).ToDouble();
         }
 
+        void LoadCameraProximityConfig(IMyTerminalBlock b) {
+            LoadINI(b.CustomData);
+            _ini.Add(KEY_RangeOffset, 0.0);
+            b.CustomData = _ini.ToString();
+            _proxCameraList.Add(new ProxCamera((IMyCameraBlock)b, _ini.Get(KEY_RangeOffset).ToDouble()));
+        }
+
+        void LoadINI(string text) {
+            MyIniParseResult result;
+            _ini.Clear();
+            if (!_ini.TryParse(text, out result)) {
+                var tmp = text.Replace('<', '[').Replace('>', ']').Replace(':', '=');
+                if (!_ini.TryParse(tmp, out result))
+                    _ini.EndContent = text;
+            }
+        }
+
     }
 }

@@ -64,13 +64,8 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_displayList, b => IsOnThisGrid(b) && (IsProximityBlock(b) || IsForwardRangeBlock(b)));
             GridTerminalSystem.GetBlocksOfType<IMyCameraBlock>(_tmpList, b => IsOnThisGrid(b) && IsProximityBlock(b));
             _proxCameraList.Clear();
-
-            foreach (var b in _tmpList) {
-                LoadINI(b.CustomData);
-                _ini.Add(KEY_RangeOffset, 0.0);
-                b.CustomData = _ini.ToString();
-                _proxCameraList.Add(new ProxCamera((IMyCameraBlock)b, _ini.Get(KEY_RangeOffset).ToDouble()));
-            }
+            foreach (var b in _tmpList)
+                LoadCameraProximityConfig(b);
 
             _foreRangeCamera = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCameraBlock>(b => IsOnThisGrid(b) && IsForwardRangeBlock(b));
 
@@ -85,14 +80,6 @@ namespace IngameScript {
         bool IsProximityBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ProximityTag);
         bool IsForwardRangeBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ForwardScanTag);
 
-        void LoadINI(string text) {
-            MyIniParseResult result;
-            _ini.Clear();
-            if (!_ini.TryParse(text, out result)) {
-                var tmp = text.Replace('<', '[').Replace('>', ']').Replace(':', '=');
-                if (!_ini.TryParse(tmp, out result))
-                    _ini.EndContent = text;
-            }
-        }
+
     }
 }
