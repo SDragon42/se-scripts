@@ -65,11 +65,8 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType<IMyCameraBlock>(_tmpList, b => IsOnThisGrid(b) && IsProximityBlock(b));
             _proxCameraList.Clear();
 
-            MyIniParseResult cameraIniResult;
             foreach (var b in _tmpList) {
-                _ini.Clear();
-                if (!_ini.TryParse(b.CustomData, out cameraIniResult))
-                    _ini.EndContent = b.CustomData;
+                LoadINI(b.CustomData);
                 _ini.Add(KEY_RangeOffset, 0.0);
                 b.CustomData = _ini.ToString();
                 _proxCameraList.Add(new ProxCamera((IMyCameraBlock)b, _ini.Get(KEY_RangeOffset).ToDouble()));
@@ -87,5 +84,15 @@ namespace IngameScript {
         bool IsToolBlock(IMyTerminalBlock b) => b is IMyShipDrill || b is IMyShipWelder || b is IMyShipGrinder;
         bool IsProximityBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ProximityTag);
         bool IsForwardRangeBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ForwardScanTag);
+
+        void LoadINI(string text) {
+            MyIniParseResult result;
+            _ini.Clear();
+            if (!_ini.TryParse(text, out result)) {
+                var tmp = text.Replace('<', '[').Replace('>', ']').Replace(':', '=');
+                if (!_ini.TryParse(tmp, out result))
+                    _ini.EndContent = text;
+            }
+        }
     }
 }

@@ -51,11 +51,7 @@ namespace IngameScript {
             var tmpHashCode = Me.CustomData.GetHashCode();
             if (_configHashCode == tmpHashCode) return;
             _configHashCode = tmpHashCode;
-            MyIniParseResult result;
-            _ini.Clear();
-
-            if (!_ini.TryParse(Me.CustomData, out result))
-                _ini.EndContent = Me.CustomData;
+            LoadINI(Me.CustomData);
 
             _ini.Add(Key_AutoOff, true);
             _ini.Add(Key_AutoOn, true);
