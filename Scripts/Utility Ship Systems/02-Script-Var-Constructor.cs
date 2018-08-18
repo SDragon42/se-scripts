@@ -10,6 +10,7 @@ using System;
 using VRage.Collections;
 using VRage.Game.Components;
 using VRage.Game.ModAPI.Ingame;
+using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
@@ -20,10 +21,7 @@ namespace IngameScript {
         readonly DockSecure _dockSecure = new DockSecure();
         readonly Proximity _proximity = new Proximity();
 
-        readonly ConfigINI _scriptCfg = new ConfigINI("Utility-Ship");
-        readonly ConfigINI _scriptProxCfg = new ConfigINI("Proximity");
-        readonly ConfigINI _scriptRangeCfg = new ConfigINI("Range");
-        readonly ConfigINI _cameraProxCfg = new ConfigINI("Proximity");
+        MyIni _ini = new MyIni();
 
         readonly List<IMyTerminalBlock> _tmpList = new List<IMyTerminalBlock>();
         readonly List<ProxCamera> _proxCameraList = new List<ProxCamera>();
@@ -57,8 +55,6 @@ namespace IngameScript {
 
         public Program() {
             //Echo = (t) => { }; // Disable Echo
-            InitConfigs();
-            LoadConfigs();
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
@@ -68,11 +64,15 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_displayList, b => IsOnThisGrid(b) && (IsProximityBlock(b) || IsForwardRangeBlock(b)));
             GridTerminalSystem.GetBlocksOfType<IMyCameraBlock>(_tmpList, b => IsOnThisGrid(b) && IsProximityBlock(b));
             _proxCameraList.Clear();
+
+            MyIniParseResult cameraIniResult;
             foreach (var b in _tmpList) {
-                _cameraProxCfg.SetValue(KEY_RANGE_OFFSET, 0.0);
-                _cameraProxCfg.Load(b);
-                _proxCameraList.Add(new ProxCamera((IMyCameraBlock)b, _cameraProxCfg.GetValue(KEY_RANGE_OFFSET).ToDouble(0)));
-                _cameraProxCfg.Save(b);
+                _ini.Clear();
+                if (!_ini.TryParse(b.CustomData, out cameraIniResult))
+                    _ini.EndContent = b.CustomData;
+                _ini.Add(KEY_RangeOffset, 0.0);
+                b.CustomData = _ini.ToString();
+                _proxCameraList.Add(new ProxCamera((IMyCameraBlock)b, _ini.Get(KEY_RangeOffset).ToDouble()));
             }
 
             _foreRangeCamera = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCameraBlock>(b => IsOnThisGrid(b) && IsForwardRangeBlock(b));
