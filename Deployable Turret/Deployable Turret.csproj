@@ -96,16 +96,16 @@
     <Analyzer Include="c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\pmib042a.m1p\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
+    <Compile Include="01-Constants.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <Compile Include="Program.cs" />
+    <Compile Include="10-Program.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="90-Config.cs" />
   </ItemGroup>
   <Import Project="..\Library\Library.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
