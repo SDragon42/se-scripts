@@ -16,7 +16,16 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        class ConfigCustom : ConfigBase<ConfigItem> {
+        class ConfigCustom {
+            readonly static string[] SepBlankLine = new string[] { "\n\n" };
+            readonly static char[] SepNewLine = new char[] { '\n' };
+            readonly static char[] SepEquals = new char[] { '=' };
+            readonly Dictionary<string, ConfigItem> Items = new Dictionary<string, ConfigItem>();
+
+            public void Clear() => Items.Clear();
+
+            public bool ContainsKey(string key) => Items.ContainsKey(key);
+
             public void AddKey(string key, string description = "", string defaultValue = "") {
                 if (!ContainsKey(key)) Items.Add(key, new ConfigItem(description, defaultValue));
             }
@@ -28,7 +37,7 @@ namespace IngameScript {
                 if (ContainsKey(key)) Items[key].Value = (val != null) ? val.ToString() : string.Empty;
             }
 
-            public override void Load(IMyTerminalBlock b, bool addIfMissing = false) {
+            public void Load(IMyTerminalBlock b, bool addIfMissing = false) {
                 if (b == null) return;
                 var datalines = b.CustomData.Split(SepNewLine, StringSplitOptions.None);
                 foreach (var line in datalines) {
@@ -48,7 +57,7 @@ namespace IngameScript {
                     Items[readKey].Value = parts[1].Trim();
                 }
             }
-            public override void Save(IMyTerminalBlock b) {
+            public void Save(IMyTerminalBlock b) {
                 if (b == null) return;
                 var sb = new StringBuilder();
                 foreach (var sKey in Items.Keys) {

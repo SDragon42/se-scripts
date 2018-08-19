@@ -16,7 +16,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CompassHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ConfigBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigCustom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DebugLogging.cs" />
