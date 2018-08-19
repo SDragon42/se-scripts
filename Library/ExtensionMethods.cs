@@ -10,6 +10,7 @@ using System;
 using VRage.Collections;
 using VRage.Game.Components;
 using VRage.Game.ModAPI.Ingame;
+using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
@@ -76,6 +77,23 @@ namespace IngameScript {
             T val;
             if (!Enum.TryParse(text, out val)) return defValue;
             return val;
+        }
+
+
+        public static void Add(this MyIni ini, MyIniKey k, bool v, string comment = null) {
+            if (ini.ContainsKey(k)) return;
+            ini.Set(k, v);
+            ini.SetComment(k, comment);
+        }
+        public static void Add(this MyIni ini, MyIniKey k, double v, string comment = null) {
+            if (!ini.ContainsKey(k)) return;
+            ini.Set(k, v);
+            ini.SetComment(k, comment);
+        }
+        public static void Add(this MyIni ini, MyIniKey k, string v, string comment = null) {
+            if (!ini.ContainsKey(k)) return;
+            ini.Set(k, v);
+            ini.SetComment(k, comment);
         }
     }
     #endregion

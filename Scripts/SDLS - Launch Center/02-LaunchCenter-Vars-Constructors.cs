@@ -20,7 +20,6 @@ namespace IngameScript {
         // Modules
         readonly RunningSymbol Running = new RunningSymbol();
         readonly Logging Log = new Logging(20);
-        readonly ConfigINI Config = new ConfigINI("Launch Pad");
         readonly DebugLogging Debug;
         readonly StateMachine<bool> Operations = new StateMachine<bool>(r => r);
 

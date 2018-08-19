@@ -105,10 +105,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MDKUtilities">
-      <HintPath>c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\pmib042a.m1p\MDKUtilities.dll</HintPath>
+      <HintPath>c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\nadwrorv.0rv\MDKUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Analyzer Include="c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\pmib042a.m1p\Analyzers\MDKAnalyzer.dll" />
+    <Analyzer Include="c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\nadwrorv.0rv\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="02-Script-Var-Constructor.cs" />

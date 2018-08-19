@@ -25,7 +25,7 @@ namespace IngameScript {
             Echo("");
             Echo("Configure script in 'Custom Data'");
 
-            LoadConfigs();
+            LoadConfig();
 
             _reloadBlocks = (_timeLastBlockLoad >= BLOCK_RELOAD_TIME);
             _dockSecure.Init(this, _reloadBlocks);
