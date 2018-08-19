@@ -80,9 +80,21 @@ namespace IngameScript {
         }
 
 
-        public static void Add(this MyIni ini, MyIniKey k, bool v) { if (!ini.ContainsKey(k)) ini.Set(k, v); }
-        public static void Add(this MyIni ini, MyIniKey k, double v) { if (!ini.ContainsKey(k)) ini.Set(k, v); }
-        public static void Add(this MyIni ini, MyIniKey k, string v) { if (!ini.ContainsKey(k)) ini.Set(k, v); }
+        public static void Add(this MyIni ini, MyIniKey k, bool v, string comment = null) {
+            if (ini.ContainsKey(k)) return;
+            ini.Set(k, v);
+            ini.SetComment(k, comment);
+        }
+        public static void Add(this MyIni ini, MyIniKey k, double v, string comment = null) {
+            if (!ini.ContainsKey(k)) return;
+            ini.Set(k, v);
+            ini.SetComment(k, comment);
+        }
+        public static void Add(this MyIni ini, MyIniKey k, string v, string comment = null) {
+            if (!ini.ContainsKey(k)) return;
+            ini.Set(k, v);
+            ini.SetComment(k, comment);
+        }
     }
     #endregion
 }
