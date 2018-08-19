@@ -10,41 +10,56 @@ using System;
 using VRage.Collections;
 using VRage.Game.Components;
 using VRage.Game.ModAPI.Ingame;
+using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        class Settings {
 
-            public void InitConfig(ConfigINI config) {
-                config.AddKey(ConfigKeys.COMM_GROUP_NAME, "sandbag");
-                config.AddKey(ConfigKeys.STEALTH_MODE, false);
-                config.AddKey(ConfigKeys.STATUS_LIGHTS, true);
-                config.AddKey(ConfigKeys.STATUS_ANTENNA, true);
-                config.AddKey(ConfigKeys.STATUS_COMMS, true);
+        int configHashCode = 0;
+
+        const string SECTION_SANDBAG = "Sangbag";
+
+        readonly MyIniKey Key_CommGroupName = new MyIniKey(SECTION_SANDBAG, "COMM Group Name");
+        readonly MyIniKey Key_StealthMode = new MyIniKey(SECTION_SANDBAG, "Stealth Mode Enabled");
+        readonly MyIniKey Key_StatusLights = new MyIniKey(SECTION_SANDBAG, "Use Status Lights");
+        readonly MyIniKey Key_StatusAntenna = new MyIniKey(SECTION_SANDBAG, "Use Status Antenna");
+        readonly MyIniKey Key_StatusComms = new MyIniKey(SECTION_SANDBAG, "Use Status COMMs");
+
+
+        void LoadConfig() {
+            var tmpHashCode = Me.CustomData.GetHashCode();
+            if (configHashCode == tmpHashCode) return;
+            configHashCode = tmpHashCode;
+
+            MyIniParseResult result;
+            var ini = new MyIni();
+            ini.Clear();
+            if (!ini.TryParse(Me.CustomData, out result)) {
+                ini.EndContent = Me.CustomData;
             }
 
-            public void Load(ConfigINI config) {
-                CommGroupName = config.GetValue(ConfigKeys.COMM_GROUP_NAME);
-                StealthMode = config.GetValue(ConfigKeys.STEALTH_MODE).ToBoolean();
-                if (!StealthMode) {
-                    ShowStatusLights = config.GetValue(ConfigKeys.STATUS_LIGHTS).ToBoolean();
-                    ShowStatusAntenna = config.GetValue(ConfigKeys.STATUS_ANTENNA).ToBoolean();
-                    //ReportStatusCOMMs = config.GetValue(ConfigKeys.STATUS_COMMS).ToBoolean();
-                } else {
-                    ShowStatusLights = false;
-                    ShowStatusAntenna = false;
-                    //ReportStatusCOMMs = false;
-                }
-            }
+            ini.Add(Key_CommGroupName, "sandbag");
+            ini.Add(Key_StealthMode, false);
+            ini.Add(Key_StatusLights, true);
+            ini.Add(Key_StatusAntenna, true);
+            ini.Add(Key_StatusComms, true);
 
-            public string CommGroupName { get; private set; } = "";
-            public bool StealthMode { get; private set; } = false;
-            public bool ShowStatusLights { get; private set; } = false;
-            public bool ShowStatusAntenna { get; private set; } = false;
-            //public bool ReportStatusCOMMs { get; private set; } = false;
+            Me.CustomData = ini.ToString();
+
+            CommGroupName = ini.Get(Key_CommGroupName).ToString();
+            StealthMode = ini.Get(Key_StealthMode).ToBoolean();
+            if (!StealthMode) {
+                ShowStatusLights = ini.Get(Key_StatusLights).ToBoolean();
+                ShowStatusAntenna = ini.Get(Key_StatusAntenna).ToBoolean();
+                //ReportStatusCOMMs = ini.Get(Key_StatusComms).ToBoolean();
+            } else {
+                ShowStatusLights = false;
+                ShowStatusAntenna = false;
+                //ReportStatusCOMMs = false;
+            }
         }
     }
 }

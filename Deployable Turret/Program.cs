@@ -20,11 +20,7 @@ namespace IngameScript {
         const double BLOCK_RELOAD_TIME = 10.0;
         const long INV_ITEM_COUNT_MODIFIER = 1000000L;
 
-        //const string KEY_USE_COMMS = "Use COMMs";
-
-        //Modules
-        readonly ConfigINI config = new ConfigINI("Sandbag Turret Defense");
-        readonly Settings settings = new Settings();
+        // Modules
 
         //Blocks
         IMyLargeTurretBase turret;
@@ -36,12 +32,17 @@ namespace IngameScript {
         readonly List<IMyInteriorLight> parachuteLights = new List<IMyInteriorLight>();
         readonly List<IMyInteriorLight> disarmedLights = new List<IMyInteriorLight>();
 
+        // Config Values
+        string CommGroupName { get; set; } = "";
+        bool StealthMode { get; set; } = false;
+        bool ShowStatusLights { get; set; } = false;
+        bool ShowStatusAntenna { get; set; } = false;
+        //bool ReportStatusCOMMs { get; set; } = false;
 
+        // Script Vars
         double timeLastBlockLoad = BLOCK_RELOAD_TIME;
-        int configHashCode = 0;
 
         public Program() {
-            settings.InitConfig(config);
             Runtime.UpdateFrequency = UpdateFrequency.Update100;
         }
 
@@ -51,7 +52,7 @@ namespace IngameScript {
         public void Main(string argument, UpdateType updateSource) {
             timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
 
-            UpdateConfig();
+            LoadConfig();
 
             var isTerminalRun = updateSource.HasFlag(UpdateType.Terminal);
             var isCommRun = updateSource.HasFlag(UpdateType.Antenna);
@@ -94,12 +95,12 @@ namespace IngameScript {
             SetLights(parachuteLights, emptyParachutes);
 
             var antennaMessage = "Antenna";
-            if (settings.ShowStatusAntenna && (ammoAmount <= 1)) {
+            if (ShowStatusAntenna && (ammoAmount <= 1)) {
                 antennaMessage += "\nLOW AMMO";
             }
             antenna.CustomName = antennaMessage;
 
-            antenna.EnableBroadcasting = !settings.StealthMode;
+            antenna.EnableBroadcasting = !StealthMode;
         }
 
         long GetInventoryItemCount(IMyInventory inven) {
@@ -110,17 +111,8 @@ namespace IngameScript {
         }
 
         void SetLights(List<IMyInteriorLight> lights, bool enabled) {
-            if (!settings.ShowStatusLights) enabled = false;
+            if (!ShowStatusLights) enabled = false;
             foreach (var b in lights) b.Enabled = enabled;
-        }
-
-        void UpdateConfig() {
-            var x = Me.CustomData.GetHashCode();
-            if (x == configHashCode) return;
-            config.Load(Me);
-            config.Save(Me);
-            configHashCode = Me.CustomData.GetHashCode();
-            settings.Load(config);
         }
 
         void ClearBlocks() {
