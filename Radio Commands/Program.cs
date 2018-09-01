@@ -19,7 +19,7 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
 
         readonly Logging Log = new Logging(50);
-        readonly RunningSymbol Symbol = new RunningSymbol();
+        readonly RunningSymbol_Time Symbol = new RunningSymbol_Time();
 
         public Program() {
             Runtime.UpdateFrequency = UpdateFrequency.Update10;

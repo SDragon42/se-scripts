@@ -16,21 +16,48 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        class RunningSymbol {
+
+        class RunningSymbol_Time : BaseRunningSymbol {
             double _time = 0.0;
 
+            protected override void OnConstrained() {
+                _time = 0.0;
+                base.OnConstrained();
+            }
             public string GetSymbol(IMyGridProgramRuntimeInfo runtime) {
                 _time += runtime.TimeSinceLastRun.TotalSeconds;
-                if (_time < 0.2) return "[|    ]";
-                if (_time < 0.4) return "[ |   ]";
-                if (_time < 0.6) return "[  |  ]";
-                if (_time < 0.8) return "[   | ]";
-                if (_time < 1.0) return "[    |]";
-                if (_time < 1.2) return "[   | ]";
-                if (_time < 1.4) return "[  |  ]";
-                if (_time < 1.6) return "[ |   ]";
-                _time = 0;
-                return "[|    ]";
+                _pos = Convert.ToInt32(_time / (1.6 / 8)) + 1;
+                return MakeSymbol();
+            }
+        }
+
+        class RunningSymbol_Step : BaseRunningSymbol {
+            public string GetSymbol() {
+                _pos++;
+                return MakeSymbol();
+            }
+        }
+
+        abstract class BaseRunningSymbol {
+            protected int _pos = 0;
+
+            protected virtual void OnConstrained() { }
+            protected string MakeSymbol() {
+                if (_pos > 8 || _pos < 1) {
+                    _pos = 1;
+                    OnConstrained();
+                }
+                switch (_pos) {
+                    case 1: return "[|    ]";
+                    case 2: return "[ |   ]";
+                    case 3: return "[  |  ]";
+                    case 4: return "[   | ]";
+                    case 5: return "[    |]";
+                    case 6: goto case 4;
+                    case 7: goto case 3;
+                    case 8: goto case 2;
+                    default: goto case 1;
+                }
             }
         }
     }

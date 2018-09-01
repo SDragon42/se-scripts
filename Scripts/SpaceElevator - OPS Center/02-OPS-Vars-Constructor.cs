@@ -43,7 +43,7 @@ namespace IngameScript {
         readonly ScriptSettings _settings = new ScriptSettings();
         readonly Logging _log = new Logging(ScriptSettings.DEF_NumLogLines);
         readonly COMMsModule _comms;
-        readonly RunningSymbol _runSymbol = new RunningSymbol();
+        readonly RunningSymbol_Time _runSymbol = new RunningSymbol_Time();
 
 
 

@@ -29,7 +29,7 @@ namespace IngameScript {
         readonly Vector3D LZ1_Vector;
         readonly Vector3D LZ2_Vector;
 
-        readonly RunningSymbol RunSymbol = new RunningSymbol();
+        readonly RunningSymbol_Time RunSymbol = new RunningSymbol_Time();
         readonly Logging Log = new Logging(20);
 
         readonly List<IMyThrust> Thrusters_Launch = new List<IMyThrust>();
