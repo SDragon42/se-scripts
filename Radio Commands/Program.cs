@@ -19,16 +19,17 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
 
         readonly Logging Log = new Logging(50);
-        readonly RunningSymbol_Time Symbol = new RunningSymbol_Time();
+        readonly RunningSymbol Symbol = new RunningSymbol();
 
         public Program() {
-            Runtime.UpdateFrequency = UpdateFrequency.Update10;
+            Runtime.UpdateFrequency = UpdateFrequency.Once;
         }
 
         public void Save() {
         }
 
         public void Main(string argument, UpdateType updateSource) {
+            Echo("Radio Commands " + Symbol.GetSymbol(Runtime));
         }
     }
 }

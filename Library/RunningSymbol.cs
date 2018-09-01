@@ -16,37 +16,29 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+        class RunningSymbol {
+            readonly double MaxTime;
 
-        class RunningSymbol_Time : BaseRunningSymbol {
+            public RunningSymbol(double loopTime = 1.6) {
+                MaxTime = loopTime;
+            }
+
             double _time = 0.0;
+            int _pos = 0;
 
-            protected override void OnConstrained() {
-                _time = 0.0;
-                base.OnConstrained();
-            }
             public string GetSymbol(IMyGridProgramRuntimeInfo runtime) {
-                _time += runtime.TimeSinceLastRun.TotalSeconds;
-                _pos = Convert.ToInt32(_time / (1.6 / 8)) + 1;
-                return MakeSymbol();
-            }
-        }
+                if (runtime.UpdateFrequency.HasFlag(UpdateFrequency.Update10) || runtime.UpdateFrequency.HasFlag(UpdateFrequency.Update1)) {
+                    _time += runtime.TimeSinceLastRun.TotalSeconds;
+                    _pos = Convert.ToInt32(_time / (MaxTime / 8)) + 1;
+                } else {
+                    _pos++;
+                }
 
-        class RunningSymbol_Step : BaseRunningSymbol {
-            public string GetSymbol() {
-                _pos++;
-                return MakeSymbol();
-            }
-        }
-
-        abstract class BaseRunningSymbol {
-            protected int _pos = 0;
-
-            protected virtual void OnConstrained() { }
-            protected string MakeSymbol() {
                 if (_pos > 8 || _pos < 1) {
                     _pos = 1;
-                    OnConstrained();
+                    _time = 0.0;
                 }
+
                 switch (_pos) {
                     case 1: return "[|    ]";
                     case 2: return "[ |   ]";

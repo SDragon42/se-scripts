@@ -18,7 +18,7 @@ namespace IngameScript {
     partial class Program {
 
         // Modules
-        readonly RunningSymbol_Time Running = new RunningSymbol_Time();
+        readonly RunningSymbol Running = new RunningSymbol();
         readonly Logging Log = new Logging(100);
         readonly DebugLogging Debug;
         readonly StateMachine<bool> Operations = new StateMachine<bool>(r => r);

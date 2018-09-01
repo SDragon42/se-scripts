@@ -55,7 +55,7 @@ namespace IngameScript {
 
         readonly Logging _log = new Logging(20);
         readonly COMMsModule _comms;
-        readonly RunningSymbol_Time _runSymbol = new RunningSymbol_Time();
+        readonly RunningSymbol _runSymbol = new RunningSymbol();
 
         double _timeBlockReloadLast = TIME_ReloadBlockDelay * 2;
         int _lastCustomDataHash = -1;

@@ -17,7 +17,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        readonly RunningSymbol_Time _running = new RunningSymbol_Time();
+        readonly RunningSymbol _running = new RunningSymbol();
         readonly DockSecure _dockSecure = new DockSecure();
         readonly Proximity _proximity = new Proximity();
 

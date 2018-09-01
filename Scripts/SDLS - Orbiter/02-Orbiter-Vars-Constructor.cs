@@ -18,7 +18,7 @@ namespace IngameScript {
     partial class Program {
 
         // Modules
-        readonly RunningSymbol_Time Running = new RunningSymbol_Time();
+        readonly RunningSymbol Running = new RunningSymbol();
         readonly Logging Log = new Logging(40);
         readonly DebugLogging Debug;
         readonly FlightDataRecorder Fdr;

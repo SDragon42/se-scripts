@@ -22,7 +22,7 @@ namespace IngameScript {
 
         const double BLOCK_RELOAD_TIME = 10;
 
-        readonly RunningSymbol_Time _runSymbol = new RunningSymbol_Time();
+        readonly RunningSymbol _runSymbol = new RunningSymbol();
         readonly DockSecure _dockSecure = new DockSecure();
         readonly ScriptSettings _settings = new ScriptSettings();
 

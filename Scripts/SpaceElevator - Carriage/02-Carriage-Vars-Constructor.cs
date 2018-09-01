@@ -37,7 +37,7 @@ namespace IngameScript {
         bool _activateSpeedLimiter = false;
 
         readonly Logging _log = new Logging(ScriptSettings.DEF_NumLogLines);
-        readonly RunningSymbol_Time _runSymbol = new RunningSymbol_Time();
+        readonly RunningSymbol _runSymbol = new RunningSymbol();
         readonly COMMsModule _comms;
         readonly ConfigCustom _custConfig = new ConfigCustom();
         readonly ScriptSettings _settings = new ScriptSettings();
