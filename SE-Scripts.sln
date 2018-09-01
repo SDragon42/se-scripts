@@ -39,6 +39,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Library", "Library\Library.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployable Turret", "Deployable Turret\Deployable Turret.csproj", "{687D147F-85C3-4BC6-87F8-7277EBCD2034}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radio Commands", "Radio Commands\Radio Commands.csproj", "{42BFFD2C-289C-4C7F-A25E-442164E2B48D}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
@@ -48,6 +50,7 @@ Global
 		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{0a117477-6c2a-40ac-a8eb-fdcd2dfe11ba}*SharedItemsImports = 13
 		Library\Library.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
+		Library\Library.projitems*{42bffd2c-289c-4c7f-a25e-442164e2b48d}*SharedItemsImports = 4
 		Library\Library.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
 		Library\Library.projitems*{687d147f-85c3-4bc6-87f8-7277ebcd2034}*SharedItemsImports = 4
 		Library\Library.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
@@ -98,6 +101,8 @@ Global
 		{3983C820-0311-4F8F-AE3A-6BD54F1DA500}.Debug|x64.Build.0 = Debug|x64
 		{687D147F-85C3-4BC6-87F8-7277EBCD2034}.Debug|x64.ActiveCfg = Debug|x64
 		{687D147F-85C3-4BC6-87F8-7277EBCD2034}.Debug|x64.Build.0 = Debug|x64
+		{42BFFD2C-289C-4C7F-A25E-442164E2B48D}.Debug|x64.ActiveCfg = Debug|x64
+		{42BFFD2C-289C-4C7F-A25E-442164E2B48D}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
