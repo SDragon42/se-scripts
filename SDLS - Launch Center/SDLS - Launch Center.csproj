@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{503D7DE1-28C9-468F-8CD8-4BEC3EA05A64}</ProjectGuid>
+    <ProjectGuid>{F72618CE-2343-4963-8438-25E06C58F15F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>IngameScript</RootNamespace>
-    <AssemblyName>TWR Calculator</AssemblyName>
+    <AssemblyName>IngameScript1</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -96,17 +96,20 @@
     <Analyzer Include="c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\lmxtjyxt.3m3\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="01-LaunchCenter-Constants.cs" />
+    <Compile Include="02-LaunchCenter-Vars-Constructors.cs" />
+    <Compile Include="50-Fuel-Cargo-Booms.cs" />
+    <Compile Include="50-Functions.cs" />
+    <Compile Include="90-Config.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <Compile Include="1TWRCalculator.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
-    <Compile Include="TwrInfo.cs" />
   </ItemGroup>
-  <Import Project="..\..\Library\Library.projitems" Label="Shared" />
+  <Import Project="..\Library\Library.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />

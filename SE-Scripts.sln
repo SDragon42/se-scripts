@@ -5,35 +5,35 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{90533C51-8B80-4D39-9722-4CD89BFCB84C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ackermann-Steering", "Scripts\Ackermann-Steering\Ackermann-Steering.csproj", "{7C33E0EF-4F54-42E2-A4F9-D9B6592AA315}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ackermann-Steering", "Ackermann-Steering\Ackermann-Steering.csproj", "{7C33E0EF-4F54-42E2-A4F9-D9B6592AA315}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group Renamer", "Scripts\Group Renamer\Group Renamer.csproj", "{CC0335A2-8809-4A3B-A480-EC10767619FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group Renamer", "Group Renamer\Group Renamer.csproj", "{CC0335A2-8809-4A3B-A480-EC10767619FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Initialize Blocks", "Scripts\Initialize Blocks\Initialize Blocks.csproj", "{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Initialize Blocks", "Initialize Blocks\Initialize Blocks.csproj", "{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Launch Center", "Scripts\SDLS - Launch Center\SDLS - Launch Center.csproj", "{F72618CE-2343-4963-8438-25E06C58F15F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Launch Center", "SDLS - Launch Center\SDLS - Launch Center.csproj", "{F72618CE-2343-4963-8438-25E06C58F15F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Booster", "Scripts\SDLS - Booster\SDLS - Booster.csproj", "{0685E93C-4346-4DD3-AE1C-C22A47B27812}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Booster", "SDLS - Booster\SDLS - Booster.csproj", "{0685E93C-4346-4DD3-AE1C-C22A47B27812}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Orbiter", "Scripts\SDLS - Orbiter\SDLS - Orbiter.csproj", "{051CE348-0F02-4849-B6D7-B97DE3C1003E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Orbiter", "SDLS - Orbiter\SDLS - Orbiter.csproj", "{051CE348-0F02-4849-B6D7-B97DE3C1003E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ship Dock-Secure", "Scripts\Ship Dock-Secure\Ship Dock-Secure.csproj", "{055B7D17-D6EB-49BA-B45D-715A83A40F92}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ship Dock-Secure", "Ship Dock-Secure\Ship Dock-Secure.csproj", "{055B7D17-D6EB-49BA-B45D-715A83A40F92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TWR Calculator", "Scripts\TWR Calculator\TWR Calculator.csproj", "{503D7DE1-28C9-468F-8CD8-4BEC3EA05A64}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TWR Calculator", "TWR Calculator\TWR Calculator.csproj", "{503D7DE1-28C9-468F-8CD8-4BEC3EA05A64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility Ship Systems", "Scripts\Utility Ship Systems\Utility Ship Systems.csproj", "{81E47C39-106A-4B63-8E4C-8F693BA3D6DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility Ship Systems", "Utility Ship Systems\Utility Ship Systems.csproj", "{81E47C39-106A-4B63-8E4C-8F693BA3D6DA}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SpaceElevator - Shared", "Scripts\SpaceElevator - Shared\SpaceElevator - Shared.shproj", "{0A117477-6C2A-40AC-A8EB-FDCD2DFE11BA}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SpaceElevator - Shared", "SpaceElevator - Shared\SpaceElevator - Shared.shproj", "{0A117477-6C2A-40AC-A8EB-FDCD2DFE11BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Carriage", "Scripts\SpaceElevator - Carriage\SpaceElevator - Carriage.csproj", "{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Carriage", "SpaceElevator - Carriage\SpaceElevator - Carriage.csproj", "{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - COMMs Reciever", "Scripts\SpaceElevator - COMMs Reciever\SpaceElevator - COMMs Reciever.csproj", "{07280390-4C98-4B20-A2EB-F4DBE5713CEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - COMMs Reciever", "SpaceElevator - COMMs Reciever\SpaceElevator - COMMs Reciever.csproj", "{07280390-4C98-4B20-A2EB-F4DBE5713CEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - OPS Center", "Scripts\SpaceElevator - OPS Center\SpaceElevator - OPS Center.csproj", "{FE456DAE-1E85-4D99-A25D-AA819E217AF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - OPS Center", "SpaceElevator - OPS Center\SpaceElevator - OPS Center.csproj", "{FE456DAE-1E85-4D99-A25D-AA819E217AF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Station", "Scripts\SpaceElevator - Station\SpaceElevator - Station.csproj", "{7668C9B9-78DE-4B35-A141-D528F0704D4A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceElevator - Station", "SpaceElevator - Station\SpaceElevator - Station.csproj", "{7668C9B9-78DE-4B35-A141-D528F0704D4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - GrassHopper", "Scripts\SDLS - GrassHopper\SDLS - GrassHopper.csproj", "{3983C820-0311-4F8F-AE3A-6BD54F1DA500}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - GrassHopper", "SDLS - GrassHopper\SDLS - GrassHopper.csproj", "{3983C820-0311-4F8F-AE3A-6BD54F1DA500}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Library", "Library\Library.shproj", "{931480A0-EDD2-41AF-AC91-8FB13E5ED08A}"
 EndProject
@@ -47,23 +47,23 @@ Global
 		Library\Library.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		Library\Library.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
 		Library\Library.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
-		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
-		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{0a117477-6c2a-40ac-a8eb-fdcd2dfe11ba}*SharedItemsImports = 13
+		SpaceElevator - Shared\SpaceElevator - Shared.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
+		SpaceElevator - Shared\SpaceElevator - Shared.projitems*{0a117477-6c2a-40ac-a8eb-fdcd2dfe11ba}*SharedItemsImports = 13
 		Library\Library.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
 		Library\Library.projitems*{42bffd2c-289c-4c7f-a25e-442164e2b48d}*SharedItemsImports = 4
 		Library\Library.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
 		Library\Library.projitems*{687d147f-85c3-4bc6-87f8-7277ebcd2034}*SharedItemsImports = 4
 		Library\Library.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
-		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
+		SpaceElevator - Shared\SpaceElevator - Shared.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Library\Library.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Library\Library.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		Library\Library.projitems*{931480a0-edd2-41af-ac91-8fb13e5ed08a}*SharedItemsImports = 13
 		Library\Library.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
 		Library\Library.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		SpaceElevator - Shared\SpaceElevator - Shared.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		Library\Library.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
 		Library\Library.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
-		Scripts\SpaceElevator - Shared\SpaceElevator - Shared.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
+		SpaceElevator - Shared\SpaceElevator - Shared.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

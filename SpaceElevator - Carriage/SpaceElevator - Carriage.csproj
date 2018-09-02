@@ -4,29 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7668C9B9-78DE-4B35-A141-D528F0704D4A}</ProjectGuid>
+    <ProjectGuid>{D3DB145B-4DB0-4334-AE5C-E046464F6B4C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>IngameScript</RootNamespace>
-    <AssemblyName>SpaceElevator - Station</AssemblyName>
+    <AssemblyName>SpaceElevator - Carriage</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -111,38 +96,26 @@
     <Analyzer Include="c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\lmxtjyxt.3m3\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="01-Station-Constants.cs" />
-    <Compile Include="02-Station-Vars-Constructor.cs" />
-    <Compile Include="20-Station-COMMs.cs" />
-    <Compile Include="30-Station-Displays.cs" />
-    <Compile Include="50-Station-Actions.cs" />
-    <Compile Include="60-Station-Collects.cs" />
-    <Compile Include="CarriageVars.cs" />
-    <Compile Include="HookupState.cs" />
+    <Compile Include="01-Carriage-Constants.cs" />
+    <Compile Include="02-Carriage-Vars-Constructor.cs" />
+    <Compile Include="20-Carriage-COMMs.cs" />
+    <Compile Include="30-Carriage-Displays.cs" />
+    <Compile Include="40-Carriage-Calculations.cs" />
+    <Compile Include="50-Carriage-Mode-Operations.cs" />
+    <Compile Include="60-Carriage-Collects.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <Compile Include="10-Station-Main-Control.cs" />
+    <Compile Include="10-Carriage-Main-Control.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
-    <Compile Include="ScriptSettings.cs" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
+    <Compile Include="ScriptSettings.cs" />
+    <Compile Include="TravelDirection.cs" />
   </ItemGroup>
   <Import Project="..\SpaceElevator - Shared\SpaceElevator - Shared.projitems" Label="Shared" />
-  <Import Project="..\..\Library\Library.projitems" Label="Shared" />
+  <Import Project="..\Library\Library.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="mdk\mdk.options" DestinationFolder="$(TargetDir)\mdk" />
