@@ -39,7 +39,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Library", "Library\Library.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployable Turret", "Deployable Turret\Deployable Turret.csproj", "{687D147F-85C3-4BC6-87F8-7277EBCD2034}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radio Commands", "Radio Commands\Radio Commands.csproj", "{42BFFD2C-289C-4C7F-A25E-442164E2B48D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COMM Commands", "COMM Commands\COMM Commands.csproj", "{42BFFD2C-289C-4C7F-A25E-442164E2B48D}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
