@@ -21,7 +21,7 @@ namespace IngameScript {
         readonly RunningSymbol Running = new RunningSymbol();
         readonly Logging Log = new Logging(100);
         readonly DebugLogging Debug;
-        readonly StateMachine<bool> Operations = new StateMachine<bool>(r => r);
+        readonly StateMachine<bool> Operations = new StateMachine<bool>();
         readonly BlocksByOrientation Orientation = new BlocksByOrientation();
         readonly VectorAlign VAlign = new VectorAlign();
 

@@ -26,7 +26,6 @@ namespace IngameScript {
                 LoadBlocks();
                 ProcessArguments(argument.ToLower());
                 Operations.RunAll();
-                Operations.RemoveCompleted();
                 Echo(Log.GetLogText());
             } catch (Exception ex) {
                 Echo(ex.ToString());

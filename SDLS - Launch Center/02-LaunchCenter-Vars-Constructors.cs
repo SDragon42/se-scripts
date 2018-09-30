@@ -21,7 +21,7 @@ namespace IngameScript {
         readonly RunningSymbol Running = new RunningSymbol();
         readonly Logging Log = new Logging(20);
         readonly DebugLogging Debug;
-        readonly StateMachine<bool> Operations = new StateMachine<bool>(r => r);
+        readonly StateMachine<bool> Operations = new StateMachine<bool>();
 
         //Lists
         readonly List<IMyTerminalBlock> _blocks = new List<IMyTerminalBlock>();
@@ -45,10 +45,8 @@ namespace IngameScript {
                 ProcessArguments(argument);
 
                 // Run State Machines
-                if ((updateSource & UpdateType.Update10) == UpdateType.Update10) {
+                if (updateSource.HasFlag(UpdateType.Update10))
                     Operations.RunAll();
-                    Operations.RemoveCompleted();
-                }
 
                 // Display LOG
                 Echo(Log.GetLogText());
