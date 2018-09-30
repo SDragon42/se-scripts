@@ -20,13 +20,6 @@ namespace IngameScript {
             readonly List<string> Keys2Remove = new List<string>();
             readonly List<string> Keys = new List<string>();
             readonly Dictionary<string, IEnumerator<T>> AllTasks = new Dictionary<string, IEnumerator<T>>();
-            readonly Func<T, bool> ContinueCheck;
-
-            public StateMachine(Func<T, bool> continueMethod = null) {
-                ContinueCheck = (continueMethod != null)
-                    ? continueMethod
-                    : (r) => false;
-            }
 
             public void RunAll() {
                 if (!HasTasks) return;
@@ -34,10 +27,12 @@ namespace IngameScript {
                 while (i < Keys.Count) {
                     RunTask(Keys[i++]);
                 }
+                RemoveCompleted();
             }
             public T Run(string key) {
                 if (!HasTask(key)) return default(T);
                 var result = RunTask(key);
+                RemoveCompleted();
                 return result;
             }
             
@@ -65,7 +60,9 @@ namespace IngameScript {
             public bool HasTask(string key) => AllTasks.ContainsKey(key);
             public bool HasTasks => AllTasks.Count > 0;
 
-            public void RemoveCompleted() {
+
+
+            void RemoveCompleted() {
                 while (Keys2Remove.Count > 0) {
                     var key = Keys2Remove[0];
                     Keys2Remove.RemoveAt(0);
@@ -75,14 +72,12 @@ namespace IngameScript {
 
 
 
-            private T RunTask(string key) {
+            T RunTask(string key) {
                 var task = AllTasks[key];
                 if (!task.MoveNext()) {
                     Keys2Remove.Add(key);
                     return default(T);
                 }
-                if (!ContinueCheck(task.Current))
-                    Keys2Remove.Add(key);
                 return task.Current;
             }
         }
