@@ -86,12 +86,12 @@ namespace IngameScript {
             ini.SetComment(k, comment);
         }
         public static void Add(this MyIni ini, MyIniKey k, double v, string comment = null) {
-            if (!ini.ContainsKey(k)) return;
+            if (ini.ContainsKey(k)) return;
             ini.Set(k, v);
             ini.SetComment(k, comment);
         }
         public static void Add(this MyIni ini, MyIniKey k, string v, string comment = null) {
-            if (!ini.ContainsKey(k)) return;
+            if (ini.ContainsKey(k)) return;
             ini.Set(k, v);
             ini.SetComment(k, comment);
         }
