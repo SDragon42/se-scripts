@@ -24,13 +24,22 @@ namespace IngameScript {
                 if (maxNumLogEntries < 1) maxNumLogEntries = 1;
                 Log = new Logging(maxNumLogEntries);
                 Items = new Dictionary<string, string>();
-                foreach (var key in keyList) Items.Add(key, string.Empty);
+                foreach (var key in keyList) AddKey(key);
                 ClearLog();
             }
 
             public bool Enabled {
                 get { return Log.Enabled; }
                 set { Log.Enabled = value; }
+            }
+
+            public void AddKey(string key) {
+                if (!Items.ContainsKey(key))
+                    Items.Add(key, string.Empty);
+            }
+            public void RemoveKey(string key) {
+                if (Items.ContainsKey(key))
+                    Items.Remove(key);
             }
 
 
