@@ -28,7 +28,12 @@ namespace IngameScript {
             string LineBuffer = string.Empty;
 
             public bool Enabled { get; set; }
-            public int MaxTextLinesToKeep { get; set; }
+
+            int maxLines;
+            public int MaxTextLinesToKeep {
+                get { return maxLines; }
+                set { maxLines = value > 0 ? value : 0; }
+            }
 
 
             public virtual void Clear() {
@@ -50,17 +55,18 @@ namespace IngameScript {
                 Append(text, args);
                 Lines.Add(LineBuffer);
                 LineBuffer = string.Empty;
+                TrimLines();
+            }
+
+            void TrimLines() {
+                if (maxLines <= 0) return;
+                while (Lines.Count > maxLines)
+                    Lines.RemoveAt(0);
             }
 
             public string GetLogText() {
-                if (!Enabled) return string.Empty;
-                if (MaxTextLinesToKeep > 0) {
-                    while (Lines.Count > MaxTextLinesToKeep)
-                        Lines.RemoveAt(0);
-                }
                 var sb = new StringBuilder();
-                for (var i = 0; i < Lines.Count; i++)
-                    sb.AppendLine(Lines[i]);
+                foreach (var line in Lines) sb.AppendLine(line);
                 if (!string.IsNullOrWhiteSpace(LineBuffer))
                     sb.AppendLine(LineBuffer);
                 return sb.ToString();
