@@ -20,11 +20,10 @@ namespace IngameScript {
             readonly Logging Log;
             readonly Dictionary<string, string> Items;
 
-            public FlightDataRecorder(IList<string> keyList, int maxNumLogEntries = 100) {
-                if (maxNumLogEntries < 1) maxNumLogEntries = 1;
-                Log = new Logging(maxNumLogEntries);
+            public FlightDataRecorder(IList<string> keyList = null, int? maxNumLogEntries = null) {
+                Log = new Logging(maxNumLogEntries ?? 100);
                 Items = new Dictionary<string, string>();
-                foreach (var key in keyList) AddKey(key);
+                if (keyList != null) foreach (var key in keyList) AddKey(key);
                 ClearLog();
             }
 
