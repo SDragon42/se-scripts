@@ -96,7 +96,6 @@
     <Analyzer Include="c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\hqai5bci.wci\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="02-Orbiter-Vars-Constructor.cs" />
     <Compile Include="10-Orbiter-Main.cs" />
     <Compile Include="50-Launch.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
