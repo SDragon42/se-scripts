@@ -31,13 +31,13 @@ namespace IngameScript {
                 ctrlCoeff = controlCoeff;
             }
 
-            public bool AlignWithGravity(IMyShipController sc, Direction dir, IList<IMyGyro> gyroList) {
+            public bool AlignWithGravity(IMyShipController sc, Direction dir, IList<IMyGyro> gyroList, bool keepGyroOverride = false) {
                 if (sc == null) return false;
                 var grav = sc.GetNaturalGravity();
-                return AlignWithVector(grav, sc, dir, gyroList);
+                return AlignWithVector(grav, sc, dir, gyroList, keepGyroOverride);
             }
 
-            public bool AlignWithVector(Vector3D vDirection, IMyShipController sc, Direction dir, IList<IMyGyro> gyroList) {
+            public bool AlignWithVector(Vector3D vDirection, IMyShipController sc, Direction dir, IList<IMyGyro> gyroList, bool keepGyroOverride = false) {
                 if (sc == null) return false;
                 var bAligned = true;
 
@@ -53,15 +53,14 @@ namespace IngameScript {
                     var localDown = Vector3D.Transform(down, MatrixD.Transpose(or));
                     var localGrav = Vector3D.Transform(vDirection, MatrixD.Transpose(g.WorldMatrix.GetOrientation()));
 
-                    //Since the gyro ui lies, we are not trying to control yaw,pitch,roll but rather we 
-                    //need a rotation vector (axis around which to rotate) 
+                    // Since the gyro ui lies, we are not trying to control yaw,pitch,roll but rather we need a rotation vector (axis around which to rotate) 
                     var rot = Vector3D.Cross(localDown, localGrav);
                     var dot2 = Vector3D.Dot(localDown, localGrav);
                     var ang = rot.Length();
                     ang = Math.Atan2(ang, Math.Sqrt(Math.Max(0.0, 1.0 - ang * ang)));
                     if (dot2 < 0) ang += Math.PI; // compensate for >+/-90
                     if (ang < MIN_ANGLE_RADIANS) { // close enough 
-                        SetGyroOff(g);
+                        SetGyroOff(g, keepGyroOverride);
                         continue;
                     }
 
@@ -85,17 +84,14 @@ namespace IngameScript {
 
             public void gyrosOff(List<IMyGyro> gyroList) {
                 if (gyroList == null) return;
-                gyroList.ForEach(SetGyroOff);
+                gyroList.ForEach(g => SetGyroOff(g, false));
             }
 
-            private void SetGyroOff(IMyGyro g) {
-                SetGyro(g, 0F, 0F, 0F, false);
+            private void SetGyroOff(IMyGyro g, bool gyroOverride) {
+                SetGyro(g, 0F, 0F, 0F, gyroOverride);
             }
             private void SetGyro(IMyGyro g, float pitch, float yaw, float roll, bool gyroOverride) {
                 // Goes wonky if the properties are used.
-                //g.Pitch = (float)rot.GetDim(0);
-                //g.Yaw = -(float)rot.GetDim(1);
-                //g.Roll = -(float)rot.GetDim(2);
                 g.SetValueFloat("Pitch", pitch);
                 g.SetValueFloat("Yaw", yaw);
                 g.SetValueFloat("Roll", roll);
