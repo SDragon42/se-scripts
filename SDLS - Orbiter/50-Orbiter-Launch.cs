@@ -16,6 +16,12 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
+        const string OPS_GravAlign = "GravAlign";
+        const string OPS_Launch = "FlightOps";
+
+
+
         IEnumerator<bool> Sequence_Launch() {
             yield return true;
 
@@ -23,6 +29,20 @@ namespace IngameScript {
             // Activate gravity align
             // boosters to full
             // disconnect launch clamps
+        }
+
+        IEnumerator<bool> Sequence_LaunchGravAlign() {
+            while (true) {
+                VecAlign.AlignWithGravity(Remote, Direction.Backward, Gyros);
+                yield return true;
+            }
+        }
+
+        IEnumerator<bool> Sequence_LandGravAlign() {
+            while (true) {
+                VecAlign.AlignWithGravity(Remote, Direction.Down, Gyros);
+                yield return true;
+            }
         }
     }
 }

@@ -10,25 +10,15 @@ using System;
 using VRage.Collections;
 using VRage.Game.Components;
 using VRage.Game.ModAPI.Ingame;
+using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
 
 namespace IngameScript {
-    partial class Program : MyGridProgram {
+    partial class Program {
 
-        const string CMD_OFF = "off";
-        const string CMD_MANUAL = "manual";
-        const string CMD_STANDBY = "standby";
-        const string CMD_SCAN = "scan";
-
-        const string RCFG_ORBITER = "";
-
-
-
-
-
-
+        bool IsSameGrid(IMyTerminalBlock b) => Me.CubeGrid == b.CubeGrid;
 
     }
 }

@@ -29,6 +29,8 @@ namespace IngameScript {
 
         const string TAG_MAIN = "[main]";
         const string TAG_MANEUVER = "[maneuver]";
+        const string TAG_LANDING1 = "[landing-1]";
+        const string TAG_LANDING2 = "[landing-2]";
 
 
     }
