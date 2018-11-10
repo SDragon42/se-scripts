@@ -28,8 +28,7 @@ namespace IngameScript {
             try {
                 LoadBlocks();
                 ProcessArguments(argument.ToLower());
-                Operations.RunAll();
-                if (!Operations.HasTasks)
+                if (RunSequences())
                     Runtime.UpdateFrequency = UpdateFrequency.None;
                 Echo(Log.GetLogText());
             } catch (Exception ex) {
@@ -50,7 +49,17 @@ namespace IngameScript {
             //}
         }
 
+        bool RunSequences() {
+            var hasTasks = false;
 
+            GravityAlign.Run();
+            hasTasks |= GravityAlign.HasTasks;
+
+            //Operations.RunAll();
+            //hasTasks |= Operations.HasTasks;
+
+            return hasTasks;
+        }
 
 
         bool IsOnRocket(IMyTerminalBlock b) => rocketParts.Contains(b.CubeGrid);

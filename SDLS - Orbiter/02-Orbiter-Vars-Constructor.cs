@@ -23,7 +23,8 @@ namespace IngameScript {
         readonly Logging Log = new Logging(40);
         readonly DebugLogging Debug;
         readonly FlightDataRecorder Fdr = new FlightDataRecorder(new string[] { "" }, 1000);
-        readonly StateMachine<bool> Operations = new StateMachine<bool>();
+        //readonly StateMachine<bool> Operations = new StateMachine<bool>();
+        readonly StateMachineQueue<bool> GravityAlign = new StateMachineQueue<bool>();
         readonly BlocksByOrientation Orientation = new BlocksByOrientation();
         readonly VectorAlign VecAlign = new VectorAlign();
 
@@ -76,6 +77,11 @@ namespace IngameScript {
         public void Save() {
         }
 
+        void LoadRocketPartGrids() {
+            rocketParts.Clear();
+            var tmp = new List<IMyProgrammableBlock>();
+            GridTerminalSystem.GetBlocksOfType(tmp);
+        }
         void LoadBlocks(bool force = false) {
             if (BlocksLoaded && !force) return;
 
