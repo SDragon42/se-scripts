@@ -9,7 +9,7 @@
     <Import_RootNamespace>Library</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Airlocks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AirlockSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AutoDoorCloser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BlocksByOrientation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CargoHelper.cs" />
@@ -39,7 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)RenameMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RunningSymbol.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)State Machine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SubTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SubTypeIDs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThrusterHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeInterval.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VectorAlign.cs" />
