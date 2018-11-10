@@ -73,5 +73,36 @@ namespace IngameScript {
                 return task.Current;
             }
         }
+
+        class StateMachineQueue<T> {
+            readonly Queue<IEnumerator<T>> TaskQueue = new Queue<IEnumerator<T>>();
+
+            IEnumerator<T> CurrentTask;
+
+            public bool HasTasks => TaskQueue.Count > 0;
+
+            public void Add(IEnumerator<T> task) => TaskQueue.Enqueue(task);
+
+            public void Clear() {
+                CurrentTask?.Dispose();
+                CurrentTask = null;
+                while (TaskQueue.Count > 0) {
+                    var task = TaskQueue.Dequeue();
+                    task.Dispose();
+                }
+            }
+
+            public T Run() {
+                if (CurrentTask == null) {
+                    if (TaskQueue.Count == 0) return default(T);
+                    CurrentTask = TaskQueue.Dequeue();
+                }
+                if (CurrentTask.MoveNext())
+                return CurrentTask.Current;
+                CurrentTask.Dispose();
+                CurrentTask = null;
+                return Run();
+            }
+        }
     }
 }
