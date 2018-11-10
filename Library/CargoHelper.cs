@@ -43,11 +43,11 @@ namespace IngameScript {
             public static long GetDefaultMaxVolume(IMyCargoContainer b) {
                 if (b != null)
                     switch (b.BlockDefinition.SubtypeId) {
-                        case SubTypes.SmBlock_SmContainer: return MaxVolume_SmBlock_SmContainer;
-                        case SubTypes.SmBlock_MdContainer: return MaxVolume_SmBlock_MdContainer;
-                        case SubTypes.SmBlock_LgContainer: return MaxVolume_SmBlock_LgContainer;
-                        case SubTypes.LgBlock_SmContainer: return MaxVolume_LgBlock_SmContainer;
-                        case SubTypes.LgBlock_LgContainer: return MaxVolume_LgBlock_LgContainer;
+                        case SubTypeIDs.SmBlock_SmContainer: return MaxVolume_SmBlock_SmContainer;
+                        case SubTypeIDs.SmBlock_MdContainer: return MaxVolume_SmBlock_MdContainer;
+                        case SubTypeIDs.SmBlock_LgContainer: return MaxVolume_SmBlock_LgContainer;
+                        case SubTypeIDs.LgBlock_SmContainer: return MaxVolume_LgBlock_SmContainer;
+                        case SubTypeIDs.LgBlock_LgContainer: return MaxVolume_LgBlock_LgContainer;
                     }
                 return 0;
             }
