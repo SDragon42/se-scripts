@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COMM Commands", "COMM Comma
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SDLS - Shared", "SDLS - Shared\SDLS - Shared.shproj", "{F8741348-85B7-4620-9BD0-D08660A253C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Malhavoc - WelderFactory Init", "Malhavoc - WelderFactory Init\Malhavoc - WelderFactory Init.csproj", "{5DADB79D-A630-4310-9249-CC0344B4768A}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
@@ -56,6 +58,7 @@ Global
 		Library\Library.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
 		Library\Library.projitems*{42bffd2c-289c-4c7f-a25e-442164e2b48d}*SharedItemsImports = 4
 		Library\Library.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
+		Library\Library.projitems*{5dadb79d-a630-4310-9249-cc0344b4768a}*SharedItemsImports = 4
 		Library\Library.projitems*{687d147f-85c3-4bc6-87f8-7277ebcd2034}*SharedItemsImports = 4
 		Library\Library.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		SpaceElevator - Shared\SpaceElevator - Shared.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
@@ -108,6 +111,8 @@ Global
 		{687D147F-85C3-4BC6-87F8-7277EBCD2034}.Debug|x64.Build.0 = Debug|x64
 		{42BFFD2C-289C-4C7F-A25E-442164E2B48D}.Debug|x64.ActiveCfg = Debug|x64
 		{42BFFD2C-289C-4C7F-A25E-442164E2B48D}.Debug|x64.Build.0 = Debug|x64
+		{5DADB79D-A630-4310-9249-CC0344B4768A}.Debug|x64.ActiveCfg = Debug|x64
+		{5DADB79D-A630-4310-9249-CC0344B4768A}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
