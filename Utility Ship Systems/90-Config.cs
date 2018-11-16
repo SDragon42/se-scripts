@@ -22,6 +22,7 @@ namespace IngameScript {
 
 
         const string SECTION_UTILITY_SHIP = "Utility-Ship";
+        readonly MyIniKey Key_IgnoreTag = new MyIniKey(SECTION_UTILITY_SHIP, "Ignore-Tag");
         readonly MyIniKey Key_AutoOff = new MyIniKey(SECTION_UTILITY_SHIP, "Auto Turn OFF Systems");
         readonly MyIniKey Key_AutoOn = new MyIniKey(SECTION_UTILITY_SHIP, "Auto Turn ON Systems");
         readonly MyIniKey Key_ToggleThrusters = new MyIniKey(SECTION_UTILITY_SHIP, "Thrusters On/Off");
@@ -53,6 +54,7 @@ namespace IngameScript {
             _configHashCode = tmpHashCode;
             LoadINI(Me.CustomData);
 
+            _ini.Add(Key_IgnoreTag, "[ignore]");
             _ini.Add(Key_AutoOff, true);
             _ini.Add(Key_AutoOn, true);
             _ini.Add(Key_ToggleThrusters, true);
@@ -79,6 +81,7 @@ namespace IngameScript {
 
             Me.CustomData = _ini.ToString();
 
+            _dockSecure.IgnoreTag = _ini.Get(Key_IgnoreTag).ToString();
             _dockSecure.Auto_Off = _ini.Get(Key_AutoOff).ToBoolean();
             _dockSecure.Auto_On = _ini.Get(Key_AutoOn).ToBoolean();
             _dockSecure.Thrusters_OnOff = _ini.Get(Key_ToggleThrusters).ToBoolean();
