@@ -25,6 +25,7 @@ namespace IngameScript {
             bool _wasLockedLastRun = false;
             bool _isLocked = false;
 
+            public string IgnoreTag { get; set; }
             public bool Auto_On { get; set; }
             public bool Auto_Off { get; set; }
             public bool Thrusters_OnOff { get; set; }
@@ -43,8 +44,8 @@ namespace IngameScript {
             public void Init(MyGridProgram thisObj, bool findBlocks = true) {
                 this.thisObj = thisObj;
                 if (!findBlocks) return;
-                thisObj.GridTerminalSystem.GetBlocksOfType(_landingGears, IsOnThisGrid);
-                thisObj.GridTerminalSystem.GetBlocksOfType(_connectors, IsOnThisGrid);
+                thisObj.GridTerminalSystem.GetBlocksOfType(_landingGears, b => IsOnThisGrid(b) && !Collect.IsTagged(b, IgnoreTag));
+                thisObj.GridTerminalSystem.GetBlocksOfType(_connectors, b => IsOnThisGrid(b) && !Collect.IsTagged(b, IgnoreTag));
             }
             public void AutoToggleDock() {
                 CheckIfLocked();
@@ -107,6 +108,7 @@ namespace IngameScript {
 
             bool IsBlock2TurnON(IMyTerminalBlock b) {
                 if (!IsOnThisGrid(b)) return false;
+                if (Collect.IsTagged(b, IgnoreTag)) return false;
                 if (Thrusters_OnOff && b is IMyThrust) return true;
                 if (Gyros_OnOff && b is IMyGyro) return true;
                 if (Lights_OnOff && b is IMyInteriorLight) return true;
