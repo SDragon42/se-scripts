@@ -80,16 +80,8 @@ namespace IngameScript {
         }
 
 
-        public static void Add(this MyIni ini, MyIniKey k, bool v, string comment = null) {
-            if (ini.ContainsKey(k)) return;
-            ini.Set(k, v);
-            ini.SetComment(k, comment);
-        }
-        public static void Add(this MyIni ini, MyIniKey k, double v, string comment = null) {
-            if (ini.ContainsKey(k)) return;
-            ini.Set(k, v);
-            ini.SetComment(k, comment);
-        }
+        public static void Add<T>(this MyIni ini, MyIniKey k, T v, string comment = null)
+            where T : struct => ini.Add(k, v.ToString(), comment);
         public static void Add(this MyIni ini, MyIniKey k, string v, string comment = null) {
             if (ini.ContainsKey(k)) return;
             ini.Set(k, v);
