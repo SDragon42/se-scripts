@@ -47,8 +47,6 @@ namespace IngameScript {
             _verticalSpeed = ((_rangeToGround - _rangeToGroundLast) >= 0)
                 ? _rc.GetShipSpeed()
                 : _rc.GetShipSpeed() * -1;
-            var totalMaxBreakingThrust = _ascentThrusters.Sum(b => b.MaxEffectiveThrust);
-            var brakeingRange = CalcBrakeDistance(totalMaxBreakingThrust, _gravityForceOnShip);
 
             _h2TankFilledPercent = GasTankHelper.GetTanksFillPercentage(_h2Tanks);
 
