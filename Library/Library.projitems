@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GroupRenamer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LCDChars.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LCDFonts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LiftCapacity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Profiler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProxCamera.cs" />
