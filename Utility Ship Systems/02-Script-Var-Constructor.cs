@@ -50,11 +50,12 @@ namespace IngameScript {
         double ForwardScanRange;
         double ForwardDisplayClearTime;
 
-
+        public Action<string> Debug = (msg) => { };
 
 
         public Program() {
-            //Echo = (t) => { }; // Disable Echo
+            //Debug = Echo;
+            //_proximity.Debug = Echo;
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
@@ -75,7 +76,6 @@ namespace IngameScript {
                 b => IsOnThisGrid(b) && b is IMyRemoteControl);
         }
 
-        bool IsOnThisGrid(IMyTerminalBlock b) => b.CubeGrid == Me.CubeGrid;
         bool IsToolBlock(IMyTerminalBlock b) => b is IMyShipDrill || b is IMyShipWelder || b is IMyShipGrinder;
         bool IsProximityBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ProximityTag);
         bool IsForwardRangeBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ForwardScanTag);

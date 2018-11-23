@@ -126,8 +126,5 @@ namespace IngameScript {
             }
         }
 
-
-        bool IsOnThisGrid(IMyTerminalBlock b) => Me.CubeGrid == b.CubeGrid;
-
     }
 }

@@ -126,7 +126,5 @@ namespace IngameScript {
             return new TwrInfo(_thrusters, direction, totalMass);
         }
 
-        bool IsOnThisGrid(IMyTerminalBlock b) => Me.CubeGrid.EntityId == b.CubeGrid.EntityId;
-
     }
 }

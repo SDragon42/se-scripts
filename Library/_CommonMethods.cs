@@ -16,9 +16,11 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        static class Common {
-            public static bool IsLessThen<T>(T value, T other) where T : IComparable { return value.CompareTo(other) < 0; }
-            public static bool IsGreaterThen<T>(T value, T other) where T : IComparable { return value.CompareTo(other) > 0; }
-        }
+
+        readonly List<IMyTerminalBlock> TmpBlocks = new List<IMyTerminalBlock>();
+
+        //bool IsOnThisGrid(IMyTerminalBlock b) => Me.CubeGrid == b.CubeGrid;
+        public static bool OnSameGrid(IMyTerminalBlock a, IMyTerminalBlock b) => a.CubeGrid == b.CubeGrid;
+        bool IsOnThisGrid(IMyTerminalBlock b) => OnSameGrid(Me, b);
     }
 }

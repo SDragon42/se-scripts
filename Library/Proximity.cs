@@ -44,7 +44,9 @@ namespace IngameScript {
                 _currProx = _prox1;
                 _prevProx = _prox2;
             }
-            
+
+            public Action<string> Debug = (msg) => { };
+
 
 
             public double? GetRange(Direction dir) => _currProx[dir];
@@ -60,11 +62,17 @@ namespace IngameScript {
                 }
 
                 if (_orientation != null) {
+                    Debug("Forward");
                     _currProx[Direction.Forward] = GetMinimumRange(mgp, cameras, _orientation.IsForward);
+                    Debug("Backward");
                     _currProx[Direction.Backward] = GetMinimumRange(mgp, cameras, _orientation.IsBackward);
+                    Debug("Left");
                     _currProx[Direction.Left] = GetMinimumRange(mgp, cameras, _orientation.IsLeft);
+                    Debug("Right");
                     _currProx[Direction.Right] = GetMinimumRange(mgp, cameras, _orientation.IsRight);
+                    Debug("Up");
                     _currProx[Direction.Up] = GetMinimumRange(mgp, cameras, _orientation.IsUp);
+                    Debug("Down");
                     _currProx[Direction.Down] = GetMinimumRange(mgp, cameras, _orientation.IsDown);
                 }
             }
@@ -80,10 +88,11 @@ namespace IngameScript {
             }
 
             double? GetMinimumRange(MyGridProgram mpg, List<ProxCamera> cameras, Func<IMyTerminalBlock, bool> directionMethod) {
-                var range = cameras
+                var allRanges = cameras
                     .Where(c => directionMethod(c.Camera))
-                    .Select(c => Ranger.GetDetailedRange(c.Camera, ScanRange, c.Offset))
-                    .Min(r => r.Range);
+                    .Select(c => new { c.Camera, Ranger.GetDetailedRange(c.Camera, ScanRange, c.Offset).Range });
+                foreach (var r in allRanges) Debug($"  {r.Range,4:N2} - {r.Camera.CustomName}");
+                var range = allRanges.Min(r => r.Range);
                 if (!range.HasValue) return null;
                 if (range > ScanRange) return null;
                 //if (range < 0.000001) return null;

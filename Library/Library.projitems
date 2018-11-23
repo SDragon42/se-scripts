@@ -14,7 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BlocksByOrientation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CargoHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collect.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_CommonMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CompassHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigCustom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigItem.cs" />

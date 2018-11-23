@@ -16,9 +16,6 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-
-        bool IsOnThisGrid(IMyTerminalBlock b) => Me.CubeGrid == b.CubeGrid;
         bool IsTaggedCarriage(IMyTerminalBlock b) => Collect.IsTagged(b, _settings.BlockTag);
-
     }
 }

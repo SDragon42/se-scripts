@@ -16,8 +16,6 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-
-        bool IsOnThisGrid(IMyTerminalBlock b) => Me.CubeGrid == b.CubeGrid;
         bool IsTaggedStation(IMyTerminalBlock b) => Collect.IsTagged(b, _settings.StationTag);
 
         bool IsOnTerminal(IMyTerminalBlock b) => IsTaggedStation(b) && Collect.IsTagged(b, _settings.TerminalTag);
