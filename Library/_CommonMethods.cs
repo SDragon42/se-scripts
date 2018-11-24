@@ -19,8 +19,8 @@ namespace IngameScript {
 
         readonly List<IMyTerminalBlock> TmpBlocks = new List<IMyTerminalBlock>();
 
-        //bool IsOnThisGrid(IMyTerminalBlock b) => Me.CubeGrid == b.CubeGrid;
         public static bool OnSameGrid(IMyTerminalBlock a, IMyTerminalBlock b) => a.CubeGrid == b.CubeGrid;
         bool IsOnThisGrid(IMyTerminalBlock b) => OnSameGrid(Me, b);
+
     }
 }

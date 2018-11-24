@@ -18,6 +18,10 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
+        const string CMD_RETRACT = "retract";
+        const string CMD_EXTEND = "extend";
+
+
         string GroupKey_AllWelders = string.Empty;
         string GroupKey_AllPistons = string.Empty;
         float Speed_Operation = 0.0F;
@@ -62,52 +66,6 @@ namespace IngameScript {
             Echo(OperationMessage);
         }
 
-        //IEnumerator<bool> MoveToStart() {
-        //    OperationMessage = "Moving welders to start position";
-        //    LoadBlocks();
-        //    yield return true;
-
-        //    //WelderList.ForEach(w => w.Enabled = false);
-        //    //yield return true;
-
-        //    PistonList.ForEach(p => p.Velocity = Speed_MoveToPosition);
-        //    PistonList.ForEach(p => p.Extend());
-
-        //    var allExtended = false;
-        //    do {
-        //        allExtended = PistonList.All(IsExtended);
-        //        yield return true;
-        //    } while (!allExtended);
-
-        //    PistonList.ForEach(p => p.Velocity = Speed_Operation);
-        //    yield return true;
-        //    OperationMessage = "Extended";
-        //    yield return false;
-        //}
-
-        //IEnumerator<bool> ResetToEnd() {
-        //    OperationMessage = "Moving welders to retracted position";
-        //    LoadBlocks();
-        //    yield return true;
-
-        //    //WelderList.ForEach(w => w.Enabled = false);
-        //    //yield return true;
-
-        //    PistonList.ForEach(p => p.Velocity = Speed_MoveToPosition);
-        //    PistonList.ForEach(p => p.Retract());
-
-        //    var allReteacted = false;
-        //    do {
-        //        yield return true;
-        //        allReteacted = PistonList.All(IsReteacted);
-        //    } while (!allReteacted);
-
-        //    PistonList.ForEach(p => p.Velocity = Speed_Operation * -1.0F);
-        //    yield return true;
-        //    OperationMessage = "Retracted";
-        //    yield return false;
-        //}
-
         IEnumerator<bool> SetFactoryState(bool extend) {
             OperationMessage = extend
                 ? "Moving welders to start position"
@@ -150,10 +108,6 @@ namespace IngameScript {
 
 
         void LoadBlocks() {
-            //PistonList.Clear();
-            //var group = GridTerminalSystem.GetBlockGroupWithName(GROUP_ALL_PISTON);
-            //group?.GetBlocksOfType(PistonList);
-
             LoadList(GroupKey_AllPistons, PistonList);
             LoadList(GroupKey_AllWelders, WelderList);
         }
@@ -171,8 +125,10 @@ namespace IngameScript {
         const string SECTION_TAG = "Groups";
         readonly MyIniKey Key_AllWelders = new MyIniKey(SECTION_TAG, "Group - All Welders");
         readonly MyIniKey Key_AllPistons = new MyIniKey(SECTION_TAG, "Group - All Pistons");
-        readonly MyIniKey Key_SpeedOperation = new MyIniKey(SECTION_TAG, "Pistons - Operation Speed");
-        readonly MyIniKey Key_SpeedPosition = new MyIniKey(SECTION_TAG, "Pistons - Position Speed");
+
+        const string SECTION_TAG2 = "Speeds";
+        readonly MyIniKey Key_SpeedOperation = new MyIniKey(SECTION_TAG2, "Pistons - Operation Speed");
+        readonly MyIniKey Key_SpeedPosition = new MyIniKey(SECTION_TAG2, "Pistons - Position Speed");
 
         int _configHashCode = 0;
         void LoadConfig() {
@@ -194,6 +150,8 @@ namespace IngameScript {
             GroupKey_AllPistons = ini.Get(Key_AllPistons).ToString();
             Speed_Operation = ini.Get(Key_SpeedOperation).ToSingle();
             Speed_MoveToPosition = ini.Get(Key_SpeedPosition).ToSingle();
+
+            Me.CustomData = ini.ToString();
         }
 
 
