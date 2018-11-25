@@ -121,7 +121,8 @@ namespace IngameScript {
             var txtLeft = GetFormattedRange(Direction.Left);
             var txtRight = GetFormattedRange(Direction.Right);
             var txtBack = GetFormattedRange(Direction.Backward);
-            return $"      {txtUp}\n {txtLeft}<{txtBack}>{txtRight}\n      {txtDown}";
+            var txtForward = GetFormattedRange(Direction.Forward);
+            return $" {txtForward} {txtUp}\n {txtLeft}<{txtBack}>{txtRight}\n      {txtDown}";
         }
         string GetFormattedRange(Direction dir) {
             var range = _proximity.GetRange(dir);

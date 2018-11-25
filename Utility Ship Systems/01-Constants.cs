@@ -25,6 +25,6 @@ namespace IngameScript {
 
         const double BLOCK_RELOAD_TIME = 10;
 
-        const string VERSION = "1.6.1";
+        const string VERSION = "1.6.2";
     }
 }
