@@ -19,51 +19,26 @@ namespace IngameScript {
     partial class Program {
         public static class LiftCapacity {
 
-            public static double GetMaxMass1(IMyShipController sc, IList<IMyThrust> thrusters, double minTwr, int inventoryMultiplier) {
-                var gravVec = sc.GetNaturalGravity();
-                //gravity in m/s^2
+            public static Action<string> Debug = (t) => { };
+
+            public static double? GetMaxMass(IMyShipController sc, List<IMyThrust> thrusters, double minTwr, int worldInvMultiplier) {
+                var gravVector = sc.GetNaturalGravity();
                 var gravMS2 = Math.Sqrt(
-                    Math.Pow(gravVec.X, 2) +
-                    Math.Pow(gravVec.Y, 2) +
-                    Math.Pow(gravVec.Z, 2));
-                var inNaturalGravity = (gravMS2 > 0.0);
-                if (!inNaturalGravity) return 0.0;
-
-
-                var totalMass = sc.CalculateShipMass().TotalMass;
-                // mass of the grid without cargo
-                var baseMass = sc.CalculateShipMass().BaseMass;
-                var cargoMass = totalMass - baseMass;
-                // the mass the game uses for physics calculation
-                var actualMass = baseMass + (cargoMass / inventoryMultiplier);
-
-                var gravityForceOnShip = (actualMass - cargoMass);
-
-                var maxEffectiveThrust = thrusters.Sum(t => t.MaxEffectiveThrust);
-
-
-                // maxMass = (thrust / TWR) * MassNewtons
-
-                return 0.0;
-            }
-
-            public static double? GetMaxMass2(IMyShipController sc, IList<IMyThrust> thrusters, double minTwr, int inventoryMultiplier) {
-                var gravVec = sc.GetNaturalGravity();
-                //gravity in m/s^2
-                var gravMS2 = Math.Sqrt(
-                    Math.Pow(gravVec.X, 2) +
-                    Math.Pow(gravVec.Y, 2) +
-                    Math.Pow(gravVec.Z, 2));
+                    Math.Pow(gravVector.X, 2) +
+                    Math.Pow(gravVector.Y, 2) +
+                    Math.Pow(gravVector.Z, 2));
                 var inNaturalGravity = (gravMS2 > 0.0);
                 if (!inNaturalGravity) return null;
 
-
-                var gridMass = sc.CalculateShipMass().BaseMass;
+                Debug($"gravMS2: {gravMS2:N2}");
+                var baseMass = sc.CalculateShipMass().BaseMass;
+                Debug($"baseMass: {baseMass:N2}");
                 var maxEffectiveThrust = thrusters.Sum(t => t.MaxEffectiveThrust);
-
-                var hoverOverridePower = gridMass / maxEffectiveThrust; // TWR = 1.0
-
-                return null;
+                Debug($"Thrust: {maxEffectiveThrust:N2}");
+                var TwrThrust = maxEffectiveThrust / minTwr;
+                Debug($"TwrThrust: {TwrThrust:N2}");
+                var maxCargoMass = ((TwrThrust / gravMS2) - baseMass) * worldInvMultiplier;
+                return maxCargoMass;
             }
         }
     }
