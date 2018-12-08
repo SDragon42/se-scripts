@@ -20,8 +20,10 @@ namespace IngameScript {
         readonly RunningSymbol _running = new RunningSymbol();
         readonly DockSecure _dockSecure = new DockSecure();
         readonly Proximity _proximity = new Proximity();
+        readonly BlocksByOrientation BlockOrientation = new BlocksByOrientation();
 
-        MyIni _ini = new MyIni();
+        readonly MyIni Ini = new MyIni();
+        readonly MyIni CameraIni = new MyIni();
 
         readonly List<IMyTerminalBlock> _tmpList = new List<IMyTerminalBlock>();
         readonly List<ProxCamera> _proxCameraList = new List<ProxCamera>();
@@ -50,6 +52,12 @@ namespace IngameScript {
         double ForwardScanRange;
         double ForwardDisplayClearTime;
 
+        float MinimumTWR = 0;
+        int InventoryMultiplier = 0;
+        double? MaxOperationalCargoMass;
+
+        bool Flag_SaveConfig;
+
         public Action<string> Debug = (msg) => { };
 
 
@@ -74,6 +82,9 @@ namespace IngameScript {
                 b => IsOnThisGrid(b) && b is IMyCockpit && ((IMyCockpit)b).IsMainCockpit,
                 b => IsOnThisGrid(b) && b is IMyCockpit,
                 b => IsOnThisGrid(b) && b is IMyRemoteControl);
+
+            BlockOrientation.Init(_sc);
+            GridTerminalSystem.GetBlocksOfType(LiftThrusters, BlockOrientation.IsDown);
         }
 
         bool IsToolBlock(IMyTerminalBlock b) => b is IMyShipDrill || b is IMyShipWelder || b is IMyShipGrinder;

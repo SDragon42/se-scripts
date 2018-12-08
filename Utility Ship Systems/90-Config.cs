@@ -48,76 +48,104 @@ namespace IngameScript {
         readonly MyIniKey Key_RangeDistance = new MyIniKey(SECTION_RANGE, "Scan Range (m)");
         readonly MyIniKey Key_RangeDisplayTime = new MyIniKey(SECTION_RANGE, "Display Time (seconds)");
 
+        const string SECTION_WEIGHT = "Weight";
+        readonly MyIniKey KEY_MinimumTWR = new MyIniKey(SECTION_WEIGHT, "Minimum TWR");
+        readonly MyIniKey KEY_WorldInvMulti = new MyIniKey(SECTION_WEIGHT, "Inventory Multiplier");
+        readonly MyIniKey KEY_MaxCargoMass = new MyIniKey(SECTION_WEIGHT, "Max Operational Cargo Mass");
+
         void LoadConfig() {
             var tmpHashCode = Me.CustomData.GetHashCode();
             if (_configHashCode == tmpHashCode) return;
             _configHashCode = tmpHashCode;
-            LoadINI(Me.CustomData);
+            LoadINI(Ini, Me.CustomData);
 
-            _ini.Add(Key_IgnoreTag, "[ignore]");
-            _ini.Add(Key_AutoOff, true);
-            _ini.Add(Key_AutoOn, true);
-            _ini.Add(Key_ToggleThrusters, true);
-            _ini.Add(Key_ToggleGyros, true);
-            _ini.Add(Key_ToggleLights, true);
-            _ini.Add(Key_ToggleBeacons, true);
-            _ini.Add(Key_ToggleRadioAntennas, true);
-            _ini.Add(Key_ToggleSensors, true);
-            _ini.Add(Key_ToggleOreDetectors, true);
-            _ini.Add(Key_TurnOffSpotLights, true);
-            _ini.SetSectionComment(SECTION_UTILITY_SHIP, null);
+            Ini.Add(Key_IgnoreTag, "[ignore]");
+            Ini.Add(Key_AutoOff, true);
+            Ini.Add(Key_AutoOn, true);
+            Ini.Add(Key_ToggleThrusters, true);
+            Ini.Add(Key_ToggleGyros, true);
+            Ini.Add(Key_ToggleLights, true);
+            Ini.Add(Key_ToggleBeacons, true);
+            Ini.Add(Key_ToggleRadioAntennas, true);
+            Ini.Add(Key_ToggleSensors, true);
+            Ini.Add(Key_ToggleOreDetectors, true);
+            Ini.Add(Key_TurnOffSpotLights, true);
+            Ini.SetSectionComment(SECTION_UTILITY_SHIP, null);
 
-            _ini.Add(Key_ProxTag, "[proximity]");
-            _ini.Add(Key_ProxRange, 50.0);
-            _ini.Add(Key_ProxAlert, true);
-            _ini.Add(Key_ProxAlertRange, 10.0);
-            _ini.Add(Key_ProxAlertSpeed, 5.0);
-            _ini.SetSectionComment(SECTION_PROXIMITY, null);
+            Ini.Add(KEY_MaxCargoMass, 0.0);
+            Ini.Add(KEY_MinimumTWR, 1.5, comment: "The minimum TWR to use for calc maximum cargo capacity.");
+            Ini.Add(KEY_WorldInvMulti, 0, comment: "The World setting for Inventory Multiplier");
+            Ini.SetSectionComment(SECTION_WEIGHT, "This is used to determine that maximum (operation) cargo mass amount.");
 
-            _ini.Add(Key_RangeTag, "[range]");
-            _ini.Add(Key_RangeDistance, 15000.0);
-            _ini.Add(Key_RangeDisplayTime, 5.0);
-            _ini.SetSectionComment(SECTION_RANGE, null);
+            Ini.Add(Key_ProxTag, "[proximity]");
+            Ini.Add(Key_ProxRange, 50.0);
+            Ini.Add(Key_ProxAlert, false);
+            Ini.Add(Key_ProxAlertRange, 10.0);
+            Ini.Add(Key_ProxAlertSpeed, 5.0);
+            Ini.SetSectionComment(SECTION_PROXIMITY, null);
 
-            Me.CustomData = _ini.ToString();
+            Ini.Add(Key_RangeTag, "[range]");
+            Ini.Add(Key_RangeDistance, 15000.0);
+            Ini.Add(Key_RangeDisplayTime, 5.0);
+            Ini.SetSectionComment(SECTION_RANGE, null);
 
-            _dockSecure.IgnoreTag = _ini.Get(Key_IgnoreTag).ToString();
-            _dockSecure.Auto_Off = _ini.Get(Key_AutoOff).ToBoolean();
-            _dockSecure.Auto_On = _ini.Get(Key_AutoOn).ToBoolean();
-            _dockSecure.Thrusters_OnOff = _ini.Get(Key_ToggleThrusters).ToBoolean();
-            _dockSecure.Gyros_OnOff = _ini.Get(Key_ToggleGyros).ToBoolean();
-            _dockSecure.Lights_OnOff = _ini.Get(Key_ToggleLights).ToBoolean();
-            _dockSecure.Beacons_OnOff = _ini.Get(Key_ToggleBeacons).ToBoolean();
-            _dockSecure.RadioAntennas_OnOff = _ini.Get(Key_ToggleRadioAntennas).ToBoolean();
-            _dockSecure.Sensors_OnOff = _ini.Get(Key_ToggleSensors).ToBoolean();
-            _dockSecure.OreDetectors_OnOff = _ini.Get(Key_ToggleOreDetectors).ToBoolean();
-            _dockSecure.Spotlights_Off = _ini.Get(Key_TurnOffSpotLights).ToBoolean();
 
-            ProximityTag = _ini.Get(Key_ProxTag).ToString();
-            _proximity.ScanRange = _ini.Get(Key_ProxRange).ToDouble();
-            ProximityAlert = _ini.Get(Key_ProxAlert).ToBoolean();
-            ProximityAlertRange = _ini.Get(Key_ProxAlertRange).ToDouble();
-            ProximityAlertSpeed = _ini.Get(Key_ProxAlertSpeed).ToDouble();
 
-            ForwardScanTag = _ini.Get(Key_RangeTag).ToString();
-            ForwardScanRange = _ini.Get(Key_RangeDistance).ToDouble();
-            ForwardDisplayClearTime = _ini.Get(Key_RangeDisplayTime).ToDouble();
+            _dockSecure.IgnoreTag = Ini.Get(Key_IgnoreTag).ToString();
+            _dockSecure.Auto_Off = Ini.Get(Key_AutoOff).ToBoolean();
+            _dockSecure.Auto_On = Ini.Get(Key_AutoOn).ToBoolean();
+            _dockSecure.Thrusters_OnOff = Ini.Get(Key_ToggleThrusters).ToBoolean();
+            _dockSecure.Gyros_OnOff = Ini.Get(Key_ToggleGyros).ToBoolean();
+            _dockSecure.Lights_OnOff = Ini.Get(Key_ToggleLights).ToBoolean();
+            _dockSecure.Beacons_OnOff = Ini.Get(Key_ToggleBeacons).ToBoolean();
+            _dockSecure.RadioAntennas_OnOff = Ini.Get(Key_ToggleRadioAntennas).ToBoolean();
+            _dockSecure.Sensors_OnOff = Ini.Get(Key_ToggleSensors).ToBoolean();
+            _dockSecure.OreDetectors_OnOff = Ini.Get(Key_ToggleOreDetectors).ToBoolean();
+            _dockSecure.Spotlights_Off = Ini.Get(Key_TurnOffSpotLights).ToBoolean();
+
+            ProximityTag = Ini.Get(Key_ProxTag).ToString();
+            _proximity.ScanRange = Ini.Get(Key_ProxRange).ToDouble();
+            ProximityAlert = Ini.Get(Key_ProxAlert).ToBoolean();
+            ProximityAlertRange = Ini.Get(Key_ProxAlertRange).ToDouble();
+            ProximityAlertSpeed = Ini.Get(Key_ProxAlertSpeed).ToDouble();
+
+            ForwardScanTag = Ini.Get(Key_RangeTag).ToString();
+            ForwardScanRange = Ini.Get(Key_RangeDistance).ToDouble();
+            ForwardDisplayClearTime = Ini.Get(Key_RangeDisplayTime).ToDouble();
+
+            MinimumTWR = Ini.Get(KEY_MinimumTWR).ToSingle();
+            InventoryMultiplier = Ini.Get(KEY_WorldInvMulti).ToInt32();
+            MaxOperationalCargoMass = Ini.Get(KEY_MaxCargoMass).ToDouble();
+            if (MaxOperationalCargoMass == 0)
+                MaxOperationalCargoMass = null;
+
+            Flag_SaveConfig = true;
         }
+        void SaveConfig() {
+            if (!Flag_SaveConfig) return;
+            Ini.Set(KEY_WorldInvMulti, InventoryMultiplier);
+            Ini.Set(KEY_MaxCargoMass, MaxOperationalCargoMass?.ToString() ?? string.Empty);
+
+            var text = Ini.ToString();
+            _configHashCode = text.GetHashCode();
+            Me.CustomData = text;
+        }
+
+        readonly List<IMyThrust> LiftThrusters = new List<IMyThrust>();
 
         void LoadCameraProximityConfig(IMyTerminalBlock b) {
-            LoadINI(b.CustomData);
-            _ini.Add(KEY_RangeOffset, 0.0);
-            b.CustomData = _ini.ToString();
-            _proxCameraList.Add(new ProxCamera((IMyCameraBlock)b, _ini.Get(KEY_RangeOffset).ToDouble()));
+            LoadINI(CameraIni, b.CustomData);
+            Ini.Add(KEY_RangeOffset, 0.0);
+            b.CustomData = Ini.ToString();
+            _proxCameraList.Add(new ProxCamera((IMyCameraBlock)b, Ini.Get(KEY_RangeOffset).ToDouble()));
         }
 
-        void LoadINI(string text) {
-            MyIniParseResult result;
-            _ini.Clear();
-            if (!_ini.TryParse(text, out result)) {
+        static void LoadINI(MyIni ini, string text) {
+            ini.Clear();
+            if (!ini.TryParse(text)) {
                 var tmp = text.Replace('<', '[').Replace('>', ']').Replace(':', '=');
-                if (!_ini.TryParse(tmp, out result))
-                    _ini.EndContent = text;
+                if (!ini.TryParse(tmp))
+                    ini.EndContent = text;
             }
         }
 

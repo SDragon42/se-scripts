@@ -20,11 +20,12 @@ namespace IngameScript {
             _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
             _timeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
             var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
-            Echo($"Utility Ship Systems {VERSION} {_running.GetSymbol(Runtime)}");
+            Echo($"Utility Ship Systems 1.6.3 {_running.GetSymbol(Runtime)}");
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.");
             Echo("");
             Echo("Configure script in 'Custom Data'");
 
+            Flag_SaveConfig = false;
             LoadConfig();
 
             _reloadBlocks = (_timeLastBlockLoad >= BLOCK_RELOAD_TIME);
@@ -32,7 +33,21 @@ namespace IngameScript {
             if (_reloadBlocks) {
                 LoadBlocks();
                 _timeLastBlockLoad = 0;
+
+                if (InventoryMultiplier <= 0) {
+                    var b = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCargoContainer>(Collect.IsCargoContainer);
+                    if (b != null) {
+                        InventoryMultiplier = CargoHelper.GetInventoryMultiplier(b);
+                        Flag_SaveConfig = true;
+                    }
+                }
             }
+            if (!MaxOperationalCargoMass.HasValue || MaxOperationalCargoMass.Value == 0) {
+                MaxOperationalCargoMass = LiftCapacity.GetMaxMass(_sc, LiftThrusters, MinimumTWR, InventoryMultiplier);
+                Flag_SaveConfig = true;
+            }
+
+            SaveConfig();
 
             if (argument.Length > 0) {
                 switch (argument.ToLower()) {

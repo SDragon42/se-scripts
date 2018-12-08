@@ -24,7 +24,5 @@ namespace IngameScript {
         const string CMD_TOOLS_OFF = "tools-off";
 
         const double BLOCK_RELOAD_TIME = 10;
-
-        const string VERSION = "1.6.2";
     }
 }
