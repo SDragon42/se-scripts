@@ -17,10 +17,10 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
         public void Main(string argument, UpdateType updateSource) {
-            _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
-            _timeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
-            var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
-            Echo($"Utility Ship Systems 1.6.3 {_running.GetSymbol(Runtime)}");
+            TimeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
+            TimeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
+            var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - TimeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
+            Echo($"Utility Ship Systems 1.6.3 {RunningModule.GetSymbol(Runtime)}");
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.");
             Echo("");
             Echo("Configure script in 'Custom Data'");
@@ -28,11 +28,11 @@ namespace IngameScript {
             Flag_SaveConfig = false;
             LoadConfig();
 
-            _reloadBlocks = (_timeLastBlockLoad >= BLOCK_RELOAD_TIME);
-            _dockSecure.Init(this, _reloadBlocks);
-            if (_reloadBlocks) {
+            ReloadBlocks = (TimeLastBlockLoad >= BLOCK_RELOAD_TIME);
+            DockSecureModule.Init(this, ReloadBlocks);
+            if (ReloadBlocks) {
                 LoadBlocks();
-                _timeLastBlockLoad = 0;
+                TimeLastBlockLoad = 0;
 
                 if (InventoryMultiplier <= 0) {
                     var b = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCargoContainer>(Collect.IsCargoContainer);
@@ -43,7 +43,7 @@ namespace IngameScript {
                 }
             }
             if (!MaxOperationalCargoMass.HasValue || MaxOperationalCargoMass.Value == 0) {
-                MaxOperationalCargoMass = LiftCapacity.GetMaxMass(_sc, LiftThrusters, MinimumTWR, InventoryMultiplier);
+                MaxOperationalCargoMass = LiftCapacity.GetMaxMass(Sc, LiftThrusters, MinimumTWR, InventoryMultiplier);
                 Flag_SaveConfig = true;
             }
 
@@ -51,9 +51,9 @@ namespace IngameScript {
 
             if (argument.Length > 0) {
                 switch (argument.ToLower()) {
-                    case CMD_DOCK: _dockSecure.Dock(); break;
-                    case CMD_UNDOCK: _dockSecure.UnDock(); break;
-                    case CMD_DOCK_TOGGLE: _dockSecure.ToggleDock(); break;
+                    case CMD_DOCK: DockSecureModule.Dock(); break;
+                    case CMD_UNDOCK: DockSecureModule.UnDock(); break;
+                    case CMD_DOCK_TOGGLE: DockSecureModule.ToggleDock(); break;
                     case CMD_TOOLS_OFF: TurnOffTools(); break;
                     case CMD_SCAN: ScanAhead(); break;
                     case CMD_TOOLS_TOGGLE: ToggleToolsOnOff(); break;
@@ -61,40 +61,40 @@ namespace IngameScript {
             }
 
             if ((updateSource & UpdateType.Update10) > 0) {
-                _dockSecure.AutoToggleDock();
+                DockSecureModule.AutoToggleDock();
                 UpdateProximity();
             }
 
-            if (_timeLastCleared >= ForwardDisplayClearTime && _scanRangeText.Length > 0) {
-                _scanRangeText = string.Empty;
-                _timeLastCleared = 0;
+            if (TimeLastCleared >= ForwardDisplayClearTime && ScanRangeText.Length > 0) {
+                ScanRangeText = string.Empty;
+                TimeLastCleared = 0;
             }
-            foreach (var d in _displayList) {
+            foreach (var d in DisplayList) {
                 var isRange = IsForwardRangeBlock(d);
                 var isProx = IsProximityBlock(d);
 
-                if (isRange && (!isProx || _scanRangeText.Length > 0)) {
-                    Write2ForeDisplay(d, _scanRangeText);
+                if (isRange && (!isProx || ScanRangeText.Length > 0)) {
+                    Write2ForeDisplay(d, ScanRangeText);
                     continue;
                 }
                 if (isProx) {
-                    Write2ProximityDisplay(d, _proximityText);
+                    Write2ProximityDisplay(d, ProximityText);
                 }
             }
         }
 
         void UpdateProximity() {
-            if (!_dockSecure.IsDocked) {
-                _proximity.RunScan(this, _sc, _proxCameraList);
+            if (!DockSecureModule.IsDocked) {
+                ProximityModule.RunScan(this, Sc, ProxCameraList);
                 CheckAlert();
-                _proximityText = BuildProximityDisplayText();
+                ProximityText = BuildProximityDisplayText();
             } else {
-                _proximityText = $"\n     Docked";
+                ProximityText = $"\n     Docked";
                 TurnOffProximityAlert();
             }
         }
         void CheckAlert() {
-            var speed = _sc.GetShipSpeed();
+            var speed = Sc.GetShipSpeed();
             var alertValid = false;
             alertValid |= SetAlert(Direction.Up, speed);
             if (alertValid) return;
@@ -109,8 +109,8 @@ namespace IngameScript {
             TurnOffProximityAlert();
         }
         bool SetAlert(Direction dir, double speed) {
-            var range = _proximity.GetRange(dir);
-            var diff = _proximity.GetRangeDiff(dir);
+            var range = ProximityModule.GetRange(dir);
+            var diff = ProximityModule.GetRangeDiff(dir);
             if (diff < 0 && speed >= ProximityAlertSpeed && range <= ProximityAlertRange) {
                 TurnOnProximityAlert();
                 return true;
@@ -118,17 +118,17 @@ namespace IngameScript {
             return false;
         }
         void TurnOnProximityAlert() {
-            if (_alertSounding)
+            if (AlertSounding)
                 return;
             if (!ProximityAlert)
                 return;
-            _proxSpeakerList.ForEach(s => s.Play());
-            _alertSounding = true;
+            ProxSpeakerList.ForEach(s => s.Play());
+            AlertSounding = true;
         }
         void TurnOffProximityAlert() {
-            if (_alertSounding)
-                _proxSpeakerList.ForEach(s => s.Stop());
-            _alertSounding = false;
+            if (AlertSounding)
+                ProxSpeakerList.ForEach(s => s.Stop());
+            AlertSounding = false;
         }
         string BuildProximityDisplayText() {
             var txtUp = GetFormattedRange(Direction.Up);
@@ -140,7 +140,7 @@ namespace IngameScript {
             return $" {txtForward} {txtUp}\n {txtLeft}<{txtBack}>{txtRight}\n      {txtDown}";
         }
         string GetFormattedRange(Direction dir) {
-            var range = _proximity.GetRange(dir);
+            var range = ProximityModule.GetRange(dir);
             if (!range.HasValue) return "----";
             return (range.Value < 100.0)
                 ? $"{range,4:N1}"
@@ -154,16 +154,16 @@ namespace IngameScript {
         }
 
         void ScanAhead() {
-            if (_foreRangeCamera == null) return;
-            _foreRangeInfo = Ranger.GetDetailedRange(_foreRangeCamera, ForwardScanRange);
+            if (ForeRangeCamera == null) return;
+            ForeRangeInfo = Ranger.GetDetailedRange(ForeRangeCamera, ForwardScanRange);
             BuildForwardDisplayText();
-            _timeLastCleared = 0;
+            TimeLastCleared = 0;
         }
         void BuildForwardDisplayText() {
-            _scanRangeText =
-                $"Entity: {_foreRangeInfo.DetectedEntity.Type}\n" +
-                $"Name: {_foreRangeInfo.DetectedEntity.Name}\n" +
-                $"Range: {_foreRangeInfo.Range:N1} m";
+            ScanRangeText =
+                $"Entity: {ForeRangeInfo.DetectedEntity.Type}\n" +
+                $"Name: {ForeRangeInfo.DetectedEntity.Name}\n" +
+                $"Range: {ForeRangeInfo.Range:N1} m";
         }
         void Write2ForeDisplay(IMyTextPanel display, string text) {
             display.Font = LCDFonts.DEBUG;
@@ -173,10 +173,10 @@ namespace IngameScript {
         }
 
         void TurnOffTools() {
-            _toolList.ForEach(b => b.Enabled = false);
+            ToolList.ForEach(b => b.Enabled = false);
         }
         void ToggleToolsOnOff() {
-            _toolList.ForEach(b => b.Enabled = !b.Enabled);
+            ToolList.ForEach(b => b.Enabled = !b.Enabled);
         }
     }
 }

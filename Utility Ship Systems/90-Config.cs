@@ -91,20 +91,20 @@ namespace IngameScript {
 
 
 
-            _dockSecure.IgnoreTag = Ini.Get(Key_IgnoreTag).ToString();
-            _dockSecure.Auto_Off = Ini.Get(Key_AutoOff).ToBoolean();
-            _dockSecure.Auto_On = Ini.Get(Key_AutoOn).ToBoolean();
-            _dockSecure.Thrusters_OnOff = Ini.Get(Key_ToggleThrusters).ToBoolean();
-            _dockSecure.Gyros_OnOff = Ini.Get(Key_ToggleGyros).ToBoolean();
-            _dockSecure.Lights_OnOff = Ini.Get(Key_ToggleLights).ToBoolean();
-            _dockSecure.Beacons_OnOff = Ini.Get(Key_ToggleBeacons).ToBoolean();
-            _dockSecure.RadioAntennas_OnOff = Ini.Get(Key_ToggleRadioAntennas).ToBoolean();
-            _dockSecure.Sensors_OnOff = Ini.Get(Key_ToggleSensors).ToBoolean();
-            _dockSecure.OreDetectors_OnOff = Ini.Get(Key_ToggleOreDetectors).ToBoolean();
-            _dockSecure.Spotlights_Off = Ini.Get(Key_TurnOffSpotLights).ToBoolean();
+            DockSecureModule.IgnoreTag = Ini.Get(Key_IgnoreTag).ToString();
+            DockSecureModule.Auto_Off = Ini.Get(Key_AutoOff).ToBoolean();
+            DockSecureModule.Auto_On = Ini.Get(Key_AutoOn).ToBoolean();
+            DockSecureModule.Thrusters_OnOff = Ini.Get(Key_ToggleThrusters).ToBoolean();
+            DockSecureModule.Gyros_OnOff = Ini.Get(Key_ToggleGyros).ToBoolean();
+            DockSecureModule.Lights_OnOff = Ini.Get(Key_ToggleLights).ToBoolean();
+            DockSecureModule.Beacons_OnOff = Ini.Get(Key_ToggleBeacons).ToBoolean();
+            DockSecureModule.RadioAntennas_OnOff = Ini.Get(Key_ToggleRadioAntennas).ToBoolean();
+            DockSecureModule.Sensors_OnOff = Ini.Get(Key_ToggleSensors).ToBoolean();
+            DockSecureModule.OreDetectors_OnOff = Ini.Get(Key_ToggleOreDetectors).ToBoolean();
+            DockSecureModule.Spotlights_Off = Ini.Get(Key_TurnOffSpotLights).ToBoolean();
 
             ProximityTag = Ini.Get(Key_ProxTag).ToString();
-            _proximity.ScanRange = Ini.Get(Key_ProxRange).ToDouble();
+            ProximityModule.ScanRange = Ini.Get(Key_ProxRange).ToDouble();
             ProximityAlert = Ini.Get(Key_ProxAlert).ToBoolean();
             ProximityAlertRange = Ini.Get(Key_ProxAlertRange).ToDouble();
             ProximityAlertSpeed = Ini.Get(Key_ProxAlertSpeed).ToDouble();
@@ -137,7 +137,7 @@ namespace IngameScript {
             LoadINI(CameraIni, b.CustomData);
             CameraIni.Add(KEY_RangeOffset, 0.0);
             b.CustomData = CameraIni.ToString();
-            _proxCameraList.Add(new ProxCamera((IMyCameraBlock)b, Ini.Get(KEY_RangeOffset).ToDouble()));
+            ProxCameraList.Add(new ProxCamera((IMyCameraBlock)b, Ini.Get(KEY_RangeOffset).ToDouble()));
         }
 
         static void LoadINI(MyIni ini, string text) {
