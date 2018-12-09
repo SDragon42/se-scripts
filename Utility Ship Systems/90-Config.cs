@@ -135,8 +135,8 @@ namespace IngameScript {
 
         void LoadCameraProximityConfig(IMyTerminalBlock b) {
             LoadINI(CameraIni, b.CustomData);
-            Ini.Add(KEY_RangeOffset, 0.0);
-            b.CustomData = Ini.ToString();
+            CameraIni.Add(KEY_RangeOffset, 0.0);
+            b.CustomData = CameraIni.ToString();
             _proxCameraList.Add(new ProxCamera((IMyCameraBlock)b, Ini.Get(KEY_RangeOffset).ToDouble()));
         }
 
