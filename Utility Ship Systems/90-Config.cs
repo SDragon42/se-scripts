@@ -133,11 +133,11 @@ namespace IngameScript {
 
         readonly List<IMyThrust> LiftThrusters = new List<IMyThrust>();
 
-        void LoadCameraProximityConfig(IMyTerminalBlock b) {
+        void LoadCameraProximityConfig(IMyCameraBlock b) {
             LoadINI(CameraIni, b.CustomData);
             CameraIni.Add(KEY_RangeOffset, 0.0);
             b.CustomData = CameraIni.ToString();
-            ProxCameraList.Add(new ProxCamera((IMyCameraBlock)b, Ini.Get(KEY_RangeOffset).ToDouble()));
+            ProxCameraList.Add(new ProxCamera(b, Ini.Get(KEY_RangeOffset).ToDouble()));
         }
 
         static void LoadINI(MyIni ini, string text) {

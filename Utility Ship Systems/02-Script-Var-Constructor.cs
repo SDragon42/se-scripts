@@ -70,10 +70,11 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(ToolList, b => IsOnThisGrid(b) && IsToolBlock(b));
             GridTerminalSystem.GetBlocksOfType(ProxSpeakerList, b => IsOnThisGrid(b) && IsProximityBlock(b));
             GridTerminalSystem.GetBlocksOfType(DisplayList, b => IsOnThisGrid(b) && (IsProximityBlock(b) || IsForwardRangeBlock(b)));
+
             GridTerminalSystem.GetBlocksOfType<IMyCameraBlock>(TmpBlocks, b => IsOnThisGrid(b) && IsProximityBlock(b));
             ProxCameraList.Clear();
             foreach (var b in TmpBlocks)
-                LoadCameraProximityConfig(b);
+                LoadCameraProximityConfig((IMyCameraBlock)b);
 
             ForeRangeCamera = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCameraBlock>(b => IsOnThisGrid(b) && IsForwardRangeBlock(b));
 
