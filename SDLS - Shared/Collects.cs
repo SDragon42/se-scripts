@@ -18,7 +18,5 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        bool IsSameGrid(IMyTerminalBlock b) => Me.CubeGrid == b.CubeGrid;
-
     }
 }

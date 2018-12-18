@@ -22,8 +22,8 @@ namespace IngameScript {
                 Echo(Running.GetSymbol(Runtime));
             }
 
-            if (!Me.CubeGrid.CustomName.EndsWith(GRID_TAG))
-                Me.CubeGrid.CustomName += " " + GRID_TAG;
+            if (!Me.CubeGrid.CustomName.EndsWith(TAG.GRID))
+                Me.CubeGrid.CustomName += " " + TAG.GRID;
 
             try {
                 LoadBlocks();

@@ -18,60 +18,23 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        // Modules
-        readonly RunningSymbol Running = new RunningSymbol();
-        readonly Logging Log = new Logging(40);
-        readonly DebugLogging Debug;
-        readonly FlightDataRecorder Fdr = new FlightDataRecorder(new string[] { "" }, 1000);
-        //readonly StateMachine<bool> Operations = new StateMachine<bool>();
-        readonly StateMachineQueue<bool> GravityAlign = new StateMachineQueue<bool>();
-        readonly BlocksByOrientation Orientation = new BlocksByOrientation();
-        readonly VectorAlign VecAlign = new VectorAlign();
-
-        //Lists
-        readonly List<IMyParachute> Parachutes = new List<IMyParachute>();
-        readonly List<IMyGyro> Gyros = new List<IMyGyro>();
-        readonly List<IMyLandingGear> LandingGears = new List<IMyLandingGear>();
-        readonly List<IMyMotorStator> LaunchClamps = new List<IMyMotorStator>();
-        readonly List<IMyMotorStator> StageClamps = new List<IMyMotorStator>();
-        readonly List<IMyThrust> AllThrusters = new List<IMyThrust>();
-        readonly List<IMyThrust> ManeuverThrusters = new List<IMyThrust>();
-        readonly List<IMyThrust> StageThrusters = new List<IMyThrust>();
-        readonly List<IMyThrust> AscentThrusters = new List<IMyThrust>();
-        readonly List<IMyGasTank> H2Tanks = new List<IMyGasTank>();
-        readonly List<IMyTerminalBlock> TempBlocks = new List<IMyTerminalBlock>();
-        readonly Dictionary<string, List<IMyGasTank>> StageH2Tank = new Dictionary<string, List<IMyGasTank>>();
-
-        //readonly List<IMyCubeGrid>
-        readonly HashSet<IMyCubeGrid> rocketParts = new HashSet<IMyCubeGrid>();
-
-        // Single Blocks
-        IMyRemoteControl Remote = null;
-        IMyRadioAntenna Antenna = null;
-        IMyBeacon Beacon = null;
-
-        // Other
-        TimeSpan UpTime = TimeSpan.Zero;
-        bool BlocksLoaded = false;
-
-        readonly Dictionary<string, Action> Commands = new Dictionary<string, Action>();
-
-
         public Program() {
-            Debug = new DebugLogging(this);
-            Debug.EchoMessages = true;
-            //Debug.Enabled = false;
+            Debug = new DebugLogging(this) {
+                EchoMessages = true,
+                Enabled = false
+            };
 
-            //Fdr = new FlightDataRecorder(new string[] { "" }, 1000);
-            Fdr.Enabled = false;
+            Fdr = new FlightDataRecorder(new string[] { "" }, 1000) {
+                Enabled = false
+            };
 
             Runtime.UpdateFrequency = UpdateFrequency.None;
 
             Commands.Add(CMD_OFF, TurnOff);
             Commands.Add(CMD_MANUAL, ManualControl);
             Commands.Add(CMD_SCAN, ScanGrids);
-            Commands.Add("align-launch", Align_Launch);
-            Commands.Add("align-land", Align_Land);
+            Commands.Add(CMD_ALIGN_LAUNCH, Align_Launch);
+            Commands.Add(CMD_ALIGN_LAND, Align_Land);
         }
 
         public void Save() {
@@ -85,26 +48,26 @@ namespace IngameScript {
         void LoadBlocks(bool force = false) {
             if (BlocksLoaded && !force) return;
 
-            Remote = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>(IsSameGrid);
-            Antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(IsSameGrid);
-            Beacon = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyBeacon>(IsSameGrid);
+            Remote = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>(IsOnThisGrid);
+            Antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(IsOnThisGrid);
+            Beacon = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyBeacon>(IsOnThisGrid);
 
             Orientation.Init(Remote);
 
-            GridTerminalSystem.GetBlocksOfType(Parachutes, IsSameGrid);
-            GridTerminalSystem.GetBlocksOfType(Gyros, IsSameGrid);
-            GridTerminalSystem.GetBlocksOfType(LandingGears, IsSameGrid);
-            GridTerminalSystem.GetBlocksOfType(LaunchClamps, b => IsSameGrid(b) && Collect.IsTagged(b, TAG_LAUNCH_CLAMP));
-            GridTerminalSystem.GetBlocksOfType(StageClamps, b => IsSameGrid(b) && Collect.IsTagged(b, TAG_STAGING_CLAMP));
+            GridTerminalSystem.GetBlocksOfType(Parachutes, IsOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(Gyros, IsOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(LandingGears, IsOnThisGrid);
+            GridTerminalSystem.GetBlocksOfType(LaunchClamps, b => IsOnThisGrid(b) && Collect.IsTagged(b, TAG.LAUNCH_CLAMP));
+            GridTerminalSystem.GetBlocksOfType(StageClamps, b => IsOnThisGrid(b) && Collect.IsTagged(b, TAG.STAGING_CLAMP));
 
             // Thrusters
             ManeuverThrusters.Clear();
             StageThrusters.Clear();
             AscentThrusters.Clear();
             GridTerminalSystem.GetBlocksOfType(AllThrusters, b => {
-                if (!IsSameGrid(b)) return false;
+                if (!IsOnThisGrid(b)) return false;
                 //if (Collect.IsTagged(b, TAG_MANEUVER)) ManeuverThrusters.Add(b);
-                if (Collect.IsTagged(b, TAG_MAIN)) AscentThrusters.Add(b);
+                if (Collect.IsTagged(b, TAG.MAIN)) AscentThrusters.Add(b);
                 return true;
             });
 

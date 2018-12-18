@@ -18,20 +18,24 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        const string GRID_TAG = "SDLS";
-        const string GRID_STAGE1 = "Stage 1";
-        const string GRID_STAGE1B = "Stage 1b";
-        const string GRID_STAGE1C = "Stage 1c";
-        const string GRID_STAGE2 = "Stage 2";
+        static class GRID {
+            public const string STAGE1 = "Stage 1";
+            public const string STAGE1B = "Stage 1b";
+            public const string STAGE1C = "Stage 1c";
+            public const string STAGE2 = "Stage 2";
+        }
 
-        const string TAG_LAUNCH_CLAMP = "[launch-clamp]";
-        const string TAG_STAGING_CLAMP = "[stage-clamp]";
+        static class TAG {
+            public const string GRID = "[SDLS]";
 
-        const string TAG_MAIN = "[main]";
-        const string TAG_MANEUVER = "[maneuver]";
-        const string TAG_LANDING1 = "[landing-1]";
-        const string TAG_LANDING2 = "[landing-2]";
+            public const string LAUNCH_CLAMP = "[launch-clamp]";
+            public const string STAGING_CLAMP = "[stage-clamp]";
 
+            public const string MAIN = "[main]";
+            public const string MANEUVER = "[maneuver]";
+            public const string LANDING1 = "[landing-1]";
+            public const string LANDING2 = "[landing-2]";
+        }
 
     }
 }

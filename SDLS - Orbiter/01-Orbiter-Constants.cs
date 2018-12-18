@@ -21,8 +21,7 @@ namespace IngameScript {
         const string CMD_MANUAL = "manual";
         const string CMD_STANDBY = "standby";
         const string CMD_SCAN = "scan";
-
-        const string RCFG_ORBITER = "";
-
+        const string CMD_ALIGN_LAUNCH = "align-launch";
+        const string CMD_ALIGN_LAND = "align-land";
     }
 }
