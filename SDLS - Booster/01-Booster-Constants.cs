@@ -17,9 +17,9 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        const string CMD_SHUTDOWN = "shutdown";
-        const string CMD_RELOAD = "reload";
-        const string CMD_STAGE = "stage";
+        //const string CMD_SHUTDOWN = "shutdown";
+        //const string CMD_RELOAD = "reload";
+        //const string CMD_STAGE = "stage";
 
     }
 }
