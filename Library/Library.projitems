@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CargoHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DockSecure2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateMachineQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_CommonMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CompassHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigCustom.cs" />
