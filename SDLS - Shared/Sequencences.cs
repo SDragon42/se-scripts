@@ -26,5 +26,18 @@ namespace IngameScript {
             } while (time < milliseconds);
         }
 
+        IEnumerator<bool> Sequence_LaunchGravAlign() {
+            while (true) {
+                VecAlign.AlignWithGravity(Remote, Direction.Backward, Gyros, true);
+                yield return true;
+            }
+        }
+
+        IEnumerator<bool> Sequence_LandGravAlign() {
+            while (true) {
+                VecAlign.AlignWithGravity(Remote, Direction.Down, Gyros);
+                yield return true;
+            }
+        }
     }
 }

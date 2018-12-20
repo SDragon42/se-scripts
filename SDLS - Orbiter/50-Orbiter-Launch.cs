@@ -17,67 +17,67 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        const string OPS_GravAlign = "GravAlign";
-        const string OPS_Launch = "FlightOps";
+        //const string OPS_GravAlign = "GravAlign";
+        //const string OPS_Launch = "FlightOps";
 
 
 
-        IEnumerator<bool> Sequence_Launch() {
-            yield return true;
+        //IEnumerator<bool> Sequence_Launch() {
+        //    yield return true;
 
-            // Turn on Thrusters
-            AscentThrusters.ForEach(t => t.Enabled = true);
+        //    // Turn on Thrusters
+        //    AscentThrusters.ForEach(t => t.Enabled = true);
 
-            var delay = Delay(2000);
-            while (delay.MoveNext()) yield return true;
+        //    var delay = Delay(2000);
+        //    while (delay.MoveNext()) yield return true;
 
-            AscentThrusters.ForEach(t => t.ThrustOverridePercentage = 1f);
+        //    AscentThrusters.ForEach(t => t.ThrustOverridePercentage = 1f);
 
-            delay = Delay(500);
-            while (delay.MoveNext()) yield return true;
+        //    delay = Delay(500);
+        //    while (delay.MoveNext()) yield return true;
 
-            LandingGears.ForEach(lg => lg.Unlock());
-            LaunchClamps.ForEach(lc => lc.Detach());
+        //    LandingGears.ForEach(lg => lg.Unlock());
+        //    LaunchClamps.ForEach(lc => lc.Detach());
 
-            //double altitude = 0.0;
-            //while (true) {
-            //    if (!Remote.TryGetPlanetElevation(MyPlanetElevation.Surface, out altitude)) break;
-            //    if (altitude >= 100.0)
-            //        yield return true;
-            //}
+        //    //double altitude = 0.0;
+        //    //while (true) {
+        //    //    if (!Remote.TryGetPlanetElevation(MyPlanetElevation.Surface, out altitude)) break;
+        //    //    if (altitude >= 100.0)
+        //    //        yield return true;
+        //    //}
 
-            var fuelLevel = 0.0;
-            while (true) {
-                fuelLevel = H2Tanks.Average(t => t.FilledRatio);
-                if (fuelLevel <= 0.1) break;
-                //SetBurnLevel
-                yield return true;
-            }
+        //    var fuelLevel = 0.0;
+        //    while (true) {
+        //        fuelLevel = H2Tanks.Average(t => t.FilledRatio);
+        //        if (fuelLevel <= 0.1) break;
+        //        //SetBurnLevel
+        //        yield return true;
+        //    }
 
-            // boosters to full
-            // disconnect launch clamps
-        }
+        //    // boosters to full
+        //    // disconnect launch clamps
+        //}
 
-        double? CurrentAltitude;
-        //double? VerticalVelocity;
+        //double? CurrentAltitude;
+        ////double? VerticalVelocity;
 
-        class StageBlocks {
-            public List<IMyThrust> Thrusters;
-            public List<IMyGasTank> H2Tanks;
-            public List<IMyMotorStator> StageClamps;
-            public List<IMyLandingGear> LandingGears;
-            public double? StageAltitude = null;
-            public double? StageFuelReserve = null;
+        //class StageBlocks {
+        //    public List<IMyThrust> Thrusters;
+        //    public List<IMyGasTank> H2Tanks;
+        //    public List<IMyMotorStator> StageClamps;
+        //    public List<IMyLandingGear> LandingGears;
+        //    public double? StageAltitude = null;
+        //    public double? StageFuelReserve = null;
 
-            //public Action StageAction = null;
-            public bool ReadyToStage(double? currentAltitude) {
-                if (currentAltitude >= StageAltitude) return true;
-                if (StageAltitude.HasValue) return true;
-                var currentFuel = GasTankHelper.GetTanksFillPercentage(H2Tanks);
-                if (currentFuel <= StageFuelReserve) return true;
-                return false;
-            }
-        }
+        //    //public Action StageAction = null;
+        //    public bool ReadyToStage(double? currentAltitude) {
+        //        if (currentAltitude >= StageAltitude) return true;
+        //        if (StageAltitude.HasValue) return true;
+        //        var currentFuel = GasTankHelper.GetTanksFillPercentage(H2Tanks);
+        //        if (currentFuel <= StageFuelReserve) return true;
+        //        return false;
+        //    }
+        //}
 
         //IEnumerator<bool> Sequence_StageAndThrust(StageBlocks args) {
         //    // Turn on Thrusters
@@ -187,18 +187,18 @@ namespace IngameScript {
 
 
 
-        IEnumerator<bool> Sequence_LaunchGravAlign() {
-            while (true) {
-                VecAlign.AlignWithGravity(Remote, Direction.Backward, Gyros, true);
-                yield return true;
-            }
-        }
+        //IEnumerator<bool> Sequence_LaunchGravAlign() {
+        //    while (true) {
+        //        VecAlign.AlignWithGravity(Remote, Direction.Backward, Gyros, true);
+        //        yield return true;
+        //    }
+        //}
 
-        IEnumerator<bool> Sequence_LandGravAlign() {
-            while (true) {
-                VecAlign.AlignWithGravity(Remote, Direction.Down, Gyros);
-                yield return true;
-            }
-        }
+        //IEnumerator<bool> Sequence_LandGravAlign() {
+        //    while (true) {
+        //        VecAlign.AlignWithGravity(Remote, Direction.Down, Gyros);
+        //        yield return true;
+        //    }
+        //}
     }
 }

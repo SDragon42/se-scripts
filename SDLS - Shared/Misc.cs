@@ -18,7 +18,10 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        bool IsSDLS(IMyTerminalBlock b) => b.CustomName.Contains(TAG.GRID);
+        void TagSelf() {
+            //if (!Me.CustomName.Contains(TAG.GRID)) Me.CustomName = Me.CustomName.Trim() + " " + TAG.GRID;
+            if (!IsSDLS(Me)) Me.CustomName = Me.CustomName.Trim() + " " + TAG.GRID;
+        }
 
     }
 }

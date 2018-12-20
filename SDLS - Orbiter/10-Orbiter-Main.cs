@@ -18,6 +18,7 @@ namespace IngameScript {
     partial class Program {
         public void Main(string argument, UpdateType updateSource) {
             UpTime += Runtime.TimeSinceLastRun;
+            TagSelf();
             if ((updateSource.HasFlag(UpdateType.Update10))) {
                 Echo(Running.GetSymbol(Runtime));
             }

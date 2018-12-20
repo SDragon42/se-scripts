@@ -40,7 +40,7 @@ namespace IngameScript {
         readonly List<IMyThrust> StageThrusters = new List<IMyThrust>();
         readonly List<IMyThrust> AscentThrusters = new List<IMyThrust>();
         readonly List<IMyGasTank> H2Tanks = new List<IMyGasTank>();
-        readonly List<IMyTerminalBlock> TempBlocks = new List<IMyTerminalBlock>();
+        //readonly List<IMyTerminalBlock> TempBlocks = new List<IMyTerminalBlock>();
         readonly Dictionary<string, List<IMyGasTank>> StageH2Tank = new Dictionary<string, List<IMyGasTank>>();
 
 

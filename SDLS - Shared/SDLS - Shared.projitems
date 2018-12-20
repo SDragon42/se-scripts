@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Collects.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Misc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sequencences.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Variables.cs" />
   </ItemGroup>

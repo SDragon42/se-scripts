@@ -30,11 +30,13 @@ namespace IngameScript {
 
             Runtime.UpdateFrequency = UpdateFrequency.None;
 
-            Commands.Add(CMD_OFF, TurnOff);
-            Commands.Add(CMD_MANUAL, ManualControl);
+            //Commands.Add(CMD_OFF, TurnOff);
+            //Commands.Add(CMD_MANUAL, ManualControl);
             Commands.Add(CMD_SCAN, ScanGrids);
-            Commands.Add(CMD_ALIGN_LAUNCH, Align_Launch);
-            Commands.Add(CMD_ALIGN_LAND, Align_Land);
+            //Commands.Add(CMD_ALIGN_LAUNCH, Align_Launch);
+            //Commands.Add(CMD_ALIGN_LAND, Align_Land);
+
+            TagSelf();
         }
 
         public void Save() {
