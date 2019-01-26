@@ -20,12 +20,13 @@ namespace IngameScript {
         public void Main(string argument, UpdateType updateSource) {
             UpTime += Runtime.TimeSinceLastRun;
             TagSelf();
-            //NameGrid(Me);
             NameGrids();
             if ((updateSource.HasFlag(UpdateType.Update10)))
                 Echo("SDLS " + Running.GetSymbol(Runtime));
             else
                 Echo("SDLS");
+
+            IsMasterGrid = GRID.IsMaster(Me.CubeGrid);
 
             try {
                 //LoadBlocks();
@@ -58,16 +59,7 @@ namespace IngameScript {
         }
 
 
-        void ScanGrids() {
-            GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(TmpBlocks, b => GRID.IsNamed(b.CubeGrid));
 
-            var grids = TmpBlocks
-                .Select(b => new { b.CubeGrid.EntityId, b.CubeGrid.CustomName })
-                .Distinct()
-                .ToList();
-
-            grids.ForEach(g => Echo($"Grid: {g.CustomName}"));
-        }
 
         void TagSelf() {
             if (IsSDLS(Me)) return;

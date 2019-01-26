@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="01-SDLS-Vars-Constructor.cs" />
     <Compile Include="10-SDLS-Main.cs" />
+    <Compile Include="15-SDLS-Commands.cs" />
     <Compile Include="90-SDLS-Collects.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">

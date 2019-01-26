@@ -21,12 +21,16 @@ namespace IngameScript {
         readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
         TimeSpan UpTime = TimeSpan.Zero;
         //bool BlocksLoaded = false;
+        bool IsMasterGrid = false;
 
         // Modules
         readonly RunningSymbol Running = new RunningSymbol();
         readonly Logging Log = new Logging(40);
         readonly DebugLogging Debug;
         readonly FlightDataRecorder Fdr;
+
+        // Blocks
+
 
 
         public Program() {

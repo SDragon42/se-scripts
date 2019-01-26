@@ -35,9 +35,12 @@ namespace IngameScript {
                 if (grid.CustomName == STAGE1B) return true;
                 if (grid.CustomName == STAGE1C) return true;
                 if (grid.CustomName == STAGE2) return true;
+                return IsMaster(grid);
+            }
+
+            public static bool IsMaster(IMyCubeGrid grid) {
                 if (grid.CustomName == POD) return true;
-                if (grid.CustomName == PILOTED_POD) return true;
-                return false;
+                return (grid.CustomName == PILOTED_POD);
             }
         }
 
