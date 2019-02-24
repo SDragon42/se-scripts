@@ -42,8 +42,8 @@ namespace IngameScript {
             bool IsInDirection(IMyTerminalBlock b, Vector3 direction) {
                 Matrix blockMatrix;
                 b.Orientation.GetMatrix(out blockMatrix);
-                var accelDir = Vector3.Transform(blockMatrix.Forward, _scMatrix);
-                return (accelDir == direction);
+                var blockDir = Vector3.Transform(blockMatrix.Forward, _scMatrix);
+                return (blockDir == direction);
             }
         }
 
