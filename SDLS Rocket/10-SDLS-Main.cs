@@ -29,7 +29,8 @@ namespace IngameScript {
             IsMasterGrid = GRID.IsMaster(Me.CubeGrid);
 
             try {
-                //LoadBlocks();
+                SetParticleEmitters(false, Me.CubeGrid);
+                LoadLocalBlocks();
                 ProcessArguments(argument.ToLower());
                 if (RunSequences())
                     Runtime.UpdateFrequency = UpdateFrequency.None;
@@ -65,13 +66,13 @@ namespace IngameScript {
             if (IsSDLS(Me)) return;
             Me.CustomName = Me.CustomName.Trim() + " " + TAG.GRID;
         }
-        void NameGrids() {
-            var progs = new List<IMyProgrammableBlock>();
-            GridTerminalSystem.GetBlocksOfType(progs);
-            progs.ForEach(NameGrid);
+        readonly List<IMyProgrammableBlock> GridPrograms = new List<IMyProgrammableBlock>();
+        void NameGrids(bool force = false) {
+            GridTerminalSystem.GetBlocksOfType(GridPrograms);
+            GridPrograms.ForEach(b => NameGrid(b, force));
         }
-        void NameGrid(IMyProgrammableBlock block) {
-            if (GRID.IsNamed(block.CubeGrid)) return;
+        void NameGrid(IMyProgrammableBlock block, bool force) {
+            if (GRID.IsNamed(block.CubeGrid) && !force) return;
 
             // POD
             GridTerminalSystem.GetBlocksOfType<IMyCargoContainer>(TmpBlocks, b => OnSameGrid(block, b) && Collect.IsSmallBlockLargeCargoContainer(b));
@@ -80,6 +81,7 @@ namespace IngameScript {
                 block.CubeGrid.CustomName = (TmpBlocks.Count > 0)
                     ? GRID.PILOTED_POD
                     : GRID.POD;
+                Structure = Structure & RocketStructure.Pod;
                 return;
             }
 
@@ -87,16 +89,35 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType<IMyThrust>(TmpBlocks, b => OnSameGrid(block, b) && Collect.IsThrusterHydrogen(b) && b.BlockDefinition.SubtypeId.Contains("Large"));
             if (TmpBlocks.Count == 0) {
                 block.CubeGrid.CustomName = GRID.STAGE2;
+                Structure = Structure & RocketStructure.Stage2;
                 return;
             }
 
             // ID Stage 1 Core / Booster
             GridTerminalSystem.GetBlocksOfType<IMyMotorStator>(TmpBlocks, b => OnSameGrid(block, b) && Collect.IsTagged(b, TAG.BOOSTER_CLAMP));
-            block.CubeGrid.CustomName = (TmpBlocks.Count > 0)
-                ? GRID.STAGE1C
-                : GRID.STAGE1B;
+            if (TmpBlocks.Count > 0) {
+                block.CubeGrid.CustomName = GRID.STAGE1C;
+                Structure = Structure & RocketStructure.CoreBooster;
+            } else {
+                block.CubeGrid.CustomName = GRID.STAGE1B;
+                Structure = Structure & RocketStructure.SideBooster;
+            }
         }
 
 
+        void SetParticleEmitters(bool turnOn, params IMyCubeGrid[] grids) {
+
+            GridTerminalSystem.GetBlocksOfType(TmpBlocks, b => {
+                if (!grids.Contains(b.CubeGrid)) return false;
+                if (!IsParticleEmitter(b)) return false;
+                return true;
+            });
+
+            TmpBlocks.ForEach(b => {
+                //Debug.AppendLine(b.BlockDefinition.TypeIdString);
+                //Debug.AppendLine("   " + b.BlockDefinition.SubtypeId);
+                ((IMyFunctionalBlock)b).Enabled = turnOn;
+            });
+        }
     }
 }

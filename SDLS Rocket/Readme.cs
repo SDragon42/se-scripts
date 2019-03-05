@@ -1,8 +1,19 @@
 ﻿/*
- *   R e a d m e
- *   -----------
- * 
- *   In this file you can include any instructions or other comments you want to have injected onto the 
- *   top of your final script. You can safely delete this file if you do not want any such comments.
- * 
+R e a d m e
+-----------
+
+Flight Cycle
+
+Setup
+- All PBs are run.  Pod PD will run the others (if needed)
+- Identifies the rocket setup and builds the launch sequence code
+
+Launch
+- All PB are in standby except the Pod stage
+- Pod PB controls the entire launch
+
+Side-Boosters - 100%
+
+
+
  */

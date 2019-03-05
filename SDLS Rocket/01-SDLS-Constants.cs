@@ -18,10 +18,6 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        static class CMD {
-            public const string SCAN = "scan";
-        }
-
         static class GRID {
             //public const string STAGE1 = "Booster";
             public const string STAGE1B = "Side Booster";
@@ -48,7 +44,9 @@ namespace IngameScript {
             public const string GRID = "[SDLS]";
 
             public const string LAUNCH_CLAMP = "[launch-clamp]";
-            public const string STAGING_CLAMP = "[stage-clamp]";
+            public const string STAGE1_CLAMP = "[stage1-clamp]";
+            public const string STAGE2_CLAMP = "[stage2-clamp]";
+            //public const string STAGE_CLAMP = "[stage-clamp]";
             public const string BOOSTER_CLAMP = "[booster-clamp]";
 
             public const string MAIN = "[main]";
@@ -57,5 +55,21 @@ namespace IngameScript {
             public const string LANDING2 = "[landing-2]";
         }
 
+        enum FlightMode {
+            Off, Standby, Launch, Land
+        }
+
+        [Flags]
+        enum RocketStructure {
+            None = 0,
+            Pod = 1 << 0,
+            Stage2 = 1 << 1,
+            CoreBooster = 1 << 2,
+            SideBooster = 1 << 3,
+            Rocket1 = Pod + CoreBooster,
+            Rocket2 = Pod + Stage2 + CoreBooster,
+            Rocket3 = Pod + CoreBooster + SideBooster,
+            Rocket4 = Pod + Stage2 + CoreBooster + SideBooster,
+        }
     }
 }

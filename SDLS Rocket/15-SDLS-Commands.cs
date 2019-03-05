@@ -18,15 +18,54 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        void ScanGrids() {
+        void CMD_ScanGrids() {
+            NameGrids(true);
+            ShowGridNames();
+        }
+        void ShowGridNames() {
             GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(TmpBlocks, b => GRID.IsNamed(b.CubeGrid));
-
             var grids = TmpBlocks
-                .Select(b => new { b.CubeGrid.EntityId, b.CubeGrid.CustomName })
+                .Select(b => b.CubeGrid)
                 .Distinct()
                 .ToList();
-
             grids.ForEach(g => Echo($"Grid: {g.CustomName}"));
+        }
+
+
+        void CMD_Off() {
+
+        }
+
+        void CMD_Standby() {
+            if (!IsMasterGrid) return;
+            // Await Staging
+            
+        }
+
+        void CMD_Lanuch() {
+            if (!IsMasterGrid) return;
+            // Build Launch Sequence
+            BuildLaunchSequence();
+
+            QueueGravityAlign.Clear();
+            QueueGravityAlign.Add(Sequence_LaunchGravAlign());
+        }
+
+        void BuildLaunchSequence() {
+            switch (Structure) {
+                case RocketStructure.Rocket4:
+                    break;
+                case RocketStructure.Rocket3:
+                    break;
+                case RocketStructure.Rocket2:
+                    break;
+                case RocketStructure.Rocket1:
+                    break;
+                case RocketStructure.Pod:
+                    break;
+                default:
+                    break;
+            }
         }
 
     }
