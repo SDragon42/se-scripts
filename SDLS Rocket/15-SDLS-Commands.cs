@@ -36,22 +36,22 @@ namespace IngameScript {
 
         }
 
-        void CMD_Standby() {
+        void CMD_MG_Standby() {
             if (!IsMasterGrid) return;
             // Await Staging
             
         }
 
-        void CMD_Lanuch() {
+        void CMD_MG_Lanuch() {
             if (!IsMasterGrid) return;
             // Build Launch Sequence
-            BuildLaunchSequence();
+            MG_BuildLaunchSequence();
 
             QueueGravityAlign.Clear();
             QueueGravityAlign.Add(Sequence_LaunchGravAlign());
         }
 
-        void BuildLaunchSequence() {
+        void MG_BuildLaunchSequence() {
             switch (Structure) {
                 case RocketStructure.Rocket4:
                     break;

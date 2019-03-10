@@ -20,18 +20,8 @@ namespace IngameScript {
 
         readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
         TimeSpan UpTime = TimeSpan.Zero;
-        //bool BlocksLoaded = false;
-        bool _isMasterGrid_internal = false;
-        bool IsMasterGrid {
-            get { return _isMasterGrid_internal; }
-            set {
-                _isMasterGrid_internal = value;
-                //if (value)
-                //    GridLimited = (b) => true;
-                //else
-                //    GridLimited = IsOnThisGrid;
-            }
-        }
+        bool IsMasterGrid = false;
+        RocketStructure Structure = RocketStructure.None;
 
         // Modules
         readonly RunningSymbol Running = new RunningSymbol();
@@ -40,10 +30,9 @@ namespace IngameScript {
         readonly FlightDataRecorder Fdr;
         readonly VectorAlign VecAlign = new VectorAlign();
         readonly BlocksByOrientation Orientation = new BlocksByOrientation();
-
         readonly StateMachineQueue<bool> QueueSequence = new StateMachineQueue<bool>();
         readonly StateMachineQueue<bool> QueueGravityAlign = new StateMachineQueue<bool>();
-        RocketStructure Structure = RocketStructure.None;
+
 
         // Local Grid Only
         IMyShipController Remote = null;
@@ -66,8 +55,6 @@ namespace IngameScript {
         readonly List<IMyThrust> StackStageThrusters = new List<IMyThrust>();
         readonly List<IMyGasTank> StackH2Tanks = new List<IMyGasTank>();
 
-        //Func<IMyTerminalBlock, bool> GridLimited = null;
-
 
         public Program() {
             IsMasterGrid = false;
@@ -77,13 +64,13 @@ namespace IngameScript {
             };
 
             Fdr = new FlightDataRecorder(new string[] { "" }, 1000) {
-                Enabled = false
+                Enabled = true
             };
 
             Commands.Add("scan", CMD_ScanGrids);
             Commands.Add("off", CMD_Off);
-            Commands.Add("standby", CMD_Standby);
-            Commands.Add("launch", CMD_Lanuch);
+            Commands.Add("standby", CMD_MG_Standby);
+            Commands.Add("launch", CMD_MG_Lanuch);
 
             TagSelf();
             NameGrids();
