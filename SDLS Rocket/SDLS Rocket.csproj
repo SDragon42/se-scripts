@@ -90,10 +90,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MDKUtilities">
-      <HintPath>c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\w2j5bzc5.0p3\MDKUtilities.dll</HintPath>
+      <HintPath>c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\duhdubko.3xu\MDKUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Analyzer Include="c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\w2j5bzc5.0p3\Analyzers\MDKAnalyzer.dll" />
+    <Analyzer Include="c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\duhdubko.3xu\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="01-SDLS-Vars-Constructor.cs" />
