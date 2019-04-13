@@ -31,13 +31,13 @@ namespace IngameScript {
                 ctrlCoeff = controlCoeff;
             }
 
-            public bool AlignWithGravity(IMyShipController sc, Direction dir, IList<IMyGyro> gyroList, bool keepGyroOverride = false) {
+            public bool AlignWithGravity(IMyShipController sc, Direction dir, IList<IMyGyro> gyroList, bool keepOverrideOn = false) {
                 if (sc == null) return false;
                 var grav = sc.GetNaturalGravity();
-                return AlignWithVector(grav, sc, dir, gyroList, keepGyroOverride);
+                return AlignWithVector(grav, sc, dir, gyroList, keepOverrideOn);
             }
 
-            public bool AlignWithVector(Vector3D vDirection, IMyShipController sc, Direction dir, IList<IMyGyro> gyroList, bool keepGyroOverride = false) {
+            public bool AlignWithVector(Vector3D vDirection, IMyShipController sc, Direction dir, IList<IMyGyro> gyroList, bool keepOverrideOn = false) {
                 if (sc == null) return false;
                 var bAligned = true;
 
@@ -53,14 +53,14 @@ namespace IngameScript {
                     var localDown = Vector3D.Transform(down, MatrixD.Transpose(or));
                     var localGrav = Vector3D.Transform(vDirection, MatrixD.Transpose(g.WorldMatrix.GetOrientation()));
 
-                    // Since the gyro ui lies, we are not trying to control yaw,pitch,roll but rather we need a rotation vector (axis around which to rotate) 
+                    // Since the gyro UI lies, we are not trying to control yaw,pitch,roll but rather we need a rotation vector (axis around which to rotate) 
                     var rot = Vector3D.Cross(localDown, localGrav);
                     var dot2 = Vector3D.Dot(localDown, localGrav);
                     var ang = rot.Length();
                     ang = Math.Atan2(ang, Math.Sqrt(Math.Max(0.0, 1.0 - ang * ang)));
                     if (dot2 < 0) ang += Math.PI; // compensate for >+/-90
                     if (ang < MIN_ANGLE_RADIANS) { // close enough 
-                        SetGyroOff(g, keepGyroOverride);
+                        SetGyroOff(g, keepOverrideOn);
                         continue;
                     }
 

@@ -32,6 +32,8 @@ namespace IngameScript {
         readonly List<IMyInteriorLight> parachuteLights = new List<IMyInteriorLight>();
         readonly List<IMyInteriorLight> disarmedLights = new List<IMyInteriorLight>();
 
+        readonly List<MyInventoryItem> inventoryItems = new List<MyInventoryItem>();
+
         // Config Values
         string CommGroupName { get; set; } = "";
         bool StealthMode { get; set; } = false;
@@ -105,7 +107,8 @@ namespace IngameScript {
 
         long GetInventoryItemCount(IMyInventory inven) {
             var amount = 0L;
-            foreach (var item in inven.GetItems())
+            inven.GetItems(inventoryItems);
+            foreach (var item in inventoryItems)
                 amount += item.Amount.RawValue;
             return amount;
         }

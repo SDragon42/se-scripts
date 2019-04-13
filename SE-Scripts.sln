@@ -49,6 +49,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TWR Calculator 2", "TWR Cal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grid OS", "Grid OS\Grid OS.csproj", "{DB76852A-765B-427F-9413-0289FF8231AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS Rocket", "SDLS Rocket\SDLS Rocket.csproj", "{14BA763C-B48D-40C0-903A-6AE2BD473383}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E5086CA-C979-4791-ACC1-97A2BCB9BDFC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Block Actions.txt = Block Actions.txt
+		Block Properties.txt = Block Properties.txt
+		FontData.xml = FontData.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
@@ -59,6 +71,7 @@ Global
 		Library\Library.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		SpaceElevator - Shared\SpaceElevator - Shared.projitems*{07280390-4c98-4b20-a2eb-f4dbe5713cef}*SharedItemsImports = 4
 		SpaceElevator - Shared\SpaceElevator - Shared.projitems*{0a117477-6c2a-40ac-a8eb-fdcd2dfe11ba}*SharedItemsImports = 13
+		Library\Library.projitems*{14ba763c-b48d-40c0-903a-6ae2bd473383}*SharedItemsImports = 4
 		Library\Library.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
 		Library\Library.projitems*{42bffd2c-289c-4c7f-a25e-442164e2b48d}*SharedItemsImports = 4
 		Library\Library.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
@@ -123,6 +136,8 @@ Global
 		{AC420D80-1ABC-4422-B2BF-99A61A925ED6}.Debug|x64.Build.0 = Debug|x64
 		{DB76852A-765B-427F-9413-0289FF8231AD}.Debug|x64.ActiveCfg = Debug|x64
 		{DB76852A-765B-427F-9413-0289FF8231AD}.Debug|x64.Build.0 = Debug|x64
+		{14BA763C-B48D-40C0-903A-6AE2BD473383}.Debug|x64.ActiveCfg = Debug|x64
+		{14BA763C-B48D-40C0-903A-6AE2BD473383}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5DADB79D-A630-4310-9249-CC0344B4768A}</ProjectGuid>
+    <ProjectGuid>{14BA763C-B48D-40C0-903A-6AE2BD473383}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>IngameScript</RootNamespace>
-    <AssemblyName>Malhavoc - WelderFactory Init</AssemblyName>
+    <AssemblyName>SDLS Rocket</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -96,14 +96,19 @@
     <Analyzer Include="c:\users\nathen\appdata\local\microsoft\visualstudio\15.0_cddcc008\extensions\duhdubko.3xu\Analyzers\MDKAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="01-SDLS-Vars-Constructor.cs" />
+    <Compile Include="10-SDLS-Main.cs" />
+    <Compile Include="15-SDLS-Commands.cs" />
+    <Compile Include="90-SDLS-Collects.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <Compile Include="Program.cs" />
+    <Compile Include="01-SDLS-Constants.cs" />
     <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
+    <Compile Include="Sequencences.cs" />
   </ItemGroup>
   <Import Project="..\Library\Library.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
