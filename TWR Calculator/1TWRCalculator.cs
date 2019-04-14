@@ -76,8 +76,8 @@ namespace IngameScript {
             Echo(resultText);
             var twrDisplay = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyDisplayName)) as IMyTextPanel;
             if (twrDisplay != null) {
-                twrDisplay.ShowPublicTextOnScreen();
-                twrDisplay.WritePublicText(resultText);
+                twrDisplay.ContentType = VRage.Game.GUI.TextPanel.ContentType.TEXT_AND_IMAGE;
+                twrDisplay.WriteText(resultText);
             }
         }
 

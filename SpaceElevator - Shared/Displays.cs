@@ -234,11 +234,12 @@ namespace IngameScript {
             }
 
             public static void Write2MonospaceDisplay(IMyTextPanel display, string text, float fontSize) {
-                if (text == display.GetPublicText()) return;
+                if (text == display.GetText()) return;
                 display.Font = LCDFonts.MONOSPACE;
                 display.FontSize = fontSize;
-                display.WritePublicText(text);
-                display.ShowPublicTextOnScreen();
+                display.ContentType = VRage.Game.GUI.TextPanel.ContentType.TEXT_AND_IMAGE;
+                display.TextPadding = 0f;
+                display.WriteText(text);
             }
 
             class CarriageGraphInfo {

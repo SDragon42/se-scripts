@@ -39,8 +39,7 @@ namespace IngameScript
             void Init() {
                 _thisObj.GridTerminalSystem.GetBlocksOfType(_debugDisplays, IsValidDebugDisplay);
                 foreach (var display in _debugDisplays) {
-                    display.ShowTextureOnScreen();
-                    display.ShowPublicTextOnScreen();
+                    display.ContentType = VRage.Game.GUI.TextPanel.ContentType.TEXT_AND_IMAGE;
                 }
             }
             bool IsValidDebugDisplay(IMyTerminalBlock b) {
@@ -64,7 +63,7 @@ namespace IngameScript
             }
             void WriteToDisplays(string text) {
                 if (!Enabled) return;
-                _debugDisplays.ForEach(d => d.WritePublicText(text));
+                _debugDisplays.ForEach(d => d.WriteText(text));
             }
         }
     }

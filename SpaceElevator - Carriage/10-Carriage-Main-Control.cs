@@ -57,8 +57,9 @@ namespace IngameScript {
                     var logText = _log.GetLogText();
                     Echo(logText);
                     foreach (var d in _displayLog) {
-                        d.ShowPublicTextOnScreen();
-                        d.WritePublicText(logText);
+                        d.ContentType = VRage.Game.GUI.TextPanel.ContentType.TEXT_AND_IMAGE;
+                        d.TextPadding = 0f;
+                        d.WriteText(logText);
                     }
                 }
             } catch (Exception ex) {

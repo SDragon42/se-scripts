@@ -104,8 +104,8 @@ namespace IngameScript
                 if (_displays.Count == 0) return;
                 foreach (var screen in _displays)
                 {
-                    screen.WritePublicText(results);
-                    screen.ShowPublicTextOnScreen();
+                    screen.ContentType = VRage.Game.GUI.TextPanel.ContentType.TEXT_AND_IMAGE;
+                    screen.WriteText(results);
                 }
             }
 
