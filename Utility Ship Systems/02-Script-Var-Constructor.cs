@@ -37,7 +37,6 @@ namespace IngameScript {
 
         double TimeLastBlockLoad = BLOCK_RELOAD_TIME * 2;
         double TimeLastCleared = 0;
-        bool ReloadBlocks;
         string ProximityText = string.Empty;
         string ScanRangeText = string.Empty;
 
@@ -59,10 +58,21 @@ namespace IngameScript {
 
         public Action<string> Debug = (msg) => { };
 
+        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
+
 
         public Program() {
             //Debug = Echo;
             //_proximity.Debug = Echo;
+
+            Commands.Add(CMD_DOCK, DockSecureModule.Dock);
+            Commands.Add(CMD_UNDOCK, DockSecureModule.UnDock);
+            Commands.Add(CMD_DOCK_TOGGLE, DockSecureModule.ToggleDock);
+
+            Commands.Add(CMD_TOOLS_OFF, TurnOffTools);
+            Commands.Add(CMD_SCAN, ScanAhead);
+            Commands.Add(CMD_TOOLS_TOGGLE, ToggleToolsOnOff);
+
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 

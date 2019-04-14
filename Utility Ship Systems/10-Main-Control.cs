@@ -17,20 +17,17 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
         public void Main(string argument, UpdateType updateSource) {
+            argument = argument.ToLower();
             TimeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
             TimeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
-            var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - TimeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
-            Echo($"Utility Ship Systems 1.6.3 {RunningModule.GetSymbol(Runtime)}");
-            Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.");
-            Echo("");
-            Echo("Configure script in 'Custom Data'");
+            DisplayInstructions();
 
             Flag_SaveConfig = false;
             LoadConfig();
 
-            ReloadBlocks = (TimeLastBlockLoad >= BLOCK_RELOAD_TIME);
-            DockSecureModule.Init(this, ReloadBlocks);
-            if (ReloadBlocks) {
+            var reloadBlocks = (TimeLastBlockLoad >= BLOCK_RELOAD_TIME);
+            DockSecureModule.Init(this, reloadBlocks);
+            if (reloadBlocks) {
                 LoadBlocks();
                 TimeLastBlockLoad = 0;
 
@@ -49,16 +46,7 @@ namespace IngameScript {
 
             SaveConfig();
 
-            if (argument.Length > 0) {
-                switch (argument.ToLower()) {
-                    case CMD_DOCK: DockSecureModule.Dock(); break;
-                    case CMD_UNDOCK: DockSecureModule.UnDock(); break;
-                    case CMD_DOCK_TOGGLE: DockSecureModule.ToggleDock(); break;
-                    case CMD_TOOLS_OFF: TurnOffTools(); break;
-                    case CMD_SCAN: ScanAhead(); break;
-                    case CMD_TOOLS_TOGGLE: ToggleToolsOnOff(); break;
-                }
-            }
+            if (Commands.ContainsKey(argument)) Commands[argument]?.Invoke();
 
             if ((updateSource & UpdateType.Update10) > 0) {
                 DockSecureModule.AutoToggleDock();
@@ -74,13 +62,26 @@ namespace IngameScript {
                 var isProx = IsProximityBlock(d);
 
                 if (isRange && (!isProx || ScanRangeText.Length > 0)) {
-                    Write2ForeDisplay(d, ScanRangeText);
+                    Write2Display(d, ScanRangeText, fontSize: 1.7f);
                     continue;
                 }
                 if (isProx) {
-                    Write2ProximityDisplay(d, ProximityText);
+                    Write2Display(d, ProximityText, fontName: LCDFonts.MONOSPACE, fontSize: 1.65f);
                 }
             }
+        }
+        void DisplayInstructions() {
+            var text = new StringBuilder();
+            Action<string> Write = (t) => text.AppendLine(t);
+            var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - TimeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
+
+            Write($"Utility Ship Systems 1.6.4 {RunningModule.GetSymbol(Runtime)}");
+            Write($"Scanning for blocks in {timeTilUpdate:N0} seconds.\n");
+            Write("Configure script in 'Custom Data'\n");
+            Write("Script Commands");
+            foreach (var c in Commands.Keys) Write(c);
+
+            Echo(text.ToString());
         }
 
         void UpdateProximity() {
@@ -146,12 +147,6 @@ namespace IngameScript {
                 ? $"{range,4:N1}"
                 : $"{range,4:N0}";
         }
-        void Write2ProximityDisplay(IMyTextPanel display, string text) {
-            display.Font = LCDFonts.MONOSPACE;
-            display.FontSize = 1.65f;
-            display.WritePublicText(text);
-            display.ShowPublicTextOnScreen();
-        }
 
         void ScanAhead() {
             if (ForeRangeCamera == null) return;
@@ -165,11 +160,11 @@ namespace IngameScript {
                 $"Name: {ForeRangeInfo.DetectedEntity.Name}\n" +
                 $"Range: {ForeRangeInfo.Range:N1} m";
         }
-        void Write2ForeDisplay(IMyTextPanel display, string text) {
-            display.Font = LCDFonts.DEBUG;
-            display.FontSize = 1.7f;
-            display.WritePublicText(text);
-            display.ShowPublicTextOnScreen();
+        void Write2Display(IMyTextSurface display, string text, string fontName = LCDFonts.DEBUG, float fontSize = 1f) {
+            display.Font = fontName;
+            display.FontSize = fontSize;
+            display.WriteText(text);
+            display.ContentType = VRage.Game.GUI.TextPanel.ContentType.TEXT_AND_IMAGE;
         }
 
         void TurnOffTools() {
