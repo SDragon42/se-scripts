@@ -137,7 +137,7 @@ namespace IngameScript {
             LoadINI(CameraIni, b.CustomData);
             CameraIni.Add(KEY_RangeOffset, 0.0);
             b.CustomData = CameraIni.ToString();
-            ProxCameraList.Add(new ProxCamera(b, Ini.Get(KEY_RangeOffset).ToDouble()));
+            ProxCameraList.Add(new ProxCamera(b, CameraIni.Get(KEY_RangeOffset).ToDouble()));
         }
 
         static void LoadINI(MyIni ini, string text) {
