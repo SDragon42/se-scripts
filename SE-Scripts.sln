@@ -61,6 +61,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		FontData.xml = FontData.xml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TIM Cargo Switcher", "TIM Cargo Switcher\TIM Cargo Switcher.csproj", "{B94EC49C-747D-4F8A-A947-3258FBC0249C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
@@ -83,6 +85,7 @@ Global
 		Library\Library.projitems*{90533c51-8b80-4d39-9722-4cd89bfcb84c}*SharedItemsImports = 4
 		Library\Library.projitems*{931480a0-edd2-41af-ac91-8fb13e5ed08a}*SharedItemsImports = 13
 		Library\Library.projitems*{ac420d80-1abc-4422-b2bf-99a61a925ed6}*SharedItemsImports = 4
+		Library\Library.projitems*{b94ec49c-747d-4f8a-a947-3258fbc0249c}*SharedItemsImports = 4
 		Library\Library.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
 		Library\Library.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		SpaceElevator - Shared\SpaceElevator - Shared.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
@@ -138,6 +141,8 @@ Global
 		{DB76852A-765B-427F-9413-0289FF8231AD}.Debug|x64.Build.0 = Debug|x64
 		{14BA763C-B48D-40C0-903A-6AE2BD473383}.Debug|x64.ActiveCfg = Debug|x64
 		{14BA763C-B48D-40C0-903A-6AE2BD473383}.Debug|x64.Build.0 = Debug|x64
+		{B94EC49C-747D-4F8A-A947-3258FBC0249C}.Debug|x64.ActiveCfg = Debug|x64
+		{B94EC49C-747D-4F8A-A947-3258FBC0249C}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
