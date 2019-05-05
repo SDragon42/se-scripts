@@ -35,8 +35,7 @@ namespace IngameScript {
             }
 
             public static bool IsMaster(IMyCubeGrid grid) {
-                if (grid.CustomName == POD) return true;
-                return (grid.CustomName == PILOTED_POD);
+                return (grid.CustomName == POD || grid.CustomName == PILOTED_POD);
             }
         }
 
@@ -66,10 +65,10 @@ namespace IngameScript {
             Stage2 = 1 << 1,
             CoreBooster = 1 << 2,
             SideBooster = 1 << 3,
-            Rocket1 = Pod + CoreBooster,
-            Rocket2 = Pod + Stage2 + CoreBooster,
-            Rocket3 = Pod + CoreBooster + SideBooster,
-            Rocket4 = Pod + Stage2 + CoreBooster + SideBooster,
+            Rocket_Core = Pod + CoreBooster,
+            Rocket_Stg2_Core = Pod + Stage2 + CoreBooster,
+            Rocket_Core_2Side = Pod + CoreBooster + SideBooster,
+            Rocket_Stg_Core_2Side = Pod + Stage2 + CoreBooster + SideBooster,
         }
     }
 }

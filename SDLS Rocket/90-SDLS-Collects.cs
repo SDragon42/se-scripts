@@ -18,7 +18,5 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        bool IsSDLS(IMyTerminalBlock b) => b.CustomName.Contains(TAG.GRID);
-        bool IsParticleEmitter(IMyTerminalBlock b) => b.BlockDefinition.SubtypeId == "SmallParticleEmitter";
     }
 }

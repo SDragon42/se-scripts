@@ -29,7 +29,6 @@ namespace IngameScript {
             IsMasterGrid = GRID.IsMaster(Me.CubeGrid);
 
             try {
-                SetParticleEmitters(false, Me.CubeGrid);
                 LoadLocalBlocks();
                 ProcessArguments(argument.ToLower());
                 if (RunSequences())
@@ -63,10 +62,10 @@ namespace IngameScript {
 
 
         void TagSelf() {
-            if (IsSDLS(Me)) return;
+            if (Me.CustomName.Contains(TAG.GRID)) return;
             Me.CustomName = Me.CustomName.Trim() + " " + TAG.GRID;
         }
-        readonly List<IMyProgrammableBlock> GridPrograms = new List<IMyProgrammableBlock>();
+
         void NameGrids(bool force = false) {
             GridTerminalSystem.GetBlocksOfType(GridPrograms);
             GridPrograms.ForEach(b => NameGrid(b, force));
@@ -81,7 +80,7 @@ namespace IngameScript {
                 block.CubeGrid.CustomName = (TmpBlocks.Count > 0)
                     ? GRID.PILOTED_POD
                     : GRID.POD;
-                Structure = Structure & RocketStructure.Pod;
+                Structure = Structure | RocketStructure.Pod;
                 return;
             }
 
@@ -89,7 +88,7 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType<IMyThrust>(TmpBlocks, b => OnSameGrid(block, b) && Collect.IsThrusterHydrogen(b) && b.BlockDefinition.SubtypeId.Contains("Large"));
             if (TmpBlocks.Count == 0) {
                 block.CubeGrid.CustomName = GRID.STAGE2;
-                Structure = Structure & RocketStructure.Stage2;
+                Structure = Structure | RocketStructure.Stage2;
                 return;
             }
 
@@ -97,10 +96,10 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType<IMyMotorStator>(TmpBlocks, b => OnSameGrid(block, b) && Collect.IsTagged(b, TAG.BOOSTER_CLAMP));
             if (TmpBlocks.Count > 0) {
                 block.CubeGrid.CustomName = GRID.STAGE1C;
-                Structure = Structure & RocketStructure.CoreBooster;
+                Structure = Structure | RocketStructure.CoreBooster;
             } else {
                 block.CubeGrid.CustomName = GRID.STAGE1B;
-                Structure = Structure & RocketStructure.SideBooster;
+                Structure = Structure | RocketStructure.SideBooster;
             }
         }
 
@@ -109,8 +108,7 @@ namespace IngameScript {
 
             GridTerminalSystem.GetBlocksOfType(TmpBlocks, b => {
                 if (!grids.Contains(b.CubeGrid)) return false;
-                if (!IsParticleEmitter(b)) return false;
-                return true;
+                return (b.BlockDefinition.SubtypeId == "SmallParticleEmitter");
             });
 
             TmpBlocks.ForEach(b => {

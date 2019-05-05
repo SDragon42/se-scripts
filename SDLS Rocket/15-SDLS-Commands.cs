@@ -21,6 +21,7 @@ namespace IngameScript {
         void CMD_ScanGrids() {
             NameGrids(true);
             ShowGridNames();
+            Echo($"Structure:{Structure}");
         }
         void ShowGridNames() {
             GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(TmpBlocks, b => GRID.IsNamed(b.CubeGrid));
@@ -39,7 +40,7 @@ namespace IngameScript {
         void CMD_MG_Standby() {
             if (!IsMasterGrid) return;
             // Await Staging
-            
+
         }
 
         void CMD_MG_Lanuch() {
@@ -53,13 +54,13 @@ namespace IngameScript {
 
         void MG_BuildLaunchSequence() {
             switch (Structure) {
-                case RocketStructure.Rocket4:
+                case RocketStructure.Rocket_Stg_Core_2Side:
                     break;
-                case RocketStructure.Rocket3:
+                case RocketStructure.Rocket_Core_2Side:
                     break;
-                case RocketStructure.Rocket2:
+                case RocketStructure.Rocket_Stg2_Core:
                     break;
-                case RocketStructure.Rocket1:
+                case RocketStructure.Rocket_Core:
                     break;
                 case RocketStructure.Pod:
                     break;
