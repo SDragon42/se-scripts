@@ -19,8 +19,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        const string SCRIPT_NAME = "TIM Config Switcher v1.2";
-        const string CMD_USE = "use";
+        const string SCRIPT_NAME = "TIM Config Switcher v1.3";
 
         readonly List<IMyTerminalBlock> blocks = new List<IMyTerminalBlock>();
         readonly char[] SPLITTER = new char[] { ' ' };
@@ -34,7 +33,7 @@ namespace IngameScript {
         Action<string> Debug = (text) => { };
 
         public Program() {
-            Commands.Add(CMD_USE, CMD_SwitchTimConfig);
+            Commands.Add("use", CMD_SwitchTimConfig);
             Commands.Add("save", CMD_SaveTimConfig);
 
             ConfigStorage.Echo = Echo;
@@ -54,23 +53,18 @@ namespace IngameScript {
             targetTag = string.Empty;
             configTag = string.Empty;
 
-            var argParts = argument.Split(SPLITTER, StringSplitOptions.RemoveEmptyEntries);
-            if (argParts.Length < 2) {
+            var argParts = argument.Split(SPLITTER, 3, StringSplitOptions.RemoveEmptyEntries);
+            if (argParts.Length < 3) {
                 Echo("Invalid Args >> " + argument);
                 Echo("");
                 Echo("Format expected:");
-                Echo("<block tag> <config tag> [<command>]");
+                Echo("<block tag> <command> <config tag>");
                 return;
             }
 
             targetTag = "[" + Ini.Get(KEY_CargoSwitcherTag).ToString() + " " + argParts[0] + "]";
-            configTag = "[" + argParts[1] + "]";
-
-            var command = string.Empty;
-            if (argParts.Length >= 3)
-                command = argParts[2];
-            else
-                command = CMD_USE;
+            configTag = "[" + argParts[2].Trim() + "]";
+            var command = argParts[1];
 
             Debug("targetTag = " + targetTag);
             Debug("configTag = " + configTag);
