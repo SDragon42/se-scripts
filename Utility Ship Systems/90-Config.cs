@@ -22,6 +22,7 @@ namespace IngameScript {
 
 
         const string SECTION_UTILITY_SHIP = "Utility-Ship";
+        readonly MyIniKey Key_Tag = new MyIniKey(SECTION_UTILITY_SHIP, "Tag");
         readonly MyIniKey Key_IgnoreTag = new MyIniKey(SECTION_UTILITY_SHIP, "Ignore-Tag");
         readonly MyIniKey Key_AutoOff = new MyIniKey(SECTION_UTILITY_SHIP, "Auto Turn OFF Systems");
         readonly MyIniKey Key_AutoOn = new MyIniKey(SECTION_UTILITY_SHIP, "Auto Turn ON Systems");
@@ -32,7 +33,7 @@ namespace IngameScript {
         readonly MyIniKey Key_ToggleRadioAntennas = new MyIniKey(SECTION_UTILITY_SHIP, "Radio Antennas On/Off");
         readonly MyIniKey Key_ToggleSensors = new MyIniKey(SECTION_UTILITY_SHIP, "Sensors On/Off");
         readonly MyIniKey Key_ToggleOreDetectors = new MyIniKey(SECTION_UTILITY_SHIP, "Ore Detectors On/Off");
-        readonly MyIniKey Key_TurnOffSpotLights = new MyIniKey(SECTION_UTILITY_SHIP, "Spotlights Off");
+        readonly MyIniKey Key_ToggleSpotLights = new MyIniKey(SECTION_UTILITY_SHIP, "Spotlights On/Off");
 
         const string SECTION_PROXIMITY = "Proximity";
         readonly MyIniKey Key_ProxTag = new MyIniKey(SECTION_PROXIMITY, "Tag");
@@ -59,6 +60,7 @@ namespace IngameScript {
             _configHashCode = tmpHashCode;
             LoadINI(Ini, Me.CustomData);
 
+            Ini.Add(Key_Tag, "[utility]");
             Ini.Add(Key_IgnoreTag, "[ignore]");
             Ini.Add(Key_AutoOff, true);
             Ini.Add(Key_AutoOn, true);
@@ -69,7 +71,7 @@ namespace IngameScript {
             Ini.Add(Key_ToggleRadioAntennas, true);
             Ini.Add(Key_ToggleSensors, true);
             Ini.Add(Key_ToggleOreDetectors, true);
-            Ini.Add(Key_TurnOffSpotLights, true);
+            Ini.Add(Key_ToggleSpotLights, true);
             Ini.SetSectionComment(SECTION_UTILITY_SHIP, null);
 
             Ini.Add(KEY_MaxCargoMass, 0.0);
@@ -90,7 +92,7 @@ namespace IngameScript {
             Ini.SetSectionComment(SECTION_RANGE, null);
 
 
-
+            DockSecureModule.Tag = Ini.Get(Key_Tag).ToString();
             DockSecureModule.IgnoreTag = Ini.Get(Key_IgnoreTag).ToString();
             DockSecureModule.Auto_Off = Ini.Get(Key_AutoOff).ToBoolean();
             DockSecureModule.Auto_On = Ini.Get(Key_AutoOn).ToBoolean();
@@ -101,7 +103,7 @@ namespace IngameScript {
             DockSecureModule.RadioAntennas_OnOff = Ini.Get(Key_ToggleRadioAntennas).ToBoolean();
             DockSecureModule.Sensors_OnOff = Ini.Get(Key_ToggleSensors).ToBoolean();
             DockSecureModule.OreDetectors_OnOff = Ini.Get(Key_ToggleOreDetectors).ToBoolean();
-            DockSecureModule.Spotlights_Off = Ini.Get(Key_TurnOffSpotLights).ToBoolean();
+            DockSecureModule.Spotlights_OnOff = Ini.Get(Key_ToggleSpotLights).ToBoolean();
 
             ProximityTag = Ini.Get(Key_ProxTag).ToString();
             ProximityModule.ScanRange = Ini.Get(Key_ProxRange).ToDouble();

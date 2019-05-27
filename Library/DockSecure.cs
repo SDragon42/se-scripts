@@ -25,6 +25,7 @@ namespace IngameScript {
             bool _wasLockedLastRun = false;
             bool _isLocked = false;
 
+            public string Tag { get; set; }
             public string IgnoreTag { get; set; }
             public bool Auto_On { get; set; }
             public bool Auto_Off { get; set; }
@@ -36,7 +37,7 @@ namespace IngameScript {
             public bool Sensors_OnOff { get; set; }
             public bool OreDetectors_OnOff { get; set; }
             public bool Sorters_Off { get; set; }
-            public bool Spotlights_Off { get; set; }
+            public bool Spotlights_OnOff { get; set; }
 
             public bool IsDocked { get; private set; }
 
@@ -44,8 +45,8 @@ namespace IngameScript {
             public void Init(MyGridProgram thisObj, bool findBlocks = true) {
                 this.thisObj = thisObj;
                 if (!findBlocks) return;
-                thisObj.GridTerminalSystem.GetBlocksOfType(_landingGears, b => IsOnThisGrid(b) && !Collect.IsTagged(b, IgnoreTag));
-                thisObj.GridTerminalSystem.GetBlocksOfType(_connectors, b => IsOnThisGrid(b) && !Collect.IsTagged(b, IgnoreTag));
+                thisObj.GridTerminalSystem.GetBlocksOfType(_landingGears, IsValidBlock);
+                thisObj.GridTerminalSystem.GetBlocksOfType(_connectors, IsValidBlock);
             }
             public void AutoToggleDock() {
                 CheckIfLocked();
@@ -106,9 +107,11 @@ namespace IngameScript {
                 _isLocked = _landingGears.Where(Collect.IsLandingGearLocked).Any();
             }
 
+            bool IsValidBlock(IMyTerminalBlock b) {
+                return (IsOnThisGrid(b) || Collect.IsTagged(b, Tag)) && !Collect.IsTagged(b, IgnoreTag);
+            }
             bool IsBlock2TurnON(IMyTerminalBlock b) {
-                if (!IsOnThisGrid(b)) return false;
-                if (Collect.IsTagged(b, IgnoreTag)) return false;
+                if (!IsValidBlock(b)) return false;
                 if (Thrusters_OnOff && b is IMyThrust) return true;
                 if (Gyros_OnOff && b is IMyGyro) return true;
                 if (Lights_OnOff && b is IMyInteriorLight) return true;
@@ -116,12 +119,11 @@ namespace IngameScript {
                 if (RadioAntennas_OnOff && b is IMyRadioAntenna) return true;
                 if (Sensors_OnOff && b is IMySensorBlock) return true;
                 if (OreDetectors_OnOff && b is IMyOreDetector) return true;
+                if (Spotlights_OnOff && (b is IMyReflectorLight)) return true;
                 return false;
             }
             bool IsBlock2TurnOFF(IMyTerminalBlock b) {
-                if (!IsOnThisGrid(b)) return false;
                 if (IsBlock2TurnON(b)) return true;
-                if (Spotlights_Off && (b is IMyReflectorLight)) return true;
                 if (Sorters_Off && (b is IMyConveyorSorter)) return true;
                 return false;
             }

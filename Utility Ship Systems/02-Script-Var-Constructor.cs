@@ -29,6 +29,7 @@ namespace IngameScript {
         readonly List<IMySoundBlock> ProxSpeakerList = new List<IMySoundBlock>();
         readonly List<IMyFunctionalBlock> ToolList = new List<IMyFunctionalBlock>();
         readonly List<IMyTextPanel> DisplayList = new List<IMyTextPanel>();
+        readonly List<IMyTextPanel> CompassDisplayList = new List<IMyTextPanel>();
 
         IMyShipController Sc = null;
         IMyCameraBlock ForeRangeCamera = null;
@@ -59,7 +60,7 @@ namespace IngameScript {
         public Action<string> Debug = (msg) => { };
 
         readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
-
+        readonly string Instructions;
 
         public Program() {
             //Debug = Echo;
@@ -68,18 +69,24 @@ namespace IngameScript {
             Commands.Add(CMD_DOCK, DockSecureModule.Dock);
             Commands.Add(CMD_UNDOCK, DockSecureModule.UnDock);
             Commands.Add(CMD_DOCK_TOGGLE, DockSecureModule.ToggleDock);
-
             Commands.Add(CMD_TOOLS_OFF, TurnOffTools);
             Commands.Add(CMD_SCAN, ScanAhead);
             Commands.Add(CMD_TOOLS_TOGGLE, ToggleToolsOnOff);
 
-            Runtime.UpdateFrequency = UpdateFrequency.Update10;
+            // Instructions
+            var sb = new StringBuilder();
+            sb.AppendLine("Script Commands");
+            foreach (var c in Commands.Keys) sb.AppendLine(c);
+            Instructions = sb.ToString();
+
+            Runtime.UpdateFrequency = UpdateFrequency.Update10 | UpdateFrequency.Update1;
         }
 
         void LoadBlocks() {
             GridTerminalSystem.GetBlocksOfType(ToolList, b => IsOnThisGrid(b) && IsToolBlock(b));
             GridTerminalSystem.GetBlocksOfType(ProxSpeakerList, b => IsOnThisGrid(b) && IsProximityBlock(b));
             GridTerminalSystem.GetBlocksOfType(DisplayList, b => IsOnThisGrid(b) && (IsProximityBlock(b) || IsForwardRangeBlock(b)));
+            GridTerminalSystem.GetBlocksOfType(CompassDisplayList, b => IsOnThisGrid(b) && IsCompassBlock(b));
 
             GridTerminalSystem.GetBlocksOfType<IMyCameraBlock>(TmpBlocks, b => IsOnThisGrid(b) && IsProximityBlock(b));
             ProxCameraList.Clear();
@@ -95,11 +102,15 @@ namespace IngameScript {
 
             BlockOrientationModule.Init(Sc);
             GridTerminalSystem.GetBlocksOfType(LiftThrusters, BlockOrientationModule.IsDown);
+
+            foreach (IMyTextSurface d in CompassDisplayList) InitDisplay(d, LCDFonts.MONOSPACE, 1.253f);
+            foreach (IMyTextSurface d in CompassDisplayList) InitDisplay(d, LCDFonts.MONOSPACE, 1.253f);
         }
 
         bool IsToolBlock(IMyTerminalBlock b) => b is IMyShipDrill || b is IMyShipWelder || b is IMyShipGrinder;
         bool IsProximityBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ProximityTag);
         bool IsForwardRangeBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ForwardScanTag);
+        bool IsCompassBlock(IMyTerminalBlock b) => Collect.IsTagged(b, "[compass]");
 
 
     }

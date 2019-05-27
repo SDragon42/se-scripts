@@ -73,7 +73,7 @@ namespace IngameScript {
                 dsm.RadioAntennas_OnOff = _config.GetValue(KEY_ToggleRadioAntennas).ToBoolean();
                 dsm.Sensors_OnOff = _config.GetValue(KEY_ToggleSensors).ToBoolean();
                 dsm.OreDetectors_OnOff = _config.GetValue(KEY_ToggleOreDetectors).ToBoolean();
-                dsm.Spotlights_Off = _config.GetValue(KEY_TurnOffSpotLights).ToBoolean();
+                dsm.Spotlights_OnOff = _config.GetValue(KEY_TurnOffSpotLights).ToBoolean();
                 dsm.Sorters_Off = _config.GetValue(KEY_TurnOffSorters).ToBoolean();
 
                 postLoadAction?.Invoke();
