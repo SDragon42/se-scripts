@@ -24,6 +24,8 @@ bld/
 
 Testing/
 Testing.sln
+Simple Cruise Control/
+3rd-party-scripts.sln
 
 # Visual Studio 2015 cache/options directory
 .vs/
