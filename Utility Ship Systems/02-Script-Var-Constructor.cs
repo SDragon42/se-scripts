@@ -103,8 +103,7 @@ namespace IngameScript {
             BlockOrientationModule.Init(Sc);
             GridTerminalSystem.GetBlocksOfType(LiftThrusters, BlockOrientationModule.IsDown);
 
-            foreach (IMyTextSurface d in CompassDisplayList) InitDisplay(d, LCDFonts.MONOSPACE, 1.253f);
-            foreach (IMyTextSurface d in CompassDisplayList) InitDisplay(d, LCDFonts.MONOSPACE, 1.253f);
+            CompassDisplayList.ForEach(CompassHelper.InitDisplay);
         }
 
         bool IsToolBlock(IMyTerminalBlock b) => b is IMyShipDrill || b is IMyShipWelder || b is IMyShipGrinder;

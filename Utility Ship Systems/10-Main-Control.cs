@@ -9,6 +9,7 @@ using System.Text;
 using System;
 using VRage.Collections;
 using VRage.Game.Components;
+using VRage.Game.GUI.TextPanel;
 using VRage.Game.ModAPI.Ingame;
 using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
@@ -81,7 +82,7 @@ namespace IngameScript {
 
             if (Sc != null) {
                 var bearing = CompassHelper.GetBearing(Sc);
-                var txt = $"{CompassHelper.GetBearingText(bearing)}\n{CompassHelper.GetCompassText(bearing)}";
+                var txt = CompassHelper.GetDisplayText(bearing);
                 foreach (var d in CompassDisplayList) d.WriteText(txt);
             }
         }
@@ -169,8 +170,8 @@ namespace IngameScript {
         void InitDisplay(IMyTextSurface display, string fontName = LCDFonts.DEBUG, float fontSize = 1f) {
             display.Font = fontName;
             display.TextPadding = 0f;
-            display.Alignment = VRage.Game.GUI.TextPanel.TextAlignment.LEFT;
-            display.ContentType = VRage.Game.GUI.TextPanel.ContentType.TEXT_AND_IMAGE;
+            display.Alignment = TextAlignment.LEFT;
+            display.ContentType = ContentType.TEXT_AND_IMAGE;
             display.FontSize = fontSize;
         }
 
