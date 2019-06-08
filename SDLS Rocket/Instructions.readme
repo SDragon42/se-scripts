@@ -1,5 +1,4 @@
-﻿/*
-R e a d m e
+﻿R e a d m e
 -----------
 
 Flight Cycle
@@ -57,6 +56,3 @@ Core Booster lands at LZ 1
   (*) Altitude ceiling is a guess and will need to be determined.
  (**) Core booster power settings need to be determined. Idea is the side boosters will do most of the work.
 (***) Side booster staging altitude really will depend on payload mass and performance of the Core booster.
-
-
- */

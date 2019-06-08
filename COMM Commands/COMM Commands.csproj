@@ -37,7 +37,7 @@
   <ItemGroup>
     <Compile Include="MDK\Bootstrapper.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Readme.cs" />
+    <None Include="Instructions.readme" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
   </ItemGroup>

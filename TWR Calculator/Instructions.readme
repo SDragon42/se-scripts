@@ -1,5 +1,4 @@
-﻿/********************************************************************************
----------------------------------------------------------------------------------
+﻿---------------------------------------------------------------------------------
 Ship Thrust to Weight Ratio calculator
 Script by: SDragon 42 
 Uses code from Wico craft controller (http://steamcommunity.com/sharedfiles/filedetails/?id=571364878)
@@ -23,5 +22,3 @@ Ignore Mass
 ----------------------------------------
 Run the program, specifying the direction as an argument:
 forward, backward, up, down, left, right
-
-********************************************************************************/

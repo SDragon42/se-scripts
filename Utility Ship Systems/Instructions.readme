@@ -1,5 +1,4 @@
-﻿/***********************************************************
-Utility Ship Systems
+﻿Utility Ship Systems
 By SDragon42
 ver 1.6.5    2019-05-19
 ------------------------------------------------------------
@@ -32,6 +31,3 @@ tools-off
 scan-range
     This will do a ray-cast scan on the tagged camera and display information on the
     target.
-
-
-***********************************************************/

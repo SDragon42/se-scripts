@@ -43,7 +43,6 @@
     <Compile Include="70-OPS-CarriageController.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <Compile Include="02-OPS-Vars-Constructor.cs" />
-    <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
     <Compile Include="ScriptSettings.cs" />
@@ -59,6 +58,9 @@
     <AdditionalFiles Include="MDK\MDK.paths.props">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Instructions.readme" />
   </ItemGroup>
   <Import Project="MDK/MDK.options.props" />
   <Import Project="MDK/MDK.paths.props" />

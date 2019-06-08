@@ -44,7 +44,6 @@
     <Compile Include="60-Carriage-Collects.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <Compile Include="10-Carriage-Main-Control.cs" />
-    <Compile Include="Readme.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
     <Compile Include="ScriptSettings.cs" />
@@ -61,6 +60,9 @@
     <AdditionalFiles Include="MDK\MDK.paths.props">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Instructions.readme" />
   </ItemGroup>
   <Import Project="MDK/MDK.options.props" />
   <Import Project="MDK/MDK.paths.props" />
