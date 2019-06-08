@@ -58,34 +58,25 @@ namespace IngameScript {
 
             if (Commands.ContainsKey(argument)) Commands[argument]?.Invoke();
 
-            if ((updateSource & UpdateType.Update10) > 0) {
-                DockSecureModule.AutoToggleDock();
-                UpdateProximity();
+            DockSecureModule.AutoToggleDock();
+            UpdateProximity();
 
-
-                if (TimeLastCleared >= ForwardDisplayClearTime && ScanRangeText.Length > 0) {
-                    ScanRangeText = string.Empty;
-                    TimeLastCleared = 0;
-                }
-
-                foreach (var d in DisplayList) {
-                    var isRange = IsForwardRangeBlock(d);
-                    var isProx = IsProximityBlock(d);
-
-                    if (isRange && (!isProx || ScanRangeText.Length > 0)) {
-                        Write2Display(d, ScanRangeText, fontSize: 1.7f);
-                        continue;
-                    }
-                    if (isProx) {
-                        Write2Display(d, ProximityText, fontName: LCDFonts.MONOSPACE, fontSize: 1.65f);
-                    }
-                }
+            if (TimeLastCleared >= ForwardDisplayClearTime && ScanRangeText.Length > 0) {
+                ScanRangeText = string.Empty;
+                TimeLastCleared = 0;
             }
 
-            if (Sc != null) {
-                var bearing = CompassHelper.GetBearing(Sc);
-                var txt = CompassHelper.GetDisplayText(bearing);
-                foreach (var d in CompassDisplayList) d.WriteText(txt);
+            foreach (var d in DisplayList) {
+                var isRange = IsForwardRangeBlock(d);
+                var isProx = IsProximityBlock(d);
+
+                if (isRange && (!isProx || ScanRangeText.Length > 0)) {
+                    Write2Display(d, ScanRangeText, fontSize: 1.7f);
+                    continue;
+                }
+                if (isProx) {
+                    Write2Display(d, ProximityText, fontName: LCDFonts.MONOSPACE, fontSize: 1.65f);
+                }
             }
         }
 
