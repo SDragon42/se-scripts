@@ -22,11 +22,6 @@ bld/
 [Oo]bj/
 [Ll]og/
 
-Testing/
-Testing.sln
-Simple Cruise Control/
-3rd-party-scripts.sln
-
 # Visual Studio 2015 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
@@ -267,3 +262,7 @@ __pycache__/
 
 # SE
 Script.cs
+
+# MDK
+MDK.paths.props
+*.zip
