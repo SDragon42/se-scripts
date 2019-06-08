@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TIM Cargo Switcher", "TIM C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Countdown Trigger", "Countdown Trigger\Countdown Trigger.csproj", "{2F53CAAA-6741-407E-ACC7-5606CA771AC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility Ship Systems - Friends", "Utility Ship Systems - Friends\Utility Ship Systems - Friends.csproj", "{A8BCDEAF-7CB2-4DA3-B21A-19FF58BFC06F}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
@@ -84,6 +86,7 @@ Global
 		SpaceElevator - Shared\SpaceElevator - Shared.projitems*{7668c9b9-78de-4b35-a141-d528f0704d4a}*SharedItemsImports = 4
 		Library\Library.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Library\Library.projitems*{931480a0-edd2-41af-ac91-8fb13e5ed08a}*SharedItemsImports = 13
+		Library\Library.projitems*{a8bcdeaf-7cb2-4da3-b21a-19ff58bfc06f}*SharedItemsImports = 4
 		Library\Library.projitems*{ac420d80-1abc-4422-b2bf-99a61a925ed6}*SharedItemsImports = 4
 		Library\Library.projitems*{b94ec49c-747d-4f8a-a947-3258fbc0249c}*SharedItemsImports = 4
 		Library\Library.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
@@ -143,6 +146,8 @@ Global
 		{B94EC49C-747D-4F8A-A947-3258FBC0249C}.Debug|x64.Build.0 = Debug|x64
 		{2F53CAAA-6741-407E-ACC7-5606CA771AC8}.Debug|x64.ActiveCfg = Debug|x64
 		{2F53CAAA-6741-407E-ACC7-5606CA771AC8}.Debug|x64.Build.0 = Debug|x64
+		{A8BCDEAF-7CB2-4DA3-B21A-19FF58BFC06F}.Debug|x64.ActiveCfg = Debug|x64
+		{A8BCDEAF-7CB2-4DA3-B21A-19FF58BFC06F}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
