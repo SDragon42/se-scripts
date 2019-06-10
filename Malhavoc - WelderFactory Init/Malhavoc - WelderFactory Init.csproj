@@ -52,7 +52,7 @@
     </AdditionalFiles>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Instructions.readme" />
+    <AdditionalFiles Include="Instructions.readme" />
   </ItemGroup>
   <Import Project="MDK/MDK.options.props" />
   <Import Project="MDK/MDK.paths.props" />
