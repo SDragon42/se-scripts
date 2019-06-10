@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ackermann-Steering", "Ackermann-Steering\Ackermann-Steering.csproj", "{7C33E0EF-4F54-42E2-A4F9-D9B6592AA315}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group Renamer", "Group Renamer\Group Renamer.csproj", "{CC0335A2-8809-4A3B-A480-EC10767619FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Initialize Blocks", "Initialize Blocks\Initialize Blocks.csproj", "{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}"
@@ -44,8 +42,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Malhavoc - WelderFactory Init", "Malhavoc - WelderFactory Init\Malhavoc - WelderFactory Init.csproj", "{5DADB79D-A630-4310-9249-CC0344B4768A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TWR Calculator 2", "TWR Calculator 2\TWR Calculator 2.csproj", "{AC420D80-1ABC-4422-B2BF-99A61A925ED6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grid OS", "Grid OS\Grid OS.csproj", "{DB76852A-765B-427F-9413-0289FF8231AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS Rocket", "SDLS Rocket\SDLS Rocket.csproj", "{14BA763C-B48D-40C0-903A-6AE2BD473383}"
 EndProject
@@ -92,7 +88,6 @@ Global
 		Library\Library.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
 		Library\Library.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		SpaceElevator - Shared\SpaceElevator - Shared.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
-		Library\Library.projitems*{db76852a-765b-427f-9413-0289ff8231ad}*SharedItemsImports = 4
 		Library\Library.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
 		SDLS - Shared\SDLS - Shared.projitems*{f8741348-85b7-4620-9bd0-d08660a253c2}*SharedItemsImports = 13
 		Library\Library.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
@@ -102,8 +97,6 @@ Global
 		Debug|x64 = Debug|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7C33E0EF-4F54-42E2-A4F9-D9B6592AA315}.Debug|x64.ActiveCfg = Debug|x64
-		{7C33E0EF-4F54-42E2-A4F9-D9B6592AA315}.Debug|x64.Build.0 = Debug|x64
 		{CC0335A2-8809-4A3B-A480-EC10767619FA}.Debug|x64.ActiveCfg = Debug|x64
 		{CC0335A2-8809-4A3B-A480-EC10767619FA}.Debug|x64.Build.0 = Debug|x64
 		{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}.Debug|x64.ActiveCfg = Debug|x64
@@ -138,8 +131,6 @@ Global
 		{5DADB79D-A630-4310-9249-CC0344B4768A}.Debug|x64.Build.0 = Debug|x64
 		{AC420D80-1ABC-4422-B2BF-99A61A925ED6}.Debug|x64.ActiveCfg = Debug|x64
 		{AC420D80-1ABC-4422-B2BF-99A61A925ED6}.Debug|x64.Build.0 = Debug|x64
-		{DB76852A-765B-427F-9413-0289FF8231AD}.Debug|x64.ActiveCfg = Debug|x64
-		{DB76852A-765B-427F-9413-0289FF8231AD}.Debug|x64.Build.0 = Debug|x64
 		{14BA763C-B48D-40C0-903A-6AE2BD473383}.Debug|x64.ActiveCfg = Debug|x64
 		{14BA763C-B48D-40C0-903A-6AE2BD473383}.Debug|x64.Build.0 = Debug|x64
 		{B94EC49C-747D-4F8A-A947-3258FBC0249C}.Debug|x64.ActiveCfg = Debug|x64
