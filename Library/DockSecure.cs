@@ -111,7 +111,7 @@ namespace IngameScript {
             }
 
             bool IsValidBlock(IMyTerminalBlock b) {
-                return (IsOnThisGrid(b) || Collect.IsTagged(b, Tag)) && !Collect.IsTagged(b, IgnoreTag);
+                return (thisObj.Me.IsSameConstructAs(b) || Collect.IsTagged(b, Tag)) && !Collect.IsTagged(b, IgnoreTag);
             }
             bool IsBlock2TurnON(IMyTerminalBlock b) {
                 if (!IsValidBlock(b)) return false;
@@ -130,8 +130,6 @@ namespace IngameScript {
                 if (Sorters_Off && (b is IMyConveyorSorter)) return true;
                 return false;
             }
-
-            bool IsOnThisGrid(IMyTerminalBlock b) => thisObj.Me.CubeGrid == b.CubeGrid;
 
         }
     }
