@@ -18,7 +18,7 @@ using VRage;
 using VRageMath;
 
 namespace IngameScript {
-    #region mdk preserve
+    
     static class ExtensionMethods {
         public static void GetblocksOfTypeWithFirst<T>(this IMyGridTerminalSystem gts, List<IMyTerminalBlock> blockList, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class, IMyTerminalBlock {
             if (collectMethods == null || collectMethods.Length == 0) {
@@ -90,5 +90,5 @@ namespace IngameScript {
             ini.SetComment(k, comment);
         }
     }
-    #endregion
+    
 }
