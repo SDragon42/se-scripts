@@ -41,8 +41,8 @@ namespace IngameScript {
                     double.Parse(gpsParts[4]));
             }
 
-            public static string VectortoGps(Vector3D v) {
-                return $"GPS:Position:{v.X}:{v.Y}:{v.Z}:";
+            public static string VectortoGps(Vector3D v, string label = "Position") {
+                return $"GPS:{label}:{v.X}:{v.Y}:{v.Z}:";
             }
         }
     }
