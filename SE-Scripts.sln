@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Countdown Trigger", "Countd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility Ship Systems - Friends", "Utility Ship Systems - Friends\Utility Ship Systems - Friends.csproj", "{A8BCDEAF-7CB2-4DA3-B21A-19FF58BFC06F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Axel - Drop GPS Recorder", "Axel - Drop GPS Recorder\Axel - Drop GPS Recorder.csproj", "{D60C4A4B-46C6-4251-948F-C7B50A2CD676}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
@@ -88,6 +90,7 @@ Global
 		Library\Library.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
 		Library\Library.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
 		SpaceElevator - Shared\SpaceElevator - Shared.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
+		Library\Library.projitems*{d60c4a4b-46c6-4251-948f-c7b50a2cd676}*SharedItemsImports = 4
 		Library\Library.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
 		SDLS - Shared\SDLS - Shared.projitems*{f8741348-85b7-4620-9bd0-d08660a253c2}*SharedItemsImports = 13
 		Library\Library.projitems*{fe456dae-1e85-4d99-a25d-aa819e217af3}*SharedItemsImports = 4
@@ -139,6 +142,8 @@ Global
 		{2F53CAAA-6741-407E-ACC7-5606CA771AC8}.Debug|x64.Build.0 = Debug|x64
 		{A8BCDEAF-7CB2-4DA3-B21A-19FF58BFC06F}.Debug|x64.ActiveCfg = Debug|x64
 		{A8BCDEAF-7CB2-4DA3-B21A-19FF58BFC06F}.Debug|x64.Build.0 = Debug|x64
+		{D60C4A4B-46C6-4251-948F-C7B50A2CD676}.Debug|x64.ActiveCfg = Debug|x64
+		{D60C4A4B-46C6-4251-948F-C7B50A2CD676}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
