@@ -76,9 +76,9 @@ namespace IngameScript {
             if (GRID.IsNamed(block.CubeGrid) && !force) return;
 
             // POD
-            GridTerminalSystem.GetBlocksOfType<IMyCargoContainer>(TmpBlocks, b => OnSameGrid(block, b) && Collect.IsSmallBlockLargeCargoContainer(b));
+            GridTerminalSystem.GetBlocksOfType<IMyCargoContainer>(TmpBlocks, b => IsSameGrid(block, b) && Collect.IsSmallBlockLargeCargoContainer(b));
             if (TmpBlocks.Count > 0) {
-                GridTerminalSystem.GetBlocksOfType<IMyCockpit>(TmpBlocks, b => OnSameGrid(block, b));
+                GridTerminalSystem.GetBlocksOfType<IMyCockpit>(TmpBlocks, b => IsSameGrid(block, b));
                 block.CubeGrid.CustomName = (TmpBlocks.Count > 0)
                     ? GRID.PILOTED_POD
                     : GRID.POD;
@@ -87,7 +87,7 @@ namespace IngameScript {
             }
 
             // ID Stage 2
-            GridTerminalSystem.GetBlocksOfType<IMyThrust>(TmpBlocks, b => OnSameGrid(block, b) && Collect.IsThrusterHydrogen(b) && b.BlockDefinition.SubtypeId.Contains("Large"));
+            GridTerminalSystem.GetBlocksOfType<IMyThrust>(TmpBlocks, b => IsSameGrid(block, b) && Collect.IsThrusterHydrogen(b) && b.BlockDefinition.SubtypeId.Contains("Large"));
             if (TmpBlocks.Count == 0) {
                 block.CubeGrid.CustomName = GRID.STAGE2;
                 Structure = Structure | RocketStructure.Stage2;
@@ -95,7 +95,7 @@ namespace IngameScript {
             }
 
             // ID Stage 1 Core / Booster
-            GridTerminalSystem.GetBlocksOfType<IMyMotorStator>(TmpBlocks, b => OnSameGrid(block, b) && Collect.IsTagged(b, TAG.BOOSTER_CLAMP));
+            GridTerminalSystem.GetBlocksOfType<IMyMotorStator>(TmpBlocks, b => IsSameGrid(block, b) && Collect.IsTagged(b, TAG.BOOSTER_CLAMP));
             if (TmpBlocks.Count > 0) {
                 block.CubeGrid.CustomName = GRID.STAGE1C;
                 Structure = Structure | RocketStructure.CoreBooster;
