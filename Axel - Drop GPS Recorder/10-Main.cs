@@ -50,6 +50,17 @@ namespace IngameScript {
             isFirstRun = false;
         }
 
+        void LoadBlocks() {
+            GridTerminalSystem.GetBlocksOfType(lcdPanels, IsBlockIWant);
+            GridTerminalSystem.GetBlocksOfType(currentMergeBlocks, IsBlockIWant);
+        }
+
+        bool IsBlockIWant(IMyTerminalBlock b) {
+            if (!b.IsSameConstructAs(Me)) return false;
+            if (!b.CustomName.ToLower().Contains(Tag)) return false;
+            return true;
+        }
+
         private void CheckForMergeDisconnect(IMyShipMergeBlock current) {
             if (current.IsConnected) {
                 if (disconnectedMergeBlocks.Contains(current))
@@ -71,40 +82,6 @@ namespace IngameScript {
                 lcd.WriteText($"{gps}\n", true);
             }
         }
-
-        bool IsBlockIWant(IMyTerminalBlock b) {
-            if (!b.IsSameConstructAs(Me)) return false;
-            if (!b.CustomName.ToLower().Contains(Tag)) return false;
-            return true;
-        }
-
-        void LoadBlocks() {
-            GridTerminalSystem.GetBlocksOfType(lcdPanels, IsBlockIWant);
-            GridTerminalSystem.GetBlocksOfType(currentMergeBlocks, IsBlockIWant);
-        }
-
-
-        int configHash = -1;
-        MyIniKey keyLcdTag = new MyIniKey("Drop GPS Recorder", "Tag");
-        MyIniKey keyGpsLabel = new MyIniKey("Drop GPS Recorder", "GPS Label");
-        void LoadConfig() {
-            var hash = Me.CustomData.GetHashCode();
-            if (configHash == hash) return;
-
-            var ini = new MyIni();
-            ini.TryParse(Me.CustomData);
-
-            ini.Add(keyLcdTag, DefaultTag);
-            ini.Add(keyGpsLabel, DefaultGpsLabel);
-
-            Tag = ini.Get(keyLcdTag).ToString();
-            GpsLabel = ini.Get(keyGpsLabel).ToString();
-
-            Me.CustomData = ini.ToString();
-            configHash = Me.CustomData.GetHashCode();
-        }
-
-
 
     }
 }
