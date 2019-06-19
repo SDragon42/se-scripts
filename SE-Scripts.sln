@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility Ship Systems - Frie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Axel - Drop GPS Recorder", "Axel - Drop GPS Recorder\Axel - Drop GPS Recorder.csproj", "{D60C4A4B-46C6-4251-948F-C7B50A2CD676}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guidance Block Launch Control", "Guidance Block Launch Control\Guidance Block Launch Control.csproj", "{B4DCA2F0-0A7B-4DC4-B284-AD4747497E04}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
@@ -86,6 +88,7 @@ Global
 		Library\Library.projitems*{931480a0-edd2-41af-ac91-8fb13e5ed08a}*SharedItemsImports = 13
 		Library\Library.projitems*{a8bcdeaf-7cb2-4da3-b21a-19ff58bfc06f}*SharedItemsImports = 4
 		Library\Library.projitems*{ac420d80-1abc-4422-b2bf-99a61a925ed6}*SharedItemsImports = 4
+		Library\Library.projitems*{b4dca2f0-0a7b-4dc4-b284-ad4747497e04}*SharedItemsImports = 4
 		Library\Library.projitems*{b94ec49c-747d-4f8a-a947-3258fbc0249c}*SharedItemsImports = 4
 		Library\Library.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
 		Library\Library.projitems*{d3db145b-4db0-4334-ae5c-e046464f6b4c}*SharedItemsImports = 4
@@ -144,6 +147,8 @@ Global
 		{A8BCDEAF-7CB2-4DA3-B21A-19FF58BFC06F}.Debug|x64.Build.0 = Debug|x64
 		{D60C4A4B-46C6-4251-948F-C7B50A2CD676}.Debug|x64.ActiveCfg = Debug|x64
 		{D60C4A4B-46C6-4251-948F-C7B50A2CD676}.Debug|x64.Build.0 = Debug|x64
+		{B4DCA2F0-0A7B-4DC4-B284-AD4747497E04}.Debug|x64.ActiveCfg = Debug|x64
+		{B4DCA2F0-0A7B-4DC4-B284-AD4747497E04}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
