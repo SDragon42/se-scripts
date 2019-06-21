@@ -34,7 +34,7 @@ namespace IngameScript {
 
         // Config Settings
         string referenceBlockName = string.Empty;
-        string missilePrimaryTag = "Guidance";
+        string missilePrimaryTag = "Torpedo Payload Guidance";
         string missileSecondaryTag = "";
         MissileSelectionMode selectionMode = MissileSelectionMode.Random;
 
