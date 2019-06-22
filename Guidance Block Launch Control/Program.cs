@@ -20,9 +20,9 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        const string ScriptTitle = "SDragons Missile Guidance Launcher";
+        const string ScriptTitle = "SDragons Torpedo Guidance Launcher";
 
-        enum MissileSelectionMode { Random = 0, Closest = 1, Furthest = 2 }
+        enum TorpedoSelectionMode { Random = 0, Closest = 1, Furthest = 2 }
 
         // Blocks
         readonly List<IMyRadioAntenna> guidanceBlocks = new List<IMyRadioAntenna>();
@@ -31,18 +31,18 @@ namespace IngameScript {
         IMyTerminalBlock referenceBlock = null;
 
         // Command vars
-        readonly IDictionary<MissileSelectionMode, Func<IMyRadioAntenna>> MissileSelection = new Dictionary<MissileSelectionMode, Func<IMyRadioAntenna>>();
+        readonly IDictionary<TorpedoSelectionMode, Func<IMyRadioAntenna>> TorpedoSelection = new Dictionary<TorpedoSelectionMode, Func<IMyRadioAntenna>>();
         readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
         readonly string Instructions;
         readonly Random randomGenerator = new Random();
 
         // Config Settings
         string referenceTag = "Cockpit";
-        string missilePrimaryTag = "Torpedo Payload Guidance";
-        string missileSecondaryTag = string.Empty;
-        string missileBeaconTag = "Torpedo Payload Beacon";
-        string missilePowerCellTag = "Torp Power Cell";
-        MissileSelectionMode selectionMode = MissileSelectionMode.Random;
+        string torpedoPrimaryTag = "Torpedo Payload Guidance";
+        string torpedoSecondaryTag = string.Empty;
+        string torpedoBeaconTag = "Torpedo Payload Beacon";
+        string torpedoPowerCellTag = "Torp Power Cell";
+        TorpedoSelectionMode selectionMode = TorpedoSelectionMode.Random;
 
 
         Action<string> Debug = (text) => { };
@@ -56,9 +56,9 @@ namespace IngameScript {
             Commands.Add("trdm-on", Command_TargetRandomBlockOnAll);
             Commands.Add("trdm-off", Command_TargetRandomBlockOffAll);
 
-            MissileSelection.Add(MissileSelectionMode.Random, SelectRandomMissile);
-            MissileSelection.Add(MissileSelectionMode.Closest, SelectClosestMissile);
-            MissileSelection.Add(MissileSelectionMode.Furthest, SelectFurthestMissile);
+            TorpedoSelection.Add(TorpedoSelectionMode.Random, SelectRandomTorpedo);
+            TorpedoSelection.Add(TorpedoSelectionMode.Closest, SelectClosestTorpedo);
+            TorpedoSelection.Add(TorpedoSelectionMode.Furthest, SelectFurthestTorpedo);
 
             // Instructions
             var sb = new StringBuilder();
@@ -79,8 +79,8 @@ namespace IngameScript {
             ProcessConfig();
             LoadBlocks();
             if (guidanceBlocks.Count == 0) {
-                Echo("No missile guidance blocks found");
-                Echo($"Tag: {missilePrimaryTag}");
+                Echo("No torpedo guidance blocks found");
+                Echo($"Tag: {torpedoPrimaryTag}");
                 command = string.Empty;
             }
             RechargeAllPowerCells();
@@ -89,10 +89,10 @@ namespace IngameScript {
         }
 
         void ProcessArgument(string argument, out string command) {
-            missileSecondaryTag = string.Empty;
+            torpedoSecondaryTag = string.Empty;
             var cmdParts = argument.ToLower().Split(new char[] { ' ' }, 2);
             command = cmdParts[0];
-            if (cmdParts.Length >= 2) missileSecondaryTag = cmdParts[1];
+            if (cmdParts.Length >= 2) torpedoSecondaryTag = cmdParts[1];
         }
 
         void RunCommand(string command) {
@@ -102,14 +102,14 @@ namespace IngameScript {
 
         // config vars
         int _configHashCode = 0;
-        const string SEC_MissileGuidanceTags = "Missile Guidance Tags";
-        readonly MyIniKey Key_ReferanceBlock = new MyIniKey(SEC_MissileGuidanceTags, "Reference Block Tag");
-        readonly MyIniKey Key_GuidanceTag = new MyIniKey(SEC_MissileGuidanceTags, "Guidance Tag");
-        readonly MyIniKey Key_BeaconTag = new MyIniKey(SEC_MissileGuidanceTags, "Beacon Tag");
-        readonly MyIniKey Key_PowerCellTag = new MyIniKey(SEC_MissileGuidanceTags, "Battery Tag");
+        const string SEC_TorpedoGuidanceTags = "Torpedo Guidance Tags";
+        readonly MyIniKey Key_ReferanceBlock = new MyIniKey(SEC_TorpedoGuidanceTags, "Reference Block Tag");
+        readonly MyIniKey Key_GuidanceTag = new MyIniKey(SEC_TorpedoGuidanceTags, "Guidance Tag");
+        readonly MyIniKey Key_BeaconTag = new MyIniKey(SEC_TorpedoGuidanceTags, "Beacon Tag");
+        readonly MyIniKey Key_PowerCellTag = new MyIniKey(SEC_TorpedoGuidanceTags, "Battery Tag");
 
-        const string SEC_MissileLaunch = "Missile Launch";
-        readonly MyIniKey Key_LaunchMode = new MyIniKey(SEC_MissileLaunch, "Launch Mode");
+        const string SEC_TorpedoLaunch = "Torpedo Launch";
+        readonly MyIniKey Key_LaunchMode = new MyIniKey(SEC_TorpedoLaunch, "Launch Mode");
 
         void ProcessConfig() {
             Debug("ProcessConfig()");
@@ -121,29 +121,29 @@ namespace IngameScript {
 
             // Create Default Config
             ini.Add(Key_ReferanceBlock, referenceTag);
-            ini.Add(Key_GuidanceTag, missilePrimaryTag);
-            ini.Add(Key_BeaconTag, missileBeaconTag);
-            ini.Add(Key_PowerCellTag, missilePowerCellTag);
+            ini.Add(Key_GuidanceTag, torpedoPrimaryTag);
+            ini.Add(Key_BeaconTag, torpedoBeaconTag);
+            ini.Add(Key_PowerCellTag, torpedoPowerCellTag);
 
             ini.Add(Key_LaunchMode, (int)selectionMode, "Modes: 0 = Random, 1 = Closest, 2 = Furthest");
 
 
             referenceTag = ini.Get(Key_ReferanceBlock).ToString().ToLower();
-            missilePrimaryTag = ini.Get(Key_GuidanceTag).ToString().ToLower();
-            missileBeaconTag = ini.Get(Key_BeaconTag).ToString().ToLower();
-            missilePowerCellTag = ini.Get(Key_PowerCellTag).ToString().ToLower();
+            torpedoPrimaryTag = ini.Get(Key_GuidanceTag).ToString().ToLower();
+            torpedoBeaconTag = ini.Get(Key_BeaconTag).ToString().ToLower();
+            torpedoPowerCellTag = ini.Get(Key_PowerCellTag).ToString().ToLower();
 
             var mode = ini.Get(Key_LaunchMode).ToInt32();
-            if (Enum.IsDefined(typeof(MissileSelectionMode), mode))
-                selectionMode = (MissileSelectionMode)mode;
+            if (Enum.IsDefined(typeof(TorpedoSelectionMode), mode))
+                selectionMode = (TorpedoSelectionMode)mode;
 
 
             Me.CustomData = ini.ToString();
             _configHashCode = Me.CustomData.GetHashCode();
 
             Debug($"Ref: {referenceTag}");
-            Debug($"GTag: {missilePrimaryTag}");
-            Debug($"BTag: {missileBeaconTag}");
+            Debug($"GTag: {torpedoPrimaryTag}");
+            Debug($"BTag: {torpedoBeaconTag}");
             Debug($"Smode: {selectionMode}");
         }
 
@@ -157,24 +157,24 @@ namespace IngameScript {
             if (referenceBlock == null) referenceBlock = Me;
             Debug($"FRef: {referenceBlock.CustomName}");
 
-            GridTerminalSystem.GetBlocksOfType(guidanceBlocks, IsMissleGuidance);
+            GridTerminalSystem.GetBlocksOfType(guidanceBlocks, IsTorpedoGuidance);
             Debug($"# Found Torps: {guidanceBlocks.Count}");
 
-            GridTerminalSystem.GetBlocksOfType(beaconBlocks, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, missileBeaconTag));
-            Debug($"# Found Torps Beacons: {beaconBlocks.Count}");
+            GridTerminalSystem.GetBlocksOfType(beaconBlocks, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, torpedoBeaconTag));
+            Debug($"# Found Torp Beacons: {beaconBlocks.Count}");
 
             powerCellBlocks.Clear();
-            if (missilePowerCellTag.Length > 0) {
-                GridTerminalSystem.GetBlocksOfType(powerCellBlocks, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, missilePowerCellTag));
-                Debug($"# Found Torps P.Cells: {powerCellBlocks.Count}");
+            if (torpedoPowerCellTag.Length > 0) {
+                GridTerminalSystem.GetBlocksOfType(powerCellBlocks, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, torpedoPowerCellTag));
+                Debug($"# Found Torp P.Cells: {powerCellBlocks.Count}");
             }
         }
 
-        bool IsMissleGuidance(IMyTerminalBlock b) {
+        bool IsTorpedoGuidance(IMyTerminalBlock b) {
             if (!b.IsSameConstructAs(Me)) return false;
-            if (!Collect.IsTagged(b, missilePrimaryTag)) return false;
-            if (missileSecondaryTag.Length > 0)
-                return Collect.IsTagged(b, missileSecondaryTag);
+            if (!Collect.IsTagged(b, torpedoPrimaryTag)) return false;
+            if (torpedoSecondaryTag.Length > 0)
+                return Collect.IsTagged(b, torpedoSecondaryTag);
             return true;
         }
 
@@ -193,7 +193,7 @@ namespace IngameScript {
             RechargeAllPowerCells();
         }
         void Command_Launch() {
-            var guidance = MissileSelection[selectionMode]?.Invoke();
+            var guidance = TorpedoSelection[selectionMode]?.Invoke();
             if (guidance == null) return;
 
             var beacon = SelectBlock(beaconBlocks, guidance, double.MaxValue, LessThan);
@@ -229,13 +229,13 @@ namespace IngameScript {
 
 
 
-        IMyRadioAntenna SelectRandomMissile() {
+        IMyRadioAntenna SelectRandomTorpedo() {
             if (guidanceBlocks.Count == 0) return null;
             var rndIndex = randomGenerator.Next(guidanceBlocks.Count);
             return guidanceBlocks[rndIndex];
         }
-        IMyRadioAntenna SelectClosestMissile() => SelectBlock(guidanceBlocks, referenceBlock, double.MaxValue, LessThan);
-        IMyRadioAntenna SelectFurthestMissile() => SelectBlock(guidanceBlocks, referenceBlock, 0d, GreaterThan);
+        IMyRadioAntenna SelectClosestTorpedo() => SelectBlock(guidanceBlocks, referenceBlock, double.MaxValue, LessThan);
+        IMyRadioAntenna SelectFurthestTorpedo() => SelectBlock(guidanceBlocks, referenceBlock, 0d, GreaterThan);
 
 
         static T SelectBlock<T>(List<T> blockList, IMyTerminalBlock referenceBlock, double initalDist, Func<double, double, bool> compareFunc) where T : IMyTerminalBlock {
