@@ -38,7 +38,10 @@
   <Import Project="MDK/MDK.options.props" />
   <Import Project="MDK/MDK.paths.props" Condition="exists('MDK/MDK.paths.props')" />
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="01-TorpGuidance-Constructor.cs" />
+    <Compile Include="10-TorpGuidance-Main.cs" />
+    <Compile Include="20-TorpGuidance-Commands.cs" />
+    <Compile Include="90-TorpGuidance-Config.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options.props">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
