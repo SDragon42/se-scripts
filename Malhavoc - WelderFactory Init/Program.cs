@@ -20,14 +20,10 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        const string CMD_RETRACT = "retract";
-        const string CMD_EXTEND = "extend";
-
-
         string GroupKey_AllWelders = string.Empty;
         string GroupKey_AllPistons = string.Empty;
-        float Speed_Operation = 0.0F;
-        float Speed_MoveToPosition = 0.0F;
+        float Speed_Operation = 0.015f;
+        float Speed_MoveToPosition = 1.0F;
 
 
         readonly RunningSymbol Running = new RunningSymbol();
@@ -136,24 +132,18 @@ namespace IngameScript {
         void LoadConfig() {
             var tmpHashCode = Me.CustomData.GetHashCode();
             if (_configHashCode == tmpHashCode) return;
-            _configHashCode = tmpHashCode;
 
             var ini = new MyIni();
 
-            MyIniParseResult result;
-            ini.TryParse(Me.CustomData, out result);
+            ini.TryParse(Me.CustomData);
 
-            ini.Add(Key_AllWelders, "");
-            ini.Add(Key_AllPistons, "");
-            ini.Add(Key_SpeedOperation, 0.015f);
-            ini.Add(Key_SpeedPosition, 1.0f);
-
-            GroupKey_AllWelders = ini.Get(Key_AllWelders).ToString();
-            GroupKey_AllPistons = ini.Get(Key_AllPistons).ToString();
-            Speed_Operation = ini.Get(Key_SpeedOperation).ToSingle();
-            Speed_MoveToPosition = ini.Get(Key_SpeedPosition).ToSingle();
+            GroupKey_AllWelders = ini.Add(Key_AllWelders, GroupKey_AllWelders).ToString();
+            GroupKey_AllPistons = ini.Add(Key_AllPistons, GroupKey_AllPistons).ToString();
+            Speed_Operation = ini.Add(Key_SpeedOperation, Speed_Operation).ToSingle();
+            Speed_MoveToPosition = ini.Add(Key_SpeedPosition, Speed_MoveToPosition).ToSingle();
 
             Me.CustomData = ini.ToString();
+            _configHashCode = Me.CustomData.GetHashCode();
         }
 
 
