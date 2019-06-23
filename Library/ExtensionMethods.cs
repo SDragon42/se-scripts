@@ -18,7 +18,7 @@ using VRage;
 using VRageMath;
 
 namespace IngameScript {
-    
+
     static class ExtensionMethods {
         public static void GetblocksOfTypeWithFirst<T>(this IMyGridTerminalSystem gts, List<IMyTerminalBlock> blockList, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class, IMyTerminalBlock {
             if (collectMethods == null || collectMethods.Length == 0) {
@@ -82,13 +82,15 @@ namespace IngameScript {
         }
 
 
-        public static void Add<T>(this MyIni ini, MyIniKey k, T v, string comment = null)
+        public static MyIniValue Add<T>(this MyIni ini, MyIniKey k, T v, string comment = null)
             where T : struct => ini.Add(k, v.ToString(), comment);
-        public static void Add(this MyIni ini, MyIniKey k, string v, string comment = null) {
-            if (ini.ContainsKey(k)) return;
-            ini.Set(k, v);
-            ini.SetComment(k, comment);
+        public static MyIniValue Add(this MyIni ini, MyIniKey k, string v, string comment = null) {
+            if (!ini.ContainsKey(k)) {
+                ini.Set(k, v);
+                ini.SetComment(k, comment);
+            }
+            return ini.Get(k);
         }
     }
-    
+
 }
