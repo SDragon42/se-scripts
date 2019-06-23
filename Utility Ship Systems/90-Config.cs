@@ -62,66 +62,38 @@ namespace IngameScript {
             _configHashCode = tmpHashCode;
             LoadINI(Ini, Me.CustomData);
 
-            Ini.Add(Key_Tag, "[utility]");
-            Ini.Add(Key_IgnoreTag, "[ignore]");
-            Ini.Add(Key_AutoOff, true);
-            Ini.Add(Key_AutoOn, true);
-            Ini.Add(Key_ToggleThrusters, true);
-            Ini.Add(Key_ToggleGyros, true);
-            Ini.Add(Key_ToggleLights, true);
-            Ini.Add(Key_ToggleBeacons, true);
-            Ini.Add(Key_ToggleRadioAntennas, true);
-            Ini.Add(Key_ToggleSensors, true);
-            Ini.Add(Key_ToggleOreDetectors, true);
-            Ini.Add(Key_ToggleSpotLights, true);
+            DockSecureModule.Tag = Ini.Add(Key_Tag, "[utility]").ToString();
+            DockSecureModule.IgnoreTag = Ini.Add(Key_IgnoreTag, "[ignore]").ToString();
+            DockSecureModule.Auto_Off = Ini.Add(Key_AutoOff, true).ToBoolean();
+            DockSecureModule.Auto_On = Ini.Add(Key_AutoOn, true).ToBoolean();
+            DockSecureModule.Thrusters_OnOff = Ini.Add(Key_ToggleThrusters, true).ToBoolean();
+            DockSecureModule.Gyros_OnOff = Ini.Add(Key_ToggleGyros, true).ToBoolean();
+            DockSecureModule.Lights_OnOff = Ini.Add(Key_ToggleLights, true).ToBoolean();
+            DockSecureModule.Beacons_OnOff = Ini.Add(Key_ToggleBeacons, true).ToBoolean();
+            DockSecureModule.RadioAntennas_OnOff = Ini.Add(Key_ToggleRadioAntennas, true).ToBoolean();
+            DockSecureModule.Sensors_OnOff = Ini.Add(Key_ToggleSensors, true).ToBoolean();
+            DockSecureModule.OreDetectors_OnOff = Ini.Add(Key_ToggleOreDetectors, true).ToBoolean();
+            DockSecureModule.Spotlights_OnOff = Ini.Add(Key_ToggleSpotLights, true).ToBoolean();
             Ini.SetSectionComment(SECTION_UTILITY_SHIP, null);
 
-            Ini.Add(KEY_MaxCargoMass, 0.0);
-            Ini.Add(KEY_MinimumTWR, 1.5, comment: "The minimum TWR to use for calc maximum cargo capacity.");
-            Ini.Add(KEY_WorldInvMulti, 0, comment: "The World setting for Inventory Multiplier");
+            MaxOperationalCargoMass = Ini.Add(KEY_MaxCargoMass, 0.0).ToDouble();
+            MinimumTWR = Ini.Add(KEY_MinimumTWR, 1.5f, comment: "The minimum TWR to use for calc maximum cargo capacity.").ToSingle();
+            InventoryMultiplier = Ini.Add(KEY_WorldInvMulti, 0, comment: "The World setting for Inventory Multiplier").ToInt32();
             Ini.SetSectionComment(SECTION_WEIGHT, "This is used to determine that maximum (operation) cargo mass amount.");
-
-            Ini.Add(Key_ProxTag, "[proximity]");
-            Ini.Add(Key_ProxRange, 50.0);
-            Ini.Add(Key_ProxAlert, false);
-            Ini.Add(Key_ProxAlertRange, 10.0);
-            Ini.Add(Key_ProxAlertSpeed, 5.0);
-            Ini.SetSectionComment(SECTION_PROXIMITY, null);
-
-            Ini.Add(Key_RangeTag, "[range]");
-            Ini.Add(Key_RangeDistance, 15000.0);
-            Ini.Add(Key_RangeDisplayTime, 5.0);
-            Ini.SetSectionComment(SECTION_RANGE, null);
-
-
-            DockSecureModule.Tag = Ini.Get(Key_Tag).ToString();
-            DockSecureModule.IgnoreTag = Ini.Get(Key_IgnoreTag).ToString();
-            DockSecureModule.Auto_Off = Ini.Get(Key_AutoOff).ToBoolean();
-            DockSecureModule.Auto_On = Ini.Get(Key_AutoOn).ToBoolean();
-            DockSecureModule.Thrusters_OnOff = Ini.Get(Key_ToggleThrusters).ToBoolean();
-            DockSecureModule.Gyros_OnOff = Ini.Get(Key_ToggleGyros).ToBoolean();
-            DockSecureModule.Lights_OnOff = Ini.Get(Key_ToggleLights).ToBoolean();
-            DockSecureModule.Beacons_OnOff = Ini.Get(Key_ToggleBeacons).ToBoolean();
-            DockSecureModule.RadioAntennas_OnOff = Ini.Get(Key_ToggleRadioAntennas).ToBoolean();
-            DockSecureModule.Sensors_OnOff = Ini.Get(Key_ToggleSensors).ToBoolean();
-            DockSecureModule.OreDetectors_OnOff = Ini.Get(Key_ToggleOreDetectors).ToBoolean();
-            DockSecureModule.Spotlights_OnOff = Ini.Get(Key_ToggleSpotLights).ToBoolean();
-
-            ProximityTag = Ini.Get(Key_ProxTag).ToString();
-            ProximityModule.ScanRange = Ini.Get(Key_ProxRange).ToDouble();
-            ProximityAlert = Ini.Get(Key_ProxAlert).ToBoolean();
-            ProximityAlertRange = Ini.Get(Key_ProxAlertRange).ToDouble();
-            ProximityAlertSpeed = Ini.Get(Key_ProxAlertSpeed).ToDouble();
-
-            ForwardScanTag = Ini.Get(Key_RangeTag).ToString();
-            ForwardScanRange = Ini.Get(Key_RangeDistance).ToDouble();
-            ForwardDisplayClearTime = Ini.Get(Key_RangeDisplayTime).ToDouble();
-
-            MinimumTWR = Ini.Get(KEY_MinimumTWR).ToSingle();
-            InventoryMultiplier = Ini.Get(KEY_WorldInvMulti).ToInt32();
-            MaxOperationalCargoMass = Ini.Get(KEY_MaxCargoMass).ToDouble();
             if (MaxOperationalCargoMass == 0)
                 MaxOperationalCargoMass = null;
+
+            ProximityTag = Ini.Add(Key_ProxTag, "[proximity]").ToString();
+            ProximityModule.ScanRange = Ini.Add(Key_ProxRange, 50.0).ToDouble();
+            ProximityAlert = Ini.Add(Key_ProxAlert, false).ToBoolean();
+            ProximityAlertRange = Ini.Add(Key_ProxAlertRange, 10.0).ToDouble();
+            ProximityAlertSpeed = Ini.Add(Key_ProxAlertSpeed, 5.0).ToDouble();
+            Ini.SetSectionComment(SECTION_PROXIMITY, null);
+
+            ForwardScanTag = Ini.Add(Key_RangeTag, "[range]").ToString();
+            ForwardScanRange = Ini.Add(Key_RangeDistance, 15000.0).ToDouble();
+            ForwardDisplayClearTime = Ini.Add(Key_RangeDisplayTime, 5.0).ToDouble();
+            Ini.SetSectionComment(SECTION_RANGE, null);
 
             Flag_SaveConfig = true;
         }
