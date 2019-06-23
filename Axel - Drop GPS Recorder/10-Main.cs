@@ -35,8 +35,8 @@ namespace IngameScript {
         }
 
 
-        string Tag { get; set; } = DefaultTag;
-        string GpsLabel { get; set; } = DefaultGpsLabel;
+        string Tag = DefaultTag;
+        string GpsLabel = DefaultGpsLabel;
 
         bool isFirstRun = true;
 

@@ -30,11 +30,8 @@ namespace IngameScript {
             var ini = new MyIni();
             ini.TryParse(Me.CustomData);
 
-            ini.Add(keyLcdTag, DefaultTag);
-            ini.Add(keyGpsLabel, DefaultGpsLabel);
-
-            Tag = ini.Get(keyLcdTag).ToString();
-            GpsLabel = ini.Get(keyGpsLabel).ToString();
+            Tag = ini.Add(keyLcdTag, Tag).ToString();
+            GpsLabel = ini.Add(keyGpsLabel, GpsLabel).ToString();
 
             Me.CustomData = ini.ToString();
             configHash = Me.CustomData.GetHashCode();
