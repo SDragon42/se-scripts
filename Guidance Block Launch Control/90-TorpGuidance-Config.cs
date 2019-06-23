@@ -40,23 +40,14 @@ namespace IngameScript {
             var ini = new MyIni();
 
             // Create Default Config
-            ini.Add(Key_ReferanceBlock, referenceTag);
-            ini.Add(Key_GuidanceTag, torpedoPrimaryTag);
-            ini.Add(Key_BeaconTag, torpedoBeaconTag);
-            ini.Add(Key_PowerCellTag, torpedoPowerCellTag);
+            referenceTag = ini.Add(Key_ReferanceBlock, referenceTag).ToString().ToLower();
+            torpedoPrimaryTag = ini.Add(Key_GuidanceTag, torpedoPrimaryTag).ToString().ToLower();
+            torpedoBeaconTag = ini.Add(Key_BeaconTag, torpedoBeaconTag).ToString().ToLower();
+            torpedoPowerCellTag = ini.Add(Key_PowerCellTag, torpedoPowerCellTag).ToString().ToLower();
 
-            ini.Add(Key_LaunchMode, (int)selectionMode, "Modes: 0 = Random, 1 = Closest, 2 = Furthest");
-
-
-            referenceTag = ini.Get(Key_ReferanceBlock).ToString().ToLower();
-            torpedoPrimaryTag = ini.Get(Key_GuidanceTag).ToString().ToLower();
-            torpedoBeaconTag = ini.Get(Key_BeaconTag).ToString().ToLower();
-            torpedoPowerCellTag = ini.Get(Key_PowerCellTag).ToString().ToLower();
-
-            var mode = ini.Get(Key_LaunchMode).ToInt32();
+            var mode = ini.Add(Key_LaunchMode, (int)selectionMode, "Modes: 0 = Random, 1 = Closest, 2 = Furthest").ToInt32();
             if (Enum.IsDefined(typeof(TorpedoSelectionMode), mode))
                 selectionMode = (TorpedoSelectionMode)mode;
-
 
             Me.CustomData = ini.ToString();
             _configHashCode = Me.CustomData.GetHashCode();
