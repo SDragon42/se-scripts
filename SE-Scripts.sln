@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Axel - Drop GPS Recorder", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guidance Block Launch Control", "Guidance Block Launch Control\Guidance Block Launch Control.csproj", "{B4DCA2F0-0A7B-4DC4-B284-AD4747497E04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Block Report", "Block Report\Block Report.csproj", "{2771AF32-2C73-49FB-AB82-F3BB4662F1E5}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
@@ -149,6 +151,8 @@ Global
 		{D60C4A4B-46C6-4251-948F-C7B50A2CD676}.Debug|x64.Build.0 = Debug|x64
 		{B4DCA2F0-0A7B-4DC4-B284-AD4747497E04}.Debug|x64.ActiveCfg = Debug|x64
 		{B4DCA2F0-0A7B-4DC4-B284-AD4747497E04}.Debug|x64.Build.0 = Debug|x64
+		{2771AF32-2C73-49FB-AB82-F3BB4662F1E5}.Debug|x64.ActiveCfg = Debug|x64
+		{2771AF32-2C73-49FB-AB82-F3BB4662F1E5}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
