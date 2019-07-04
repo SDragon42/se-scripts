@@ -19,80 +19,158 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        IEnumerator<bool> FlightTest_Hover() {
-            Log.AppendLine("HFT - Start");
-            const double hoverDist = 50.0;
-            var sc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>() as IMyShipController;
-            if (sc == null) {
-                Log.AppendLine("HFT - SC not found");
-                yield return false;
+
+        IEnumerator<bool> Sequence_GravAlignOn() {
+            while (true) {
+                VecAlign.AlignWithGravity(shipController, Direction.Down, Gyros, true);
+                yield return true;
             }
-            GtsBlocks(Thrusters_Launch, TAG_LAUNCH);
-            GtsBlocks(Thrusters_Landing1, TAG_LANDING1);
-            GtsBlocks(Thrusters_Landing2, TAG_LANDING2);
-            GtsBlocks(Thrusters_Maneuver, TAG_MANEUVER);
-            GtsBlocks(Thrusters_StageSep, TAG_STAGE_SEP);
-            GtsBlocks(LaunchClamps, TAG_LAUNCH_CLAMP);
-
+        }
+        IEnumerator<bool> Sequence_GravAlignOff() {
+            VecAlign.gyrosOff(Gyros);
             yield return true;
+        }
 
-            Log.AppendLine("HFT - Init");
-            Thrusters_Launch.ForEach(Thruster_Off_NoThrust);
+
+
+        IEnumerator<bool> FlightTest_Abort() {
+            Thrusters_Main.ForEach(Thruster_Off_NoThrust);
             Thrusters_Maneuver.ForEach(Thruster_Off_NoThrust);
-            Thrusters_StageSep.ForEach(Thruster_Off_NoThrust);
             yield return true;
+        }
 
+        IEnumerator<bool> FlightTest_Manual() {
+            Thrusters_Main.ForEach(Thruster_On_NoThrust);
+            Thrusters_Maneuver.ForEach(Thruster_On_NoThrust);
+            yield return true;
+        }
+
+
+        IEnumerator<bool> FlightTest_Init() {
+            Log.AppendLine("HFT - Init");
+            Thrusters_Main.ForEach(Thruster_Off_NoThrust);
+            Thrusters_Landing1.ForEach(Thruster_Off_NoThrust);
+            Thrusters_Landing2.ForEach(Thruster_Off_NoThrust);
+            Thrusters_Maneuver.ForEach(Thruster_Off_NoThrust);
+            yield return true;
+        }
+        IEnumerator<bool> FlightTest_GearUnlock() {
+            Log.AppendLine("HFT - Gear Unlock");
+            LandingGears.ForEach(lg => lg.Unlock());
+            yield return true;
+        }
+        IEnumerator<bool> FlightTest_FlyUp(double hoverDist) {
             // Launch
             Log.AppendLine("HFT - Fly Up");
-            var startPos = sc.GetPosition();
-            sc.DampenersOverride = true;
-            var gForceN = getGravityForceN(sc);
-            var maxThrust = Thrusters_Landing1.Sum(t => (double)t.MaxEffectiveThrust);
-
+            var lastPos = startPos;
+            shipController.DampenersOverride = true;
+            var gForceN = getGravityForceN(shipController);
             var hoverThrust = gForceN / Thrusters_Landing1.Count;
-            var thrustDiff = (maxThrust - gForceN) / Thrusters_Landing1.Count;
 
             Thrusters_Maneuver.ForEach(Thruster_On);
-            Thrusters_Landing1.ForEach(Thruster_On);
+            //Thrusters_Landing1.ForEach(Thruster_On);
+            //Thrusters_Landing1.ForEach(t => t.ThrustOverride = (float)hoverThrust + 50000f);
+            Thrusters_Main.ForEach(t => {
+                Thruster_On(t);
+                t.ThrustOverridePercentage = 1.0f;
+            });
 
             // Wait for
             while (true) {
-                var pos = sc.GetPosition();
-                var dist = Vector3D.Distance(startPos, pos);
+                var currentPos = shipController.GetPosition();
+                //if (shipController.GetShipSpeed() >= 95.0)
+                //    Thrusters_Landing1.ForEach(t => t.ThrustOverride = (float)hoverThrust);
+                var dist = Vector3D.Distance(startPos, currentPos);
                 if (dist >= hoverDist)
                     break;
-                Thrusters_Landing1.ForEach(t => t.ThrustOverride = (float)hoverThrust + 5000f);
                 yield return true;
             }
-
+            yield return true;
+        }
+        IEnumerator<bool> FlightTest_Hover() {
             Log.AppendLine("HFT - Hover");
-            Thrusters_Landing1.ForEach(t => t.ThrustOverride = 0f);
+            Thrusters_Main.ForEach(t => t.ThrustOverride = 0f);
+            yield return true;
+        }
+        IEnumerator<bool> FlightTest_DropTo(double dropToDistance) {
+            Thrusters_Main.ForEach(Thruster_Off_NoThrust);
             yield return true;
 
-            var timeToWait = 5.0;
-
-            while (timeToWait > 0) {
-                timeToWait -= this.Runtime.TimeSinceLastRun.TotalSeconds;
-
+            // Wait for
+            while (true) {
+                var currentPos = shipController.GetPosition();
+                //if (shipController.GetShipSpeed() >= 5.0)
+                //    Thrusters_Landing1.ForEach(t => t.ThrustOverride = (float)hoverThrust);
+                var dist = Vector3D.Distance(startPos, currentPos);
+                if (dist <= dropToDistance)
+                    break;
                 yield return true;
             }
 
-            Log.AppendLine("HFT - Fly Down");
-            Thrusters_Landing1.ForEach(t => t.ThrustOverride = (float)hoverThrust - 5000f);
+            Thrusters_Main.ForEach(Thruster_On_NoThrust);
+            yield return true;
 
             while (true) {
-                var pos = sc.GetPosition();
-                var dist = Vector3D.Distance(startPos, pos);
+                if (shipController.GetShipSpeed() <= 10.0)
+                    break;
+                yield return true;
+            }
+            yield return true;
+
+            Thrusters_Main.ForEach(Thruster_Off_NoThrust);
+            Thrusters_Landing1.ForEach(Thruster_On_NoThrust);
+
+            while (true) {
+                var current = shipController.GetPosition();
+
+                var gForceN = getGravityForceN(shipController);
+                var hoverThrust = gForceN / Thrusters_Landing1.Count;
+
+                if (shipController.GetShipSpeed() >= 5.0)
+                    Thrusters_Landing1.ForEach(t => t.ThrustOverride = (float)hoverThrust);
+                var dist = Vector3D.Distance(startPos, current);
                 if (dist <= 1.0)
                     break;
                 yield return true;
             }
+            yield return true;
+        }
+        IEnumerator<bool> FlightTest_FlyDown() {
+            Log.AppendLine("HFT - Fly Down");
 
+            var gForceN = getGravityForceN(shipController);
+            var hoverThrust = gForceN / Thrusters_Landing1.Count;
 
+            Thrusters_Landing1.ForEach(t => t.ThrustOverride = (float)hoverThrust - 30000f);
+
+            while (true) {
+                var current = shipController.GetPosition();
+                if (shipController.GetShipSpeed() >= 5.0)
+                    Thrusters_Landing1.ForEach(t => t.ThrustOverride = (float)hoverThrust);
+                var dist = Vector3D.Distance(startPos, current);
+                if (dist <= 1.0)
+                    break;
+                yield return true;
+            }
+            yield return true;
+        }
+        IEnumerator<bool> FlightTest_Shutdown() {
             Log.AppendLine("HFT - Shutdown");
-            Thrusters_Launch.ForEach(Thruster_Off_NoThrust);
+            Thrusters_Main.ForEach(Thruster_Off_NoThrust);
             Thrusters_Maneuver.ForEach(Thruster_Off_NoThrust);
-            Thrusters_StageSep.ForEach(Thruster_Off_NoThrust);
+            yield return true;
+        }
+        IEnumerator<bool> FlightTest_GearLock() {
+            Log.AppendLine("HFT - Lock Landing Gears");
+            LandingGears.ForEach(lg => lg.Lock());
+            yield return true;
+        }
+
+        IEnumerator<bool> Delay(double secondsToWait) {
+            while (secondsToWait > 0) {
+                secondsToWait -= this.Runtime.TimeSinceLastRun.TotalSeconds;
+                yield return true;
+            }
             yield return true;
         }
     }
