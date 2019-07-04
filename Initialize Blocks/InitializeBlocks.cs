@@ -21,124 +21,159 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
         readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
 
-        readonly Dictionary<string, Action> _renameMethods = new Dictionary<string, Action>();
-        //readonly Dictionary<string, string> _basicBlockNames = new Dictionary<string, string>();
+        readonly IDictionary<string, Action<string[]>> Commands = new Dictionary<string, Action<string[]>>();
+        readonly string Instructions;
+
+        Action<string> Debug = (s) => { };
 
         public Program() {
-            _renameMethods.Add("basic", BasicRename);
-            _renameMethods.Add("test", TestMethod);
+            //Debug = Echo;
+
+            Commands.Add("basic", Cmd_BasicRename);
+            Commands.Add("test", Cmd_TestMethod);
+            Commands.Add("undefined", Cmd_GetUndefinedTypeNames);
+
+            // Instructions
+            var sb = new StringBuilder();
+            sb.AppendLine("Script Commands");
+            foreach (var c in Commands.Keys) sb.AppendLine(c);
+            Instructions = sb.ToString();
+
+            Echo(Instructions);
         }
 
         public void Main(string argument) {
-            Echo(argument);
-            var key = argument.ToLower();
-            if (_renameMethods.ContainsKey(key))
-                _renameMethods[key]?.Invoke();
+            Echo(Instructions);
+            Echo("");
+            Echo($"CMD: {argument}");
+
+            argument = argument.ToLower();
+            var parts = argument.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            var cmd = parts[0];
+            var options = parts.Skip(1).ToArray();
+            if (Commands.ContainsKey(cmd)) {
+                Commands[cmd]?.Invoke(options);
+            } else {
+                Echo("** not recognized **");
+            }
         }
 
-        void BasicRename() {
-            Echo("BasicRename()");
+
+        void Cmd_TestMethod(string[] options) {
             GridTerminalSystem.GetBlocks(_tmp);
-            _tmp.ForEach(b => b.ShowInTerminal = true);
-
-            GridTerminalSystem.GetBlocksOfType(_tmp, b => BasicBlockNames.GetName(b).Length > 0);
-            //GridTerminalSystem.GetBlocksOfType(_tmp);
-            Echo($"Num Blocks: {_tmp.Count:N0}");
             _tmp.ForEach(b => {
-                //if (b.Name == null) return;
-                //Echo($"{b.CustomName} -- {b.Name ?? "NULL"}");
-                //b.CustomName = b.Name;
-                //b.CustomName = b?.Name ?? string.Empty;
-                b.ShowOnHUD = false;
-                b.CustomName = BasicBlockNames.GetName(b);
+                Echo(b.CustomName);
+                Echo(b.BlockDefinition.SubtypeId);
+                Echo("");
             });
-
-            //// Un-Numbered Blocks
-            //GridTerminalSystem.GetBlocksOfType<IMyThrust>(_tmp, b => b.BlockDefinition.SubtypeId.EndsWith("LargeThrust"));
-            //RenameMethods.RenameTo(_tmp, "Lg Ion Thruster");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-            //GridTerminalSystem.GetBlocksOfType<IMyThrust>(_tmp, b => b.BlockDefinition.SubtypeId.EndsWith("SmallThrust"));
-            //RenameMethods.RenameTo(_tmp, "Sm Ion Thruster");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-
-            //GridTerminalSystem.GetBlocksOfType<IMyThrust>(_tmp, b => b.BlockDefinition.SubtypeId.EndsWith("LargeHydrogenThrust"));
-            //RenameMethods.RenameTo(_tmp, "Lg Hydrogen Thruster");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-            //GridTerminalSystem.GetBlocksOfType<IMyThrust>(_tmp, b => b.BlockDefinition.SubtypeId.EndsWith("SmallHydrogenThrust"));
-            //RenameMethods.RenameTo(_tmp, "Sm Hydrogen Thruster");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-
-            //GridTerminalSystem.GetBlocksOfType<IMyThrust>(_tmp, b => b.BlockDefinition.SubtypeId.EndsWith("LargeAtmosphericThrust"));
-            //RenameMethods.RenameTo(_tmp, "Lg Atmo Thruster");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-            //GridTerminalSystem.GetBlocksOfType<IMyThrust>(_tmp, b => b.BlockDefinition.SubtypeId.EndsWith("SmallAtmosphericThrust"));
-            //RenameMethods.RenameTo(_tmp, "Sm Atmo Thruster");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-
-
-
-
-            //// Numbered Blocks
-            //GridTerminalSystem.GetBlocksOfType<IMyReactor>(_tmp, b => b.BlockDefinition.SubtypeId.EndsWith("LargeGenerator"));
-            //RenameMethods.NumberRenameTo(_tmp, "Lg Reactor");
-            //RenameMethods.SuffixWith(_tmp, " [TIM Uranium:P1:10]");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-            //GridTerminalSystem.GetBlocksOfType<IMyReactor>(_tmp, b => b.BlockDefinition.SubtypeId.EndsWith("SmallGenerator"));
-            //RenameMethods.NumberRenameTo(_tmp, "Sm Reactor");
-            //RenameMethods.SuffixWith(_tmp, " [TIM Uranium:P1:2]");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-
-            //GridTerminalSystem.GetBlocksOfType<IMyBatteryBlock>(_tmp);
-            //RenameMethods.NumberRenameTo(_tmp, "Battery");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-
-            //GridTerminalSystem.GetBlocksOfType<IMyAirtightHangarDoor>(_tmp);
-            //RenameMethods.NumberRenameTo(_tmp, "Hangar Door");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-
-            //GridTerminalSystem.GetBlocksOfType<IMyGyro>(_tmp);
-            //RenameMethods.NumberRenameTo(_tmp, "Gyroscope");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-
-            //GridTerminalSystem.GetBlocksOfType<IMyInteriorLight>(_tmp, b => !IsNavLight(b));
-            //RenameMethods.NumberRenameTo(_tmp, "Light");
-            //_tmp.ForEach(b => { NoTerminalNoToolbar(b); SetInteriorLight(b); });
-
-            //GridTerminalSystem.GetBlocksOfType<IMyInteriorLight>(_tmp, IsNavLight);
-            //_tmp.ForEach(b =>
-            //{
-            //    NoTerminalNoToolbar(b);
-            //    if (IsNavLightPort(b)) SetNavLightPort(b);
-            //    else if (IsNavLightStarboard(b)) SetNavLightStarboard(b);
-            //    else if (IsNavLightTop(b)) SetNavLightTop(b);
-            //    else if (IsNavLightBottom(b)) SetNavLightBottom(b);
-            //});
-
-            //GridTerminalSystem.GetBlocksOfType<IMyReflectorLight>(_tmp);
-            //RenameMethods.NumberRenameTo(_tmp, "Spotlight");
-            //_tmp.ForEach(b => { NoTerminalNoToolbar(b); SetSpotlight(b); });
-
-            //GridTerminalSystem.GetBlocksOfType<IMyLandingGear>(_tmp);
-            //RenameMethods.NumberRenameTo(_tmp, "Landing Gear");
-            //_tmp.ForEach(b => { NoTerminalNoToolbar(b); ((IMyLandingGear)b).AutoLock = false; });
-
-            //GridTerminalSystem.GetBlocksOfType<IMyAirVent>(_tmp);
-            //RenameMethods.NumberRenameTo(_tmp, "Air Vent");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-
-            //GridTerminalSystem.GetBlocksOfType<IMyShipDrill>(_tmp);
-            //RenameMethods.NumberRenameTo(_tmp, "Drill");
-            //_tmp.ForEach(NoTerminalNoToolbar);
-
-            //GridTerminalSystem.GetBlocksOfType<IMyShipDrill>(_tmp);
-            //RenameMethods.NumberRenameTo(_tmp, "Drill");
-            //_tmp.ForEach(NoTerminalNoToolbar);
         }
 
-        void NoTerminalNoToolbar(IMyTerminalBlock block) {
-            block.ShowInTerminal = false;
-            block.ShowInToolbarConfig = false;
+        void Cmd_GetUndefinedTypeNames(string[] options) {
+            Debug("GetUndefinedTypeNames()");
+            GridTerminalSystem.GetBlocks(_tmp);
+
+            var nameSource = new BasicBlockNames();
+            var blockTypeKeys = _tmp
+                .Select(BlockHelper.GetKey)
+                .Distinct()
+                .OrderBy(b => b);
+
+            var sb = new StringBuilder();
+            Action<string, List<string>> Build = (title, values) => {
+                if (values.Count > 0) {
+                    sb.AppendLine(title);
+                    values.ForEach(t => sb.AppendLine(t));
+                    sb.AppendLine();
+                }
+            };
+
+            var undefinedKeys = blockTypeKeys
+                .Where(key => !nameSource.HasTypeKey(key))
+                .ToList();
+            Build("== Undefined ==", undefinedKeys);
+
+            var unnamedKeys = blockTypeKeys
+                .Where(nameSource.HasTypeKey)
+                .Where(k => nameSource.GetName(k).Length == 0)
+                .ToList();
+            Build("== Unnamed ==", unnamedKeys);
+
+            Me.CustomData = sb.ToString();
         }
+
+        void Cmd_BasicRename(string[] options) {
+            Debug("BasicRename()");
+            GridTerminalSystem.GetBlocks(_tmp);
+            _tmp.ForEach(SetDefaults);
+
+            var nameSource = new BasicBlockNames();
+
+            GridTerminalSystem.GetBlocksOfType(_tmp, b => nameSource.GetName(b).Length > 0);
+            Echo($"Num Blocks: {_tmp.Count:N0}");
+
+            var addNumbers = options.Contains("num");
+
+            if (!addNumbers) {
+                _tmp.ForEach(b => b.CustomName = nameSource.GetName(b));
+                return;
+            }
+
+            var keyedBlocks = _tmp
+                .Select(b => new { block = b, key = BlockHelper.GetKey(b) })
+                .ToList();
+
+            var uniqueKeys = keyedBlocks
+                .Select(b => b.key)
+                .Distinct()
+                .ToList();
+            foreach (var key in uniqueKeys) {
+                var targetBlocks = keyedBlocks
+                    .Where(b => b.key == key)
+                    .ToList();
+                var totalCount = targetBlocks.Count();
+                var numFormat = string.Empty.PadRight(totalCount.ToString().Length, '0');
+
+                Action<IMyTerminalBlock, string, int, string> RenameMethod;
+                if (totalCount > 1)
+                    RenameMethod = RenameBlockNumberAll;
+                else
+                    RenameMethod = RenameBlock;
+
+                var num = 0;
+                foreach (var item in targetBlocks) {
+                    num++;
+                    RenameMethod(item.block, nameSource.GetName(item.key), num, numFormat);
+                }
+            }
+        }
+
+        void RenameBlockNumberAll(IMyTerminalBlock b, string name, int number, string numberFormat) {
+            b.CustomName = name + " " + number.ToString(numberFormat);
+        }
+        void RenameBlockNumber2plus(IMyTerminalBlock b, string name, int number, string numberFormat) {
+            b.CustomName = (number > 1)
+                ? name + " " + number.ToString(numberFormat)
+                : name;
+        }
+        void RenameBlock(IMyTerminalBlock b, string name, int number, string numberFormat) {
+            b.CustomName = name;
+        }
+
+
+
+        void SetNoTerminalNoToolbar(IMyTerminalBlock b) {
+            b.ShowInTerminal = false;
+            b.ShowInToolbarConfig = false;
+        }
+
+        void SetDefaults(IMyTerminalBlock b) {
+            b.ShowInTerminal = true;
+            b.ShowInToolbarConfig = true;
+            b.ShowOnHUD = false;
+        }
+
+
         void SetInteriorLight(IMyTerminalBlock b) {
             var light = b as IMyInteriorLight;
             if (light == null) return;
@@ -219,27 +254,6 @@ namespace IngameScript {
         }
 
 
-        //static void InitBlock(List<IMyTerminalBlock> blocks, Func<List<IMyTerminalBlock>, string, int> renameMethod)
-        //{
-        //    renameMethod?.Invoke(blocks, )
-        //}
 
-
-        //bool IsThrusterIon(IMyTerminalBlock b) { return (b is IMyThrust && !IsThrusterHydrogen(b) && !IsThrusterAtmospheric(b)); }
-        //bool IsThrusterHydrogen(IMyTerminalBlock b) { return (b is IMyThrust && b.BlockDefinition.SubtypeId.Contains("Hydro")); }
-        //bool IsThrusterAtmospheric(IMyTerminalBlock b) { return (b is IMyThrust && b.BlockDefinition.SubtypeId.Contains("Atmo")); }
-
-
-
-
-
-        void TestMethod() {
-            GridTerminalSystem.GetBlocks(_tmp);
-            _tmp.ForEach(b => {
-                Echo(b.CustomName);
-                Echo(b.BlockDefinition.SubtypeId);
-                Echo("");
-            });
-        }
     }
 }

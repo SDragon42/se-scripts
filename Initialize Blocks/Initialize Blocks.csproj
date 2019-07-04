@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicBlockNames.cs" />
+    <Compile Include="BlockHelper.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <Compile Include="InitializeBlocks.cs" />
     <AdditionalFiles Include="thumb.png" />
