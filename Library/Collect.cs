@@ -47,11 +47,11 @@ namespace IngameScript {
 
             public static bool IsLandingGear(IMyTerminalBlock b) => b is IMyLandingGear;
             public static bool IsLandingGearUnlocked(IMyTerminalBlock b) => IsLandingGearUnlocked(b as IMyLandingGear);
-            public static bool IsLandingGearUnlocked(IMyLandingGear b) => (int)b?.LockMode == 0; //TODO: Unlocked - Workaround until this is fixed
+            public static bool IsLandingGearUnlocked(IMyLandingGear b) => b.LockMode == LandingGearMode.Unlocked;
             public static bool IsLandingGearReadyToLock(IMyTerminalBlock b) => IsLandingGearReadyToLock(b as IMyLandingGear);
-            public static bool IsLandingGearReadyToLock(IMyLandingGear b) => (int)b?.LockMode == 1; //TODO: ReadyToLock - Workaround until this is fixed
+            public static bool IsLandingGearReadyToLock(IMyLandingGear b) => b.LockMode == LandingGearMode.ReadyToLock;
             public static bool IsLandingGearLocked(IMyTerminalBlock b) => IsLandingGearLocked(b as IMyLandingGear);
-            public static bool IsLandingGearLocked(IMyLandingGear b) => (int)b?.LockMode == 2; //TODO: Locked - Workaround until this is fixed
+            public static bool IsLandingGearLocked(IMyLandingGear b) => b.LockMode == LandingGearMode.Locked;
 
             public static bool IsTextPanel(IMyTerminalBlock b) => b is IMyTextPanel;
             public static bool IsSmTextPanel(IMyTerminalBlock b) => IsTextPanel(b) && b.BlockDefinition.SubtypeId == SubTypeIDs.TextPanelSM;
@@ -84,9 +84,5 @@ namespace IngameScript {
             public static bool IsLargeBlockSmallCargoContainer(IMyTerminalBlock b) => IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SubTypeIDs.LgBlock_SmContainer;
             public static bool IsLargeBlockLargeCargoContainer(IMyTerminalBlock b) => IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SubTypeIDs.LgBlock_LgContainer;
         }
-        //static class Common {
-        //    public static bool IsLessThen<T>(T value, T other) where T : IComparable { return value.CompareTo(other) < 0; }
-        //    public static bool IsGreaterThen<T>(T value, T other) where T : IComparable { return value.CompareTo(other) > 0; }
-        //}
     }
 }
