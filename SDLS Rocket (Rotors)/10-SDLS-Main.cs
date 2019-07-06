@@ -23,7 +23,7 @@ namespace IngameScript {
             UpTime += Runtime.TimeSinceLastRun;
             TagSelf();
             NameGrids();
-            if ((updateSource.HasFlag(UpdateType.Update10)))
+            if ((updateSource & UpdateType.Update10) == UpdateType.Update10)
                 Echo("SDLS " + Running.GetSymbol(Runtime));
             else
                 Echo("SDLS");

@@ -22,7 +22,7 @@ namespace IngameScript {
         public void Main(string argument, UpdateType updateSource) {
             UpTime += Runtime.TimeSinceLastRun;
             TagSelf();
-            if ((updateSource.HasFlag(UpdateType.Update10))) {
+            if ((updateSource & UpdateType.Update10) == UpdateType.Update10) {
                 Echo(Running.GetSymbol(Runtime));
             }
 
@@ -41,7 +41,7 @@ namespace IngameScript {
             } finally {
                 Debug?.UpdateDisplay();
             }
-            //if (updateSource.HasFlag(UpdateType.Terminal)) {
+            //if ((updateSource & UpdateType.Terminal) == UpdateType.Terminal) {
             //    switch (argument.ToLower()) {
             //        case CMD_STANDBY:
             //            Runtime.UpdateFrequency = UpdateFrequency.None;

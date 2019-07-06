@@ -59,10 +59,10 @@ namespace IngameScript {
 
             LoadConfig();
 
-            var isTerminalRun = updateSource.HasFlag(UpdateType.Terminal);
-            var isCommRun = updateSource.HasFlag(UpdateType.Antenna);
-            //var isTriggerRun = updateSource.HasFlag(UpdateType.Trigger);
-            //var isAutoRun = updateSource.HasFlag(UpdateType.Update100);
+            var isTerminalRun = (updateSource & UpdateType.Terminal) == UpdateType.Terminal;
+            var isCommRun = (updateSource & UpdateType.Antenna) == UpdateType.Antenna;
+            //var isTriggerRun = (updateSource & UpdateType.Trigger) == UpdateType.Trigger;
+            //var isAutoRun = (updateSource & UpdateType.Update100) == UpdateType.Update100;
 
             if (timeLastBlockLoad >= BLOCK_RELOAD_TIME || isTerminalRun) {
                 timeLastBlockLoad = 0;

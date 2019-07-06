@@ -22,9 +22,8 @@ namespace IngameScript {
         public void Main(string argument, UpdateType updateSource) {
             UpTime += Runtime.TimeSinceLastRun;
             TagSelf();
-            if (updateSource.HasFlag(UpdateType.Update1) || updateSource.HasFlag(UpdateType.Update10) || updateSource.HasFlag(UpdateType.Update100)) {
+            if ((updateSource & UpdateType.Update1) == UpdateType.Update1 || (updateSource & UpdateType.Update10) == UpdateType.Update10 || (updateSource & UpdateType.Update100) == UpdateType.Update100)
                 Echo(Running.GetSymbol(Runtime));
-            }
 
             try {
                 LoadBlocks();

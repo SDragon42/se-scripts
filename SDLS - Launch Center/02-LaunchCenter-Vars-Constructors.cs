@@ -48,7 +48,7 @@ namespace IngameScript {
                 ProcessArguments(argument);
 
                 // Run State Machines
-                if (updateSource.HasFlag(UpdateType.Update10))
+                if ((updateSource & UpdateType.Update10) == UpdateType.Update10)
                     Operations.RunAll();
 
                 // Display LOG

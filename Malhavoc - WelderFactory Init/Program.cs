@@ -36,7 +36,7 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             LoadConfig();
-            var autoRun = Runtime.UpdateFrequency.HasFlag(UpdateFrequency.Update10);
+            var autoRun = (updateSource & UpdateType.Update10) == UpdateType.Update10;
             if (autoRun)
                 Echo("Running " + Running.GetSymbol(Runtime));
 
