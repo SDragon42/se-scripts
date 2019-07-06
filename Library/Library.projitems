@@ -14,6 +14,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)BlocksByOrientation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CargoHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MyIniExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ToPrimativeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateMachineQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TextHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_CommonMethods.cs" />
@@ -24,7 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Direction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DirectionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DockSecure.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ExtensionMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\IMyGridTerminalSystemExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlightDataRecorder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FontChar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Font_X.cs" />
