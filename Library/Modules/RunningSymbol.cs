@@ -23,38 +23,29 @@ namespace IngameScript {
         class RunningSymbol {
             readonly double MaxTime;
 
+            readonly string[] Parts = new string[8];
             public RunningSymbol(double loopTime = 1.6) {
                 MaxTime = loopTime;
+                Parts = new string[] { "[|    ]", "[ |   ]", "[  |  ]", "[   | ]", "[    |]", "[   | ]", "[  |  ]", "[ |   ]" };
             }
 
             double _time = 0.0;
-            int _pos = 0;
+            int _pos = -1;
 
             public string GetSymbol(IMyGridProgramRuntimeInfo runtime) {
-                if (runtime.UpdateFrequency.HasFlag(UpdateFrequency.Update10) || runtime.UpdateFrequency.HasFlag(UpdateFrequency.Update1)) {
-                    _time += runtime.TimeSinceLastRun.TotalSeconds;
-                    _pos = Convert.ToInt32(_time / (MaxTime / 8)) + 1;
-                } else {
-                    _pos++;
-                }
+                var timeUpdate = (runtime.UpdateFrequency & UpdateFrequency.Update10) == UpdateFrequency.Update10 || (runtime.UpdateFrequency & UpdateFrequency.Update1) == UpdateFrequency.Update1;
 
-                if (_pos > 8 || _pos < 1) {
-                    _pos = 1;
+                _time += runtime.TimeSinceLastRun.TotalSeconds;
+                _pos = (timeUpdate) ? Convert.ToInt32(_time / (MaxTime / 8)) : _pos++;
+
+                if (_pos > 7) {
+                    _pos = 0;
                     _time = 0.0;
                 }
 
-                switch (_pos) {
-                    case 1: return "[|    ]";
-                    case 2: return "[ |   ]";
-                    case 3: return "[  |  ]";
-                    case 4: return "[   | ]";
-                    case 5: return "[    |]";
-                    case 6: goto case 4;
-                    case 7: goto case 3;
-                    case 8: goto case 2;
-                    default: goto case 1;
-                }
+                return Parts[_pos];
             }
+
         }
     }
 }
