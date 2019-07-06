@@ -59,6 +59,17 @@ namespace IngameScript {
                 blocks.ForEach(b => b.CustomName = (b.CustomName.Substring(0, b.CustomName.Length - suffix.Length)).Trim());
                 return blocks.Count;
             }
+
+            public static int Remove(List<IMyTerminalBlock> blocks, string text) {
+                var lowerText = text.ToLower();
+                var textLength = lowerText.Length;
+                var blockPairs = blocks.Select(b => new { b, searchText = b.CustomName.ToLower() })
+                    .Select(pair => new { pair.b, startIdx = pair.searchText.IndexOf(lowerText) })
+                    .Where(pair => pair.startIdx >= 0)
+                    .ToList();
+                blockPairs.ForEach(pair => pair.b.CustomName = pair.b.CustomName.Remove(pair.startIdx, textLength).Trim());
+                return blockPairs.Count;
+            }
         }
     }
 }
