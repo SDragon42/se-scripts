@@ -70,6 +70,18 @@ namespace IngameScript {
                 }
                 b.CustomData = sb.ToString().Trim();
             }
+
+            class ConfigItem {
+                public ConfigItem(string description, string val) {
+                    Description = description ?? string.Empty;
+                    Value = val;
+                }
+
+                public string Description { get; private set; }
+
+                string _value;
+                public string Value { get { return _value; } set { _value = value ?? string.Empty; } }
+            }
         }
     }
 }

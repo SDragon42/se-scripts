@@ -23,7 +23,7 @@ namespace IngameScript {
         /// Whip's Monospace TextHelper Class v2
         /// Taken from his Compass Script
         /// </summary>
-        public static class TextHelper {
+        static class TextHelper {
             static StringBuilder textSB = new StringBuilder();
             const float adjustedPixelWidth = (512f / 0.778378367f);
             const int monospaceCharWidth = 24 + 1; //accounting for spacer

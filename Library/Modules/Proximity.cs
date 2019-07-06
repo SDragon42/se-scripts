@@ -103,5 +103,14 @@ namespace IngameScript {
             }
 
         }
+
+        class ProxCamera {
+            public ProxCamera(IMyCameraBlock camera, double offset) {
+                Camera = camera;
+                Offset = offset;
+            }
+            public IMyCameraBlock Camera { get; private set; }
+            public double Offset { get; private set; }
+        }
     }
 }

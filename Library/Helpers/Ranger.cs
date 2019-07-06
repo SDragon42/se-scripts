@@ -19,6 +19,21 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+        static class Ranger {
+
+            public static RangeInfo GetDetailedRange(IMyCameraBlock camera, double maxScanRange, double offset = 0) {
+                camera.EnableRaycast = true;
+                if (camera.CanScan(maxScanRange)) {
+                    var info = camera.Raycast(maxScanRange, 0, 0);
+                    var range = (info.HitPosition.HasValue)
+                        ? Vector3D.Distance(camera.GetPosition(), info.HitPosition.Value)
+                        : (double?)null;
+                    return new RangeInfo(info, (range - offset));
+                }
+                return RangeInfo.Empty;
+            }
+        }
+
         class RangeInfo {
             public static readonly RangeInfo Empty = new RangeInfo(new MyDetectedEntityInfo(), null);
 
