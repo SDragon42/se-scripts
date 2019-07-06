@@ -34,6 +34,7 @@ namespace IngameScript {
             GroupPrefixes.Add("remove:", RenameMethods.Remove);
             GroupPrefixes.Add("remove prefix:", RenameMethods.RemovePrefix);
             GroupPrefixes.Add("remove suffix:", RenameMethods.RemoveSuffix);
+            GroupPrefixes.Add("replace:", RenameMethods.Replace);
 
             // Instructions
             var sb = new StringBuilder();

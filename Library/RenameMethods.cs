@@ -26,7 +26,7 @@ namespace IngameScript {
             }
 
             public static int NumberRenameTo(List<IMyTerminalBlock> blocks, string newName) => NumberRenameTo<IMyTerminalBlock>(blocks, newName);
-            public static int NumberRenameTo<T>(List<T> blocks, string newName, Action<T> customAction = null) where T: IMyTerminalBlock {
+            public static int NumberRenameTo<T>(List<T> blocks, string newName, Action<T> customAction = null) where T : IMyTerminalBlock {
                 var num = 1;
                 var numDigits = blocks.Count.ToString().Length;
                 foreach (var b in blocks) {
@@ -68,6 +68,20 @@ namespace IngameScript {
                     .Where(pair => pair.startIdx >= 0)
                     .ToList();
                 blockPairs.ForEach(pair => pair.b.CustomName = pair.b.CustomName.Remove(pair.startIdx, textLength).Trim());
+                return blockPairs.Count;
+            }
+            public static int Replace(List<IMyTerminalBlock> blocks, string text) {
+                var parts = text.Split('|');
+                var remove = parts[0];
+                var add = parts.Length > 1 ? parts[1] : string.Empty;
+
+                text = remove.ToLower();
+                var textLength = text.Length;
+                var blockPairs = blocks.Select(b => new { b, searchText = b.CustomName.ToLower() })
+                    .Select(pair => new { pair.b, startIdx = pair.searchText.IndexOf(text) })
+                    .Where(pair => pair.startIdx >= 0)
+                    .ToList();
+                blockPairs.ForEach(pair => pair.b.CustomName = pair.b.CustomName.Remove(pair.startIdx, textLength).Insert(pair.startIdx, add).Trim());
                 return blockPairs.Count;
             }
         }
