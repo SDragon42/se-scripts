@@ -1,4 +1,5 @@
-﻿using Sandbox.Game.EntityComponents;
+﻿// <mdk sortorder="100" />
+using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
@@ -18,49 +19,24 @@ using VRage;
 using VRageMath;
 
 namespace IngameScript {
-    partial class Program : MyGridProgram {
-
-        public Action<string> Debug = (msg) => { };
-
-        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
-        readonly string Instructions;
-
-        //Modules
-        readonly Config config = new Config();
-
-        public Program() {
-
-            //Commands.Add("", null);
-
-            // Instructions
-            var sb = new StringBuilder();
-            sb.AppendLine("Script Commands");
-            foreach (var c in Commands.Keys) sb.AppendLine(c);
-            Instructions = sb.ToString();
-
-            //Runtime.UpdateFrequency = UpdateFrequency.Update10;
-        }
-
-        public void Save() {
-        }
-
-        public void Main(string argument, UpdateType updateSource) {
-            Echo("");
-            Echo(Instructions);
-            config.LoadConfig(Me);
-        }
-
-
-        
-
+    partial class Program {
         class Config {
             public Config() { }
 
             const string SEC_RocketTags = "SDLS Rocket Tags";
+            const string SEC_RocketGrid = "SDLS Rocket Grid";
 
             int _configHash = 0;
 
             public string PodTag { get; set; } = string.Empty;
+            public string Stage2Tag { get; set; } = string.Empty;
+            public string Stage1Tag { get; set; } = string.Empty;
+            public string BoosterTag { get; set; } = string.Empty;
+
+
+            public string GridName { get; set; } = string.Empty;
+            public string GridName_Merged { get; set; } = string.Empty;
+            public bool HasGridName { get; set; }
 
             public void LoadConfig(IMyProgrammableBlock me) {
                 if (_configHash == me.CustomData.GetHashCode()) return;
@@ -69,6 +45,13 @@ namespace IngameScript {
                 ini.TryParse(me.CustomData);
 
                 PodTag = ini.Add(SEC_RocketTags, "Pod", PodTag).ToString();
+                Stage2Tag = ini.Add(SEC_RocketTags, "Stage2", Stage2Tag).ToString();
+                Stage1Tag = ini.Add(SEC_RocketTags, "Stage1", Stage1Tag).ToString();
+                BoosterTag = ini.Add(SEC_RocketTags, "Booster", BoosterTag).ToString();
+
+                GridName = ini.Add(SEC_RocketGrid, "Grid Name", GridName).ToString();
+                GridName_Merged = ini.Add(SEC_RocketGrid, "Merged Name", GridName_Merged).ToString();
+                HasGridName = (GridName.Length > 0) || (GridName_Merged.Length > 0);
 
                 var newConfig = ini.ToString();
                 var newConfigHash = newConfig.GetHashCode();
