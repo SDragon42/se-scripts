@@ -26,7 +26,7 @@ namespace IngameScript {
         readonly DebugLogging Debug;
         readonly FlightDataRecorder Fdr;
         //readonly StateMachine<bool> Operations = new StateMachine<bool>();
-        readonly StateMachineQueue<bool> GravityAlign = new StateMachineQueue<bool>();
+        readonly StateMachineQueue GravityAlign = new StateMachineQueue();
         readonly BlocksByOrientation Orientation = new BlocksByOrientation();
         readonly VectorAlign VecAlign = new VectorAlign();
 

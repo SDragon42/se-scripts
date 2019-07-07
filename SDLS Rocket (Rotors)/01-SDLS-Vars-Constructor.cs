@@ -32,8 +32,8 @@ namespace IngameScript {
         readonly FlightDataRecorder Fdr;
         readonly VectorAlign VecAlign = new VectorAlign();
         readonly BlocksByOrientation Orientation = new BlocksByOrientation();
-        readonly StateMachineQueue<bool> QueueSequence = new StateMachineQueue<bool>();
-        readonly StateMachineQueue<bool> QueueGravityAlign = new StateMachineQueue<bool>();
+        readonly StateMachineQueue QueueSequence = new StateMachineQueue();
+        readonly StateMachineQueue QueueGravityAlign = new StateMachineQueue();
 
 
         // Local Grid Only

@@ -23,7 +23,7 @@ namespace IngameScript {
         readonly MyIni Ini = new MyIni();
         readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
 
-        readonly StateMachine<bool> Operation = new StateMachine<bool>();
+        readonly StateMachine Operation = new StateMachine();
 
         public Program() {
             LoadConfig();

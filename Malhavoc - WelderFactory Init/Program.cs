@@ -29,7 +29,7 @@ namespace IngameScript {
         readonly RunningSymbol Running = new RunningSymbol();
         readonly List<IMyPistonBase> PistonList = new List<IMyPistonBase>();
         readonly List<IMyShipWelder> WelderList = new List<IMyShipWelder>();
-        readonly StateMachine<bool> Operation = new StateMachine<bool>();
+        readonly StateMachine Operation = new StateMachine();
 
         string OperationMessage = string.Empty;
 

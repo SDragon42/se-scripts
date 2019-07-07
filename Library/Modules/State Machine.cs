@@ -20,23 +20,23 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        class StateMachine<T> {
+        class StateMachine {
             readonly List<string> Keys2Remove = new List<string>();
-            readonly Dictionary<string, IEnumerator<T>> AllTasks = new Dictionary<string, IEnumerator<T>>();
+            readonly Dictionary<string, IEnumerator<bool>> AllTasks = new Dictionary<string, IEnumerator<bool>>();
 
             public void RunAll() {
                 if (!HasTasks) return;
                 foreach (var task in AllTasks) RunTask(task.Key, task.Value);
                 RemoveCompleted();
             }
-            public T Run(string key) {
-                if (!HasTask(key)) return default(T);
+            public bool Run(string key) {
+                if (!HasTask(key)) return false;
                 var result = RunTask(key, AllTasks[key]);
                 RemoveCompleted();
                 return result;
             }
 
-            public void Add(string key, IEnumerator<T> task, bool replace = false) {
+            public void Add(string key, IEnumerator<bool> task, bool replace = false) {
                 var hasKey = HasTask(key);
                 if (hasKey && !replace) return;
                 if (hasKey && replace) Remove(key);
@@ -69,10 +69,10 @@ namespace IngameScript {
 
 
 
-            T RunTask(string key, IEnumerator<T> task) {
+            bool RunTask(string key, IEnumerator<bool> task) {
                 if (!task.MoveNext()) {
                     Keys2Remove.Add(key);
-                    return default(T);
+                    return false;
                 }
                 return task.Current;
             }

@@ -33,8 +33,8 @@ namespace IngameScript {
         readonly RunningSymbol RunSymbol = new RunningSymbol();
         readonly Logging Log = new Logging(20);
         readonly VectorAlign VecAlign = new VectorAlign();
-        readonly StateMachineQueue<bool> SequenceVectorAlign = new StateMachineQueue<bool>();
-        readonly StateMachineQueue<bool> SequenceGrassHop = new StateMachineQueue<bool>();
+        readonly StateMachineQueue SequenceVectorAlign = new StateMachineQueue();
+        readonly StateMachineQueue SequenceGrassHop = new StateMachineQueue();
 
 
         // Blocks
@@ -126,7 +126,7 @@ namespace IngameScript {
             }
         }
 
-        void addSequenceRange(StateMachineQueue<bool> sm, params IEnumerator<bool>[] steps) {
+        void addSequenceRange(StateMachineQueue sm, params IEnumerator<bool>[] steps) {
             foreach (var step in steps)
                 sm.Add(step);
         }
