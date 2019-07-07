@@ -1,5 +1,4 @@
-﻿// <mdk sortorder="1000" />
-using Sandbox.Game.EntityComponents;
+﻿using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
@@ -20,13 +19,17 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        class StateMachine {
+        class StateMachineSets {
             readonly List<string> Keys2Remove = new List<string>();
-            readonly Dictionary<string, IEnumerator<bool>> AllTasks = new Dictionary<string, IEnumerator<bool>>();
+            readonly Dictionary<string, StateMachineQueue> AllTasks = new Dictionary<string, StateMachineQueue>();
+
+            public bool HasTask(string key) => AllTasks.ContainsKey(key);
+            public bool HasTasks => AllTasks.Count > 0;
+
 
             public void RunAll() {
                 if (!HasTasks) return;
-                foreach (var task in AllTasks) RunTask(task.Key, task.Value);
+                foreach (var key in AllTasks.Keys) Run(key);
                 RemoveCompleted();
             }
             public bool Run(string key) {
@@ -37,25 +40,21 @@ namespace IngameScript {
             }
 
             public void Add(string key, IEnumerator<bool> task, bool replace = false) {
-                var hasKey = HasTask(key);
-                if (hasKey && !replace) return;
-                if (hasKey && replace) Remove(key);
-                AllTasks.Add(key, task);
+                if (!HasTask(key)) AllTasks.Add(key, new StateMachineQueue());
+                var sm = AllTasks[key];
+                if (replace) sm.Clear();
+                sm.Add(task);
             }
             public void Remove(string key) {
                 if (!HasTask(key)) return;
                 var task = AllTasks[key];
-                task.Dispose();
+                task.Clear();
                 AllTasks.Remove(key);
             }
-
             public void Clear() {
-                foreach (var p in AllTasks) p.Value.Dispose();
+                foreach (var p in AllTasks) p.Value.Clear();
                 AllTasks.Clear();
             }
-
-            public bool HasTask(string key) => AllTasks.ContainsKey(key);
-            public bool HasTasks => AllTasks.Count > 0;
 
 
 
@@ -67,14 +66,10 @@ namespace IngameScript {
                 }
             }
 
-
-
-            bool RunTask(string key, IEnumerator<bool> task) {
-                if (!task.MoveNext()) {
-                    Keys2Remove.Add(key);
-                    return false;
-                }
-                return task.Current;
+            bool RunTask(string key, StateMachineQueue task) {
+                var result = task.Run();
+                if (!result) Keys2Remove.Add(key);
+                return result;
             }
         }
     }

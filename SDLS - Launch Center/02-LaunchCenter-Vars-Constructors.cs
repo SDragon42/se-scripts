@@ -24,7 +24,7 @@ namespace IngameScript {
         readonly RunningSymbol Running = new RunningSymbol();
         readonly Logging Log = new Logging(20);
         readonly DebugLogging Debug;
-        readonly StateMachine Operations = new StateMachine();
+        readonly StateMachineSets Operations = new StateMachineSets();
 
         //Lists
         readonly List<IMyTerminalBlock> _blocks = new List<IMyTerminalBlock>();

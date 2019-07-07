@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ToPrimativeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\StateMachineQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\TextHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\StateMachineSets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_CommonMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CompassHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\ConfigCustom.cs" />
@@ -39,7 +40,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ranger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\RenameMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\RunningSymbol.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\State Machine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SubTypeIDs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ThrusterHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\TimeInterval.cs" />
@@ -48,6 +48,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Modules\" />
   </ItemGroup>
 </Project>
