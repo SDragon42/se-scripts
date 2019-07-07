@@ -29,7 +29,7 @@ namespace IngameScript {
         readonly RunningSymbol Running = new RunningSymbol();
         readonly List<IMyPistonBase> PistonList = new List<IMyPistonBase>();
         readonly List<IMyShipWelder> WelderList = new List<IMyShipWelder>();
-        readonly StateMachine Operation = new StateMachine();
+        readonly StateMachineQueue Operation = new StateMachineQueue();
 
         string OperationMessage = string.Empty;
 
@@ -44,15 +44,15 @@ namespace IngameScript {
             switch (argument) {
                 case "extend":
                     Operation.Clear();
-                    Operation.Add("piston", SetFactoryState(true), true);
+                    Operation.Add(SetFactoryState(true));
                     break;
                 case "retract":
                     Operation.Clear();
-                    Operation.Add("piston", SetFactoryState(false), true);
+                    Operation.Add(SetFactoryState(false));
                     break;
             }
 
-            Operation.RunAll();
+            Operation.Run();
 
             if (Operation.HasTasks)
                 Runtime.UpdateFrequency = UpdateFrequency.Update10;
