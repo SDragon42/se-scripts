@@ -22,8 +22,8 @@ namespace IngameScript {
     partial class Program {
         class RunningSymbol {
             readonly double MaxTime;
+            readonly string[] Parts;
 
-            readonly string[] Parts = new string[8];
             public RunningSymbol(double loopTime = 1.6) {
                 MaxTime = loopTime;
                 Parts = new string[] { "[|    ]", "[ |   ]", "[  |  ]", "[   | ]", "[    |]", "[   | ]", "[  |  ]", "[ |   ]" };
@@ -36,9 +36,9 @@ namespace IngameScript {
                 var timeUpdate = (runtime.UpdateFrequency & UpdateFrequency.Update10) == UpdateFrequency.Update10 || (runtime.UpdateFrequency & UpdateFrequency.Update1) == UpdateFrequency.Update1;
 
                 _time += runtime.TimeSinceLastRun.TotalSeconds;
-                _pos = (timeUpdate) ? Convert.ToInt32(_time / (MaxTime / 8)) : _pos++;
+                _pos = (timeUpdate) ? Convert.ToInt32(_time / (MaxTime / Parts.Length)) : _pos++;
 
-                if (_pos > 7) {
+                if (_pos > 7 || _pos < 0) {
                     _pos = 0;
                     _time = 0.0;
                 }
