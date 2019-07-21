@@ -23,15 +23,15 @@ namespace IngameScript {
         class DebugLogging : Logging {
             public const string DefaultDebugPanelName = "DEBUG";
 
-            readonly List<IMyTextPanel> Displays = new List<IMyTextPanel>();
-
             readonly MyGridProgram gridProg;
-            readonly string debugDisplayName;
+            readonly string displayName;
+            int displayIndex;
 
 
-            public DebugLogging(MyGridProgram thisObj, string debugDisplayName = null) {
+            public DebugLogging(MyGridProgram thisObj, string displayName = null, int displayIndex = 0) {
                 gridProg = thisObj;
-                this.debugDisplayName = string.IsNullOrWhiteSpace(debugDisplayName) ? DefaultDebugPanelName : debugDisplayName;
+                this.displayName = string.IsNullOrWhiteSpace(displayName) ? DefaultDebugPanelName : displayName;
+                this.displayIndex = displayIndex >= 0 ? displayIndex : 0;
                 MaxTextLinesToKeep = -1;
             }
 
@@ -51,12 +51,16 @@ namespace IngameScript {
             }
             void WriteToDisplays(string text) {
                 if (!Enabled) return;
-                gridProg.GridTerminalSystem.GetBlocksOfType(Displays, b => b.IsSameConstructAs(gridProg.Me) && b.CustomName.Equals(debugDisplayName));
-                foreach (var d in Displays) {
-                    d.ContentType = ContentType.TEXT_AND_IMAGE;
-                    d.TextPadding = 0f;
-                    d.WriteText(text);
-                }
+                var b = gridProg.GridTerminalSystem.GetBlockWithName(displayName);
+                if (b == null) return;
+                if (!b.IsSameConstructAs(gridProg.Me)) return;
+                var d = b as IMyTextSurfaceProvider;
+                if (d == null) return;
+                if (displayIndex > d.SurfaceCount - 1)
+                    displayIndex = d.SurfaceCount - 1;
+                var surface = d.GetSurface(displayIndex);
+                surface.ContentType = ContentType.TEXT_AND_IMAGE;
+                surface.WriteText(text);
             }
         }
     }
