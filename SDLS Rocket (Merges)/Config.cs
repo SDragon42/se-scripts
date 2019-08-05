@@ -28,15 +28,15 @@ namespace IngameScript {
 
             int _configHash = 0;
 
-            public string PodTag { get; set; } = string.Empty;
-            public string Stage2Tag { get; set; } = string.Empty;
-            public string Stage1Tag { get; set; } = string.Empty;
-            public string BoosterTag { get; set; } = string.Empty;
+            public string PodTag { get; set; } = "[pod]";
+            public string Stage2Tag { get; set; } = "[stage2]";
+            public string Stage1Tag { get; set; } = "[stage1]";
+            public string BoosterTag { get; set; } = "[booster]";
 
 
             public string GridName { get; set; } = string.Empty;
-            public string GridName_Merged { get; set; } = string.Empty;
-            public bool HasGridName { get; set; }
+            public string GridName_Merged { get; set; } = "SDLS Rocket";
+            public bool HasGridNames { get; set; }
 
             public void LoadConfig(IMyProgrammableBlock me) {
                 if (_configHash == me.CustomData.GetHashCode()) return;
@@ -51,7 +51,7 @@ namespace IngameScript {
 
                 GridName = ini.Add(SEC_RocketGrid, "Grid Name", GridName).ToString();
                 GridName_Merged = ini.Add(SEC_RocketGrid, "Merged Name", GridName_Merged).ToString();
-                HasGridName = (GridName.Length > 0) || (GridName_Merged.Length > 0);
+                HasGridNames = (GridName.Length > 0) || (GridName_Merged.Length > 0);
 
                 var newConfig = ini.ToString();
                 var newConfigHash = newConfig.GetHashCode();

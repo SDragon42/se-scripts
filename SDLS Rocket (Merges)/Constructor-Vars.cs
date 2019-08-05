@@ -38,17 +38,27 @@ namespace IngameScript {
         readonly List<IMyShipMergeBlock> Merges = new List<IMyShipMergeBlock>();
         readonly List<IMyParachute> Parachutes = new List<IMyParachute>();
 
-        public Action<string> Debug = (msg) => { };
+        //Other
+        bool IsInited = false;
+        bool IsMaster = false;
+        RocketStructure Structure = RocketStructure.Unknown;
+        FlightMode Mode = FlightMode.Off;
+
+        Action<string> Debug = (msg) => { };
 
 
 
         public Program() {
-            Log = new DebugLogging(this, "DEBUG");
-            Debug = (msg) => { Echo(msg); Log.AppendLine(msg); };
+            Log = new DebugLogging(this, "Cockpit [pod]", 3);
+            Log.EchoMessages = true;
+            Log.Enabled = true;
+            Debug = (msg) => Log.AppendLine($"{DateTime.Now:HHmmss.fff} " + msg);
 
+            Commands.Add("scan", CMD_Scan);
             Commands.Add("launch", CMD_Launch);
             Commands.Add("await-staging", CMD_AwaitStaging);
             Commands.Add("shutdown", CMD_Shutdown);
+            Commands.Add("init", CMD_Init);
 
             // Instructions
             var sb = new StringBuilder();
@@ -56,10 +66,38 @@ namespace IngameScript {
             foreach (var c in Commands.Keys) sb.AppendLine(c);
             Instructions = sb.ToString();
 
-            Runtime.UpdateFrequency = UpdateFrequency.Update10;
+            //Runtime.UpdateFrequency = UpdateFrequency.Update10;
+
+            Load();
         }
 
+        void Load() {
+            var parts = Storage.Split('|');
+            if (parts.Length <= 1) return;
+            var i = 1;
+            switch (parts[0]) {
+                case "1":
+                    if (parts.Length != 5) return;
+                    bool.TryParse(parts[i++], out IsInited);
+                    bool.TryParse(parts[i++], out IsMaster);
+                    int tmp = 0;
+                    int.TryParse(parts[i++], out tmp);
+                    Structure = (RocketStructure)tmp;
+
+                    int.TryParse(parts[i++], out tmp);
+                    Mode = (FlightMode)tmp;
+
+                    break;
+            }
+        }
         public void Save() {
+            // Save State
+            Storage = "1" +
+                $"|{IsInited}" +
+                $"|{IsMaster}" +
+                $"|{(int)Structure}" +
+                $"|{(int)Mode}" +
+                $"";
         }
 
         IEnumerable<T> GetTaggedBlocks<T>(List<T> blocks, string tag) where T : IMyTerminalBlock {
