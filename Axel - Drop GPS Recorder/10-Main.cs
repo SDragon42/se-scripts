@@ -20,8 +20,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        const string DefaultTag = "[drop-gps]";
-        const string DefaultGpsLabel = "Probe Dropped";
+        readonly ScriptConfig Config = new ScriptConfig();
 
         readonly RunningSymbol runningSymbol = new RunningSymbol();
 
@@ -35,15 +34,14 @@ namespace IngameScript {
         }
 
 
-        string Tag = DefaultTag;
-        string GpsLabel = DefaultGpsLabel;
+        
 
         bool isFirstRun = true;
 
         public void Main(string argument, UpdateType updateSource) {
             Echo($"Drop GPS Recorder {runningSymbol.GetSymbol(Runtime)}");
 
-            LoadConfig();
+            Config.Load(Me);
             LoadBlocks();
 
             currentMergeBlocks.ForEach(CheckForMergeDisconnect);
@@ -51,32 +49,39 @@ namespace IngameScript {
         }
 
         void LoadBlocks() {
-            GridTerminalSystem.GetBlocksOfType(lcdPanels, IsBlockIWant);
-            GridTerminalSystem.GetBlocksOfType(currentMergeBlocks, IsBlockIWant);
-        }
-
-        bool IsBlockIWant(IMyTerminalBlock b) {
-            if (!b.IsSameConstructAs(Me)) return false;
-            if (!b.CustomName.ToLower().Contains(Tag)) return false;
-            return true;
+            GridTerminalSystem.GetBlocksOfType(lcdPanels, b => {
+                if (!b.IsSameConstructAs(Me)) return false;
+                if (!b.CustomName.ToLower().Contains(Config.LcdTag)) return false;
+                return true;
+            });
+            GridTerminalSystem.GetBlocksOfType(currentMergeBlocks, b => {
+                if (!b.IsSameConstructAs(Me)) return false;
+                if (Config.MergeTag.Length > 0)
+                    if (!b.CustomName.ToLower().Contains(Config.MergeTag)) return false;
+                return true;
+            });
         }
 
         private void CheckForMergeDisconnect(IMyShipMergeBlock current) {
+            var isInDisconnect = disconnectedMergeBlocks.Contains(current);
+
             if (current.IsConnected) {
-                if (disconnectedMergeBlocks.Contains(current))
+                if (isInDisconnect)
                     disconnectedMergeBlocks.Remove(current);
-            } else {
-                if (!disconnectedMergeBlocks.Contains(current)) {
-                    disconnectedMergeBlocks.Add(current);
-                    if (!isFirstRun)
-                        LogPosition();
-                }
+                return;
             }
+
+            if (!isInDisconnect) {
+                disconnectedMergeBlocks.Add(current);
+                if (!isFirstRun)
+                    LogPosition();
+            }
+
         }
 
         void LogPosition() {
             var position = Me.GetPosition();
-            var gps = VectorHelper.VectortoGps(position, GpsLabel);
+            var gps = VectorHelper.VectortoGps(position, Config.GpsLabel);
             foreach (IMyTextSurface lcd in lcdPanels) {
                 lcd.ContentType = ContentType.TEXT_AND_IMAGE;
                 lcd.WriteText($"{gps}\n", true);

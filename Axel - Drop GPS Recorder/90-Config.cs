@@ -20,21 +20,34 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        int configHash = -1;
-        MyIniKey keyLcdTag = new MyIniKey("Drop GPS Recorder", "Tag");
-        MyIniKey keyGpsLabel = new MyIniKey("Drop GPS Recorder", "GPS Label");
-        void LoadConfig() {
-            var hash = Me.CustomData.GetHashCode();
-            if (configHash == hash) return;
+        class ScriptConfig {
 
-            var ini = new MyIni();
-            ini.TryParse(Me.CustomData);
+            const string SECTION = "Drop GPS Recorder";
 
-            Tag = ini.Add(keyLcdTag, Tag).ToString();
-            GpsLabel = ini.Add(keyGpsLabel, GpsLabel).ToString();
+            const string DefaultTag = "[drop-gps]";
+            const string DefaultGpsLabel = "Probe Dropped";
 
-            Me.CustomData = ini.ToString();
-            configHash = Me.CustomData.GetHashCode();
+            int hash = -1;
+
+            public string LcdTag { get; private set; } = DefaultTag;
+            public string MergeTag { get; private set; } = string.Empty;
+            public string GpsLabel { get; private set; } = DefaultGpsLabel;
+
+            public void Load(IMyTerminalBlock b) {
+                var currHash = b.CustomData.GetHashCode();
+                if (hash == currHash) return;
+
+                var ini = new MyIni();
+                ini.TryParse(b.CustomData);
+
+                LcdTag = ini.Add(SECTION, "LCD Tag", LcdTag).ToString();
+                MergeTag = ini.Add(SECTION, "Merge Tag", MergeTag).ToString();
+                GpsLabel = ini.Add(SECTION, "GPS Label", GpsLabel).ToString();
+
+                b.CustomData = ini.ToString();
+                hash = b.CustomData.GetHashCode();
+            }
+
         }
 
     }
