@@ -49,7 +49,7 @@ namespace IngameScript {
 
                 // Run State Machines
                 if ((updateSource & UpdateType.Update10) == UpdateType.Update10)
-                    Operations.RunAll();
+                    Operations.RunAllTasks();
 
                 // Display LOG
                 Echo(Log.GetLogText());

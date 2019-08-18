@@ -1,4 +1,5 @@
-﻿using Sandbox.Game.EntityComponents;
+﻿// <mdk sortorder="1000" />
+using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
@@ -27,13 +28,13 @@ namespace IngameScript {
             public bool HasTasks => AllTasks.Count > 0;
 
 
-            public void RunAll() {
+            public void RunAllTasks() {
                 if (!HasTasks) return;
-                foreach (var key in AllTasks.Keys) Run(key);
+                foreach (var key in AllTasks.Keys) RunTask2(key);
                 RemoveCompleted();
             }
-            public bool Run(string key) {
-                if (!HasTask(key)) return false;
+            public bool RunTask(string key) => HasTask(key) ? RunTask2(key) : false;
+            bool RunTask2(string key) {
                 var result = RunTask(key, AllTasks[key]);
                 RemoveCompleted();
                 return result;
@@ -47,8 +48,8 @@ namespace IngameScript {
             }
             public void Remove(string key) {
                 if (!HasTask(key)) return;
-                var task = AllTasks[key];
-                task.Clear();
+                var sm = AllTasks[key];
+                sm.Clear();
                 AllTasks.Remove(key);
             }
             public void Clear() {

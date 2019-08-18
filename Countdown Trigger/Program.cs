@@ -50,7 +50,7 @@ namespace IngameScript {
                 }
             }
 
-            Operation.RunAll();
+            Operation.RunAllTasks();
 
             if (Operation.HasTasks)
                 Runtime.UpdateFrequency = UpdateFrequency.Update10;
