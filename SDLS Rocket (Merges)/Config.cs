@@ -24,7 +24,11 @@ namespace IngameScript {
             const string SectionTags = "SDLS Rocket Tags";
             const string SectionGrid = "SDLS Rocket Grid";
 
+            readonly MyIni ini = new MyIni();
+
+
             int hash = 0;
+
 
             public string PodTag { get; set; } = "[pod]";
             public string Stage2Tag { get; set; } = "[stage2]";
@@ -32,12 +36,16 @@ namespace IngameScript {
             public string BoosterTag { get; set; } = "[booster]";
             public string GridName { get; set; } = string.Empty;
             public string GridName_Merged { get; set; } = "SDLS Rocket";
-            public bool HasGridNames { get; set; }
+            public float StageDryMass { get; set; } = 0F;
 
-            public void LoadConfig(IMyProgrammableBlock me) {
+            public bool HasGridNames => ((GridName.Length > 0) || (GridName_Merged.Length > 0));
+
+            
+
+            public void Load(IMyProgrammableBlock me) {
                 if (hash == me.CustomData.GetHashCode()) return;
 
-                var ini = new MyIni();
+                ini.Clear();
                 ini.TryParse(me.CustomData);
 
                 PodTag = ini.Add(SectionTags, "Pod", PodTag).ToString();
@@ -46,12 +54,27 @@ namespace IngameScript {
                 BoosterTag = ini.Add(SectionTags, "Booster", BoosterTag).ToString();
                 GridName = ini.Add(SectionGrid, "Grid Name", GridName).ToString();
                 GridName_Merged = ini.Add(SectionGrid, "Merged Name", GridName_Merged).ToString();
-                HasGridNames = (GridName.Length > 0) || (GridName_Merged.Length > 0);
+                StageDryMass = ini.Add(SectionGrid, "Stage Dry Mass", StageDryMass).ToSingle();
 
+                SaveConfig(me);
+            }
+
+            public void Save(IMyProgrammableBlock me) {
+                ini.Set(SectionTags, "Pod", PodTag);
+                ini.Set(SectionTags, "Stage2", Stage2Tag);
+                ini.Set(SectionTags, "Stage1", Stage1Tag);
+                ini.Set(SectionTags, "Booster", BoosterTag);
+                ini.Set(SectionGrid, "Grid Name", GridName);
+                ini.Set(SectionGrid, "Merged Name", GridName_Merged);
+                ini.Set(SectionGrid, "Stage Dry Mass", StageDryMass);
+
+                SaveConfig(me);
+            }
+
+            void SaveConfig(IMyProgrammableBlock me) {
                 me.CustomData = ini.ToString();
                 hash = me.CustomData.GetHashCode();
             }
-
         }
     }
 }
