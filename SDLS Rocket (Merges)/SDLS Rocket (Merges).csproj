@@ -52,6 +52,7 @@
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
     <Compile Include="Constructor-Vars.cs" />
+    <Compile Include="SeqCheckReadyToLaunch.cs" />
   </ItemGroup>
   <Import Project="..\Library\Library.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
