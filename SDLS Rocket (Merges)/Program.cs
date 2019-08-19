@@ -21,14 +21,22 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
 
         public void Main(string argument, UpdateType updateSource) {
+            Cfg.Load(Me);
+            InitStructure();
+            LoadBlocks();
+
             if ((updateSource & UpdateType.Update10) == UpdateType.Update10)
                 Echo($"{ScriptName} {RSymbol.GetSymbol(Runtime)}");
             else
                 Echo(ScriptName);
-            Echo(Instructions);
-            Cfg.Load(Me);
-            InitStructure();
-            LoadBlocks();
+
+            Echo($"Struct: {RocketType}");
+            Echo($"Struct: {Structure}");
+            Echo($"Mode: {Mode}");
+            Echo("--------------------");
+
+
+            //Echo(Instructions);
 
             CheckMerges();
             if (Commands.ContainsKey(argument)) Commands[argument].Invoke();
@@ -42,14 +50,10 @@ namespace IngameScript {
 
         void InitStructure() {
             if (IsStructureInited) return;
-            IsMaster = false;
             Structure = GetRocketStructure(Me);
             StructureTag = GetRocketStructureTag();
-            if (Structure == RocketStructure.Pod) {
-                IsMaster = true;
-                GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(TmpBlocks, b => Me.IsSameConstructAs(b));
-                TmpBlocks.ForEach(b => Structure |= GetRocketStructure(b));
-            }
+            GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(TmpBlocks, b => Me.IsSameConstructAs(b));
+            TmpBlocks.ForEach(b => RocketType |= GetRocketStructure(b));
             IsStructureInited = true;
         }
         RocketStructure GetRocketStructure(IMyTerminalBlock b) {
@@ -89,7 +93,7 @@ namespace IngameScript {
 
         void SetStageMass() {
             var rc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>(b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, StructureTag));
-            if (rc == null) { Debug("* stage RC not found *");  return; }
+            if (rc == null) { Debug("* stage RC not found *"); return; }
 
             var dryMass = rc.CalculateShipMass().BaseMass;
             if (dryMass == Cfg.StageDryMass) return;
@@ -112,13 +116,13 @@ namespace IngameScript {
 
         void CMD_Launch() {
             Debug("CMD_Launch");
-            if (!IsMaster) return;
+            if (Structure != RocketStructure.Pod) return;
             if (Mode != FlightMode.Off) return;
         }
 
         void CMD_AwaitStaging() {
             Debug("CMD_AwaitStaging");
-            if (IsMaster) return;
+            if (Structure == RocketStructure.Pod) return;
         }
 
         void CMD_Shutdown() {

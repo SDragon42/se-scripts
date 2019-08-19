@@ -43,10 +43,7 @@ namespace IngameScript {
             Stage2 = 1 << 1,
             Stage1 = 1 << 2,
             Booster = 1 << 3,
-            //Rocket_Core = Pod + Stage1,
-            //Rocket_Stg2_Core = Pod + Stage2 + Stage1,
-            //Rocket_Core_2Side = Pod + Stage1 + Booster,
-            //Rocket_Stg_Core_2Side = Pod + Stage2 + Stage1 + Booster,
+
             Rocket_S1 = Pod + Stage1,
             Rocket_S12 = Pod + Stage2 + Stage1,
             Rocket_S1B = Pod + Stage1 + Booster,

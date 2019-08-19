@@ -23,7 +23,7 @@ namespace IngameScript {
 
         void CMD_CheckReadyToLaunch() {
             Debug("CMD_CheckReadyToLaunch");
-            if (!IsMaster) return;
+            if (Structure != RocketStructure.Pod) return;
             if (Mode != FlightMode.Off) return;
 
             if (SequenceSets.HasTask("CheckReady")) return;

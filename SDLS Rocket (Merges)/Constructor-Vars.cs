@@ -26,7 +26,6 @@ namespace IngameScript {
         //Modules
         readonly Config Cfg = new Config();
         readonly RunningSymbol RSymbol = new RunningSymbol();
-        //readonly Logging Log = new Logging(50);
         readonly DebugLogging Log;
         readonly StateMachineSets SequenceSets = new StateMachineSets();
 
@@ -48,9 +47,11 @@ namespace IngameScript {
 
         //Other
         bool IsStructureInited = false;
-        bool IsMaster = false;
+
         RocketStructure Structure = RocketStructure.Unknown;
         string StructureTag = string.Empty;
+        RocketStructure RocketType = RocketStructure.Unknown;
+
         FlightMode Mode = FlightMode.Off;
 
         Action<string> Debug = (msg) => { };
@@ -102,12 +103,13 @@ namespace IngameScript {
         }
         public void Save() {
             // Save State
-            Storage = "1" +
-                $"|{IsStructureInited}" +
-                $"|{IsMaster}" +
-                $"|{(int)Structure}" +
-                $"|{(int)Mode}" +
-                $"";
+            //Storage = "1" +
+            //    $"|{IsStructureInited}" +
+            //    //$"|{IsMaster}" +
+            //    $"|{(int)RocketType}" +
+            //    $"|{(int)Structure}" +
+            //    $"|{(int)Mode}" +
+            //    $"";
         }
 
         IEnumerable<T> GetTaggedBlocks<T>(List<T> blocks, string tag) where T : IMyTerminalBlock {
