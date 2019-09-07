@@ -35,7 +35,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="51-HoverTest.cs" />
+    <Compile Include="20-Sequences.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <Compile Include="01-GrassHopper.cs" />
     <AdditionalFiles Include="thumb.png" />

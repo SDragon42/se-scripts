@@ -60,6 +60,9 @@ namespace IngameScript {
             yield return true;
         }
         IEnumerator<bool> FlightTest_FlyUp(double hoverDist) {
+            // calc target Vector
+            //var targetPos = shipController.d
+
             // Launch
             Log.AppendLine("HFT - Fly Up");
             var lastPos = startPos;
@@ -68,8 +71,6 @@ namespace IngameScript {
             var hoverThrust = gForceN / Thrusters_Landing1.Count;
 
             Thrusters_Maneuver.ForEach(Thruster_On);
-            //Thrusters_Landing1.ForEach(Thruster_On);
-            //Thrusters_Landing1.ForEach(t => t.ThrustOverride = (float)hoverThrust + 50000f);
             Thrusters_Main.ForEach(t => {
                 Thruster_On(t);
                 t.ThrustOverridePercentage = 1.0f;
@@ -78,8 +79,6 @@ namespace IngameScript {
             // Wait for
             while (true) {
                 var currentPos = shipController.GetPosition();
-                //if (shipController.GetShipSpeed() >= 95.0)
-                //    Thrusters_Landing1.ForEach(t => t.ThrustOverride = (float)hoverThrust);
                 var dist = Vector3D.Distance(startPos, currentPos);
                 if (dist >= hoverDist)
                     break;
@@ -99,8 +98,6 @@ namespace IngameScript {
             // Wait for
             while (true) {
                 var currentPos = shipController.GetPosition();
-                //if (shipController.GetShipSpeed() >= 5.0)
-                //    Thrusters_Landing1.ForEach(t => t.ThrustOverride = (float)hoverThrust);
                 var dist = Vector3D.Distance(startPos, currentPos);
                 if (dist <= dropToDistance)
                     break;

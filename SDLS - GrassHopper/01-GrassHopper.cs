@@ -27,8 +27,8 @@ namespace IngameScript {
         const string GPS_LZ1 = "GPS:LZ-1/Grasshopper:-20189.71:18615.27:54263.73:";
         const string GPS_LZ2 = "GPS:LZ-2/Grasshopper:-19891.45:18820.13:54302.99:";
 
-        readonly Vector3D LZ1_Vector;
-        readonly Vector3D LZ2_Vector;
+        //readonly Vector3D LZ1_Vector;
+        //readonly Vector3D LZ2_Vector;
 
         readonly RunningSymbol RunSymbol = new RunningSymbol();
         readonly Logging Log = new Logging(20);
@@ -199,5 +199,30 @@ namespace IngameScript {
         double flyDistance = 1000;
         double powerDescentDistance = 500;
 
+        //  Flight calculations
+        Vector3D _gravVec;
+        double _gravMS2;
+        bool _inNaturalGravity;
+        double _actualMass;
+        //double _cargoMass;
+        double _gravityForceOnShip;
+        double _rangeToGround, _rangeToGroundLast, _rangeToSpace, _rangeToDestination;
+        double _verticalSpeed;
+        double _h2TankFilledPercent;
+
+        void Calculations() {
+            _gravVec = shipController.GetNaturalGravity();
+            _inNaturalGravity = !Vector3D.IsZero(_gravVec);
+            _gravMS2 = Math.Sqrt(
+                Math.Pow(_gravVec.X, 2) +
+                Math.Pow(_gravVec.Y, 2) +
+                Math.Pow(_gravVec.Z, 2));
+
+            var shipMass = shipController.CalculateShipMass();
+            _actualMass = shipMass.BaseMass + ((shipMass.TotalMass - shipMass.BaseMass) / 1);
+            _gravityForceOnShip = _actualMass * _gravMS2;
+
+
+        }
     }
 }
