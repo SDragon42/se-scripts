@@ -107,8 +107,6 @@ namespace IngameScript {
         bool IsToolBlock(IMyTerminalBlock b) => b is IMyShipDrill || b is IMyShipWelder || b is IMyShipGrinder;
         bool IsProximityBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ProximityTag);
         bool IsForwardRangeBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ForwardScanTag);
-        bool IsCompassBlock(IMyTerminalBlock b) => Collect.IsTagged(b, "[compass]");
-
 
     }
 }
