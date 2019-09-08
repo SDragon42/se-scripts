@@ -69,7 +69,7 @@ namespace IngameScript {
             if (argument.Length > 0)
                 _calcDirections.Add(DirectionHelper.GetDirectionFromString(argument));
             else
-                _calcDirections.AddArray(new Base6Directions.Direction[] { Base6Directions.Direction.Forward, Base6Directions.Direction.Backward, Base6Directions.Direction.Left, Base6Directions.Direction.Right, Base6Directions.Direction.Up, Base6Directions.Direction.Down });
+                _calcDirections.AddArray(Base6Directions.EnumDirections);
 
             var mass2Ignore = _config.GetValue(KeyMass2Ignore).ToInt();
             var totalMass = sc.CalculateShipMass().PhysicalMass - mass2Ignore;
@@ -79,7 +79,7 @@ namespace IngameScript {
             Echo(resultText);
             var twrDisplay = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyDisplayName)) as IMyTextPanel;
             if (twrDisplay != null) {
-                twrDisplay.ContentType = VRage.Game.GUI.TextPanel.ContentType.TEXT_AND_IMAGE;
+                twrDisplay.ContentType = ContentType.TEXT_AND_IMAGE;
                 twrDisplay.WriteText(resultText);
             }
         }
@@ -114,17 +114,17 @@ namespace IngameScript {
         }
 
         TwrInfo CalcTwrInDirection(float totalMass, Base6Directions.Direction direction) {
-            Func<IMyTerminalBlock, bool> isDirection;
+            Func<IMyTerminalBlock, bool> IsDirection;
             switch (direction) {
-                case Base6Directions.Direction.Forward: isDirection = _orientation.IsBackward; break;
-                case Base6Directions.Direction.Backward: isDirection = _orientation.IsForward; break;
-                case Base6Directions.Direction.Left: isDirection = _orientation.IsRight; break;
-                case Base6Directions.Direction.Right: isDirection = _orientation.IsLeft; break;
-                case Base6Directions.Direction.Up: isDirection = _orientation.IsDown; break;
-                case Base6Directions.Direction.Down: isDirection = _orientation.IsUp; break;
-                default: isDirection = (b) => false; break;
+                case Base6Directions.Direction.Forward: IsDirection = _orientation.IsBackward; break;
+                case Base6Directions.Direction.Backward: IsDirection = _orientation.IsForward; break;
+                case Base6Directions.Direction.Left: IsDirection = _orientation.IsRight; break;
+                case Base6Directions.Direction.Right: IsDirection = _orientation.IsLeft; break;
+                case Base6Directions.Direction.Up: IsDirection = _orientation.IsDown; break;
+                case Base6Directions.Direction.Down: IsDirection = _orientation.IsUp; break;
+                default: IsDirection = (b) => false; break;
             }
-            GridTerminalSystem.GetBlocksOfType(_thrusters, b => IsOnThisGrid(b) && isDirection(b) && b.IsWorking);
+            GridTerminalSystem.GetBlocksOfType(_thrusters, b => IsOnThisGrid(b) && IsDirection(b) && b.IsWorking);
 
             return new TwrInfo(_thrusters, direction, totalMass);
         }
