@@ -31,20 +31,16 @@ namespace IngameScript {
             yield return true;
         }
 
-
-
         IEnumerator<bool> FlightTest_Abort() {
             Thrusters_Main.ForEach(Thruster_Off_NoThrust);
             Thrusters_Maneuver.ForEach(Thruster_Off_NoThrust);
             yield return true;
         }
-
         IEnumerator<bool> FlightTest_Manual() {
             Thrusters_Main.ForEach(Thruster_On_NoThrust);
             Thrusters_Maneuver.ForEach(Thruster_On_NoThrust);
             yield return true;
         }
-
 
         IEnumerator<bool> FlightTest_Init() {
             Log.AppendLine("HFT - Init");

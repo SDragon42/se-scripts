@@ -48,8 +48,8 @@ namespace IngameScript {
 
 
         public Program() {
-            LZ1_Vector = VectorHelper.GpsToVector(GPS_LZ1);
-            LZ2_Vector = VectorHelper.GpsToVector(GPS_LZ2);
+            //LZ1_Vector = VectorHelper.GpsToVector(GPS_LZ1);
+            //LZ2_Vector = VectorHelper.GpsToVector(GPS_LZ2);
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
 
             LoadConfig();
@@ -206,9 +206,9 @@ namespace IngameScript {
         double _actualMass;
         //double _cargoMass;
         double _gravityForceOnShip;
-        double _rangeToGround, _rangeToGroundLast, _rangeToSpace, _rangeToDestination;
-        double _verticalSpeed;
-        double _h2TankFilledPercent;
+        //double _rangeToGround, _rangeToGroundLast, _rangeToSpace, _rangeToDestination;
+        //double _verticalSpeed;
+        //double _h2TankFilledPercent;
 
         void Calculations() {
             _gravVec = shipController.GetNaturalGravity();
