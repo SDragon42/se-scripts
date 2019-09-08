@@ -25,7 +25,7 @@ namespace IngameScript {
             TimeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
             var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - TimeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
 
-            Echo($"Utility Ship Systems 1.6.5 {RunningModule.GetSymbol(Runtime)}");
+            Echo($"Utility Ship Systems 1.6.6 {RunningModule.GetSymbol(Runtime)}");
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.\n");
             Echo("Configure script in 'Custom Data'\n");
             Echo(Instructions);
@@ -92,17 +92,9 @@ namespace IngameScript {
         }
         void CheckAlert() {
             var speed = Sc.GetShipSpeed();
-            var alertValid = false;
-            alertValid |= SetAlert(Base6Directions.Direction.Up, speed);
-            if (alertValid) return;
-            alertValid |= SetAlert(Base6Directions.Direction.Down, speed);
-            if (alertValid) return;
-            alertValid |= SetAlert(Base6Directions.Direction.Left, speed);
-            if (alertValid) return;
-            alertValid |= SetAlert(Base6Directions.Direction.Right, speed);
-            if (alertValid) return;
-            alertValid |= SetAlert(Base6Directions.Direction.Backward, speed);
-            if (alertValid) return;
+            foreach (var dir in Base6Directions.EnumDirections) {
+                if (SetAlert(dir, speed)) return;
+            }
             TurnOffProximityAlert();
         }
         bool SetAlert(Base6Directions.Direction dir, double speed) {

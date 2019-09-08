@@ -113,6 +113,5 @@ namespace IngameScript {
         bool IsForwardRangeBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ForwardScanTag);
         bool IsCompassBlock(IMyTerminalBlock b) => Collect.IsTagged(b, "[compass]");
 
-
     }
 }
