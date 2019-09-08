@@ -23,12 +23,12 @@ namespace IngameScript {
         class Proximity {
             const double DEF_SCAN_RANGE = 100.0;
 
-            readonly List<Direction> KeyList;
-            readonly Dictionary<Direction, double?> _prox1 = new Dictionary<Direction, double?>();
-            readonly Dictionary<Direction, double?> _prox2 = new Dictionary<Direction, double?>();
+            readonly List<Base6Directions.Direction> KeyList;
+            readonly Dictionary<Base6Directions.Direction, double?> _prox1 = new Dictionary<Base6Directions.Direction, double?>();
+            readonly Dictionary<Base6Directions.Direction, double?> _prox2 = new Dictionary<Base6Directions.Direction, double?>();
 
-            Dictionary<Direction, double?> _currProx;
-            Dictionary<Direction, double?> _prevProx;
+            Dictionary<Base6Directions.Direction, double?> _currProx;
+            Dictionary<Base6Directions.Direction, double?> _prevProx;
 
             BlocksByOrientation _orientation;
             IMyShipController _sc;
@@ -39,7 +39,7 @@ namespace IngameScript {
 
             public Proximity() {
                 ScanRange = DEF_SCAN_RANGE;
-                KeyList = Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList();
+                KeyList = Enum.GetValues(typeof(Base6Directions.Direction)).Cast<Base6Directions.Direction>().ToList();
                 foreach (var key in KeyList) {
                     _prox1.Add(key, null);
                     _prox2.Add(key, null);
@@ -53,8 +53,8 @@ namespace IngameScript {
 
 
 
-            public double? GetRange(Direction dir) => _currProx[dir];
-            public double? GetRangeDiff(Direction dir) => _currProx[dir] - _prevProx[dir];
+            public double? GetRange(Base6Directions.Direction dir) => _currProx[dir];
+            public double? GetRangeDiff(Base6Directions.Direction dir) => _currProx[dir] - _prevProx[dir];
 
             public void RunScan(MyGridProgram mgp, IMyShipController sc, List<ProxCamera> cameras) {
                 SwapProxyLists();
@@ -67,17 +67,17 @@ namespace IngameScript {
 
                 if (_orientation != null) {
                     Debug("Forward");
-                    _currProx[Direction.Forward] = GetMinimumRange(mgp, cameras, _orientation.IsForward);
+                    _currProx[Base6Directions.Direction.Forward] = GetMinimumRange(mgp, cameras, _orientation.IsForward);
                     Debug("Backward");
-                    _currProx[Direction.Backward] = GetMinimumRange(mgp, cameras, _orientation.IsBackward);
+                    _currProx[Base6Directions.Direction.Backward] = GetMinimumRange(mgp, cameras, _orientation.IsBackward);
                     Debug("Left");
-                    _currProx[Direction.Left] = GetMinimumRange(mgp, cameras, _orientation.IsLeft);
+                    _currProx[Base6Directions.Direction.Left] = GetMinimumRange(mgp, cameras, _orientation.IsLeft);
                     Debug("Right");
-                    _currProx[Direction.Right] = GetMinimumRange(mgp, cameras, _orientation.IsRight);
+                    _currProx[Base6Directions.Direction.Right] = GetMinimumRange(mgp, cameras, _orientation.IsRight);
                     Debug("Up");
-                    _currProx[Direction.Up] = GetMinimumRange(mgp, cameras, _orientation.IsUp);
+                    _currProx[Base6Directions.Direction.Up] = GetMinimumRange(mgp, cameras, _orientation.IsUp);
                     Debug("Down");
-                    _currProx[Direction.Down] = GetMinimumRange(mgp, cameras, _orientation.IsDown);
+                    _currProx[Base6Directions.Direction.Down] = GetMinimumRange(mgp, cameras, _orientation.IsDown);
                 }
             }
 

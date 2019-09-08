@@ -23,7 +23,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CompassHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\ConfigCustom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\DebugLogging.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Direction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DirectionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\DockSecure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\IMyGridTerminalSystemExtensions.cs" />

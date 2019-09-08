@@ -26,7 +26,7 @@ namespace IngameScript {
         readonly BlocksByOrientation _orientation = new BlocksByOrientation();
         readonly ConfigCustom _config = new ConfigCustom();
         readonly List<IMyThrust> _thrusters = new List<IMyThrust>();
-        readonly List<Direction> _calcDirections = new List<Direction>();
+        readonly List<Base6Directions.Direction> _calcDirections = new List<Base6Directions.Direction>();
 
         int _configHashCode = 0;
 
@@ -69,7 +69,7 @@ namespace IngameScript {
             if (argument.Length > 0)
                 _calcDirections.Add(DirectionHelper.GetDirectionFromString(argument));
             else
-                _calcDirections.AddArray(new Direction[] { Direction.Forward, Direction.Backward, Direction.Left, Direction.Right, Direction.Up, Direction.Down });
+                _calcDirections.AddArray(new Base6Directions.Direction[] { Base6Directions.Direction.Forward, Base6Directions.Direction.Backward, Base6Directions.Direction.Left, Base6Directions.Direction.Right, Base6Directions.Direction.Up, Base6Directions.Direction.Down });
 
             var mass2Ignore = _config.GetValue(KeyMass2Ignore).ToInt();
             var totalMass = sc.CalculateShipMass().PhysicalMass - mass2Ignore;
@@ -113,15 +113,15 @@ namespace IngameScript {
             return sb.ToString();
         }
 
-        TwrInfo CalcTwrInDirection(float totalMass, Direction direction) {
+        TwrInfo CalcTwrInDirection(float totalMass, Base6Directions.Direction direction) {
             Func<IMyTerminalBlock, bool> isDirection;
             switch (direction) {
-                case Direction.Forward: isDirection = _orientation.IsBackward; break;
-                case Direction.Backward: isDirection = _orientation.IsForward; break;
-                case Direction.Left: isDirection = _orientation.IsRight; break;
-                case Direction.Right: isDirection = _orientation.IsLeft; break;
-                case Direction.Up: isDirection = _orientation.IsDown; break;
-                case Direction.Down: isDirection = _orientation.IsUp; break;
+                case Base6Directions.Direction.Forward: isDirection = _orientation.IsBackward; break;
+                case Base6Directions.Direction.Backward: isDirection = _orientation.IsForward; break;
+                case Base6Directions.Direction.Left: isDirection = _orientation.IsRight; break;
+                case Base6Directions.Direction.Right: isDirection = _orientation.IsLeft; break;
+                case Base6Directions.Direction.Up: isDirection = _orientation.IsDown; break;
+                case Base6Directions.Direction.Down: isDirection = _orientation.IsUp; break;
                 default: isDirection = (b) => false; break;
             }
             GridTerminalSystem.GetBlocksOfType(_thrusters, b => IsOnThisGrid(b) && isDirection(b) && b.IsWorking);

@@ -34,20 +34,21 @@ namespace IngameScript {
                 ctrlCoeff = controlCoeff;
             }
 
-            public bool AlignWithGravity(IMyShipController sc, Direction dir, IList<IMyGyro> gyroList, bool keepOverrideOn = false) {
+            public bool AlignWithGravity(IMyShipController sc, Base6Directions.Direction dir, IList<IMyGyro> gyroList, bool keepOverrideOn = false) {
                 if (sc == null) return false;
 
                 var gravityVec = sc.GetNaturalGravity();
                 return AlignWithVector(gravityVec, sc, dir, gyroList, keepOverrideOn);
             }
 
-            public bool AlignWithVector(Vector3D targetVec, IMyShipController sc, Direction dir, IList<IMyGyro> gyroList, bool keepOverrideOn = false) {
+            public bool AlignWithVector(Vector3D targetVec, IMyShipController sc, Base6Directions.Direction dir, IList<IMyGyro> gyroList, bool keepOverrideOn = false) {
                 if (sc == null) return false;
 
                 Matrix orient;
                 sc.Orientation.GetMatrix(out orient);
 
-                var currentVec = GetDirectionVector(dir, orient);
+                var currentVec = orient.GetDirectionVector(dir);
+
                 currentVec.Normalize();
                 targetVec.Normalize();
 
@@ -103,17 +104,6 @@ namespace IngameScript {
                 g.GyroOverride = gyroOverride;
             }
 
-            static Vector3D GetDirectionVector(Direction dir, Matrix orient)
-            {
-                switch (dir) {
-                    case Direction.Forward: return orient.Forward;
-                    case Direction.Backward: return orient.Backward;
-                    case Direction.Left: return orient.Left;
-                    case Direction.Right: return orient.Right;
-                    case Direction.Up: return orient.Up;
-                    default: return orient.Down;
-                }
-            }
         }
     }
 }

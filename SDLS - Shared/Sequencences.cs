@@ -30,14 +30,14 @@ namespace IngameScript {
 
         IEnumerator<bool> Sequence_LaunchGravAlign() {
             while (true) {
-                VecAlign.AlignWithGravity(Remote, Direction.Backward, Gyros, true);
+                VecAlign.AlignWithGravity(Remote, Base6Directions.Direction.Backward, Gyros, true);
                 yield return true;
             }
         }
 
         IEnumerator<bool> Sequence_LandGravAlign() {
             while (true) {
-                VecAlign.AlignWithGravity(Remote, Direction.Down, Gyros);
+                VecAlign.AlignWithGravity(Remote, Base6Directions.Direction.Down, Gyros);
                 yield return true;
             }
         }

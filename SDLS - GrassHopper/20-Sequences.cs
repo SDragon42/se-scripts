@@ -22,12 +22,12 @@ namespace IngameScript {
 
         IEnumerator<bool> Sequence_GravAlignOn() {
             while (true) {
-                VecAlign.AlignWithGravity(shipController, Direction.Down, Gyros, true);
+                VecAlign.AlignWithGravity(shipController, Base6Directions.Direction.Down, Gyros, true);
                 yield return true;
             }
         }
         IEnumerator<bool> Sequence_GravAlignOff() {
-            VecAlign.gyrosOff(Gyros);
+            VectorAlign.SetGyrosOff(Gyros);
             yield return true;
         }
 

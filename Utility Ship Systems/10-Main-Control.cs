@@ -93,19 +93,19 @@ namespace IngameScript {
         void CheckAlert() {
             var speed = Sc.GetShipSpeed();
             var alertValid = false;
-            alertValid |= SetAlert(Direction.Up, speed);
+            alertValid |= SetAlert(Base6Directions.Direction.Up, speed);
             if (alertValid) return;
-            alertValid |= SetAlert(Direction.Down, speed);
+            alertValid |= SetAlert(Base6Directions.Direction.Down, speed);
             if (alertValid) return;
-            alertValid |= SetAlert(Direction.Left, speed);
+            alertValid |= SetAlert(Base6Directions.Direction.Left, speed);
             if (alertValid) return;
-            alertValid |= SetAlert(Direction.Right, speed);
+            alertValid |= SetAlert(Base6Directions.Direction.Right, speed);
             if (alertValid) return;
-            alertValid |= SetAlert(Direction.Backward, speed);
+            alertValid |= SetAlert(Base6Directions.Direction.Backward, speed);
             if (alertValid) return;
             TurnOffProximityAlert();
         }
-        bool SetAlert(Direction dir, double speed) {
+        bool SetAlert(Base6Directions.Direction dir, double speed) {
             var range = ProximityModule.GetRange(dir);
             var diff = ProximityModule.GetRangeDiff(dir);
             if (diff < 0 && speed >= ProximityAlertSpeed && range <= ProximityAlertRange) {
@@ -128,15 +128,15 @@ namespace IngameScript {
             AlertSounding = false;
         }
         string BuildProximityDisplayText() {
-            var txtUp = GetFormattedRange(Direction.Up);
-            var txtDown = GetFormattedRange(Direction.Down);
-            var txtLeft = GetFormattedRange(Direction.Left);
-            var txtRight = GetFormattedRange(Direction.Right);
-            var txtBack = GetFormattedRange(Direction.Backward);
-            var txtForward = GetFormattedRange(Direction.Forward);
+            var txtUp = GetFormattedRange(Base6Directions.Direction.Up);
+            var txtDown = GetFormattedRange(Base6Directions.Direction.Down);
+            var txtLeft = GetFormattedRange(Base6Directions.Direction.Left);
+            var txtRight = GetFormattedRange(Base6Directions.Direction.Right);
+            var txtBack = GetFormattedRange(Base6Directions.Direction.Backward);
+            var txtForward = GetFormattedRange(Base6Directions.Direction.Forward);
             return $" {txtForward} {txtUp}\n {txtLeft}<{txtBack}>{txtRight}\n      {txtDown}";
         }
-        string GetFormattedRange(Direction dir) {
+        string GetFormattedRange(Base6Directions.Direction dir) {
             var range = ProximityModule.GetRange(dir);
             if (!range.HasValue) return "----";
             return (range.Value < 100.0)
