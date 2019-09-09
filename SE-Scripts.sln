@@ -69,6 +69,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Block Report", "Block Repor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS Rocket (Merges)", "SDLS Rocket (Merges)\SDLS Rocket (Merges).csproj", "{6E9C794E-F42B-4B9A-A8BF-4C51F510DE4D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Copy Private TXT to Custom Data", "Copy Private TXT to Custom Data\Copy Private TXT to Custom Data.csproj", "{0340F098-2904-450C-B230-92C520C33DEB}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
@@ -158,6 +160,8 @@ Global
 		{2771AF32-2C73-49FB-AB82-F3BB4662F1E5}.Debug|x64.Build.0 = Debug|x64
 		{6E9C794E-F42B-4B9A-A8BF-4C51F510DE4D}.Debug|x64.ActiveCfg = Debug|x64
 		{6E9C794E-F42B-4B9A-A8BF-4C51F510DE4D}.Debug|x64.Build.0 = Debug|x64
+		{0340F098-2904-450C-B230-92C520C33DEB}.Debug|x64.ActiveCfg = Debug|x64
+		{0340F098-2904-450C-B230-92C520C33DEB}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
