@@ -71,6 +71,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS Rocket (Merges)", "SDL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Copy Private TXT to Custom Data", "Copy Private TXT to Custom Data\Copy Private TXT to Custom Data.csproj", "{0340F098-2904-450C-B230-92C520C33DEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sapphire-Ship Systems", "Sapphire-Ship Systems\Sapphire-Ship Systems.csproj", "{EA9DBF02-4575-4CD0-8C30-80F3078ECD6F}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
@@ -162,6 +164,8 @@ Global
 		{6E9C794E-F42B-4B9A-A8BF-4C51F510DE4D}.Debug|x64.Build.0 = Debug|x64
 		{0340F098-2904-450C-B230-92C520C33DEB}.Debug|x64.ActiveCfg = Debug|x64
 		{0340F098-2904-450C-B230-92C520C33DEB}.Debug|x64.Build.0 = Debug|x64
+		{EA9DBF02-4575-4CD0-8C30-80F3078ECD6F}.Debug|x64.ActiveCfg = Debug|x64
+		{EA9DBF02-4575-4CD0-8C30-80F3078ECD6F}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
