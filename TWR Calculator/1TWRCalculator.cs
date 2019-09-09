@@ -19,16 +19,16 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
-        const string KeyRCName = "Ship Ctrl Name";
-        const string KeyDisplayName = "Display Name";
-        const string KeyMass2Ignore = "Ignore Mass";
 
         readonly BlocksByOrientation _orientation = new BlocksByOrientation();
-        readonly ConfigCustom _config = new ConfigCustom();
         readonly List<IMyThrust> _thrusters = new List<IMyThrust>();
         readonly List<Base6Directions.Direction> _calcDirections = new List<Base6Directions.Direction>();
 
         int _configHashCode = 0;
+        string ShipControllerName = string.Empty;
+        string DisplayName = string.Empty;
+        int MassToIgnore = 0;
+
 
         public Program() {
             LoadConfig(true);
@@ -38,22 +38,18 @@ namespace IngameScript {
             if (_configHashCode == Me.CustomData.GetHashCode() && !force)
                 return;
 
-            _config.AddKey(KeyRCName,
-                description: "Name of the remote control block.",
-                defaultValue: "");
-            _config.AddKey(KeyDisplayName,
-                description: "Name of the display to show results on.",
-                defaultValue: "");
-            _config.AddKey(KeyMass2Ignore,
-                description: "The amount of mass to ignore from TWR calculations.",
-                defaultValue: "0");
+            MyIni ini = new MyIni();
+            ini.TryParse(Me.CustomData);
 
-            _config.Load(Me, true);
-            _config.Save(Me);
+            ShipControllerName = ini.Add("TWR", "Ship Ctrl Name", ShipControllerName, "Name of the remote control block.").ToString();
+            DisplayName = ini.Add("TWR", "Display Name", DisplayName, "Name of the display to show results on.").ToString();
+            MassToIgnore = ini.Add("TWR", "Ignore Mass", MassToIgnore, "The amount of mass to ignore from TWR calculations.").ToInt32();
+
+            Me.CustomData = ini.ToString();
             _configHashCode = Me.CustomData.GetHashCode();
         }
 
-        public void Main(string argument) {
+        public void Main(string argument, UpdateType updateSource) {
             LoadConfig();
 
             var sc = GetShipController();
@@ -71,13 +67,12 @@ namespace IngameScript {
             else
                 _calcDirections.AddArray(Base6Directions.EnumDirections);
 
-            var mass2Ignore = _config.GetValue(KeyMass2Ignore).ToInt();
-            var totalMass = sc.CalculateShipMass().PhysicalMass - mass2Ignore;
+            var totalMass = sc.CalculateShipMass().PhysicalMass - MassToIgnore;
             var resultText = BuildText(totalMass);
 
             // Display results
             Echo(resultText);
-            var twrDisplay = GridTerminalSystem.GetBlockWithName(_config.GetValue(KeyDisplayName)) as IMyTextPanel;
+            var twrDisplay = GridTerminalSystem.GetBlockWithName(DisplayName) as IMyTextPanel;
             if (twrDisplay != null) {
                 twrDisplay.ContentType = ContentType.TEXT_AND_IMAGE;
                 twrDisplay.WriteText(resultText);
@@ -85,10 +80,9 @@ namespace IngameScript {
         }
 
         IMyShipController GetShipController() {
-            var name = _config.GetValue(KeyRCName);
             var sc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyShipController>(
-                b => b is IMyRemoteControl && b.CustomName == name,
-                b => b is IMyCockpit && b.CustomName == name
+                b => b is IMyRemoteControl && b.CustomName == ShipControllerName,
+                b => b is IMyCockpit && b.CustomName == ShipControllerName
                 );
             if (sc != null) return sc;
             sc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyShipController>(
