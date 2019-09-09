@@ -177,7 +177,7 @@ namespace IngameScript {
             for (var i = 0; i < blocks.Count; i++) {
                 var id = GetShipIdFromBlock(blocks[i]);
                 var name = blocks[i].CustomName.Substring(id.Length);
-                blocks[i].SetCustomName(newShipId + name);
+                blocks[i].CustomName = newShipId + name;
             }
         }
 
@@ -189,7 +189,7 @@ namespace IngameScript {
                 var door = (IMyDoor)doorBlocks[i];
 
                 if (_openDoors.ContainsKey(door)) {
-                    if (!door.Open)
+                    if (door.Status != DoorStatus.Open)
                         _openDoors.Remove(door);
                     else {
                         int doorCount;
@@ -202,7 +202,7 @@ namespace IngameScript {
                             door.GetActionWithName(DoorAction_CloseDoor).Apply(door);
                     }
                 } else {
-                    if (door.Open)
+                    if (door.Status == DoorStatus.Open)
                         _openDoors.Add(door, 0);
                 }
 
@@ -231,7 +231,7 @@ namespace IngameScript {
                 var connector = (IMyShipConnector)connectorBlocks[i];
 
                 if (_unlockedConnectors.ContainsKey(connector)) {
-                    if (connector.IsConnected)
+                    if (connector.Status == MyShipConnectorStatus.Connected)
                         _unlockedConnectors.Remove(connector);
                     else {
                         int connectorCount;
@@ -244,7 +244,7 @@ namespace IngameScript {
                             connector.GetActionWithName(ConnectorAction_Lock).Apply(connector);
                     }
                 } else {
-                    if (connector.IsLocked && !connector.IsConnected)
+                    if (connector.Status != MyShipConnectorStatus.Connected)
                         _unlockedConnectors.Add(connector, 0);
                 }
             }
@@ -272,18 +272,18 @@ namespace IngameScript {
                 actionMethod = BlockAction_TurnOff;
 
             var _oxyGenerators = new List<IMyTerminalBlock>();
-            GridTerminalSystem.GetBlocksOfType<IMyOxygenGenerator>(_oxyGenerators);
+            GridTerminalSystem.GetBlocksOfType<IMyGasGenerator>(_oxyGenerators);
 
             ApplyActionToBlocks(_oxyGenerators, actionMethod);
         }
         private double GetStoredOxygenPercentage() {
             var oxygenTanks = new List<IMyTerminalBlock>();
-            GridTerminalSystem.GetBlocksOfType<IMyOxygenTank>(oxygenTanks);
+            GridTerminalSystem.GetBlocksOfType<IMyGasTank>(oxygenTanks);
 
             var value = 0.0;
             for (int i = 0; i < oxygenTanks.Count; i++) {
-                var tank = (IMyOxygenTank)oxygenTanks[i];
-                value += (tank.GetOxygenLevel());
+                var tank = (IMyGasTank)oxygenTanks[i];
+                value += tank.FilledRatio;
             }
             return (value / oxygenTanks.Count);
         }
