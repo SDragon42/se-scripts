@@ -45,7 +45,7 @@ namespace IngameScript {
                         continue;
                     }
                     OpenDoors[door] -= timeSeconds;
-                    if (OpenDoors[door] > 0.0) break;
+                    if (OpenDoors[door] > 0.0) continue;
                     OpenDoors.Remove(door);
                     door.CloseDoor();
                 }
