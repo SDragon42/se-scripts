@@ -20,51 +20,37 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        /// <summary>Automatically will close doors after a set amount of time
-        /// </summary>
-        /// <remarks>
-        /// Whiplash's : Whip's Auto Door and Airlock Script
-        /// http://steamcommunity.com/sharedfiles/filedetails/?id=416932930
-        /// </remarks>
+        // Automatically will close doors after a set amount of time
+        // Whiplash's : Whip's Auto Door and Airlock Script
+        // http://steamcommunity.com/sharedfiles/filedetails/?id=416932930
         class AutoDoorCloser {
-            readonly Dictionary<IMyDoor, double> _openDoors = new Dictionary<IMyDoor, double>();
+            readonly Dictionary<IMyDoor, double> OpenDoors = new Dictionary<IMyDoor, double>();
 
-            public AutoDoorCloser(double secondsToLeaveOpen = 4) {
-                _secondsToLeaveOpen = secondsToLeaveOpen > 0.0 ? secondsToLeaveOpen : 0.0;
+            double delay = 4.0;
+            public double CloseDelay {
+                get { return delay; }
+                set { delay = value > 0.0 ? value : 0.0; }
             }
-
-            double _secondsToLeaveOpen;
 
             public void CloseOpenDoors(IMyGridProgramRuntimeInfo runtime, List<IMyDoor> doorList) {
                 var timeSeconds = runtime.TimeSinceLastRun.TotalSeconds;
-                foreach (var door in doorList)
-                    ProcessDoor(door, timeSeconds);
-            }
-
-            void ProcessDoor(IMyDoor door, double timeSeconds) {
-                if (door == null) return;
-                if (_openDoors.ContainsKey(door)) {
-                    switch (door.Status) {
-                        case DoorStatus.Closed: _openDoors.Remove(door); break;
-                        case DoorStatus.Closing: _openDoors.Remove(door); break;
-                        case DoorStatus.Open:
-                            double doorTime;
-                            _openDoors.TryGetValue(door, out doorTime);
-                            doorTime -= timeSeconds;
-                            _openDoors.Remove(door);
-
-                            if (doorTime > 0.0)
-                                _openDoors.Add(door, doorTime);
-                            else
-                                door.CloseDoor();
-                            break;
+                foreach (var door in doorList) {
+                    var isOpen = door.Status == DoorStatus.Open;
+                    if (!OpenDoors.ContainsKey(door)) {
+                        if (isOpen) OpenDoors.Add(door, delay);
+                        continue;
                     }
-                } else {
-                    if (door.Status == DoorStatus.Open)
-                        _openDoors.Add(door, _secondsToLeaveOpen);
+                    if (!isOpen) {
+                        OpenDoors.Remove(door);
+                        continue;
+                    }
+                    OpenDoors[door] -= timeSeconds;
+                    if (OpenDoors[door] > 0.0) break;
+                    OpenDoors.Remove(door);
+                    door.CloseDoor();
                 }
             }
-
         }
+
     }
 }
