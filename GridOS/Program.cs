@@ -19,8 +19,8 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
+        #region mdk preserve
 
-        
 
 
         readonly RunningSymbol symbol = new RunningSymbol();
@@ -44,19 +44,26 @@ namespace IngameScript {
         public void Main(string argument, UpdateType updateSource) {
             blockReload_TimeElapsed += Runtime.TimeSinceLastRun.TotalSeconds;
             Echo($"Grid OS {symbol.GetSymbol(Runtime)}");
-            //Echo($"Block Reload in {Math.Truncate(blockReload_Time - blockReload_TimeElapsed) + 1:N0} seconds.");
+            Echo($"Block Reload in {Math.Truncate(blockReload_Time - blockReload_TimeElapsed) + 1:N0} seconds.");
             config.Load(Me, this);
             LoadBlocks();
-            if (config.AutoDoorCloserEnabled) autoDoorCloser.CloseOpenDoors(Runtime, autoDoors);
+            if (config.ADCEnabled) autoDoorCloser.CloseOpenDoors(Runtime, autoDoors);
         }
 
 
         void LoadBlocks(bool forceLoad = false) {
             if (!forceLoad && blockReload_TimeElapsed < blockReload_Time) return;
 
-            GridTerminalSystem.GetBlocksOfType(autoDoors);
+            GridTerminalSystem.GetBlocksOfType(autoDoors, (block) => {
+                if (Collect.IsTagged(block, config.ADCExclusionTag)) return false;
+                if (Collect.IsHangarDoor(block)) return false;
+                return true;
+            });
 
             blockReload_TimeElapsed = 0;
         }
+
+
+        #endregion
     }
 }

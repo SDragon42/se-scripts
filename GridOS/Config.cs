@@ -20,11 +20,14 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+        #region mdk preserve
         public class Config {
             readonly MyIni ini = new MyIni();
             int hash = 0;
 
-            public bool AutoDoorCloserEnabled { get; set; } = true;
+            const string SEC_adc = "Auto Door Closer";
+            public bool ADCEnabled { get; private set; } = true;
+            public string ADCExclusionTag { get; private set; } = "[exclude]";
 
             public void Load(IMyTerminalBlock b, Program thiso) {
                 if (hash == b.CustomData.GetHashCode()) return;
@@ -34,8 +37,11 @@ namespace IngameScript {
 
                 thiso.blockReload_Time = ini.Add("Grid OS", "Block Reload Delay", thiso.blockReload_Time).ToDouble();
 
-                AutoDoorCloserEnabled = ini.Add("Auto Door Closer", "Enabled", AutoDoorCloserEnabled).ToBoolean();
-                thiso.autoDoorCloser.CloseDelay = ini.Add("Auto Door Closer", "Delay", thiso.autoDoorCloser.CloseDelay).ToDouble();
+                ADCEnabled = ini.Add(SEC_adc, "Enabled", ADCEnabled).ToBoolean();
+                thiso.autoDoorCloser.CloseDelay = ini.Add(SEC_adc, "Delay", thiso.autoDoorCloser.CloseDelay).ToDouble();
+                ADCExclusionTag = ini.Add(SEC_adc, "Exclude Tag", ADCExclusionTag).ToString();
+
+                
 
                 SaveConfig(b);
             }
@@ -46,10 +52,11 @@ namespace IngameScript {
             //    SaveConfig(b);
             //}
 
-            void SaveConfig(IMyTerminalBlock me) {
-                me.CustomData = ini.ToString();
-                hash = me.CustomData.GetHashCode();
+            void SaveConfig(IMyTerminalBlock b) {
+                b.CustomData = ini.ToString();
+                hash = b.CustomData.GetHashCode();
             }
         }
+        #endregion
     }
 }
