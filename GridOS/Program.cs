@@ -1,4 +1,5 @@
-﻿using Sandbox.Game.EntityComponents;
+﻿// <mdk sortorder="10" />
+using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
@@ -30,11 +31,20 @@ namespace IngameScript {
 
         readonly List<IMyDoor> autoDoors = new List<IMyDoor>();
 
+        readonly Dictionary<string, Action> command = new Dictionary<string, Action>();
+        readonly string instructions;
+
         double blockReload_Time = 10;
         double blockReload_TimeElapsed = 0;
 
         public Program() {
             config.Load(Me, this);
+
+            //command.Add("", null);
+
+            // Instructions
+            instructions = "Script Commands\n" + string.Join("\n", command.Keys.ToArray());
+
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
@@ -44,9 +54,12 @@ namespace IngameScript {
         public void Main(string argument, UpdateType updateSource) {
             blockReload_TimeElapsed += Runtime.TimeSinceLastRun.TotalSeconds;
             Echo($"Grid OS {symbol.GetSymbol(Runtime)}");
+            Echo(instructions);
             Echo($"Block Reload in {Math.Truncate(blockReload_Time - blockReload_TimeElapsed) + 1:N0} seconds.");
+
             config.Load(Me, this);
             LoadBlocks();
+
             if (config.ADCEnabled) autoDoorCloser.CloseOpenDoors(Runtime, autoDoors);
         }
 
