@@ -34,7 +34,7 @@ namespace IngameScript {
         readonly List<IMyGyro> Gyros = new List<IMyGyro>();
         readonly List<IMyGasTank> H2Tanks = new List<IMyGasTank>();
         readonly List<IMyLandingGear> LandingGears = new List<IMyLandingGear>();
-        readonly List<IMyShipMergeBlock> Merges = new List<IMyShipMergeBlock>();
+        readonly List<IMyShipMergeBlock> ConnectedMerges = new List<IMyShipMergeBlock>();
         readonly List<IMyParachute> Parachutes = new List<IMyParachute>();
 
         //Thrusters
@@ -65,11 +65,11 @@ namespace IngameScript {
             Log.MaxTextLinesToKeep = 20;
             Debug = (msg) => Log.AppendLine($"{DateTime.Now:HHmmss.fff} " + msg);
 
-            Commands.Add("check", CMD_CheckReadyToLaunch);
-            Commands.Add("launch", CMD_Launch);
-            Commands.Add("await-staging", CMD_AwaitStaging);
-            Commands.Add("shutdown", CMD_Shutdown);
-            Commands.Add("init", CMD_Init);
+            Commands.Add(CMD_Check, Command_CheckReadyToLaunch);
+            Commands.Add(CMD_Launch, Command_Launch);
+            Commands.Add(CMD_AwaitStaging, Command_AwaitStaging);
+            Commands.Add(CMD_Shutdown, Command_Shutdown);
+            Commands.Add(CMD_Init, Command_Init);
 
             // Instructions
             var sb = new StringBuilder();
@@ -110,10 +110,6 @@ namespace IngameScript {
             //    $"|{(int)Structure}" +
             //    $"|{(int)Mode}" +
             //    $"";
-        }
-
-        IEnumerable<T> GetTaggedBlocks<T>(List<T> blocks, string tag) where T : IMyTerminalBlock {
-            return blocks.Where(b => b.CustomName.Contains(tag));
         }
 
     }

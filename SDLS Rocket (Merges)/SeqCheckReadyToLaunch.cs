@@ -21,7 +21,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        void CMD_CheckReadyToLaunch() {
+        void Command_CheckReadyToLaunch() {
             Debug("CMD_CheckReadyToLaunch");
             if (Structure != RocketStructure.Pod) return;
             if (Mode != FlightMode.Off) return;
@@ -32,6 +32,28 @@ namespace IngameScript {
 
 
         IEnumerator<bool> SEQ_CheckReadyToLaunch() {
+
+            // unlock landing gears
+            // unlock connectors
+            // calc launch TWR
+            // set go/nogo
+
+            yield return false;
+        }
+
+
+
+        void Command_Launch() {
+            Debug("CMD_Launch");
+            if (Structure != RocketStructure.Pod) return;
+            if (Mode != FlightMode.Off) return;
+            //Mode = FlightMode.Launch;
+
+        }
+
+        IEnumerator<bool> SEQ_Launch() {
+
+            SendCmdToOtherParts(CMD_AwaitStaging);
 
             // unlock landing gears
             // unlock connectors

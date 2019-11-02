@@ -23,6 +23,13 @@ namespace IngameScript {
 
         const string ScriptName = "SDLS";
 
+        const string CMD_Check = "check";
+        const string CMD_Launch = "launch";
+        const string CMD_AwaitStaging = "await-staging";
+        const string CMD_Shutdown = "shutdown";
+        const string CMD_Init = "init";
+
+
         static class TAGS {
             public const string MAIN = "[main]";
             public const string MANEUVER = "[maneuver]";
@@ -45,6 +52,7 @@ namespace IngameScript {
             Booster = 1 << 3,
 
             Rocket_S1 = Pod + Stage1,
+            Rocket_S2 = Pod + Stage2,
             Rocket_S12 = Pod + Stage2 + Stage1,
             Rocket_S1B = Pod + Stage1 + Booster,
             Rocket_S12B = Pod + Stage2 + Stage1 + Booster,
