@@ -100,8 +100,8 @@ namespace IngameScript {
                 var info = CalcTwrInDirection(totalMass, dir);
                 sb.AppendLine($"{_thrusters.Count:N0} {info.Thrust_Direction} Thrusters");
                 sb.AppendLine("    Effective / Maximum");
-                sb.AppendLine($"T: {info.Thrust.Effective / 1000.0,7:N0} kN / {info.Thrust.Maximum / 1000.0:N0} kN");
-                sb.AppendLine($"TWR: {info.TWR.Effective,8:N2} / {info.TWR.Maximum:N2}");
+                sb.AppendLine($"T: {info.EffectiveThrust / 1000.0,7:N0} kN / {info.MaxThrust / 1000.0:N0} kN");
+                sb.AppendLine($"TWR: {info.EffectiveTWR,8:N2} / {info.MaxTWR:N2}");
                 sb.AppendLine();
             }
             return sb.ToString();

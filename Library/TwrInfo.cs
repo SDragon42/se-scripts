@@ -1,4 +1,5 @@
-﻿using Sandbox.Game.EntityComponents;
+﻿// <mdk sortorder="900" />
+using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
@@ -25,30 +26,20 @@ namespace IngameScript {
 
                 Thrust_Direction = direction;
                 NumThrusters = _thrusters.Count;
-                Thrust = new EffectiveMax<double>(
-                    _thrusters.Sum(b => (double)b.MaxEffectiveThrust),
-                    _thrusters.Sum(b => (double)b.MaxThrust));
 
-                TWR = new EffectiveMax<double>(
-                    Thrust.Effective / massNewtons,
-                    Thrust.Maximum / massNewtons);
+                EffectiveThrust = _thrusters.Sum(b => (double)b.MaxEffectiveThrust);
+                MaxThrust = _thrusters.Sum(b => (double)b.MaxThrust);
+
+                EffectiveTWR = EffectiveThrust / massNewtons;
+                MaxTWR = MaxThrust / massNewtons;
             }
 
             public Base6Directions.Direction Thrust_Direction { get; private set; }
-            public EffectiveMax<double> Thrust { get; private set; }
-            public EffectiveMax<double> TWR { get; private set; }
+            public double EffectiveThrust { get; private set; }
+            public double MaxThrust { get; private set; }
+            public double EffectiveTWR { get; private set; }
+            public double MaxTWR { get; private set; }
             public int NumThrusters { get; private set; }
-
-
-        }
-
-        class EffectiveMax<T> {
-            public EffectiveMax(T effective, T maximum) {
-                Effective = effective;
-                Maximum = maximum;
-            }
-            public T Effective { get; private set; }
-            public T Maximum { get; private set; }
         }
     }
 }
