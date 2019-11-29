@@ -56,13 +56,13 @@ namespace IngameScript {
                 Echo("ERROR: Inventory Multiplier is not set!");
                 return;
             }
-            var x = LiftCapacity.GetMaxMass(_sc, LiftThrusters, MinimumTWR, InventoryMultiplier);
+            var x = ThrusterHelper.GetMaxMass(_sc, LiftThrusters, MinimumTWR, InventoryMultiplier);
             Echo($"At TWR {MinimumTWR:N1}");
             Echo($"Max Mass: {x:N2} kg");
 
             Echo("");
             Echo($"At TWR {1.0:N1}");
-            var x2 = LiftCapacity.GetMaxMass(_sc, LiftThrusters, 1.0, InventoryMultiplier);
+            var x2 = ThrusterHelper.GetMaxMass(_sc, LiftThrusters, 1.0, InventoryMultiplier);
             Echo($"Max Mass: {x2:N2} kg");
         }
 

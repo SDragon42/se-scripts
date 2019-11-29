@@ -33,7 +33,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\GasTankHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LCDChars.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LCDFonts.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\LiftCapacity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Logging.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Profiler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Proximity.cs" />
