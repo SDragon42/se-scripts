@@ -24,6 +24,7 @@ namespace IngameScript {
 
             public static bool IsOrientedForward(IMyTerminalBlock b) => b.Orientation.TransformDirectionInverse(b.Orientation.Forward) == Base6Directions.Direction.Forward;
             public static bool IsTagged(IMyTerminalBlock b, string tag) => b.CustomName.IndexOf(tag, StringComparison.OrdinalIgnoreCase) >= 0;
+            public static bool IsTaggedAny(IMyTerminalBlock b, params string[] tags) => tags.Any(t => IsTagged(b, t));
 
             public static bool IsConnector(IMyTerminalBlock b) => b is IMyShipConnector;
             public static bool IsConnectorConnectable(IMyTerminalBlock b) => IsConnectorConnectable(b as IMyShipConnector);
