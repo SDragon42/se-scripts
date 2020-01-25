@@ -23,6 +23,9 @@ namespace IngameScript {
         const double BLOCK_RELOAD_TIME = 10.0;
         const long INV_ITEM_COUNT_MODIFIER = 1000000L;
 
+        const string ListenerTagName = "DeployableTurret";
+        const string IGC_Update = "IGC_Update";
+
         // Modules
 
         //Blocks
@@ -46,9 +49,13 @@ namespace IngameScript {
 
         // Script Vars
         double timeLastBlockLoad = BLOCK_RELOAD_TIME;
+        IMyBroadcastListener Lstn;
 
         public Program() {
             Runtime.UpdateFrequency = UpdateFrequency.Update100;
+
+            Lstn = IGC.RegisterBroadcastListener(ListenerTagName);
+            Lstn.SetMessageCallback(IGC_Update);
         }
 
         public void Save() {
@@ -60,7 +67,7 @@ namespace IngameScript {
             LoadConfig();
 
             var isTerminalRun = (updateSource & UpdateType.Terminal) == UpdateType.Terminal;
-            var isCommRun = (updateSource & UpdateType.Antenna) == UpdateType.Antenna;
+            var isCommRun = (updateSource & UpdateType.IGC) == UpdateType.IGC;
             //var isTriggerRun = (updateSource & UpdateType.Trigger) == UpdateType.Trigger;
             //var isAutoRun = (updateSource & UpdateType.Update100) == UpdateType.Update100;
 
@@ -104,7 +111,6 @@ namespace IngameScript {
                 antennaMessage += "\nLOW AMMO";
             }
             antenna.CustomName = antennaMessage;
-
             antenna.EnableBroadcasting = !StealthMode;
         }
 
@@ -197,8 +203,14 @@ namespace IngameScript {
 
         static char[] CMD_SPLIT = new char[] { ' ' };
         void ProcessCommand(string command) {
-            if (string.IsNullOrWhiteSpace(command)) return;
-            var cmdParts = command.Split(CMD_SPLIT, StringSplitOptions.RemoveEmptyEntries);
+            if (command != IGC_Update) return;
+
+            var msg = Lstn.AcceptMessage();
+            var data = msg.Data as string;
+            if (string.IsNullOrWhiteSpace(data)) return;
+
+            var cmdParts = data.Split(CMD_SPLIT, StringSplitOptions.RemoveEmptyEntries);
+
         }
     }
 }
