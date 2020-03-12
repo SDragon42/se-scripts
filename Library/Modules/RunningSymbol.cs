@@ -29,21 +29,21 @@ namespace IngameScript {
                 Parts = new string[] { "[|    ]", "[ |   ]", "[  |  ]", "[   | ]", "[    |]", "[   | ]", "[  |  ]", "[ |   ]" };
             }
 
-            double _time = 0.0;
-            int _pos = -1;
+            double time = 0.0;
+            int pos = -1;
 
             public string GetSymbol(IMyGridProgramRuntimeInfo runtime) {
                 var timeUpdate = (runtime.UpdateFrequency & UpdateFrequency.Update10) == UpdateFrequency.Update10 || (runtime.UpdateFrequency & UpdateFrequency.Update1) == UpdateFrequency.Update1;
 
-                _time += runtime.TimeSinceLastRun.TotalSeconds;
-                _pos = (timeUpdate) ? Convert.ToInt32(_time / (MaxTime / Parts.Length)) : _pos++;
+                time += runtime.TimeSinceLastRun.TotalSeconds;
+                pos = timeUpdate ? Convert.ToInt32(time / (MaxTime / Parts.Length)) : pos + 1;
 
-                if (_pos > 7 || _pos < 0) {
-                    _pos = 0;
-                    _time = 0.0;
+                if (pos > 7 || pos < 0) {
+                    pos = 0;
+                    time = 0.0;
                 }
 
-                return Parts[_pos];
+                return Parts[pos];
             }
 
         }
