@@ -21,7 +21,7 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
 
         public Program() {
-            Runtime.UpdateFrequency = UpdateFrequency.Update10;
+            Runtime.UpdateFrequency = UpdateFrequency.Update1;
         }
 
         public void Save() {
@@ -56,7 +56,6 @@ namespace IngameScript {
             } catch (Exception ex) {
                 log.AppendLine("ERROR");
                 log.AppendLine(ex.Message);
-                //Runtime.UpdateFrequency = UpdateFrequency.None;
             }
 
             Echo(log.GetLogText());
@@ -66,7 +65,7 @@ namespace IngameScript {
             log.AppendLine("Abort()");
             LoadBlocks();
             upThrusters.ForEach(t => t.ThrustOverride = 0f);
-            //Runtime.UpdateFrequency = UpdateFrequency.None;
+            Runtime.UpdateFrequency = UpdateFrequency.None;
             sequenceSets.Clear();
         }
 
@@ -74,7 +73,6 @@ namespace IngameScript {
             log.AppendLine("RunAscent()");
             LoadBlocks();
             outputSurface.WriteText(string.Empty);
-            //Runtime.UpdateFrequency = UpdateFrequency.Update10;
             sequenceSets.Add("accent", SEQ_RunAscent());
         }
 
@@ -95,7 +93,10 @@ namespace IngameScript {
 
         IEnumerator<bool> SEQ_RunAscent() {
             log.AppendLine("SEQ_RunAscent()");
+
+            upThrusters.ForEach(t => t.Enabled = true);
             yield return true;
+
             upThrusters.ForEach(t => t.ThrustOverridePercentage = 1f);
             gears.ForEach(g => g.Unlock());
 
@@ -105,6 +106,7 @@ namespace IngameScript {
             var seaLevelElevation = 0.0;
             var lastGAccel = 0.0;
             var hasElevation = true;
+            var points = new List<double>();
             do {
                 yield return true;
 
@@ -113,15 +115,16 @@ namespace IngameScript {
                     break;
 
                 var gAccel = GetGravityAccel();
-                gAccel = Math.Round(gAccel, 1);
-
-                if (gAccel != lastGAccel) {
-                    //var elevation = hasElevation
-                    //    ? seaLevelElevation + ((seaLevelElevation - lastElevation) / 2)
-                    //    : lastElevation;
-                    //outputSurface.WriteText($"{elevation:N2}  {gAccel,3:N1}\n", true);
-                    outputSurface.WriteText($"{lastElevation:N2}  {lastGAccel,3:N1}\n", true);
-                    outputSurface.WriteText($"{seaLevelElevation:N2}  {gAccel,3:N1}\n", true);
+                if (!double.IsNaN(gAccel)) {
+                    gAccel = Math.Round(gAccel, 2);
+                    if (gAccel != lastGAccel && lastGAccel != 0.0) {
+                        var midElevation = lastElevation + (seaLevelElevation - lastElevation);
+                        points.Add(midElevation);
+                        outputSurface.WriteText($"{midElevation:N2}  {gAccel,3:N2}\n", true);
+                    }
+                } else {
+                    var midElevation = points.Average();
+                    outputSurface.WriteText($"{midElevation:N2}  {0.0,3:N2}\n", true);
                 }
 
                 lastGAccel = gAccel;
