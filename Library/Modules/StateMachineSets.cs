@@ -28,14 +28,14 @@ namespace IngameScript {
             public bool HasTasks => AllTasks.Count > 0;
 
 
-            public void RunAllTasks() {
+            public void RunAll() {
                 if (!HasTasks) return;
-                foreach (var key in AllTasks.Keys) RunTask(key, AllTasks[key]);
+                foreach (var key in AllTasks.Keys) Run(key, AllTasks[key]);
                 RemoveCompleted();
             }
-            public bool RunTask(string key) {
+            public bool Run(string key) {
                 if (!HasTask(key)) return false;
-                var result = RunTask(key, AllTasks[key]);
+                var result = Run(key, AllTasks[key]);
                 RemoveCompleted();
                 return result;
             }
@@ -58,7 +58,7 @@ namespace IngameScript {
             }
 
 
-            bool RunTask(string key, StateMachineQueue task) {
+            bool Run(string key, StateMachineQueue task) {
                 var result = task.Run();
                 if (!result) Keys2Remove.Add(key);
                 return result;

@@ -52,7 +52,7 @@ namespace IngameScript {
                     default: break;
                 }
 
-                sequenceSets.RunAllTasks();
+                sequenceSets.RunAll();
             } catch (Exception ex) {
                 log.AppendLine("ERROR");
                 log.AppendLine(ex.Message);
