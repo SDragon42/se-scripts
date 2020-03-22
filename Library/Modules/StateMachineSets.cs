@@ -30,11 +30,11 @@ namespace IngameScript {
 
             public void RunAllTasks() {
                 if (!HasTasks) return;
-                foreach (var key in AllTasks.Keys) RunTask2(key);
+                foreach (var key in AllTasks.Keys) RunTask(key, AllTasks[key]);
                 RemoveCompleted();
             }
-            public bool RunTask(string key) => HasTask(key) ? RunTask2(key) : false;
-            bool RunTask2(string key) {
+            public bool RunTask(string key) {
+                if (!HasTask(key)) return false;
                 var result = RunTask(key, AllTasks[key]);
                 RemoveCompleted();
                 return result;
@@ -58,7 +58,11 @@ namespace IngameScript {
             }
 
 
-
+            bool RunTask(string key, StateMachineQueue task) {
+                var result = task.Run();
+                if (!result) Keys2Remove.Add(key);
+                return result;
+            }
             void RemoveCompleted() {
                 while (Keys2Remove.Count > 0) {
                     var key = Keys2Remove[0];
@@ -67,11 +71,6 @@ namespace IngameScript {
                 }
             }
 
-            bool RunTask(string key, StateMachineQueue task) {
-                var result = task.Run();
-                if (!result) Keys2Remove.Add(key);
-                return result;
-            }
         }
     }
 }
