@@ -29,22 +29,6 @@ namespace IngameScript {
         readonly DebugLogging Log;
         readonly StateMachineSets SequenceSets = new StateMachineSets();
 
-        //Blocks
-
-        readonly List<IMyGyro> Gyros = new List<IMyGyro>();
-        readonly List<IMyGasTank> H2Tanks = new List<IMyGasTank>();
-        readonly List<IMyLandingGear> LandingGears = new List<IMyLandingGear>();
-        readonly List<IMyShipMergeBlock> ConnectedMerges = new List<IMyShipMergeBlock>();
-        readonly List<IMyParachute> Parachutes = new List<IMyParachute>();
-
-        //Thrusters
-        readonly List<IMyThrust> ThrustersPrimary = new List<IMyThrust>();
-        readonly List<IMyThrust> ThrustersSecondary = new List<IMyThrust>();
-        //readonly List<IMyThrust> BoosterMainThrusters => GetTaggedBlocks(Thrusters, Cfg.BoosterTag);
-        //readonly List<IMyThrust> Stage1MainThrusters => GetTaggedBlocks(Thrusters, Cfg.Stage1Tag);
-        //readonly List<IMyThrust> Stage2MainThrusters => GetTaggedBlocks(Thrusters, Cfg.Stage2Tag);
-        //readonly List<IMyThrust> PodMainThrusters => GetTaggedBlocks(Thrusters, Cfg.PodTag);
-
         //Other
         bool IsStructureInited = false;
 
@@ -80,6 +64,9 @@ namespace IngameScript {
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
 
             Load();
+
+            // Should not be needed
+            collecter = Me.IsSameConstructAs;
         }
 
         void Load() {
@@ -110,6 +97,45 @@ namespace IngameScript {
             //    $"|{(int)Structure}" +
             //    $"|{(int)Mode}" +
             //    $"";
+        }
+
+
+
+
+        //Blocks
+        readonly List<IMyGyro> Gyros = new List<IMyGyro>();
+        readonly List<IMyGasTank> H2Tanks = new List<IMyGasTank>();
+        readonly List<IMyLandingGear> LandingGears = new List<IMyLandingGear>();
+        readonly List<IMyShipConnector> Connectors = new List<IMyShipConnector>();
+        readonly List<IMyShipMergeBlock> ConnectedMerges = new List<IMyShipMergeBlock>();
+        readonly List<IMyParachute> Parachutes = new List<IMyParachute>();
+
+        IMyRadioAntenna Antenna = null;
+
+        //Thrusters
+        readonly List<IMyThrust> ThrustersPrimary = new List<IMyThrust>();
+        readonly List<IMyThrust> ThrustersSecondary = new List<IMyThrust>();
+        //readonly List<IMyThrust> BoosterMainThrusters => GetTaggedBlocks(Thrusters, Cfg.BoosterTag);
+        //readonly List<IMyThrust> Stage1MainThrusters => GetTaggedBlocks(Thrusters, Cfg.Stage1Tag);
+        //readonly List<IMyThrust> Stage2MainThrusters => GetTaggedBlocks(Thrusters, Cfg.Stage2Tag);
+        //readonly List<IMyThrust> PodMainThrusters => GetTaggedBlocks(Thrusters, Cfg.PodTag);
+        readonly List<IMyThrust> ManuverThrusters = new List<IMyThrust>();
+        readonly List<IMyThrust> AllThrusters = new List<IMyThrust>();
+
+        Func<IMyTerminalBlock, bool> collecter = null;
+        Func<IMyTerminalBlock, bool> collecterPrimary = null;
+        Func<IMyTerminalBlock, bool> collecterSecondary = null;
+
+        void LoadBlocks() {
+            GridTerminalSystem.GetBlocksOfType(Gyros, collecter);
+            GridTerminalSystem.GetBlocksOfType(LandingGears, collecter);
+            GridTerminalSystem.GetBlocksOfType(Connectors, collecter);
+            GridTerminalSystem.GetBlocksOfType(Parachutes, collecter);
+            GridTerminalSystem.GetBlocksOfType(AllThrusters, collecter);
+        }
+
+        void LoadInAllProgramBlocks(List<IMyTerminalBlock> list) {
+            GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(list, b => Me.IsSameConstructAs(b) && Collect.IsTagged(b, ScriptName));
         }
 
     }

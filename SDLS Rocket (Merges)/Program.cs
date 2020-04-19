@@ -23,66 +23,63 @@ namespace IngameScript {
         public void Main(string argument, UpdateType updateSource) {
             Cfg.Load(Me);
             InitStructure();
+            InitRocketType();
 
-            if ((updateSource & UpdateType.Update10) == UpdateType.Update10)
-                Echo($"{ScriptName} {RSymbol.GetSymbol(Runtime)}");
-            else
-                Echo(ScriptName);
+            //if ((updateSource & UpdateType.Update10) == UpdateType.Update10)
+            //    Echo(ScriptName + " " + RSymbol.GetSymbol(Runtime));
+            //else
+            //    Echo(ScriptName);
+            Echo(ScriptName + " " + RSymbol.GetSymbol(Runtime));
 
-            Echo($"Rocket: {RocketType}");
-            Echo($"Structure: {Structure}");
-            Echo($"Mode: {Mode}");
+            Echo("Mode: " + Mode);
+            Echo("Rocket: " + RocketType);
+            //Echo("Structure: " + Structure);
             Echo("--------------------");
             //Echo(Instructions);
 
             GridTerminalSystem.GetBlocksOfType(ConnectedMerges, b => Me.IsSameConstructAs(b) && b.IsConnected);
+            SetExecutionRate();
+            Echo("Rate:" + Runtime.UpdateFrequency.ToString());
             SetGridName();
 
-
             if (Commands.ContainsKey(argument)) Commands[argument].Invoke();
-            // runtime loop
 
-            SequenceSets.RunAllTasks();
+            SequenceSets.RunAll();
 
             Log.UpdateDisplay();
         }
 
-
-        void LoadInAllProgramBlocks(List<IMyTerminalBlock> list) {
-            GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(list, b => Me.IsSameConstructAs(b) && Collect.IsTagged(b, ScriptName));
+        private void SetExecutionRate() {
+            if (Mode == FlightMode.Off) {
+                Runtime.UpdateFrequency = UpdateFrequency.Update100;
+                return;
+            }
+            Runtime.UpdateFrequency = (Structure == RocketStructure.Pod || ConnectedMerges.Count == 0) ? UpdateFrequency.Update10 : UpdateFrequency.Update100;
         }
 
         void SendCmdToOtherParts(string command) {
             if (Structure != RocketStructure.Pod) return;
             LoadInAllProgramBlocks(TmpBlocks);
             foreach (IMyProgrammableBlock pb in TmpBlocks)
-            {
-                if (pb == Me) continue;
-                pb.TryRun(command);
-            }
+                if (pb != Me) pb.TryRun(command);
         }
 
-        Func<IMyTerminalBlock, bool> collecter = null;
         void InitStructure() {
             if (IsStructureInited) return;
-            RocketType = RocketStructure.Unknown;
             Structure = GetRocketStructure(Me);
             StructureTag = GetRocketStructureTag(Structure);
-
+            IsStructureInited = true;
+        }
+        private void InitRocketType() {
             LoadInAllProgramBlocks(TmpBlocks);
+            RocketType = RocketStructure.Unknown;
             TmpBlocks.ForEach(b => RocketType |= GetRocketStructure(b));
 
             collecter = (b) => Me.IsSameConstructAs(b) && Collect.IsTagged(b, StructureTag);
             if (Structure == RocketStructure.Pod && RocketType != RocketStructure.Pod)
                 collecter = Me.IsSameConstructAs;
-
-            //Action<RocketStructure> addStageTag = (part) => { if (RocketType.HasFlag(part)) StageTags.Enqueue(GetRocketStructureTag(part)); };
-            //addStageTag(RocketStructure.Booster);
-            //addStageTag(RocketStructure.Stage1);
-            //addStageTag(RocketStructure.Stage2);
-
-            IsStructureInited = true;
         }
+
         RocketStructure GetRocketStructure(IMyTerminalBlock b) {
             if (Collect.IsTagged(b, Cfg.PodTag)) return RocketStructure.Pod;
             else if (Collect.IsTagged(b, Cfg.Stage2Tag)) return RocketStructure.Stage2;
@@ -99,22 +96,22 @@ namespace IngameScript {
             }
         }
 
-        void LoadBlocks() {
-            GridTerminalSystem.GetBlocksOfType(Gyros, collecter);
-            GridTerminalSystem.GetBlocksOfType(LandingGears, collecter);
-            GridTerminalSystem.GetBlocksOfType(Parachutes, collecter);
 
-            //GridTerminalSystem.Get
-        }
+
+        
+
 
 
         void SetGridName() {
             var gridName = (ConnectedMerges.Count > 0) ? Cfg.GridName_Merged : Cfg.GridName;
             if (gridName.Length == 0) return;
             if (gridName == Me.CubeGrid.CustomName) return;
-            Debug($"GridName={gridName}");
+            Debug("GridName=" + gridName);
             Me.CubeGrid.CustomName = gridName;
             IsStructureInited = false;
+            Antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(b => Collect.IsTagged(b, StructureTag));
+            if (Antenna != null)
+                Antenna.HudText = gridName;
         }
 
         void SetStageMass() {
@@ -130,8 +127,6 @@ namespace IngameScript {
 
 
 
-
-
         void Command_Init() {
             Debug("CMD_Init");
             if (Mode != FlightMode.Off) return;
@@ -140,21 +135,96 @@ namespace IngameScript {
             SetStageMass();
         }
 
+        void Command_CheckReadyToLaunch() {
+            Debug("CMD_CheckReadyToLaunch");
+            if (Structure != RocketStructure.Pod) return;
+            if (Mode != FlightMode.Off) return;
 
+            if (SequenceSets.HasTask("CheckReady")) return;
+            SequenceSets.Add("CheckReady", SEQ_CheckReadyToLaunch(), true);
+        }
 
-        
+        void Command_Launch() {
+            Debug("CMD_Launch");
+            if (Structure != RocketStructure.Pod) return;
+            if (Mode != FlightMode.Off) return;
+            if (SequenceSets.HasTask("Launch")) return;
+            Mode = FlightMode.Launch;
+            SequenceSets.Add("Launch", SEQ_Launch(), true);
+
+            switch (RocketType) {
+                case RocketStructure.Pod:
+                    //SequenceSets.Add("Launch", SEQ_LaunchPod(), true);
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.PodTag, null, false));
+                    break;
+                case RocketStructure.Rocket_S1:
+                    //SequenceSets.Add("Launch", SEQ_LaunchStage1(), true);
+                    //SequenceSets.Add("Launch", SEQ_LaunchPod(), true);
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage1Tag, null, true));
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.PodTag, null, false));
+                    break;
+                case RocketStructure.Rocket_S2:
+                    //SequenceSets.Add("Launch", SEQ_LaunchStage2(), true);
+                    //SequenceSets.Add("Launch", SEQ_LaunchPod(), true);
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage2Tag, null, true));
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.PodTag, null, false));
+                    break;
+                case RocketStructure.Rocket_S12:
+                    //SequenceSets.Add("Launch", SEQ_LaunchStage1(), true);
+                    //SequenceSets.Add("Launch", SEQ_LaunchStage2(), true);
+                    //SequenceSets.Add("Launch", SEQ_LaunchPod(), true);
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage1Tag, null, true));
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage2Tag, null, true));
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.PodTag, null, false));
+                    break;
+                case RocketStructure.Rocket_S1B:
+                    //SequenceSets.Add("Launch", SEQ_LaunchBooster(), true);
+                    //SequenceSets.Add("Launch", SEQ_LaunchStage1(), true);
+                    //SequenceSets.Add("Launch", SEQ_LaunchPod(), true);
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.BoosterTag, Cfg.Stage1Tag, true));
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage1Tag, null, true));
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.PodTag, null, false));
+                    break;
+                case RocketStructure.Rocket_S12B:
+                    //SequenceSets.Add("Launch", SEQ_LaunchBooster(), true);
+                    //SequenceSets.Add("Launch", SEQ_LaunchStage1(), true);
+                    //SequenceSets.Add("Launch", SEQ_LaunchStage2(), true);
+                    //SequenceSets.Add("Launch", SEQ_LaunchPod(), true);
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.BoosterTag, Cfg.Stage1Tag, true));
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage1Tag, null, true));
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage2Tag, null, true));
+                    SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.PodTag, null, false));
+                    break;
+            }
+
+            SendCmdToOtherParts(CMD_AwaitStaging);
+        }
 
         void Command_AwaitStaging() {
             Debug("CMD_AwaitStaging");
             if (Structure == RocketStructure.Pod) return;
             Mode = FlightMode.Standby;
-            LoadBlocks();
+            const string seq = "AwaitStaging";
+            if (SequenceSets.HasTask(seq)) return;
+
+            SequenceSets.Add(seq, SEQ_AwaitStaging(), true);
+            SequenceSets.Add(seq, Delay(3000));
+            SequenceSets.Add(seq, SEQ_ParachuteLanding());
         }
 
         void Command_Shutdown() {
             Debug("CMD_Shutdown");
             LoadBlocks();
             Mode = FlightMode.Off;
+            if (Structure != RocketStructure.Pod) return;
+            VectorAlign.SetGyrosOff(Gyros);
+            LandingGears.ForEach(b => b.Lock());
+            Parachutes.ForEach(b => b.Enabled = false);
+            ConnectedMerges.ForEach(b => b.Enabled = true);
+            H2Tanks.ForEach(b => b.Stockpile = true);
+            AllThrusters.ForEach(b => b.Enabled = false);
+            SendCmdToOtherParts(CMD_Shutdown);
+
         }
     }
 }
