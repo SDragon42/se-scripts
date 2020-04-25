@@ -20,8 +20,17 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+        /// <summary>
+        /// 
+        /// </summary>
         static class Ranger {
-
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="camera"></param>
+            /// <param name="maxScanRange"></param>
+            /// <param name="offset"></param>
+            /// <returns></returns>
             public static RangeInfo GetDetailedRange(IMyCameraBlock camera, double maxScanRange, double offset = 0) {
                 camera.EnableRaycast = true;
                 if (camera.CanScan(maxScanRange)) {
@@ -35,15 +44,32 @@ namespace IngameScript {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         class RangeInfo {
+            /// <summary>
+            /// 
+            /// </summary>
             public static readonly RangeInfo Empty = new RangeInfo(new MyDetectedEntityInfo(), null);
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="range"></param>
             public RangeInfo(MyDetectedEntityInfo info, double? range) {
                 DetectedEntity = info;
                 Range = range;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
             public double? Range { get; private set; }
+            /// <summary>
+            /// 
+            /// </summary>
             public MyDetectedEntityInfo DetectedEntity { get; private set; }
         }
     }

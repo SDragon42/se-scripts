@@ -20,39 +20,44 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+        /// <summary>
+        /// 
+        /// </summary>
         public static class ThrusterHelper {
+            //public static Action<string> Debug = (t) => { };
+            //public static void GetThrusterOrientation(IMyTerminalBlock refBlock, IList<IMyThrust> unsortedThrusters, IList<IMyThrust> mainThrusters, IList<IMyThrust> otherThrusters) {
+            //    var forwardDir = refBlock.Orientation.Forward;
+            //    mainThrusters.Clear();
+            //    otherThrusters.Clear();
+            //    foreach (var thruster in unsortedThrusters) {
+            //        var thrustDirn = Base6Directions.GetFlippedDirection(thruster.Orientation.Forward);
+            //        if (thrustDirn == forwardDir)
+            //            mainThrusters.Add(thruster);
+            //        else
+            //            otherThrusters.Add(thruster);
+            //    }
+            //}
 
-            public static Action<string> Debug = (t) => { };
-
-
-            public static void GetThrusterOrientation(IMyTerminalBlock refBlock, IList<IMyThrust> unsortedThrusters, IList<IMyThrust> mainThrusters, IList<IMyThrust> sideThrusters) {
-                var forwardDirn = refBlock.Orientation.Forward;
-                foreach (var thisThrust in unsortedThrusters) {
-                    var thrustDirn = Base6Directions.GetFlippedDirection(thisThrust.Orientation.Forward);
-                    if (thrustDirn == forwardDirn)
-                        mainThrusters.Add(thisThrust);
-                    else
-                        sideThrusters.Add(thisThrust);
-                }
-            }
-
-
+            /// <summary>
+            /// Calculates the maximum mass a grid can have based on the desired thrust to weight ratio (at the current altitude)
+            /// </summary>
+            /// <param name="sc">a ship Controller</param>
+            /// <param name="thrusters">The "lifting" thrusters.</param>
+            /// <param name="minTwr"></param>
+            /// <param name="worldInvMultiplier"></param>
+            /// <returns></returns>
             public static double? GetMaxMass(IMyShipController sc, List<IMyThrust> thrusters, double minTwr, int worldInvMultiplier) {
-                var gravVector = sc.GetNaturalGravity();
-                var gravMS2 = Math.Sqrt(
-                    Math.Pow(gravVector.X, 2) +
-                    Math.Pow(gravVector.Y, 2) +
-                    Math.Pow(gravVector.Z, 2));
-                var inNaturalGravity = (gravMS2 > 0.0);
-                if (!inNaturalGravity) return null;
+                var gVec = sc.GetNaturalGravity();
+                var gravMS2 = Math.Sqrt(Math.Pow(gVec.X, 2) + Math.Pow(gVec.Y, 2) + Math.Pow(gVec.Z, 2));
+                if (gravMS2 <= 0.0) return null;
 
-                Debug($"gravMS2: {gravMS2:N2}");
+                //Debug($"gravMS2: {gravMS2:N2}");
                 var baseMass = sc.CalculateShipMass().BaseMass;
-                Debug($"baseMass: {baseMass:N2}");
+                //Debug($"baseMass: {baseMass:N2}");
                 var maxEffectiveThrust = thrusters.Sum(t => t.MaxEffectiveThrust);
-                Debug($"Thrust: {maxEffectiveThrust:N2}");
+                //Debug($"Thrust: {maxEffectiveThrust:N2}");
                 var TwrThrust = maxEffectiveThrust / minTwr;
-                Debug($"TwrThrust: {TwrThrust:N2}");
+                //Debug($"TwrThrust: {TwrThrust:N2}");
                 var maxCargoMass = ((TwrThrust / gravMS2) - baseMass) * worldInvMultiplier;
                 return maxCargoMass;
             }

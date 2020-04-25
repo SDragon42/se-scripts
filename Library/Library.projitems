@@ -19,7 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Modules\StateMachineQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\TextHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\StateMachineSets.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TwrInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_CommonMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CompassHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\ConfigCustom.cs" />
@@ -30,7 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Modules\FlightDataRecorder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FontChar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Font_X.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\GasTankHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LCDChars.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LCDFonts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Logging.cs" />

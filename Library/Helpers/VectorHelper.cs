@@ -20,7 +20,15 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+        /// <summary>
+        /// 
+        /// </summary>
         static class VectorHelper {
+            /// <summary>
+            /// Gets the Vector3D from a GPS coordinate string.
+            /// </summary>
+            /// <param name="gpsCoordinate"></param>
+            /// <returns></returns>
             public static Vector3D GpsToVector(string gpsCoordinate) {
                 string name;
                 Vector3D position;
@@ -28,6 +36,12 @@ namespace IngameScript {
                 return position;
             }
 
+            /// <summary>
+            /// Gets the Vector3D and name from a GPS coordinate string.
+            /// </summary>
+            /// <param name="gpsCoordinate"></param>
+            /// <param name="name"></param>
+            /// <param name="position"></param>
             public static void GpsToVector(string gpsCoordinate, out string name, out Vector3D position) {
                 name = string.Empty;
                 position = Vector3D.Zero;
@@ -42,9 +56,13 @@ namespace IngameScript {
                     double.Parse(gpsParts[4]));
             }
 
-            public static string VectortoGps(Vector3D v, string label = "Position") {
-                return $"GPS:{label}:{v.X}:{v.Y}:{v.Z}:";
-            }
+            /// <summary>
+            /// Creates a GPS location format.
+            /// </summary>
+            /// <param name="v">Location of the GPS coordinates.</param>
+            /// <param name="name">label for the GPS coordinates.</param>
+            /// <returns></returns>
+            public static string VectortoGps(Vector3D v, string name = "Position") => $"GPS:{name}:{v.X}:{v.Y}:{v.Z}:";
         }
     }
 }

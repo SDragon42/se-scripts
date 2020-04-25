@@ -30,10 +30,19 @@ namespace IngameScript {
             const string compassLineM = " N.W ═════ N ═════ N.E ═════ E ═════ S.E ═════ S ═════ S.W ═════ W ═════ N.W ═════ N ═════ N.E ";
             const string compassLineO = "  │        │        │        │        │        │        │        │        │        │        │  ";
             const string compassFooter = "           ▲           ";
+
+            const double cardinalSeparation = 45.0;
             static readonly string[] cardinals = new string[] { "N", "NE", "E", "SE", "S", "SW", "W", "NW" };
+            //const double cardinalSeparation = 22.5;
+            //static readonly string[] cardinals = new string[] { "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW" };
 
             static readonly Vector3D absoluteNorthVec = new Vector3D(0.342063708833718, -0.704407897782847, -0.621934025954579); //this was determined via Keen's code
 
+            /// <summary>
+            /// Gets the compass bearing.
+            /// </summary>
+            /// <param name="sc"></param>
+            /// <returns></returns>
             public static double GetBearing(IMyShipController sc) {
                 var gravityVec = sc.GetNaturalGravity();
 
@@ -59,26 +68,34 @@ namespace IngameScript {
 
                 return bearing;
             }
-            private static Vector3D VectorProjection(Vector3D a, Vector3D b) {
+            static Vector3D VectorProjection(Vector3D a, Vector3D b) {
                 var projection = a.Dot(b) / b.Length() / b.Length() * b;
                 return projection;
             }
 
+            /// <summary>
+            /// Initialized the Compass output display.
+            /// </summary>
+            /// <param name="d"></param>
             public static void InitDisplay(IMyTextSurface d) {
                 d.ContentType = ContentType.TEXT_AND_IMAGE;
                 d.Font = LCDFonts.MONOSPACE;
-                d.FontSize = 1.144f;
+                d.FontSize = 2.2f;
                 d.Alignment = TextAlignment.CENTER;
-                d.TextPadding = 0f;
+                d.TextPadding = 8f;
             }
-
+            /// <summary>
+            /// Gets the text for the compass display.
+            /// </summary>
+            /// <param name="bearing"></param>
+            /// <returns></returns>
             public static string GetDisplayText(double bearing) {
                 if (double.IsNaN(bearing)) return string.Empty;
 
                 var startIdx = (int)MathHelper.Clamp(Math.Round(bearing / 5), 0, 359);
                 var sb = new StringBuilder();
                 var headfoot = compassLineO.Substring(startIdx, 23);
-                sb.AppendLine($"           ▼    {bearing,3:N0}°{GetCardinalDir(bearing),-2} ");
+                sb.AppendLine($"           ▼    {bearing,3:N0}°{GetCardinalDir(bearing),-3}");
                 sb.AppendLine(headfoot);
                 sb.AppendLine(compassLineM.Substring(startIdx, 23));
                 sb.AppendLine(headfoot);
@@ -86,8 +103,8 @@ namespace IngameScript {
                 return sb.ToString();
             }
 
-            private static string GetCardinalDir(double bearing) {
-                var idx = (int)Math.Round(bearing / 45);
+            static string GetCardinalDir(double bearing) {
+                var idx = (int)Math.Round(bearing / cardinalSeparation);
                 if (idx >= cardinals.Length) idx = 0;
                 return cardinals[idx];
             }

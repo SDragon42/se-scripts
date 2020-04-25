@@ -71,11 +71,11 @@ namespace IngameScript {
                 var isProx = IsProximityBlock(d);
 
                 if (isRange && (!isProx || ScanRangeText.Length > 0)) {
-                    Write2Display(d, ScanRangeText, fontSize: 1.7f);
+                    Write2Display(d, ScanRangeText, fontSize: 3.5f);
                     continue;
                 }
                 if (isProx) {
-                    Write2Display(d, ProximityText, fontName: LCDFonts.MONOSPACE, fontSize: 1.65f);
+                    Write2Display(d, ProximityText, fontName: LCDFonts.MONOSPACE, fontSize: 3.45f);
                 }
             }
         }

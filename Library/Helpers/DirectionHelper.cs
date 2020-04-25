@@ -20,20 +20,28 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+        /// <summary>
+        /// 
+        /// </summary>
         static class DirectionHelper {
+            /// <summary>
+            /// Gets the Direction value from a text value.
+            /// </summary>
+            /// <param name="directionName"></param>
+            /// <returns></returns>
             public static Base6Directions.Direction GetDirectionFromString(string directionName) {
                 directionName = directionName.ToLower().Trim();
                 switch (directionName) {
-                    case "forward": return Base6Directions.Direction.Forward;
-                    case "front": return Base6Directions.Direction.Forward;
-                    case "fore": return Base6Directions.Direction.Forward;
-                    case "backward": return Base6Directions.Direction.Backward;
-                    case "back": return Base6Directions.Direction.Backward;
+                    case "backward":
+                    case "back":
                     case "aft": return Base6Directions.Direction.Backward;
                     case "up": return Base6Directions.Direction.Up;
                     case "down": return Base6Directions.Direction.Down;
                     case "left": return Base6Directions.Direction.Left;
                     case "right": return Base6Directions.Direction.Right;
+                    //case "forward": return Base6Directions.Direction.Forward;
+                    //case "front": return Base6Directions.Direction.Forward;
+                    //case "fore": return Base6Directions.Direction.Forward;
                     default: return Base6Directions.Direction.Forward;
                 }
             }
