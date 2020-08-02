@@ -25,7 +25,7 @@ namespace IngameScript {
             TimeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
             var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - TimeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
 
-            Echo($"Utility Ship Systems 1.6.6f {RunningModule.GetSymbol(Runtime)}");
+            Echo($"Utility Ship Systems 1.6.7f {RunningModule.GetSymbol(Runtime)}");
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.\n");
             Echo("Configure script in 'Custom Data'\n");
             Echo(Instructions);
@@ -73,11 +73,13 @@ namespace IngameScript {
                     var isProx = IsProximityBlock(d);
 
                     if (isRange && (!isProx || ScanRangeText.Length > 0)) {
-                        Write2Display(d, ScanRangeText, fontSize: 3.5f);
+                        InitDisplay(d, fontName: LCDFonts.DEBUG, fontSize: 3.5f, alignment: TextAlignment.CENTER);//, padding: 0f);
+                        d.WriteText(ScanRangeText);
                         continue;
                     }
                     if (isProx) {
-                        Write2Display(d, ProximityText, fontName: LCDFonts.MONOSPACE, fontSize: 3.45f);
+                        InitDisplay(d, fontName: LCDFonts.MONOSPACE, fontSize: 3.45f, alignment: TextAlignment.CENTER);//, padding: 11f);
+                        d.WriteText(ProximityText);
                     }
                 }
             }
@@ -95,7 +97,7 @@ namespace IngameScript {
                 CheckAlert();
                 ProximityText = BuildProximityDisplayText();
             } else {
-                ProximityText = $"\n     Docked";
+                ProximityText = "\nDocked\n";
                 TurnOffProximityAlert();
             }
         }
@@ -135,7 +137,8 @@ namespace IngameScript {
             var txtRight = GetFormattedRange(Base6Directions.Direction.Right);
             var txtBack = GetFormattedRange(Base6Directions.Direction.Backward);
             var txtForward = GetFormattedRange(Base6Directions.Direction.Forward);
-            return $" {txtForward} {txtUp}\n {txtLeft}<{txtBack}>{txtRight}\n      {txtDown}";
+            var txtForward2 = string.Empty.PadRight(txtForward.Length, ' ');
+            return $"{txtForward} {txtUp} {txtForward2}\n{txtLeft}<{txtBack}>{txtRight}\n{txtDown}";
         }
         string GetFormattedRange(Base6Directions.Direction dir) {
             var range = ProximityModule.GetRange(dir);
@@ -157,14 +160,10 @@ namespace IngameScript {
                 $"Name: {ForeRangeInfo.DetectedEntity.Name}\n" +
                 $"Range: {ForeRangeInfo.Range:N1} m";
         }
-        void Write2Display(IMyTextSurface display, string text, string fontName = LCDFonts.DEBUG, float fontSize = 1f) {
-            InitDisplay(display, fontName, fontSize);
-            display.WriteText(text);
-        }
-        void InitDisplay(IMyTextSurface display, string fontName = LCDFonts.DEBUG, float fontSize = 1f) {
+        void InitDisplay(IMyTextSurface display, string fontName = LCDFonts.DEBUG, float fontSize = 1f, TextAlignment alignment = TextAlignment.LEFT, float padding = 0f) {
             display.Font = fontName;
-            display.TextPadding = 0f;
-            display.Alignment = TextAlignment.LEFT;
+            display.TextPadding = padding;
+            display.Alignment = alignment;
             display.ContentType = ContentType.TEXT_AND_IMAGE;
             display.FontSize = fontSize;
         }
