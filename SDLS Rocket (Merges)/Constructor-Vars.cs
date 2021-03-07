@@ -43,7 +43,7 @@ namespace IngameScript {
 
 
         public Program() {
-            Log = new DebugLogging(this, "Cockpit [pod]", 3);
+            Log = new DebugLogging(this);
             Log.EchoMessages = true;
             Log.Enabled = true;
             Log.MaxTextLinesToKeep = 20;

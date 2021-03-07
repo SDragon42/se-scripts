@@ -33,7 +33,12 @@ namespace IngameScript {
 
             // unlock landing gears
             // unlock connectors
+            LandingGears.ForEach(b => b.Unlock());
+            Connectors.ForEach(b => b.Disconnect());
+            yield return true;
+
             // calc launch TWR
+
             // set go/nogo
 
             yield return false;
@@ -51,7 +56,7 @@ namespace IngameScript {
             // calc launch TWR
             // set go/nogo
 
-            //GridTerminalSystem.GetBlocksOfType(ThrustersPrimary, collecter);
+            //GridTerminalSystem.GetBlocksOfType(ThrustersPrimary, collector);
 
 
             // Flight loop

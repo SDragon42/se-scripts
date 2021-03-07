@@ -25,21 +25,17 @@ namespace IngameScript {
             InitStructure();
             InitRocketType();
 
-            //if ((updateSource & UpdateType.Update10) == UpdateType.Update10)
-            //    Echo(ScriptName + " " + RSymbol.GetSymbol(Runtime));
-            //else
-            //    Echo(ScriptName);
             Echo(ScriptName + " " + RSymbol.GetSymbol(Runtime));
 
             Echo("Mode: " + Mode);
             Echo("Rocket: " + RocketType);
-            //Echo("Structure: " + Structure);
+            Echo("Structure: " + Structure);
             Echo("--------------------");
             //Echo(Instructions);
 
             GridTerminalSystem.GetBlocksOfType(ConnectedMerges, b => Me.IsSameConstructAs(b) && b.IsConnected);
             SetExecutionRate();
-            Echo("Rate:" + Runtime.UpdateFrequency.ToString());
+            Echo("Rate: " + Runtime.UpdateFrequency.ToString());
             SetGridName();
 
             if (Commands.ContainsKey(argument)) Commands[argument].Invoke();
@@ -50,11 +46,10 @@ namespace IngameScript {
         }
 
         private void SetExecutionRate() {
-            if (Mode == FlightMode.Off) {
+            if (Mode == FlightMode.Off)
                 Runtime.UpdateFrequency = UpdateFrequency.Update100;
-                return;
-            }
-            Runtime.UpdateFrequency = (Structure == RocketStructure.Pod || ConnectedMerges.Count == 0) ? UpdateFrequency.Update10 : UpdateFrequency.Update100;
+            else
+                Runtime.UpdateFrequency = (Structure == RocketStructure.Pod || ConnectedMerges.Count == 0) ? UpdateFrequency.Update10 : UpdateFrequency.Update100;
         }
 
         void SendCmdToOtherParts(string command) {
@@ -98,7 +93,7 @@ namespace IngameScript {
 
 
 
-        
+
 
 
 
@@ -154,42 +149,27 @@ namespace IngameScript {
 
             switch (RocketType) {
                 case RocketStructure.Pod:
-                    //SequenceSets.Add("Launch", SEQ_LaunchPod(), true);
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.PodTag, null, false));
                     break;
                 case RocketStructure.Rocket_S1:
-                    //SequenceSets.Add("Launch", SEQ_LaunchStage1(), true);
-                    //SequenceSets.Add("Launch", SEQ_LaunchPod(), true);
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage1Tag, null, true));
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.PodTag, null, false));
                     break;
                 case RocketStructure.Rocket_S2:
-                    //SequenceSets.Add("Launch", SEQ_LaunchStage2(), true);
-                    //SequenceSets.Add("Launch", SEQ_LaunchPod(), true);
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage2Tag, null, true));
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.PodTag, null, false));
                     break;
                 case RocketStructure.Rocket_S12:
-                    //SequenceSets.Add("Launch", SEQ_LaunchStage1(), true);
-                    //SequenceSets.Add("Launch", SEQ_LaunchStage2(), true);
-                    //SequenceSets.Add("Launch", SEQ_LaunchPod(), true);
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage1Tag, null, true));
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage2Tag, null, true));
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.PodTag, null, false));
                     break;
                 case RocketStructure.Rocket_S1B:
-                    //SequenceSets.Add("Launch", SEQ_LaunchBooster(), true);
-                    //SequenceSets.Add("Launch", SEQ_LaunchStage1(), true);
-                    //SequenceSets.Add("Launch", SEQ_LaunchPod(), true);
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.BoosterTag, Cfg.Stage1Tag, true));
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage1Tag, null, true));
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.PodTag, null, false));
                     break;
                 case RocketStructure.Rocket_S12B:
-                    //SequenceSets.Add("Launch", SEQ_LaunchBooster(), true);
-                    //SequenceSets.Add("Launch", SEQ_LaunchStage1(), true);
-                    //SequenceSets.Add("Launch", SEQ_LaunchStage2(), true);
-                    //SequenceSets.Add("Launch", SEQ_LaunchPod(), true);
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.BoosterTag, Cfg.Stage1Tag, true));
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage1Tag, null, true));
                     SequenceSets.Add("Launch", SEQ_LaunchStage(Cfg.Stage2Tag, null, true));
