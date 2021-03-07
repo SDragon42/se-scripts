@@ -20,7 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        #region mdk preserve
+        
         public class Config {
             readonly MyIni ini = new MyIni();
             int hash = 0;
@@ -28,6 +28,9 @@ namespace IngameScript {
             const string SEC_adc = "Auto Door Closer";
             public bool ADCEnabled { get; private set; } = true;
             public string ADCExclusionTag { get; private set; } = "[exclude]";
+
+            const string SEC_Airlock = "Airlocks";
+            public string AirlockTag { get; private set; } = "[airlock]";
 
             public void Load(IMyTerminalBlock b, Program thiso) {
                 if (hash == b.CustomData.GetHashCode()) return;
@@ -41,7 +44,7 @@ namespace IngameScript {
                 thiso.autoDoorCloser.CloseDelay = ini.Add(SEC_adc, "Delay", thiso.autoDoorCloser.CloseDelay).ToDouble();
                 ADCExclusionTag = ini.Add(SEC_adc, "Exclude Tag", ADCExclusionTag).ToString();
 
-                
+                AirlockTag = ini.Add(SEC_Airlock, "Airlock Tag", AirlockTag).ToString();
 
                 SaveConfig(b);
             }
@@ -57,6 +60,5 @@ namespace IngameScript {
                 hash = b.CustomData.GetHashCode();
             }
         }
-        #endregion
     }
 }

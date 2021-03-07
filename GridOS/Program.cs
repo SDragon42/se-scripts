@@ -20,16 +20,15 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
-        #region mdk preserve
-
-
 
         readonly RunningSymbol symbol = new RunningSymbol();
         readonly AutoDoorCloser autoDoorCloser = new AutoDoorCloser();
+        readonly StateMachineSets sequences = new StateMachineSets();
 
         readonly Config config = new Config();
 
         readonly List<IMyDoor> autoDoors = new List<IMyDoor>();
+        readonly List<IMyDoor> airlockDoors = new List<IMyDoor>();
 
         readonly Dictionary<string, Action> command = new Dictionary<string, Action>();
         readonly string instructions;
@@ -40,7 +39,10 @@ namespace IngameScript {
         public Program() {
             config.Load(Me, this);
 
-            //command.Add("", null);
+            command.Add("openhangar", null);
+            command.Add("closehangar", null);
+            command.Add("togglehangar", null);
+            command.Add("closedoors", CloseDoors);
 
             // Instructions
             instructions = "Script Commands\n" + string.Join("\n", command.Keys.ToArray());
@@ -60,23 +62,61 @@ namespace IngameScript {
             config.Load(Me, this);
             LoadBlocks();
 
+            ParseArgs(argument);
+            if (command.ContainsKey(argCmd))
+                command[argument]?.Invoke();
+
             if (config.ADCEnabled) autoDoorCloser.CloseOpenDoors(Runtime, autoDoors);
+        }
+
+        string argCmd = "";
+        string argParams = "";
+        void ParseArgs(string argument) {
+            argCmd = "";
+            argParams = "";
+            argument = argument?.ToLower() ?? string.Empty;
+            var argParts = argument.Split(new char[] { ' ' }, 2);
+            if (argParts.Length >= 1) argCmd = argParts[0];
+            if (argParts.Length >= 2) argParams = argParts[2];
         }
 
 
         void LoadBlocks(bool forceLoad = false) {
             if (!forceLoad && blockReload_TimeElapsed < blockReload_Time) return;
 
-            GridTerminalSystem.GetBlocksOfType(autoDoors, (block) => {
-                if (Collect.IsTagged(block, config.ADCExclusionTag)) return false;
-                if (Collect.IsHangarDoor(block)) return false;
-                return true;
-            });
+            GridTerminalSystem.GetBlocksOfType(autoDoors, b =>
+                b.IsSameConstructAs(Me)
+                && !Collect.IsTagged(b, config.ADCExclusionTag)
+                && !Collect.IsTagged(b, config.AirlockTag)
+                && !Collect.IsHangarDoor(b));
+
+            GridTerminalSystem.GetBlocksOfType(airlockDoors, b =>
+                b.IsSameConstructAs(Me)
+                && Collect.IsTagged(b, config.AirlockTag)
+                );
 
             blockReload_TimeElapsed = 0;
         }
 
 
-        #endregion
+        void CloseDoors() {
+            autoDoors.ForEach(d => d.CloseDoor());
+        }
+        void OpenHangar() {
+
+
+            sequences.Add("hangar_" + argParams, OpenHangar_Sequence());
+            // alert sound
+            // warning lights
+
+        }
+        void CloseHangar() {
+        }
+
+
+        IEnumerator<bool> OpenHangar_Sequence() {
+            yield return false;
+        }
+
     }
 }
