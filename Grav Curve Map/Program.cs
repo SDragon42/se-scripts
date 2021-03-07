@@ -29,11 +29,15 @@ namespace IngameScript {
 
         readonly RunningSymbol runningSym = new RunningSymbol();
         readonly StateMachineSets sequenceSets = new StateMachineSets();
-        readonly VectorAlign vectorAlign = new VectorAlign();
         readonly Logging log = new Logging();
 
         IMyShipController shipController = null;
         IMyTextSurface outputSurface = null;
+        IMyTextSurface calcSurface = null;
+
+        Vector3D planetCenter = new Vector3D(0.0, 0.0, 0.0);
+        double maxR = 0;
+
         readonly List<IMyThrust> upThrusters = new List<IMyThrust>();
         readonly List<IMyLandingGear> gears = new List<IMyLandingGear>();
 
@@ -73,6 +77,7 @@ namespace IngameScript {
             log.AppendLine("RunAscent()");
             LoadBlocks();
             outputSurface.WriteText(string.Empty);
+            calcSurface.WriteText(string.Empty);
             sequenceSets.Add("accent", SEQ_RunAscent());
         }
 
@@ -80,8 +85,10 @@ namespace IngameScript {
             shipController = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>();
             if (shipController == null) throw new Exception("No RC block found");
 
-            outputSurface = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyTextPanel>(b => Collect.IsTagged(b, "[log]")); //b.CustomName.Equals("[log]", StringComparison.OrdinalIgnoreCase));
+            outputSurface = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyTextPanel>(b => Collect.IsTagged(b, "[log]"));
             if (outputSurface == null) throw new Exception("No display with [log]");
+            calcSurface = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyTextPanel>(b => Collect.IsTagged(b, "[grav]"));
+            if (calcSurface == null) throw new Exception("No display with [grav]");
             InitDisplay();
 
             var orient = new BlocksByOrientation(shipController);
@@ -90,6 +97,7 @@ namespace IngameScript {
 
             GridTerminalSystem.GetBlocksOfType(gears);
         }
+
 
         IEnumerator<bool> SEQ_RunAscent() {
             log.AppendLine("SEQ_RunAscent()");
@@ -115,6 +123,11 @@ namespace IngameScript {
                     break;
 
                 var gAccel = GetGravityAccel();
+                var coreAltitude = GetCoreAltitude();
+                var calcGAccel = GetCalculatedGravityAccel(coreAltitude);
+
+                calcSurface.WriteText($"Real: {gAccel:N2} m/s\nCalc: {calcGAccel:N2} m/s");
+
                 if (!double.IsNaN(gAccel)) {
                     gAccel = Math.Round(gAccel, 2);
                     if (gAccel != lastGAccel && lastGAccel != 0.0) {
@@ -145,11 +158,53 @@ namespace IngameScript {
             return gAccel;
         }
 
+        double GetCoreAltitude() {
+            var loc = shipController.GetPosition();
+            var coreAltitude = (loc - planetCenter).Length();
+            return coreAltitude;
+        }
+
+        //67,214.56
+        double GetCalculatedGravityAccel(double coreAltitude) {
+            if (double.IsNaN(coreAltitude))
+                return double.NaN;
+            /*
+            g  = the current acceleration due to gravity felt at r (the current altitude away from the core) in m/s^2 (on the surface it should be 9.81 m/s^2 or 1 g)
+            b  = base g in m/s^2. For planets: 9.81. For moons: 2.45 m/s^2 (a quarter of 9.81 or 0.25 g)
+            r  = current altitude/distance from planet 'center' or core in meters.
+            MinR  = the minimum Radius of the planet in meters - it's found in the planet's sbc file.
+            MaxR = the maximum Radius of the planet in meters - it's found in the planet's sbc file, 
+
+            if r > MaxR           g = b x (MaxR/r )^7 [Gravity after maximum Radius decreases exponentially to the power of 7]
+            if MinR <= r <= MaxR  g = b               [Gravity remains base g until, your distance from planet 'center' is greater than the maximum Radius]
+            if r < MinR           g = b x (r/MinR)    [Typically radius less than minimum Radius under the 'surface' of the planet]
+             */
+
+            const double maxR = 67244;
+            // 67214.56  67205.27  67244.17  67244.34  67244.09
+
+            if (coreAltitude < maxR)
+                return 9.81;
+
+            var gAccel = 9.81 * Math.Pow(maxR / coreAltitude, 7);
+
+            return gAccel;
+        }
+
         void InitDisplay() {
-            if (outputSurface == null) return;
-            outputSurface.ContentType = ContentType.TEXT_AND_IMAGE;
-            outputSurface.TextPadding = 0f;
-            outputSurface.Alignment = TextAlignment.RIGHT;
+            if (outputSurface != null) {
+                outputSurface.ContentType = ContentType.TEXT_AND_IMAGE;
+                outputSurface.TextPadding = 0f;
+                outputSurface.Alignment = TextAlignment.RIGHT;
+            }
+
+            if (calcSurface != null) {
+                calcSurface.ContentType = ContentType.TEXT_AND_IMAGE;
+                calcSurface.TextPadding = 8f;
+                calcSurface.Alignment = TextAlignment.CENTER;
+                calcSurface.FontSize = 3.6f;
+                calcSurface.Font = LCDFonts.MONOSPACE;
+            }
         }
 
     }
