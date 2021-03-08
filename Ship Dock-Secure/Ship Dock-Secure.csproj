@@ -35,13 +35,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collect.cs" />
+    <Compile Include="DockSecure.cs" />
+    <Compile Include="RunningSymbol.cs" />
+    <Compile Include="ToPrimativeExtensions.cs" />
+    <Compile Include="ConfigCustom.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <Compile Include="ScriptSettings.cs" />
     <Compile Include="1ShipDockSecure.cs" />
     <AdditionalFiles Include="thumb.png" />
     <AdditionalFiles Include="MDK\whitelist.cache" />
   </ItemGroup>
-  <Import Project="..\Library\Library.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild" />
   <ItemGroup>

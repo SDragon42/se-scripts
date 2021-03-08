@@ -31,7 +31,6 @@ namespace IngameScript {
         readonly string Instructions;
 
         public Program() {
-
             Commands.Add("dock", _dockSecure.Dock);
             Commands.Add("undock", _dockSecure.UnDock);
             Commands.Add("toggle-dock", _dockSecure.ToggleDock);

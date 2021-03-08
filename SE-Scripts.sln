@@ -71,7 +71,6 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
 		SDLS - Shared\SDLS - Shared.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Library\Library.projitems*{055b7d17-d6eb-49ba-b45d-715a83a40f92}*SharedItemsImports = 4
 		Library\Library.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
 		SDLS - Shared\SDLS - Shared.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
 		Library\Library.projitems*{14ba763c-b48d-40c0-903a-6ae2bd473383}*SharedItemsImports = 4

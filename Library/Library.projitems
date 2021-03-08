@@ -15,13 +15,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CargoHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MyIniExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ToPrimativeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\StateMachineQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\TextHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\StateMachineSets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_CommonMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CompassHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\ConfigCustom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\DebugLogging.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DirectionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\DockSecure.cs" />
