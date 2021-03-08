@@ -29,8 +29,8 @@ namespace IngameScript {
             bool _wasLockedLastRun = false;
             bool _isLocked = false;
 
-            public string Tag { get; set; }
-            public string IgnoreTag { get; set; }
+            public string Tag { get; set; } = string.Empty;
+            public string IgnoreTag { get; set; } = string.Empty;
             public bool Auto_On { get; set; }
             public bool Auto_Off { get; set; }
             public bool Thrusters_OnOff { get; set; }
@@ -112,7 +112,10 @@ namespace IngameScript {
             }
 
             bool IsValidBlock(IMyTerminalBlock b) {
-                return (thisObj.Me.IsSameConstructAs(b) || Collect.IsTagged(b, Tag)) && !Collect.IsTagged(b, IgnoreTag);
+                var sc = thisObj.Me.IsSameConstructAs(b);
+                var tagged = Collect.IsTagged(b, Tag);
+                var ignored = !string.IsNullOrEmpty(IgnoreTag) && Collect.IsTagged(b, IgnoreTag);
+                return (sc || tagged) && !ignored;
             }
             bool IsBlock2TurnON(IMyTerminalBlock b) {
                 if (!IsValidBlock(b)) return false;
