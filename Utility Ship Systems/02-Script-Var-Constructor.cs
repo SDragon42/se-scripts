@@ -30,7 +30,7 @@ namespace IngameScript {
         readonly List<ProxCamera> ProxCameraList = new List<ProxCamera>();
         readonly List<IMySoundBlock> ProxSpeakerList = new List<IMySoundBlock>();
         readonly List<IMyFunctionalBlock> ToolList = new List<IMyFunctionalBlock>();
-        readonly List<IMyTextPanel> DisplayList = new List<IMyTextPanel>();
+        readonly List<ScreenConfig> ScreenList = new List<ScreenConfig>();
 
         IMyShipController Sc = null;
         IMyCameraBlock ForeRangeCamera = null;
@@ -86,7 +86,33 @@ namespace IngameScript {
         void LoadBlocks() {
             GridTerminalSystem.GetBlocksOfType(ToolList, b => IsOnThisGrid(b) && IsToolBlock(b));
             GridTerminalSystem.GetBlocksOfType(ProxSpeakerList, b => IsOnThisGrid(b) && IsProximityBlock(b));
-            GridTerminalSystem.GetBlocksOfType(DisplayList, b => IsOnThisGrid(b) && (IsProximityBlock(b) || IsForwardRangeBlock(b)));
+
+            GridTerminalSystem.GetBlocksOfType(TmpBlocks, b =>
+                IsOnThisGrid(b)
+                && ((b is IMyTextSurfaceProvider) || (b is IMyTextSurface))
+                && (IsProximityBlock(b) || IsForwardRangeBlock(b)));
+            ScreenList.Clear();
+            var surfaceProfIni = new MyIni();
+            foreach (var b in TmpBlocks) {
+                var surface = b as IMyTextSurface;
+                if (surface != null) {
+                    ScreenList.Add(new ScreenConfig(surface, IsProximityBlock(b), IsForwardRangeBlock(b)));
+                    continue;
+                }
+
+                var surfaceProv = b as IMyTextSurfaceProvider;
+                if (surfaceProv != null) {
+                    surfaceProfIni.Clear();
+                    LoadTextScreenProviderConfig(b, surfaceProfIni);
+                    var pIdx = surfaceProfIni.Get(KEY_ProxScreenNumber).ToInt32();
+                    var rIdx = surfaceProfIni.Get(KEY_RangeScreenNumber).ToInt32();
+                    for (var i = 0; i < surfaceProv.SurfaceCount; i++) {
+                        if (i != pIdx && i != rIdx) continue;
+                        surface = surfaceProv.GetSurface(i);
+                        ScreenList.Add(new ScreenConfig(surface, i == pIdx, i == rIdx));
+                    }
+                }
+            }
 
             GridTerminalSystem.GetBlocksOfType<IMyCameraBlock>(TmpBlocks, b => IsOnThisGrid(b) && IsProximityBlock(b));
             ProxCameraList.Clear();
@@ -108,5 +134,15 @@ namespace IngameScript {
         bool IsProximityBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ProximityTag);
         bool IsForwardRangeBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ForwardScanTag);
 
+        class ScreenConfig {
+            public ScreenConfig(IMyTextSurface screen, bool isProx, bool isRange) {
+                Screen = screen;
+                IsProx = isProx;
+                IsRange = isRange;
+            }
+            public IMyTextSurface Screen { get; private set; }
+            public bool IsProx { get; private set; }
+            public bool IsRange { get; private set; }
+        }
     }
 }
