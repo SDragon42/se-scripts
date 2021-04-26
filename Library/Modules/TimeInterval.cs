@@ -18,35 +18,31 @@ using VRage.Game;
 using VRage;
 using VRageMath;
 
-namespace IngameScript
-{
+namespace IngameScript {
     partial class Program {
         class TimeInterval {
             public TimeInterval(double seconds) {
-                SetInterval(seconds);
+                interval = Math.Max(seconds, 0);
                 Reset();
             }
 
-            bool _resetTime = false;
+            bool toReset = false;
+            TimeSpan time;
+            double interval;
 
-            public TimeSpan Time { get; private set; }
-            public double Interval { get; private set; }
-            public bool AtNextInterval => (Time.TotalSeconds >= Interval);
+            public double Remaining => interval - time.TotalSeconds;
+            public bool AtNextInterval => (time.TotalSeconds >= interval);
 
-            public void SetInterval(double seconds) {
-                Interval = (seconds >= 0) ? seconds : 0.0;
+            public void Add(IMyGridProgramRuntimeInfo runtime) {
+                if (toReset) Reset();
+                time += runtime.TimeSinceLastRun;
+                if (time.TotalSeconds < interval) return;
+                toReset = true;
             }
 
-            public void RecordTime(IMyGridProgramRuntimeInfo runtime) {
-                if (_resetTime) Reset();
-                Time += runtime.TimeSinceLastRun;
-                if (Time.TotalSeconds < Interval) return;
-                _resetTime = true;
-            }
-
-            public void Reset() {
-                Time = new TimeSpan();
-                _resetTime = false;
+            void Reset() {
+                time = new TimeSpan();
+                toReset = false;
             }
         }
     }
