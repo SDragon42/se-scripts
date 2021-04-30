@@ -60,10 +60,8 @@ namespace IngameScript {
         /// <param name="comment"></param>
         /// <returns></returns>
         public static MyIniValue Add(this MyIni ini, MyIniKey key, string value, string comment = null) {
-            if (!ini.ContainsKey(key)) {
-                ini.Set(key, value);
-                ini.SetComment(key, comment);
-            }
+            if (!ini.ContainsKey(key)) ini.Set(key, value);
+            ini.SetComment(key, comment);
             return ini.Get(key);
         }
     }
