@@ -29,7 +29,7 @@ namespace IngameScript {
             double delay = 4.0;
             public double CloseDelay {
                 get { return delay; }
-                set { delay = value > 0.0 ? value : 0.0; }
+                set { delay = Math.Max(value, 0.0); }
             }
 
             public void CloseOpenDoors(IMyGridProgramRuntimeInfo runtime, List<IMyDoor> doorList) {
