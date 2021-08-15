@@ -68,7 +68,9 @@ namespace IngameScript {
                     Lines.RemoveAt(0);
             }
 
-            public string GetLogText() {
+            public string GetLogText() => ToString();
+
+            public override string ToString() {
                 var sb = new StringBuilder();
                 foreach (var line in Lines) sb.AppendLine(line);
                 if (!string.IsNullOrWhiteSpace(LineBuffer))
