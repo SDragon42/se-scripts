@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Modules\StateMachineQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\TextHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\StateMachineSets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\TagRegex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_CommonMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CompassHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\DebugLogging.cs" />
