@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridOS", "GridOS\GridOS.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grav Curve Map", "Grav Curve Map\Grav Curve Map.csproj", "{F74BD5CC-87F9-42D3-AA17-96A4CCB7E57D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sapphire Mk2 - Ship Systems", "Sapphire Mk2 - Ship Systems\Sapphire Mk2 - Ship Systems.csproj", "{A8599884-E5C9-44CB-9940-AD5B9CE22605}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
@@ -83,6 +85,7 @@ Global
 		Library\Library.projitems*{6e9c794e-f42b-4b9a-a8bf-4c51f510de4d}*SharedItemsImports = 4
 		Library\Library.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
 		Library\Library.projitems*{931480a0-edd2-41af-ac91-8fb13e5ed08a}*SharedItemsImports = 13
+		Library\Library.projitems*{a8599884-e5c9-44cb-9940-ad5b9ce22605}*SharedItemsImports = 4
 		Library\Library.projitems*{a8bcdeaf-7cb2-4da3-b21a-19ff58bfc06f}*SharedItemsImports = 4
 		Library\Library.projitems*{ac420d80-1abc-4422-b2bf-99a61a925ed6}*SharedItemsImports = 4
 		Library\Library.projitems*{b4dca2f0-0a7b-4dc4-b284-ad4747497e04}*SharedItemsImports = 4
@@ -148,6 +151,8 @@ Global
 		{FECF8408-62F8-4333-8612-E9914652D359}.Debug|x64.Build.0 = Debug|x64
 		{F74BD5CC-87F9-42D3-AA17-96A4CCB7E57D}.Debug|x64.ActiveCfg = Debug|x64
 		{F74BD5CC-87F9-42D3-AA17-96A4CCB7E57D}.Debug|x64.Build.0 = Debug|x64
+		{A8599884-E5C9-44CB-9940-AD5B9CE22605}.Debug|x64.ActiveCfg = Debug|x64
+		{A8599884-E5C9-44CB-9940-AD5B9CE22605}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
