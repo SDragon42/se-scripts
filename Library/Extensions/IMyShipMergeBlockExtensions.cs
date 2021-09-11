@@ -19,26 +19,24 @@ using VRageMath;
 
 namespace IngameScript {
     static class MyShipMergeBlockExtensions {
-        public static bool IsMerged(this IMyShipMergeBlock mergeBlock) {
+        /// <summary>
+        /// Checks if the merge block is merged to another merge block. This a temp fix until Keen fixed the built in IsConnected property.
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool IsMerged(this IMyShipMergeBlock b) {
             //Find direction that block merges to
             Matrix mat;
-            mergeBlock.Orientation.GetMatrix(out mat);
+            b.Orientation.GetMatrix(out mat);
             var right1 = new Vector3I(mat.Right);
 
             //Check if there is a block in front of merge face
-            var sb = mergeBlock.CubeGrid.GetCubeBlock(mergeBlock.Position + right1);
-            if (sb == null) {
-                return false;
-            }
-
             //Check if the other block is actually a merge block
-            var mrg2 = sb.FatBlock as IMyShipMergeBlock;
-            if (mrg2 == null) {
-                return false;
-            }
+            var b2 = b.CubeGrid.GetCubeBlock(b.Position + right1)?.FatBlock as IMyShipMergeBlock;
+            if (b2 == null) return false;
 
             //Check that other block is correctly oriented
-            mrg2.Orientation.GetMatrix(out mat);
+            b2.Orientation.GetMatrix(out mat);
             var right2 = new Vector3I(mat.Right);
             return right2 == -right1;
         }
