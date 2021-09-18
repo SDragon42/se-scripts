@@ -26,6 +26,8 @@ namespace IngameScript {
         class AutoDoorCloser {
             readonly Dictionary<IMyDoor, double> OpenDoors = new Dictionary<IMyDoor, double>();
 
+            public IMyProgrammableBlock Me { get; set; }
+
             double delay = 4.0;
             public double CloseDelay {
                 get { return delay; }
@@ -35,21 +37,24 @@ namespace IngameScript {
             public void CloseOpenDoors(IMyGridProgramRuntimeInfo runtime, List<IMyDoor> doorList) {
                 var timeSeconds = runtime.TimeSinceLastRun.TotalSeconds;
                 foreach (var door in doorList) {
-                    var isOpen = door.Status == DoorStatus.Open;
-                    if (!OpenDoors.ContainsKey(door)) {
-                        if (isOpen) OpenDoors.Add(door, delay);
-                        continue;
+                    if (!door.Closed && Me != null && door.IsSameConstructAs(Me)) {
+                        var isOpen = door.Status == DoorStatus.Open;
+                        if (!OpenDoors.ContainsKey(door)) {
+                            if (isOpen) OpenDoors.Add(door, delay);
+                            continue;
+                        }
+
+                        if (isOpen) {
+                            OpenDoors[door] -= timeSeconds;
+                            if (OpenDoors[door] > 0.0) continue;
+                            door.CloseDoor();
+                        }
                     }
-                    if (!isOpen) {
-                        OpenDoors.Remove(door);
-                        continue;
-                    }
-                    OpenDoors[door] -= timeSeconds;
-                    if (OpenDoors[door] > 0.0) continue;
-                    OpenDoors.Remove(door);
-                    door.CloseDoor();
+
+                    if (OpenDoors.ContainsKey(door)) OpenDoors.Remove(door);
                 }
             }
+
         }
 
     }
