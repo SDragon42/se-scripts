@@ -66,7 +66,7 @@ namespace IngameScript {
             if (command.ContainsKey(argCmd))
                 command[argument]?.Invoke();
 
-            if (config.ADCEnabled) autoDoorCloser.CloseOpenDoors(Runtime, autoDoors);
+            if (config.ADCEnabled) autoDoorCloser.CloseOpenDoors(Runtime, autoDoors, Me);
         }
 
         string argCmd = "";
