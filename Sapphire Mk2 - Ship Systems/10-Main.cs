@@ -19,10 +19,13 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
+
+        // Modules
         readonly RunningSymbol RunningModule = new RunningSymbol();
         readonly TagRegex TagModule = new TagRegex();
         readonly Logging DebugLogModule;
         readonly StateMachineSets stateMachine = new StateMachineSets();
+        readonly AutoDoorCloser doorCloser = new AutoDoorCloser();
 
         readonly string Instructions;
 
@@ -31,12 +34,18 @@ namespace IngameScript {
         string commandArgs;
         readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
 
-        readonly List<IMyShipMergeBlock> allMerges = new List<IMyShipMergeBlock>();
+        //readonly List<IMyShipMergeBlock> allMerges = new List<IMyShipMergeBlock>();
         readonly List<IMyShipMergeBlock> myMerges = new List<IMyShipMergeBlock>();
         readonly List<IMyShipConnector> myConnectors = new List<IMyShipConnector>();
+        readonly List<IMyThrust> trainThrusters = new List<IMyThrust>();
+        readonly List<IMyGyro> trainGyros = new List<IMyGyro>();
+        readonly List<IMyDoor> doorList = new List<IMyDoor>();
         IMyRadioAntenna myAntenna;
         IMyTextSurface debugOutput;
+
+        double timeToReload = 0;
         bool isMerged;
+        bool onStandby;
 
         Action<string> Debug = (t) => { };
 
@@ -55,6 +64,8 @@ namespace IngameScript {
 
             TagModule.SetTagRegex(tagPrefix);
 
+            //doorCloser.Debug = (t) => DebugLogModule.AppendLine(t);
+
             // Debug Logging Module Config
             DebugLogModule = new Logging(40);
             Debug = (t) => DebugLogModule.AppendLine(t);
@@ -63,20 +74,17 @@ namespace IngameScript {
         public void Save() {
         }
 
-
-
         public void Main(string argument, UpdateType updateSource) {
             try {
                 var argumentParts = argument.Split(ArgumentSplitter, 2);
                 commandKey = argumentParts[0];
                 commandArgs = argumentParts.Length < 2 ? string.Empty : argumentParts[1];
 
-                isMerged = CheckIfMerged();
-
                 LoadConfig();
                 LoadBlocks();
 
-                var onStandby = TagModule.IsOtherProgramOnDuty(GridTerminalSystem, Me, IsEngineProgramBlock);
+                isMerged = CheckIfMerged();
+                onStandby = TagModule.IsOtherProgramOnDuty(GridTerminalSystem, Me, IsEngineProgramBlock);
 
                 Echo("Union Space Transit " + (onStandby ? "[ON STANDBY]" : RunningModule.GetSymbol(Runtime)));
                 Echo("Configure script in 'Custom Data'\n");
@@ -86,13 +94,24 @@ namespace IngameScript {
                 Echo(Instructions);
 
                 if (isMerged) {
-                    SetGridName(trainName);
                     SetAntenna(!onStandby);
-
+                    if (!onStandby) {
+                        SetGridName(trainName);
+                        foreach (var t in trainThrusters) {
+                            if (Collect.IsThrusterIon(t)) if (t.IsSameConstructAs(Me)) t.Enabled = true;
+                        }
+                        foreach (var g in trainGyros) if (g.IsSameConstructAs(Me)) g.Enabled = true;
+                    }
                 } else {
                     SetGridName(gridName);
                     SetAntenna(true);
+                    if (!onStandby) {
+                        foreach (var t in trainThrusters) t.Enabled = false;
+                        foreach (var g in trainGyros) g.Enabled = false;
+                    }
                 }
+
+                if (!onStandby) doorCloser.CloseOpenDoors(Runtime, doorList, Me);
 
                 SetGridID();
 
@@ -116,26 +135,27 @@ namespace IngameScript {
         void SetGridName(string name) {
             if (!string.IsNullOrEmpty(name) && Me.CubeGrid.CustomName != name) Me.CubeGrid.CustomName = name;
         }
-        void SetAntenna(bool enabled) {//, string text = null) {
+        void SetAntenna(bool enabled) {
             if (myAntenna == null) return;
             myAntenna.Enabled = enabled;
             myAntenna.EnableBroadcasting = enabled;
             myAntenna.ShowShipName = isMerged;
-            //if (!string.IsNullOrEmpty(text) && myAntenna.HudText != text) myAntenna.HudText = text;
         }
 
 
-        double time_to_reload = 0;
         void LoadBlocks() {
-            time_to_reload -= Runtime.TimeSinceLastRun.TotalSeconds;
-            var skipLoad = (time_to_reload > 0.0);
-            if (!skipLoad) time_to_reload = BlockReloadTime;
-            Echo($"Time to reload: {Math.Round(Math.Max(time_to_reload, 0)):N0} seconds");
+            timeToReload -= Runtime.TimeSinceLastRun.TotalSeconds;
+            var skipLoad = (timeToReload > 0.0);
+            if (!skipLoad) timeToReload = BlockReloadTime;
+            Echo($"Time to reload: {Math.Round(Math.Max(timeToReload, 0)):N0} seconds");
             if (skipLoad) return;
 
             //GridTerminalSystem.GetBlocksOfType(allMerges, b => b.IsSameConstructAs(Me));
             GridTerminalSystem.GetBlocksOfType(myMerges, b => b.IsSameConstructAs(Me) && IsMyGrid(b));
             GridTerminalSystem.GetBlocksOfType(myConnectors, b => b.IsSameConstructAs(Me) && IsMyGrid(b));
+            GridTerminalSystem.GetBlocksOfType(trainThrusters, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, "[Train]"));
+            GridTerminalSystem.GetBlocksOfType(trainGyros, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, "[Train]"));
+            GridTerminalSystem.GetBlocksOfType(doorList, b => b.IsSameConstructAs(Me) && Collect.IsHumanDoor(b));
 
             myAntenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(b => b.IsSameConstructAs(Me) && IsMyGrid(b));
 
