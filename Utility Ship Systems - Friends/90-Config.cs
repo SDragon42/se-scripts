@@ -43,13 +43,14 @@ namespace IngameScript {
         readonly MyIniKey Key_ProxAlert = new MyIniKey(SECTION_PROXIMITY, "Alert On/Off");
         readonly MyIniKey Key_ProxAlertRange = new MyIniKey(SECTION_PROXIMITY, "Alert Range (m)");
         readonly MyIniKey Key_ProxAlertSpeed = new MyIniKey(SECTION_PROXIMITY, "Alert Speed (m/s)");
-
-        readonly MyIniKey KEY_RangeOffset = new MyIniKey(SECTION_PROXIMITY, "Range Offset");
+        readonly MyIniKey KEY_ProxRangeOffset = new MyIniKey(SECTION_PROXIMITY, "Range Offset");
+        readonly MyIniKey KEY_ProxScreenNumber = new MyIniKey(SECTION_PROXIMITY, "Screen Number");
 
         const string SECTION_RANGE = "Range";
         readonly MyIniKey Key_RangeTag = new MyIniKey(SECTION_RANGE, "Tag");
         readonly MyIniKey Key_RangeDistance = new MyIniKey(SECTION_RANGE, "Scan Range (m)");
         readonly MyIniKey Key_RangeDisplayTime = new MyIniKey(SECTION_RANGE, "Display Time (seconds)");
+        readonly MyIniKey KEY_RangeScreenNumber = new MyIniKey(SECTION_RANGE, "Screen Number");
 
         const string SECTION_WEIGHT = "Weight";
         readonly MyIniKey KEY_MinimumTWR = new MyIniKey(SECTION_WEIGHT, "Minimum TWR");
@@ -62,6 +63,7 @@ namespace IngameScript {
             _configHashCode = tmpHashCode;
             LoadINI(Ini, Me.CustomData);
 
+            // Dock Secure module settings
             DockSecureModule.Tag = Ini.Add(Key_Tag, "[utility]").ToString();
             DockSecureModule.IgnoreTag = Ini.Add(Key_IgnoreTag, "[ignore]").ToString();
             DockSecureModule.Auto_Off = Ini.Add(Key_AutoOff, true).ToBoolean();
@@ -76,6 +78,7 @@ namespace IngameScript {
             DockSecureModule.Spotlights_OnOff = Ini.Add(Key_ToggleSpotLights, true).ToBoolean();
             Ini.SetSectionComment(SECTION_UTILITY_SHIP, null);
 
+            // Mass settings
             MaxOperationalCargoMass = Ini.Add(KEY_MaxCargoMass, 0.0).ToDouble();
             MinimumTWR = Ini.Add(KEY_MinimumTWR, 1.5f, comment: "The minimum TWR to use for calc maximum cargo capacity.").ToSingle();
             InventoryMultiplier = Ini.Add(KEY_WorldInvMulti, 0, comment: "The World setting for Inventory Multiplier").ToInt32();
@@ -83,6 +86,7 @@ namespace IngameScript {
             if (MaxOperationalCargoMass == 0)
                 MaxOperationalCargoMass = null;
 
+            // Proximity settings
             ProximityTag = Ini.Add(Key_ProxTag, "[proximity]").ToString();
             ProximityModule.ScanRange = Ini.Add(Key_ProxRange, 50.0).ToDouble();
             ProximityAlert = Ini.Add(Key_ProxAlert, false).ToBoolean();
@@ -90,6 +94,7 @@ namespace IngameScript {
             ProximityAlertSpeed = Ini.Add(Key_ProxAlertSpeed, 5.0).ToDouble();
             Ini.SetSectionComment(SECTION_PROXIMITY, null);
 
+            // Range Scanning settings
             ForwardScanTag = Ini.Add(Key_RangeTag, "[range]").ToString();
             ForwardScanRange = Ini.Add(Key_RangeDistance, 15000.0).ToDouble();
             ForwardDisplayClearTime = Ini.Add(Key_RangeDisplayTime, 5.0).ToDouble();
@@ -111,9 +116,16 @@ namespace IngameScript {
 
         void LoadCameraProximityConfig(IMyCameraBlock b) {
             LoadINI(CameraIni, b.CustomData);
-            CameraIni.Add(KEY_RangeOffset, 0.0);
+            CameraIni.Add(KEY_ProxRangeOffset, 0.0);
             b.CustomData = CameraIni.ToString();
-            ProxCameraList.Add(new ProxCamera(b, CameraIni.Get(KEY_RangeOffset).ToDouble()));
+            ProxCameraList.Add(new ProxCamera(b, CameraIni.Get(KEY_ProxRangeOffset).ToDouble()));
+        }
+
+        void LoadTextScreenProviderConfig(IMyTerminalBlock b, MyIni ini) {
+            LoadINI(ini, b.CustomData);
+            ini.Add(KEY_ProxScreenNumber, -1);
+            ini.Add(KEY_RangeScreenNumber, -1);
+            b.CustomData = ini.ToString();
         }
 
         static void LoadINI(MyIni ini, string text) {

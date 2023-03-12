@@ -25,7 +25,7 @@ namespace IngameScript {
             TimeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
             var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - TimeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
 
-            Echo($"Utility Ship Systems 1.6.7f {RunningModule.GetSymbol(Runtime)}");
+            Echo($"Utility Ship Systems 1.6.8 {RunningModule.GetSymbol(Runtime)}");
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.\n");
             Echo("Configure script in 'Custom Data'\n");
             Echo(Instructions);
@@ -62,24 +62,20 @@ namespace IngameScript {
                 DockSecureModule.AutoToggleDock();
                 UpdateProximity();
 
-
                 if (TimeLastCleared >= ForwardDisplayClearTime && ScanRangeText.Length > 0) {
                     ScanRangeText = string.Empty;
                     TimeLastCleared = 0;
                 }
 
-                foreach (var d in DisplayList) {
-                    var isRange = IsForwardRangeBlock(d);
-                    var isProx = IsProximityBlock(d);
-
-                    if (isRange && (!isProx || ScanRangeText.Length > 0)) {
-                        InitDisplay(d, fontName: LCDFonts.DEBUG, fontSize: 3.5f, alignment: TextAlignment.CENTER);//, padding: 0f);
-                        d.WriteText(ScanRangeText);
+                foreach (var sc in ScreenList) {
+                    if (sc.IsRange && (!sc.IsProx || ScanRangeText.Length > 0)) {
+                        InitDisplay(sc.Screen, fontName: LCDFonts.DEBUG, fontSize: DISPLAY_RANGE_FONT_SIZE, alignment: TextAlignment.CENTER);
+                        sc.Screen.WriteText(ScanRangeText);
                         continue;
                     }
-                    if (isProx) {
-                        InitDisplay(d, fontName: LCDFonts.MONOSPACE, fontSize: 3.45f, alignment: TextAlignment.CENTER);//, padding: 11f);
-                        d.WriteText(ProximityText);
+                    if (sc.IsProx) {
+                        InitDisplay(sc.Screen, fontName: LCDFonts.MONOSPACE, fontSize: DISPLAY_PROX_FONT_SIZE, alignment: TextAlignment.CENTER);
+                        sc.Screen.WriteText(ProximityText);
                     }
                 }
             }
@@ -165,6 +161,9 @@ namespace IngameScript {
             display.TextPadding = padding;
             display.Alignment = alignment;
             display.ContentType = ContentType.TEXT_AND_IMAGE;
+
+            if (display.TextureSize.X < DEFAULT_SCREEN_WIDTH)
+                fontSize /= 2;
             display.FontSize = fontSize;
         }
 
