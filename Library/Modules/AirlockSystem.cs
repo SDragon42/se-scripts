@@ -38,7 +38,23 @@ namespace IngameScript {
         class AirlockSystem {
 
             class AirlockGroup {
+                public List<IMyDoor> InteriorDoors = new List<IMyDoor>();
+                public List<IMyDoor> ExteriorDoors = new List<IMyDoor>();
+            }
 
+
+            public IMyProgrammableBlock Me { get; set; }
+
+            readonly List<AirlockGroup> airlockGroups = new List<AirlockGroup>();
+
+            readonly List<IMyTerminalBlock> tmp = new List<IMyTerminalBlock>();
+            public void FindAirlocks(IMyGridTerminalSystem gts) {
+                gts.GetBlocksOfType(tmp, AirlockCriteria);
+            }
+
+            bool AirlockCriteria(IMyTerminalBlock b) {
+                var result = b.IsSameConstructAs(Me);
+                return true;
             }
         }
     }
