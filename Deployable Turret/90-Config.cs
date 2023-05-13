@@ -22,13 +22,13 @@ namespace IngameScript {
 
         int configHashCode = 0;
 
-        const string SECTION_SANDBAG = "Sangbag";
+        const string SECTION_REMOTE_TURRET = "Remote Turret";
 
-        readonly MyIniKey Key_CommGroupName = new MyIniKey(SECTION_SANDBAG, "COMM Group Name");
-        readonly MyIniKey Key_StealthMode = new MyIniKey(SECTION_SANDBAG, "Stealth Mode Enabled");
-        readonly MyIniKey Key_StatusLights = new MyIniKey(SECTION_SANDBAG, "Use Status Lights");
-        readonly MyIniKey Key_StatusAntenna = new MyIniKey(SECTION_SANDBAG, "Use Status Antenna");
-        readonly MyIniKey Key_StatusComms = new MyIniKey(SECTION_SANDBAG, "Use Status COMMs");
+        readonly MyIniKey Key_CommGroupName = new MyIniKey(SECTION_REMOTE_TURRET, "COMM Group Name");
+        readonly MyIniKey Key_TurretId = new MyIniKey(SECTION_REMOTE_TURRET, "ID");
+        readonly MyIniKey Key_StealthMode = new MyIniKey(SECTION_REMOTE_TURRET, "Stealth Mode Enabled");
+        readonly MyIniKey Key_ShowStatusOnAntenna = new MyIniKey(SECTION_REMOTE_TURRET, "Show Status on Antenna");
+        readonly MyIniKey Key_ReportStatusOnComms = new MyIniKey(SECTION_REMOTE_TURRET, "Report Status on COMMs");
 
 
         void LoadConfig() {
@@ -43,25 +43,22 @@ namespace IngameScript {
                 ini.EndContent = Me.CustomData;
             }
 
-            ini.Add(Key_CommGroupName, "sandbag");
+            ini.Add(Key_CommGroupName, "Deployed-Defense");
+            ini.Add(Key_TurretId, string.Empty);
             ini.Add(Key_StealthMode, false);
-            ini.Add(Key_StatusLights, true);
-            ini.Add(Key_StatusAntenna, true);
-            ini.Add(Key_StatusComms, true);
+            ini.Add(Key_ShowStatusOnAntenna, true);
+            ini.Add(Key_ReportStatusOnComms, true);
 
             Me.CustomData = ini.ToString();
 
             CommGroupName = ini.Get(Key_CommGroupName).ToString();
+            TurretId = ini.Get(Key_TurretId).ToString();
             StealthMode = ini.Get(Key_StealthMode).ToBoolean();
-            if (!StealthMode) {
-                ShowStatusLights = ini.Get(Key_StatusLights).ToBoolean();
-                ShowStatusAntenna = ini.Get(Key_StatusAntenna).ToBoolean();
-                //ReportStatusCOMMs = ini.Get(Key_StatusComms).ToBoolean();
-            } else {
-                ShowStatusLights = false;
-                ShowStatusAntenna = false;
-                //ReportStatusCOMMs = false;
-            }
+            ShowStatusOnAntenna = ini.Get(Key_ShowStatusOnAntenna).ToBoolean();
+            ReportStatusOnCOMMs = ini.Get(Key_ReportStatusOnComms).ToBoolean();
+
+            if (string.IsNullOrEmpty(TurretId))
+                TurretId = Me.CubeGrid.EntityId.ToString();
         }
     }
 }
