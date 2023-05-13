@@ -29,11 +29,22 @@ namespace IngameScript {
         //Lists
         readonly List<IMyTerminalBlock> _blocks = new List<IMyTerminalBlock>();
 
+        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
+        string commandKey;
+        string commandArgs;
+
+        readonly char[] ArgumentSplitter = new char[] { ' ' };
+
 
         public Program() {
             Debug = new DebugLogging(this);
             Debug.EchoMessages = true;
-            Runtime.UpdateFrequency = UpdateFrequency.Update10;
+
+            Commands.Add("connect-boom", ConnectBooms);
+            Commands.Add("disconnect-boom", DisconnectBooms);
+            Commands.Add("launch", Launch);
+
+            Runtime.UpdateFrequency = UpdateFrequency.None;
         }
 
         public void Save() {
@@ -42,14 +53,23 @@ namespace IngameScript {
 
 
         public void Main(string argument, UpdateType updateSource) {
-            Echo("Launch Center " + Running.GetSymbol(Runtime));
+            //Echo("Launch Center " + Running.GetSymbol(Runtime));
             try {
                 // Process Arguments
-                ProcessArguments(argument);
+                //ProcessArguments(argument);
+                var argumentParts = argument.Split(ArgumentSplitter, 2);
+                commandKey = argumentParts[0];
+                commandArgs = argumentParts.Length < 2 ? string.Empty : argumentParts[1];
+
+                if (Commands.ContainsKey(commandKey)) Commands[commandKey]?.Invoke();
 
                 // Run State Machines
-                if ((updateSource & UpdateType.Update10) == UpdateType.Update10)
-                    Operations.RunAll();
+                //if ((updateSource & UpdateType.Update10) == UpdateType.Update10)
+                Operations.RunAll();
+
+                Runtime.UpdateFrequency = Operations.HasTasks
+                    ? UpdateFrequency.Update10
+                    : UpdateFrequency.None;
 
                 // Display LOG
                 Echo(Log.GetLogText());
@@ -61,45 +81,14 @@ namespace IngameScript {
             }
         }
 
-        void ProcessArguments(string argument) {
-            if (argument.Length == 0) return;
-            Log.AppendLine($"{DateTime.Now.ToShortTimeString()} - {argument}");
-            switch (argument?.ToLower()) {
-                case CMD_CONNECT_BOOMS:
-                    Operations.Add("boom", ConnectBoom2("launch-pad", 0.5F));
-                    break;
-                case CMD_DISCONNECT_BOOMS:
-                    Operations.Add("boom", RetractBoom2("launch-pad", -0.5F), replace: true);
-                    break;
-                case CMD_LAUNCH:
-                    Operations.Add("boom", RetractBoom2("launch-pad", -5F), replace: true);
-                    break;
-                    //case "extend":
-                    //    MoveBoomBooster(true);
-                    //    MoveBoomOrbiter(true);
-                    //    break;
-                    //case "extend-booster":
-                    //    MoveBoomBooster(true);
-                    //    break;
-                    //case "extend-orbiter":
-                    //    MoveBoomOrbiter(true);
-                    //    break;
-                    //case "extend-crew":
-                    //    break;
-                    //case "retract":
-                    //    MoveBoomBooster(false);
-                    //    MoveBoomOrbiter(false);
-                    //    break;
-                    //case "retract-booster":
-                    //    MoveBoomBooster(false);
-                    //    break;
-                    //case "retract-orbiter":
-                    //    MoveBoomOrbiter(false);
-                    //    break;
-                    //case "retract-crew":
-                    //    break;
-
-            }
+        void ConnectBooms() {
+            Operations.Add("boom", ConnectBoom2("launch-pad", 0.5F));
+        }
+        void DisconnectBooms() {
+            Operations.Add("boom", RetractBoom2("launch-pad", -0.5F), replace: true);
+        }
+        void Launch() {
+            Operations.Add("boom", RetractBoom2("launch-pad", -5F), replace: true);
         }
 
         //void MoveBoomBooster(bool extend) {
