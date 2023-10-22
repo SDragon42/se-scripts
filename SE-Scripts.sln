@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29001.49
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group Renamer", "Group Renamer\Group Renamer.csproj", "{CC0335A2-8809-4A3B-A480-EC10767619FA}"
 EndProject
@@ -59,8 +59,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Block Report", "Block Repor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS Rocket (Merges)", "SDLS Rocket (Merges)\SDLS Rocket (Merges).csproj", "{6E9C794E-F42B-4B9A-A8BF-4C51F510DE4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Copy Private TXT to Custom Data", "Copy Private TXT to Custom Data\Copy Private TXT to Custom Data.csproj", "{0340F098-2904-450C-B230-92C520C33DEB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sapphire-Ship Systems", "Sapphire-Ship Systems\Sapphire-Ship Systems.csproj", "{EA9DBF02-4575-4CD0-8C30-80F3078ECD6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridOS", "GridOS\GridOS.csproj", "{FECF8408-62F8-4333-8612-E9914652D359}"
@@ -70,33 +68,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sapphire Mk2 - Ship Systems", "Sapphire Mk2 - Ship Systems\Sapphire Mk2 - Ship Systems.csproj", "{A8599884-E5C9-44CB-9940-AD5B9CE22605}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		SDLS - Shared\SDLS - Shared.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Library\Library.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		SDLS - Shared\SDLS - Shared.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Library\Library.projitems*{14ba763c-b48d-40c0-903a-6ae2bd473383}*SharedItemsImports = 4
-		Library\Library.projitems*{2f53caaa-6741-407e-acc7-5606ca771ac8}*SharedItemsImports = 4
-		Library\Library.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
-		Library\Library.projitems*{42bffd2c-289c-4c7f-a25e-442164e2b48d}*SharedItemsImports = 4
-		Library\Library.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
-		Library\Library.projitems*{5dadb79d-a630-4310-9249-cc0344b4768a}*SharedItemsImports = 4
-		Library\Library.projitems*{687d147f-85c3-4bc6-87f8-7277ebcd2034}*SharedItemsImports = 4
-		Library\Library.projitems*{6e9c794e-f42b-4b9a-a8bf-4c51f510de4d}*SharedItemsImports = 4
-		Library\Library.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Library\Library.projitems*{931480a0-edd2-41af-ac91-8fb13e5ed08a}*SharedItemsImports = 13
-		Library\Library.projitems*{a8599884-e5c9-44cb-9940-ad5b9ce22605}*SharedItemsImports = 4
-		Library\Library.projitems*{a8bcdeaf-7cb2-4da3-b21a-19ff58bfc06f}*SharedItemsImports = 4
-		Library\Library.projitems*{ac420d80-1abc-4422-b2bf-99a61a925ed6}*SharedItemsImports = 4
-		Library\Library.projitems*{b4dca2f0-0a7b-4dc4-b284-ad4747497e04}*SharedItemsImports = 4
-		Library\Library.projitems*{b94ec49c-747d-4f8a-a947-3258fbc0249c}*SharedItemsImports = 4
-		Library\Library.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
-		Library\Library.projitems*{d60c4a4b-46c6-4251-948f-c7b50a2cd676}*SharedItemsImports = 4
-		Library\Library.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
-		Library\Library.projitems*{f74bd5cc-87f9-42d3-aa17-96a4ccb7e57d}*SharedItemsImports = 4
-		SDLS - Shared\SDLS - Shared.projitems*{f8741348-85b7-4620-9bd0-d08660a253c2}*SharedItemsImports = 13
-		Library\Library.projitems*{fecf8408-62f8-4333-8612-e9914652d359}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 	EndGlobalSection
@@ -143,8 +114,6 @@ Global
 		{2771AF32-2C73-49FB-AB82-F3BB4662F1E5}.Debug|x64.Build.0 = Debug|x64
 		{6E9C794E-F42B-4B9A-A8BF-4C51F510DE4D}.Debug|x64.ActiveCfg = Debug|x64
 		{6E9C794E-F42B-4B9A-A8BF-4C51F510DE4D}.Debug|x64.Build.0 = Debug|x64
-		{0340F098-2904-450C-B230-92C520C33DEB}.Debug|x64.ActiveCfg = Debug|x64
-		{0340F098-2904-450C-B230-92C520C33DEB}.Debug|x64.Build.0 = Debug|x64
 		{EA9DBF02-4575-4CD0-8C30-80F3078ECD6F}.Debug|x64.ActiveCfg = Debug|x64
 		{EA9DBF02-4575-4CD0-8C30-80F3078ECD6F}.Debug|x64.Build.0 = Debug|x64
 		{FECF8408-62F8-4333-8612-E9914652D359}.Debug|x64.ActiveCfg = Debug|x64
@@ -159,5 +128,32 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB8E8FFF-3C4B-476B-B4B3-7EAC1E878CDF}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		SDLS - Shared\SDLS - Shared.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
+		Library\Library.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
+		SDLS - Shared\SDLS - Shared.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
+		Library\Library.projitems*{14ba763c-b48d-40c0-903a-6ae2bd473383}*SharedItemsImports = 4
+		Library\Library.projitems*{2f53caaa-6741-407e-acc7-5606ca771ac8}*SharedItemsImports = 4
+		Library\Library.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
+		Library\Library.projitems*{42bffd2c-289c-4c7f-a25e-442164e2b48d}*SharedItemsImports = 4
+		Library\Library.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
+		Library\Library.projitems*{5dadb79d-a630-4310-9249-cc0344b4768a}*SharedItemsImports = 4
+		Library\Library.projitems*{687d147f-85c3-4bc6-87f8-7277ebcd2034}*SharedItemsImports = 4
+		Library\Library.projitems*{6e9c794e-f42b-4b9a-a8bf-4c51f510de4d}*SharedItemsImports = 4
+		Library\Library.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
+		Library\Library.projitems*{931480a0-edd2-41af-ac91-8fb13e5ed08a}*SharedItemsImports = 13
+		Library\Library.projitems*{a8599884-e5c9-44cb-9940-ad5b9ce22605}*SharedItemsImports = 4
+		Library\Library.projitems*{a8bcdeaf-7cb2-4da3-b21a-19ff58bfc06f}*SharedItemsImports = 4
+		Library\Library.projitems*{ac420d80-1abc-4422-b2bf-99a61a925ed6}*SharedItemsImports = 4
+		Library\Library.projitems*{b4dca2f0-0a7b-4dc4-b284-ad4747497e04}*SharedItemsImports = 4
+		Library\Library.projitems*{b94ec49c-747d-4f8a-a947-3258fbc0249c}*SharedItemsImports = 4
+		Library\Library.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
+		Library\Library.projitems*{d60c4a4b-46c6-4251-948f-c7b50a2cd676}*SharedItemsImports = 4
+		Library\Library.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
+		Library\Library.projitems*{f74bd5cc-87f9-42d3-aa17-96a4ccb7e57d}*SharedItemsImports = 4
+		SDLS - Shared\SDLS - Shared.projitems*{f8741348-85b7-4620-9bd0-d08660a253c2}*SharedItemsImports = 13
+		Library\Library.projitems*{fecf8408-62f8-4333-8612-e9914652d359}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal
