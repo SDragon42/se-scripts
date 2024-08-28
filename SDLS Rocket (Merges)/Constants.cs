@@ -21,7 +21,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        const string ScriptName = "SDLS";
+        const string ScriptTag = "SDLS";
 
         const string CMD_Check = "check";
         const string CMD_Launch = "launch";

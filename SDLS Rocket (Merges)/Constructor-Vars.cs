@@ -49,11 +49,16 @@ namespace IngameScript {
             Log.MaxTextLinesToKeep = 20;
             Debug = (msg) => Log.AppendLine($"{DateTime.Now:HHmmss.fff} " + msg);
 
-            Commands.Add(CMD_Check, Command_CheckReadyToLaunch);
-            Commands.Add(CMD_Launch, Command_Launch);
-            Commands.Add(CMD_AwaitStaging, Command_AwaitStaging);
-            Commands.Add(CMD_Shutdown, Command_Shutdown);
+            // Shared Commands
             Commands.Add(CMD_Init, Command_Init);
+            Commands.Add(CMD_Shutdown, Command_Shutdown);
+            Commands.Add(CMD_Check, Command_CheckReadyToLaunch);
+
+            // POD commands
+            Commands.Add(CMD_Launch, Command_Launch);
+
+            // Other parts Commands
+            Commands.Add(CMD_AwaitStaging, Command_AwaitStaging);
 
             // Instructions
             var sb = new StringBuilder();
@@ -134,9 +139,11 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(AllThrusters, collecter);
         }
 
-        void LoadInAllProgramBlocks(List<IMyTerminalBlock> list) {
-            GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(list, b => Me.IsSameConstructAs(b) && Collect.IsTagged(b, ScriptName));
-        }
+        //void LoadInAllProgramBlocks(List<IMyTerminalBlock> list) {
+        //    GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(list, b => Me.IsSameConstructAs(b) && Collect.IsTagged(b, ScriptTag));
+        //}
+        void LoadInAllProgramBlocks(List<IMyTerminalBlock> list) => GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(list, b => Me.IsSameConstructAs(b) && Collect.IsTagged(b, ScriptTag));
+
 
     }
 }
