@@ -1,24 +1,27 @@
-﻿using Sandbox.Game.EntityComponents;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Text;
+using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System;
+using VRage;
 using VRage.Collections;
+using VRage.Game;
 using VRage.Game.Components;
 using VRage.Game.GUI.TextPanel;
-using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ModAPI.Ingame;
+using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ObjectBuilders.Definitions;
-using VRage.Game;
-using VRage;
 using VRageMath;
 
-namespace IngameScript {
-    partial class Program {
+namespace IngameScript
+{
+    partial class Program
+    {
 
         int _configHashCode = 0;
 
@@ -57,7 +60,8 @@ namespace IngameScript {
         readonly MyIniKey KEY_WorldInvMulti = new MyIniKey(SECTION_WEIGHT, "Inventory Multiplier");
         readonly MyIniKey KEY_MaxCargoMass = new MyIniKey(SECTION_WEIGHT, "Max Operational Cargo Mass");
 
-        void LoadConfig() {
+        void LoadConfig()
+        {
             var tmpHashCode = Me.CustomData.GetHashCode();
             if (_configHashCode == tmpHashCode) return;
             _configHashCode = tmpHashCode;
@@ -102,7 +106,8 @@ namespace IngameScript {
 
             Flag_SaveConfig = true;
         }
-        void SaveConfig() {
+        void SaveConfig()
+        {
             if (!Flag_SaveConfig) return;
             Ini.Set(KEY_WorldInvMulti, InventoryMultiplier);
             Ini.Set(KEY_MaxCargoMass, MaxOperationalCargoMass?.ToString() ?? string.Empty);
@@ -114,23 +119,27 @@ namespace IngameScript {
 
         readonly List<IMyThrust> LiftThrusters = new List<IMyThrust>();
 
-        void LoadCameraProximityConfig(IMyCameraBlock b) {
+        void LoadCameraProximityConfig(IMyCameraBlock b)
+        {
             LoadINI(CameraIni, b.CustomData);
             CameraIni.Add(KEY_ProxRangeOffset, 0.0);
             b.CustomData = CameraIni.ToString();
             ProxCameraList.Add(new ProxCamera(b, CameraIni.Get(KEY_ProxRangeOffset).ToDouble()));
         }
 
-        void LoadTextScreenProviderConfig(IMyTerminalBlock b, MyIni ini) {
+        void LoadTextScreenProviderConfig(IMyTerminalBlock b, MyIni ini)
+        {
             LoadINI(ini, b.CustomData);
             ini.Add(KEY_ProxScreenNumber, -1);
             ini.Add(KEY_RangeScreenNumber, -1);
             b.CustomData = ini.ToString();
         }
 
-        static void LoadINI(MyIni ini, string text) {
+        static void LoadINI(MyIni ini, string text)
+        {
             ini.Clear();
-            if (!ini.TryParse(text)) {
+            if (!ini.TryParse(text))
+            {
                 var tmp = text.Replace('<', '[').Replace('>', ']').Replace(':', '=');
                 if (!ini.TryParse(tmp))
                     ini.EndContent = text;

@@ -1,30 +1,33 @@
-﻿using Sandbox.Game.EntityComponents;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Text;
+using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System;
+using VRage;
 using VRage.Collections;
+using VRage.Game;
 using VRage.Game.Components;
 using VRage.Game.GUI.TextPanel;
-using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ModAPI.Ingame;
+using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ObjectBuilders.Definitions;
-using VRage.Game;
-using VRage;
 using VRageMath;
 
-namespace IngameScript {
-    partial class Program : MyGridProgram {
-
+namespace IngameScript
+{
+    partial class Program : MyGridProgram
+    {
+        
         public Program() {
         }
 
-
-        public void Main(string argument, UpdateType updateSource) {
+        public void Main(string argument, UpdateType updateSource)
+        {
             var text = new StringBuilder();
 
             text.Append($"Run at: {DateTime.Now:hh:mm:ss}\n");
@@ -41,7 +44,7 @@ namespace IngameScript {
                     count = allBlocks.Where(b => b.GetType().ToString().Equals(s)).Count()
                 })
                 .Select(t => new {
-                    typeName = t.typeName.Substring(t.typeName.LastIndexOf('.')+1),
+                    typeName = t.typeName.Substring(t.typeName.LastIndexOf('.') + 1),
                     t.count
                 })
                 .OrderBy(bt => bt.typeName)
