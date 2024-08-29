@@ -1,41 +1,63 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.7.34202.233
+VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group Renamer", "Group Renamer\Group Renamer.csproj", "{CC0335A2-8809-4A3B-A480-EC10767619FA}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Library", "Library\Library.shproj", "{8A3CDCC5-4B55-4D87-A415-698A0E1FF06F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Initialize Blocks", "Initialize Blocks\Initialize Blocks.csproj", "{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility Ship Systems", "Utility Ship Systems\Utility Ship Systems.csproj", "{A2A9A3F0-2DE1-45CF-A5AA-E49FFA812176}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Launch Center", "SDLS - Launch Center\SDLS - Launch Center.csproj", "{F72618CE-2343-4963-8438-25E06C58F15F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Axel - Drop GPS Recorder", "Axel - Drop GPS Recorder\Axel - Drop GPS Recorder.csproj", "{450DBC63-F8D8-4097-97DC-CEDF7F166E25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Booster", "SDLS - Booster\SDLS - Booster.csproj", "{0685E93C-4346-4DD3-AE1C-C22A47B27812}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Block Report", "Block Report\Block Report.csproj", "{9E9FAC0C-F1D1-4D56-958B-F51DE315429A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - Orbiter", "SDLS - Orbiter\SDLS - Orbiter.csproj", "{051CE348-0F02-4849-B6D7-B97DE3C1003E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COMM Commands", "COMM Commands\COMM Commands.csproj", "{081EF07C-A0FD-4CC4-A900-DC8D43A98322}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ship Dock-Secure", "Ship Dock-Secure\Ship Dock-Secure.csproj", "{055B7D17-D6EB-49BA-B45D-715A83A40F92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Countdown Trigger", "Countdown Trigger\Countdown Trigger.csproj", "{39C358D4-82FC-49DD-AF85-F88CFE0DFB86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TWR Calculator", "TWR Calculator\TWR Calculator.csproj", "{503D7DE1-28C9-468F-8CD8-4BEC3EA05A64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployable Turret", "Deployable Turret\Deployable Turret.csproj", "{364204B0-F4B0-49F9-B409-78F2549C4281}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility Ship Systems", "Utility Ship Systems\Utility Ship Systems.csproj", "{81E47C39-106A-4B63-8E4C-8F693BA3D6DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grav Curve Map", "Grav Curve Map\Grav Curve Map.csproj", "{06E69A5E-DB84-4C55-B434-4EECD145214A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS - GrassHopper", "SDLS - GrassHopper\SDLS - GrassHopper.csproj", "{3983C820-0311-4F8F-AE3A-6BD54F1DA500}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridOS", "GridOS\GridOS.csproj", "{84F612CD-F4DA-40E2-B986-8BFE1A5FCC92}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Library", "Library\Library.shproj", "{931480A0-EDD2-41AF-AC91-8FB13E5ED08A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Group Renamer", "Group Renamer\Group Renamer.csproj", "{0341C126-3068-496F-8717-93E5FD0FA64F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployable Turret", "Deployable Turret\Deployable Turret.csproj", "{687D147F-85C3-4BC6-87F8-7277EBCD2034}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guidance Block Launch Control", "Guidance Block Launch Control\Guidance Block Launch Control.csproj", "{62779458-A1DF-4844-AA8A-53792AB7FDA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COMM Commands", "COMM Commands\COMM Commands.csproj", "{42BFFD2C-289C-4C7F-A25E-442164E2B48D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Initialize Blocks", "Initialize Blocks\Initialize Blocks.csproj", "{522DADB7-FC90-4885-9CDD-9814F2A0B1C7}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SDLS - Shared", "SDLS - Shared\SDLS - Shared.shproj", "{F8741348-85B7-4620-9BD0-D08660A253C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Malhavoc - WelderFactory Init", "Malhavoc - WelderFactory Init\Malhavoc - WelderFactory Init.csproj", "{97A55EA9-D7E9-41B7-B099-D6F016FF536C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Malhavoc - WelderFactory Init", "Malhavoc - WelderFactory Init\Malhavoc - WelderFactory Init.csproj", "{5DADB79D-A630-4310-9249-CC0344B4768A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sapphire Mk2 - Ship Systems", "Sapphire Mk2 - Ship Systems\Sapphire Mk2 - Ship Systems.csproj", "{694DE269-5F72-40CF-812A-E169361062F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TWR Calculator 2", "TWR Calculator 2\TWR Calculator 2.csproj", "{AC420D80-1ABC-4422-B2BF-99A61A925ED6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sapphire-Ship Systems", "Sapphire-Ship Systems\Sapphire-Ship Systems.csproj", "{B30B06F0-8D75-45AF-AE87-86591772D02F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS Rocket (Rotors)", "SDLS Rocket (Rotors)\SDLS Rocket (Rotors).csproj", "{14BA763C-B48D-40C0-903A-6AE2BD473383}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SDLS - Shared", "SDLS - Shared\SDLS - Shared.shproj", "{E8301866-1579-412F-9A13-B374269BF63C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E5086CA-C979-4791-ACC1-97A2BCB9BDFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SDLS - Booster", "SDLS - Booster\SDLS - Booster.csproj", "{C249A124-DE78-4B73-A9A6-5FAE0933008F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SDLS - GrassHopper", "SDLS - GrassHopper\SDLS - GrassHopper.csproj", "{B6359EB8-5BC7-4A7E-8879-22CD5F58A865}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SDLS - Launch Center", "SDLS - Launch Center\SDLS - Launch Center.csproj", "{89AC5732-80A6-4F92-8E26-8600546CD9BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SDLS - Orbiter", "SDLS - Orbiter\SDLS - Orbiter.csproj", "{0EF77089-6C24-488E-8773-A35AAD108849}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SDLS Rocket (Merges)", "SDLS Rocket (Merges)\SDLS Rocket (Merges).csproj", "{C6710304-8644-4016-9B1B-B714CE42C621}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SDLS Rocket (Rotors)", "SDLS Rocket (Rotors)\SDLS Rocket (Rotors).csproj", "{0A1E5346-B038-4546-9CE4-AABB60985827}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ship Dock-Secure", "Ship Dock-Secure\Ship Dock-Secure.csproj", "{73730779-0BBE-489A-B754-BD1808DC6EAE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TIM Cargo Switcher", "TIM Cargo Switcher\TIM Cargo Switcher.csproj", "{77DD6FC9-7727-43B7-820D-91EEBC430345}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TWR Calculator", "TWR Calculator\TWR Calculator.csproj", "{5EE02B9E-E5D2-425B-8FE5-1817DDB61D3F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TWR Calculator 2", "TWR Calculator 2\TWR Calculator 2.csproj", "{1A7EF527-588D-41E4-94A6-D3710E273AEB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility Ship Systems - Friends", "Utility Ship Systems - Friends\Utility Ship Systems - Friends.csproj", "{22ED7F83-0D2F-4169-B68B-F67037A662F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{41D65D96-CE12-4254-9972-15093D8D1DDC}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
@@ -43,117 +65,147 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Block Actions.txt = Block Actions.txt
 		Block Properties.txt = Block Properties.txt
 		FontData.xml = FontData.xml
+		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TIM Cargo Switcher", "TIM Cargo Switcher\TIM Cargo Switcher.csproj", "{B94EC49C-747D-4F8A-A947-3258FBC0249C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Countdown Trigger", "Countdown Trigger\Countdown Trigger.csproj", "{2F53CAAA-6741-407E-ACC7-5606CA771AC8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility Ship Systems - Friends", "Utility Ship Systems - Friends\Utility Ship Systems - Friends.csproj", "{A8BCDEAF-7CB2-4DA3-B21A-19FF58BFC06F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Axel - Drop GPS Recorder", "Axel - Drop GPS Recorder\Axel - Drop GPS Recorder.csproj", "{D60C4A4B-46C6-4251-948F-C7B50A2CD676}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guidance Block Launch Control", "Guidance Block Launch Control\Guidance Block Launch Control.csproj", "{B4DCA2F0-0A7B-4DC4-B284-AD4747497E04}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Block Report", "Block Report\Block Report.csproj", "{2771AF32-2C73-49FB-AB82-F3BB4662F1E5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDLS Rocket (Merges)", "SDLS Rocket (Merges)\SDLS Rocket (Merges).csproj", "{6E9C794E-F42B-4B9A-A8BF-4C51F510DE4D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sapphire-Ship Systems", "Sapphire-Ship Systems\Sapphire-Ship Systems.csproj", "{EA9DBF02-4575-4CD0-8C30-80F3078ECD6F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridOS", "GridOS\GridOS.csproj", "{FECF8408-62F8-4333-8612-E9914652D359}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grav Curve Map", "Grav Curve Map\Grav Curve Map.csproj", "{F74BD5CC-87F9-42D3-AA17-96A4CCB7E57D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sapphire Mk2 - Ship Systems", "Sapphire Mk2 - Ship Systems\Sapphire Mk2 - Ship Systems.csproj", "{A8599884-E5C9-44CB-9940-AD5B9CE22605}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CC0335A2-8809-4A3B-A480-EC10767619FA}.Debug|x64.ActiveCfg = Debug|x64
-		{CC0335A2-8809-4A3B-A480-EC10767619FA}.Debug|x64.Build.0 = Debug|x64
-		{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}.Debug|x64.ActiveCfg = Debug|x64
-		{D29A0752-9C90-49AB-B1CC-3228ECA57F3F}.Debug|x64.Build.0 = Debug|x64
-		{F72618CE-2343-4963-8438-25E06C58F15F}.Debug|x64.ActiveCfg = Debug|x64
-		{F72618CE-2343-4963-8438-25E06C58F15F}.Debug|x64.Build.0 = Debug|x64
-		{0685E93C-4346-4DD3-AE1C-C22A47B27812}.Debug|x64.ActiveCfg = Debug|x64
-		{0685E93C-4346-4DD3-AE1C-C22A47B27812}.Debug|x64.Build.0 = Debug|x64
-		{051CE348-0F02-4849-B6D7-B97DE3C1003E}.Debug|x64.ActiveCfg = Debug|x64
-		{051CE348-0F02-4849-B6D7-B97DE3C1003E}.Debug|x64.Build.0 = Debug|x64
-		{055B7D17-D6EB-49BA-B45D-715A83A40F92}.Debug|x64.ActiveCfg = Debug|x64
-		{055B7D17-D6EB-49BA-B45D-715A83A40F92}.Debug|x64.Build.0 = Debug|x64
-		{503D7DE1-28C9-468F-8CD8-4BEC3EA05A64}.Debug|x64.ActiveCfg = Debug|x64
-		{503D7DE1-28C9-468F-8CD8-4BEC3EA05A64}.Debug|x64.Build.0 = Debug|x64
-		{81E47C39-106A-4B63-8E4C-8F693BA3D6DA}.Debug|x64.ActiveCfg = Debug|x64
-		{81E47C39-106A-4B63-8E4C-8F693BA3D6DA}.Debug|x64.Build.0 = Debug|x64
-		{3983C820-0311-4F8F-AE3A-6BD54F1DA500}.Debug|x64.ActiveCfg = Debug|x64
-		{3983C820-0311-4F8F-AE3A-6BD54F1DA500}.Debug|x64.Build.0 = Debug|x64
-		{687D147F-85C3-4BC6-87F8-7277EBCD2034}.Debug|x64.ActiveCfg = Debug|x64
-		{687D147F-85C3-4BC6-87F8-7277EBCD2034}.Debug|x64.Build.0 = Debug|x64
-		{42BFFD2C-289C-4C7F-A25E-442164E2B48D}.Debug|x64.ActiveCfg = Debug|x64
-		{42BFFD2C-289C-4C7F-A25E-442164E2B48D}.Debug|x64.Build.0 = Debug|x64
-		{5DADB79D-A630-4310-9249-CC0344B4768A}.Debug|x64.ActiveCfg = Debug|x64
-		{5DADB79D-A630-4310-9249-CC0344B4768A}.Debug|x64.Build.0 = Debug|x64
-		{AC420D80-1ABC-4422-B2BF-99A61A925ED6}.Debug|x64.ActiveCfg = Debug|x64
-		{AC420D80-1ABC-4422-B2BF-99A61A925ED6}.Debug|x64.Build.0 = Debug|x64
-		{14BA763C-B48D-40C0-903A-6AE2BD473383}.Debug|x64.ActiveCfg = Debug|x64
-		{14BA763C-B48D-40C0-903A-6AE2BD473383}.Debug|x64.Build.0 = Debug|x64
-		{B94EC49C-747D-4F8A-A947-3258FBC0249C}.Debug|x64.ActiveCfg = Debug|x64
-		{B94EC49C-747D-4F8A-A947-3258FBC0249C}.Debug|x64.Build.0 = Debug|x64
-		{2F53CAAA-6741-407E-ACC7-5606CA771AC8}.Debug|x64.ActiveCfg = Debug|x64
-		{2F53CAAA-6741-407E-ACC7-5606CA771AC8}.Debug|x64.Build.0 = Debug|x64
-		{A8BCDEAF-7CB2-4DA3-B21A-19FF58BFC06F}.Debug|x64.ActiveCfg = Debug|x64
-		{A8BCDEAF-7CB2-4DA3-B21A-19FF58BFC06F}.Debug|x64.Build.0 = Debug|x64
-		{D60C4A4B-46C6-4251-948F-C7B50A2CD676}.Debug|x64.ActiveCfg = Debug|x64
-		{D60C4A4B-46C6-4251-948F-C7B50A2CD676}.Debug|x64.Build.0 = Debug|x64
-		{B4DCA2F0-0A7B-4DC4-B284-AD4747497E04}.Debug|x64.ActiveCfg = Debug|x64
-		{B4DCA2F0-0A7B-4DC4-B284-AD4747497E04}.Debug|x64.Build.0 = Debug|x64
-		{2771AF32-2C73-49FB-AB82-F3BB4662F1E5}.Debug|x64.ActiveCfg = Debug|x64
-		{2771AF32-2C73-49FB-AB82-F3BB4662F1E5}.Debug|x64.Build.0 = Debug|x64
-		{6E9C794E-F42B-4B9A-A8BF-4C51F510DE4D}.Debug|x64.ActiveCfg = Debug|x64
-		{6E9C794E-F42B-4B9A-A8BF-4C51F510DE4D}.Debug|x64.Build.0 = Debug|x64
-		{EA9DBF02-4575-4CD0-8C30-80F3078ECD6F}.Debug|x64.ActiveCfg = Debug|x64
-		{EA9DBF02-4575-4CD0-8C30-80F3078ECD6F}.Debug|x64.Build.0 = Debug|x64
-		{FECF8408-62F8-4333-8612-E9914652D359}.Debug|x64.ActiveCfg = Debug|x64
-		{FECF8408-62F8-4333-8612-E9914652D359}.Debug|x64.Build.0 = Debug|x64
-		{F74BD5CC-87F9-42D3-AA17-96A4CCB7E57D}.Debug|x64.ActiveCfg = Debug|x64
-		{F74BD5CC-87F9-42D3-AA17-96A4CCB7E57D}.Debug|x64.Build.0 = Debug|x64
-		{A8599884-E5C9-44CB-9940-AD5B9CE22605}.Debug|x64.ActiveCfg = Debug|x64
-		{A8599884-E5C9-44CB-9940-AD5B9CE22605}.Debug|x64.Build.0 = Debug|x64
+		{A2A9A3F0-2DE1-45CF-A5AA-E49FFA812176}.Debug|x64.ActiveCfg = Debug|x64
+		{A2A9A3F0-2DE1-45CF-A5AA-E49FFA812176}.Debug|x64.Build.0 = Debug|x64
+		{A2A9A3F0-2DE1-45CF-A5AA-E49FFA812176}.Release|x64.ActiveCfg = Release|x64
+		{A2A9A3F0-2DE1-45CF-A5AA-E49FFA812176}.Release|x64.Build.0 = Release|x64
+		{450DBC63-F8D8-4097-97DC-CEDF7F166E25}.Debug|x64.ActiveCfg = Debug|x64
+		{450DBC63-F8D8-4097-97DC-CEDF7F166E25}.Debug|x64.Build.0 = Debug|x64
+		{450DBC63-F8D8-4097-97DC-CEDF7F166E25}.Release|x64.ActiveCfg = Release|x64
+		{450DBC63-F8D8-4097-97DC-CEDF7F166E25}.Release|x64.Build.0 = Release|x64
+		{9E9FAC0C-F1D1-4D56-958B-F51DE315429A}.Debug|x64.ActiveCfg = Debug|x64
+		{9E9FAC0C-F1D1-4D56-958B-F51DE315429A}.Debug|x64.Build.0 = Debug|x64
+		{9E9FAC0C-F1D1-4D56-958B-F51DE315429A}.Release|x64.ActiveCfg = Release|x64
+		{9E9FAC0C-F1D1-4D56-958B-F51DE315429A}.Release|x64.Build.0 = Release|x64
+		{081EF07C-A0FD-4CC4-A900-DC8D43A98322}.Debug|x64.ActiveCfg = Debug|x64
+		{081EF07C-A0FD-4CC4-A900-DC8D43A98322}.Debug|x64.Build.0 = Debug|x64
+		{081EF07C-A0FD-4CC4-A900-DC8D43A98322}.Release|x64.ActiveCfg = Release|x64
+		{081EF07C-A0FD-4CC4-A900-DC8D43A98322}.Release|x64.Build.0 = Release|x64
+		{39C358D4-82FC-49DD-AF85-F88CFE0DFB86}.Debug|x64.ActiveCfg = Debug|x64
+		{39C358D4-82FC-49DD-AF85-F88CFE0DFB86}.Debug|x64.Build.0 = Debug|x64
+		{39C358D4-82FC-49DD-AF85-F88CFE0DFB86}.Release|x64.ActiveCfg = Release|x64
+		{39C358D4-82FC-49DD-AF85-F88CFE0DFB86}.Release|x64.Build.0 = Release|x64
+		{364204B0-F4B0-49F9-B409-78F2549C4281}.Debug|x64.ActiveCfg = Debug|x64
+		{364204B0-F4B0-49F9-B409-78F2549C4281}.Debug|x64.Build.0 = Debug|x64
+		{364204B0-F4B0-49F9-B409-78F2549C4281}.Release|x64.ActiveCfg = Release|x64
+		{364204B0-F4B0-49F9-B409-78F2549C4281}.Release|x64.Build.0 = Release|x64
+		{06E69A5E-DB84-4C55-B434-4EECD145214A}.Debug|x64.ActiveCfg = Debug|x64
+		{06E69A5E-DB84-4C55-B434-4EECD145214A}.Debug|x64.Build.0 = Debug|x64
+		{06E69A5E-DB84-4C55-B434-4EECD145214A}.Release|x64.ActiveCfg = Release|x64
+		{06E69A5E-DB84-4C55-B434-4EECD145214A}.Release|x64.Build.0 = Release|x64
+		{84F612CD-F4DA-40E2-B986-8BFE1A5FCC92}.Debug|x64.ActiveCfg = Debug|x64
+		{84F612CD-F4DA-40E2-B986-8BFE1A5FCC92}.Debug|x64.Build.0 = Debug|x64
+		{84F612CD-F4DA-40E2-B986-8BFE1A5FCC92}.Release|x64.ActiveCfg = Release|x64
+		{84F612CD-F4DA-40E2-B986-8BFE1A5FCC92}.Release|x64.Build.0 = Release|x64
+		{0341C126-3068-496F-8717-93E5FD0FA64F}.Debug|x64.ActiveCfg = Debug|x64
+		{0341C126-3068-496F-8717-93E5FD0FA64F}.Debug|x64.Build.0 = Debug|x64
+		{0341C126-3068-496F-8717-93E5FD0FA64F}.Release|x64.ActiveCfg = Release|x64
+		{0341C126-3068-496F-8717-93E5FD0FA64F}.Release|x64.Build.0 = Release|x64
+		{62779458-A1DF-4844-AA8A-53792AB7FDA9}.Debug|x64.ActiveCfg = Debug|x64
+		{62779458-A1DF-4844-AA8A-53792AB7FDA9}.Debug|x64.Build.0 = Debug|x64
+		{62779458-A1DF-4844-AA8A-53792AB7FDA9}.Release|x64.ActiveCfg = Release|x64
+		{62779458-A1DF-4844-AA8A-53792AB7FDA9}.Release|x64.Build.0 = Release|x64
+		{522DADB7-FC90-4885-9CDD-9814F2A0B1C7}.Debug|x64.ActiveCfg = Debug|x64
+		{522DADB7-FC90-4885-9CDD-9814F2A0B1C7}.Debug|x64.Build.0 = Debug|x64
+		{522DADB7-FC90-4885-9CDD-9814F2A0B1C7}.Release|x64.ActiveCfg = Release|x64
+		{522DADB7-FC90-4885-9CDD-9814F2A0B1C7}.Release|x64.Build.0 = Release|x64
+		{97A55EA9-D7E9-41B7-B099-D6F016FF536C}.Debug|x64.ActiveCfg = Debug|x64
+		{97A55EA9-D7E9-41B7-B099-D6F016FF536C}.Debug|x64.Build.0 = Debug|x64
+		{97A55EA9-D7E9-41B7-B099-D6F016FF536C}.Release|x64.ActiveCfg = Release|x64
+		{97A55EA9-D7E9-41B7-B099-D6F016FF536C}.Release|x64.Build.0 = Release|x64
+		{694DE269-5F72-40CF-812A-E169361062F5}.Debug|x64.ActiveCfg = Debug|x64
+		{694DE269-5F72-40CF-812A-E169361062F5}.Debug|x64.Build.0 = Debug|x64
+		{694DE269-5F72-40CF-812A-E169361062F5}.Release|x64.ActiveCfg = Release|x64
+		{694DE269-5F72-40CF-812A-E169361062F5}.Release|x64.Build.0 = Release|x64
+		{B30B06F0-8D75-45AF-AE87-86591772D02F}.Debug|x64.ActiveCfg = Debug|x64
+		{B30B06F0-8D75-45AF-AE87-86591772D02F}.Debug|x64.Build.0 = Debug|x64
+		{B30B06F0-8D75-45AF-AE87-86591772D02F}.Release|x64.ActiveCfg = Release|x64
+		{B30B06F0-8D75-45AF-AE87-86591772D02F}.Release|x64.Build.0 = Release|x64
+		{C249A124-DE78-4B73-A9A6-5FAE0933008F}.Debug|x64.ActiveCfg = Debug|x64
+		{C249A124-DE78-4B73-A9A6-5FAE0933008F}.Debug|x64.Build.0 = Debug|x64
+		{C249A124-DE78-4B73-A9A6-5FAE0933008F}.Release|x64.ActiveCfg = Release|x64
+		{C249A124-DE78-4B73-A9A6-5FAE0933008F}.Release|x64.Build.0 = Release|x64
+		{B6359EB8-5BC7-4A7E-8879-22CD5F58A865}.Debug|x64.ActiveCfg = Debug|x64
+		{B6359EB8-5BC7-4A7E-8879-22CD5F58A865}.Debug|x64.Build.0 = Debug|x64
+		{B6359EB8-5BC7-4A7E-8879-22CD5F58A865}.Release|x64.ActiveCfg = Release|x64
+		{B6359EB8-5BC7-4A7E-8879-22CD5F58A865}.Release|x64.Build.0 = Release|x64
+		{89AC5732-80A6-4F92-8E26-8600546CD9BE}.Debug|x64.ActiveCfg = Debug|x64
+		{89AC5732-80A6-4F92-8E26-8600546CD9BE}.Debug|x64.Build.0 = Debug|x64
+		{89AC5732-80A6-4F92-8E26-8600546CD9BE}.Release|x64.ActiveCfg = Release|x64
+		{89AC5732-80A6-4F92-8E26-8600546CD9BE}.Release|x64.Build.0 = Release|x64
+		{0EF77089-6C24-488E-8773-A35AAD108849}.Debug|x64.ActiveCfg = Debug|x64
+		{0EF77089-6C24-488E-8773-A35AAD108849}.Debug|x64.Build.0 = Debug|x64
+		{0EF77089-6C24-488E-8773-A35AAD108849}.Release|x64.ActiveCfg = Release|x64
+		{0EF77089-6C24-488E-8773-A35AAD108849}.Release|x64.Build.0 = Release|x64
+		{C6710304-8644-4016-9B1B-B714CE42C621}.Debug|x64.ActiveCfg = Debug|x64
+		{C6710304-8644-4016-9B1B-B714CE42C621}.Debug|x64.Build.0 = Debug|x64
+		{C6710304-8644-4016-9B1B-B714CE42C621}.Release|x64.ActiveCfg = Release|x64
+		{C6710304-8644-4016-9B1B-B714CE42C621}.Release|x64.Build.0 = Release|x64
+		{0A1E5346-B038-4546-9CE4-AABB60985827}.Debug|x64.ActiveCfg = Debug|x64
+		{0A1E5346-B038-4546-9CE4-AABB60985827}.Debug|x64.Build.0 = Debug|x64
+		{0A1E5346-B038-4546-9CE4-AABB60985827}.Release|x64.ActiveCfg = Release|x64
+		{0A1E5346-B038-4546-9CE4-AABB60985827}.Release|x64.Build.0 = Release|x64
+		{73730779-0BBE-489A-B754-BD1808DC6EAE}.Debug|x64.ActiveCfg = Debug|x64
+		{73730779-0BBE-489A-B754-BD1808DC6EAE}.Debug|x64.Build.0 = Debug|x64
+		{73730779-0BBE-489A-B754-BD1808DC6EAE}.Release|x64.ActiveCfg = Release|x64
+		{73730779-0BBE-489A-B754-BD1808DC6EAE}.Release|x64.Build.0 = Release|x64
+		{77DD6FC9-7727-43B7-820D-91EEBC430345}.Debug|x64.ActiveCfg = Debug|x64
+		{77DD6FC9-7727-43B7-820D-91EEBC430345}.Debug|x64.Build.0 = Debug|x64
+		{77DD6FC9-7727-43B7-820D-91EEBC430345}.Release|x64.ActiveCfg = Release|x64
+		{77DD6FC9-7727-43B7-820D-91EEBC430345}.Release|x64.Build.0 = Release|x64
+		{5EE02B9E-E5D2-425B-8FE5-1817DDB61D3F}.Debug|x64.ActiveCfg = Debug|x64
+		{5EE02B9E-E5D2-425B-8FE5-1817DDB61D3F}.Debug|x64.Build.0 = Debug|x64
+		{5EE02B9E-E5D2-425B-8FE5-1817DDB61D3F}.Release|x64.ActiveCfg = Release|x64
+		{5EE02B9E-E5D2-425B-8FE5-1817DDB61D3F}.Release|x64.Build.0 = Release|x64
+		{1A7EF527-588D-41E4-94A6-D3710E273AEB}.Debug|x64.ActiveCfg = Debug|x64
+		{1A7EF527-588D-41E4-94A6-D3710E273AEB}.Debug|x64.Build.0 = Debug|x64
+		{1A7EF527-588D-41E4-94A6-D3710E273AEB}.Release|x64.ActiveCfg = Release|x64
+		{1A7EF527-588D-41E4-94A6-D3710E273AEB}.Release|x64.Build.0 = Release|x64
+		{22ED7F83-0D2F-4169-B68B-F67037A662F8}.Debug|x64.ActiveCfg = Debug|x64
+		{22ED7F83-0D2F-4169-B68B-F67037A662F8}.Debug|x64.Build.0 = Debug|x64
+		{22ED7F83-0D2F-4169-B68B-F67037A662F8}.Release|x64.ActiveCfg = Release|x64
+		{22ED7F83-0D2F-4169-B68B-F67037A662F8}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AB8E8FFF-3C4B-476B-B4B3-7EAC1E878CDF}
+		SolutionGuid = {48560F34-5EF6-489C-B40B-8CBB736BE4EC}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Library\Library.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		SDLS - Shared\SDLS - Shared.projitems*{051ce348-0f02-4849-b6d7-b97de3c1003e}*SharedItemsImports = 4
-		Library\Library.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		SDLS - Shared\SDLS - Shared.projitems*{0685e93c-4346-4dd3-ae1c-c22a47b27812}*SharedItemsImports = 4
-		Library\Library.projitems*{14ba763c-b48d-40c0-903a-6ae2bd473383}*SharedItemsImports = 4
-		Library\Library.projitems*{2f53caaa-6741-407e-acc7-5606ca771ac8}*SharedItemsImports = 4
-		Library\Library.projitems*{3983c820-0311-4f8f-ae3a-6bd54f1da500}*SharedItemsImports = 4
-		Library\Library.projitems*{42bffd2c-289c-4c7f-a25e-442164e2b48d}*SharedItemsImports = 4
-		Library\Library.projitems*{503d7de1-28c9-468f-8cd8-4bec3ea05a64}*SharedItemsImports = 4
-		Library\Library.projitems*{5dadb79d-a630-4310-9249-cc0344b4768a}*SharedItemsImports = 4
-		Library\Library.projitems*{687d147f-85c3-4bc6-87f8-7277ebcd2034}*SharedItemsImports = 4
-		Library\Library.projitems*{6e9c794e-f42b-4b9a-a8bf-4c51f510de4d}*SharedItemsImports = 4
-		Library\Library.projitems*{81e47c39-106a-4b63-8e4c-8f693ba3d6da}*SharedItemsImports = 4
-		Library\Library.projitems*{931480a0-edd2-41af-ac91-8fb13e5ed08a}*SharedItemsImports = 13
-		Library\Library.projitems*{a8599884-e5c9-44cb-9940-ad5b9ce22605}*SharedItemsImports = 4
-		Library\Library.projitems*{a8bcdeaf-7cb2-4da3-b21a-19ff58bfc06f}*SharedItemsImports = 4
-		Library\Library.projitems*{ac420d80-1abc-4422-b2bf-99a61a925ed6}*SharedItemsImports = 4
-		Library\Library.projitems*{b4dca2f0-0a7b-4dc4-b284-ad4747497e04}*SharedItemsImports = 4
-		Library\Library.projitems*{b94ec49c-747d-4f8a-a947-3258fbc0249c}*SharedItemsImports = 4
-		Library\Library.projitems*{cc0335a2-8809-4a3b-a480-ec10767619fa}*SharedItemsImports = 4
-		Library\Library.projitems*{d60c4a4b-46c6-4251-948f-c7b50a2cd676}*SharedItemsImports = 4
-		Library\Library.projitems*{f72618ce-2343-4963-8438-25e06c58f15f}*SharedItemsImports = 4
-		Library\Library.projitems*{f74bd5cc-87f9-42d3-aa17-96a4ccb7e57d}*SharedItemsImports = 4
-		SDLS - Shared\SDLS - Shared.projitems*{f8741348-85b7-4620-9bd0-d08660a253c2}*SharedItemsImports = 13
-		Library\Library.projitems*{fecf8408-62f8-4333-8612-e9914652d359}*SharedItemsImports = 4
+		Library\Library.projitems*{0341c126-3068-496f-8717-93e5fd0fa64f}*SharedItemsImports = 5
+		Library\Library.projitems*{06e69a5e-db84-4c55-b434-4eecd145214a}*SharedItemsImports = 5
+		Library\Library.projitems*{081ef07c-a0fd-4cc4-a900-dc8d43a98322}*SharedItemsImports = 5
+		Library\Library.projitems*{0a1e5346-b038-4546-9ce4-aabb60985827}*SharedItemsImports = 5
+		Library\Library.projitems*{0ef77089-6c24-488e-8773-a35aad108849}*SharedItemsImports = 5
+		SDLS - Shared\SDLS - Shared.projitems*{0ef77089-6c24-488e-8773-a35aad108849}*SharedItemsImports = 5
+		Library\Library.projitems*{1a7ef527-588d-41e4-94a6-d3710e273aeb}*SharedItemsImports = 5
+		Library\Library.projitems*{22ed7f83-0d2f-4169-b68b-f67037a662f8}*SharedItemsImports = 5
+		Library\Library.projitems*{364204b0-f4b0-49f9-b409-78f2549c4281}*SharedItemsImports = 5
+		Library\Library.projitems*{39c358d4-82fc-49dd-af85-f88cfe0dfb86}*SharedItemsImports = 5
+		Library\Library.projitems*{450dbc63-f8d8-4097-97dc-cedf7f166e25}*SharedItemsImports = 5
+		Library\Library.projitems*{5ee02b9e-e5d2-425b-8fe5-1817ddb61d3f}*SharedItemsImports = 5
+		Library\Library.projitems*{62779458-a1df-4844-aa8a-53792ab7fda9}*SharedItemsImports = 5
+		Library\Library.projitems*{694de269-5f72-40cf-812a-e169361062f5}*SharedItemsImports = 5
+		Library\Library.projitems*{77dd6fc9-7727-43b7-820d-91eebc430345}*SharedItemsImports = 5
+		Library\Library.projitems*{84f612cd-f4da-40e2-b986-8bfe1a5fcc92}*SharedItemsImports = 5
+		Library\Library.projitems*{89ac5732-80a6-4f92-8e26-8600546cd9be}*SharedItemsImports = 5
+		Library\Library.projitems*{8a3cdcc5-4b55-4d87-a415-698a0e1ff06f}*SharedItemsImports = 13
+		Library\Library.projitems*{97a55ea9-d7e9-41b7-b099-d6f016ff536c}*SharedItemsImports = 5
+		Library\Library.projitems*{a2a9a3f0-2de1-45cf-a5aa-e49ffa812176}*SharedItemsImports = 5
+		Library\Library.projitems*{b6359eb8-5bc7-4a7e-8879-22cd5f58a865}*SharedItemsImports = 5
+		Library\Library.projitems*{c249a124-de78-4b73-a9a6-5fae0933008f}*SharedItemsImports = 5
+		SDLS - Shared\SDLS - Shared.projitems*{c249a124-de78-4b73-a9a6-5fae0933008f}*SharedItemsImports = 5
+		Library\Library.projitems*{c6710304-8644-4016-9b1b-b714ce42c621}*SharedItemsImports = 5
+		SDLS - Shared\SDLS - Shared.projitems*{e8301866-1579-412f-9a13-b374269bf63c}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
