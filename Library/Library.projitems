@@ -1,49 +1,47 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>931480a0-edd2-41af-ac91-8fb13e5ed08a</SharedGUID>
+    <SharedGUID>8a3cdcc5-4b55-4d87-a415-698a0e1ff06f</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Library</Import_RootNamespace>
+    <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Class1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\IMyGridTerminalSystemExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\IMyShipMergeBlockExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MyIniExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FontChar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Font_X.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CargoHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CompassHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DirectionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ranger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\RenameMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\TextHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ThrusterHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\VectorHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LCDChars.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LCDFonts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\AirlockSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\AutoDoorCloser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\BlocksByOrientation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CargoHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Collect.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MyIniExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\StateMachineQueue.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\TextHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\StateMachineSets.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\TagRegex.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_CommonMethods.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CompassHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\DebugLogging.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DirectionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\DockSecure.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\IMyGridTerminalSystemExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\FlightDataRecorder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FontChar.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Font_X.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)LCDChars.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)LCDFonts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Logging.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Profiler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Proximity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ranger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\RenameMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\RunningSymbol.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SubTypeIDs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ThrusterHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\StateMachineQueue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\StateMachineSets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\TagRegex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\TimeInterval.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\VectorAlign.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\VectorHelper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
+    <Compile Include="$(MSBuildThisFileDirectory)SubTypeIDs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_CommonMethods.cs" />
   </ItemGroup>
 </Project>

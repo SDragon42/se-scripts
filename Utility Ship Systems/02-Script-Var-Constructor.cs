@@ -1,24 +1,27 @@
-﻿using Sandbox.Game.EntityComponents;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Text;
+using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System;
+using VRage;
 using VRage.Collections;
+using VRage.Game;
 using VRage.Game.Components;
 using VRage.Game.GUI.TextPanel;
-using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ModAPI.Ingame;
+using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ObjectBuilders.Definitions;
-using VRage.Game;
-using VRage;
 using VRageMath;
 
-namespace IngameScript {
-    partial class Program {
+namespace IngameScript
+{
+    partial class Program
+    {
         readonly RunningSymbol RunningModule = new RunningSymbol();
         readonly DockSecure DockSecureModule = new DockSecure();
         readonly Proximity ProximityModule = new Proximity();
@@ -63,7 +66,8 @@ namespace IngameScript {
         readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
         readonly string Instructions;
 
-        public Program() {
+        public Program()
+        {
             //Debug = Echo;
             //_proximity.Debug = Echo;
 
@@ -83,7 +87,8 @@ namespace IngameScript {
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
-        void LoadBlocks() {
+        void LoadBlocks()
+        {
             GridTerminalSystem.GetBlocksOfType(ToolList, b => IsOnThisGrid(b) && IsToolBlock(b));
             GridTerminalSystem.GetBlocksOfType(ProxSpeakerList, b => IsOnThisGrid(b) && IsProximityBlock(b));
 
@@ -93,20 +98,24 @@ namespace IngameScript {
                 && (IsProximityBlock(b) || IsForwardRangeBlock(b)));
             ScreenList.Clear();
             var surfaceProfIni = new MyIni();
-            foreach (var b in TmpBlocks) {
+            foreach (var b in TmpBlocks)
+            {
                 var surface = b as IMyTextSurface;
-                if (surface != null) {
+                if (surface != null)
+                {
                     ScreenList.Add(new ScreenConfig(surface, IsProximityBlock(b), IsForwardRangeBlock(b)));
                     continue;
                 }
 
                 var surfaceProv = b as IMyTextSurfaceProvider;
-                if (surfaceProv != null) {
+                if (surfaceProv != null)
+                {
                     surfaceProfIni.Clear();
                     LoadTextScreenProviderConfig(b, surfaceProfIni);
                     var pIdx = surfaceProfIni.Get(KEY_ProxScreenNumber).ToInt32();
                     var rIdx = surfaceProfIni.Get(KEY_RangeScreenNumber).ToInt32();
-                    for (var i = 0; i < surfaceProv.SurfaceCount; i++) {
+                    for (var i = 0; i < surfaceProv.SurfaceCount; i++)
+                    {
                         if (i != pIdx && i != rIdx) continue;
                         surface = surfaceProv.GetSurface(i);
                         ScreenList.Add(new ScreenConfig(surface, i == pIdx, i == rIdx));
@@ -134,8 +143,10 @@ namespace IngameScript {
         bool IsProximityBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ProximityTag);
         bool IsForwardRangeBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ForwardScanTag);
 
-        class ScreenConfig {
-            public ScreenConfig(IMyTextSurface screen, bool isProx, bool isRange) {
+        class ScreenConfig
+        {
+            public ScreenConfig(IMyTextSurface screen, bool isProx, bool isRange)
+            {
                 Screen = screen;
                 IsProx = isProx;
                 IsRange = isRange;

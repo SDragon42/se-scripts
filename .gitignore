@@ -350,5 +350,4 @@ MigrationBackup/
 .ionide/
 
 # MDK
-MDK.paths.props
-*.zip
+*.mdk.local.ini
