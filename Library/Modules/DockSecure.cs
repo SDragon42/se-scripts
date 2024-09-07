@@ -62,7 +62,7 @@ namespace IngameScript {
                         TurnOffSystems();
                         IsDocked = true;
                     }
-                } else  {
+                } else {
                     if (Auto_On)
                         TurnOnSystems();
                     IsDocked = false;
