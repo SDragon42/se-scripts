@@ -41,7 +41,7 @@ namespace IngameScript {
 
             public bool HasGridNames => ((GridName.Length > 0) || (GridName_Merged.Length > 0));
 
-            
+
 
             public void Load(IMyProgrammableBlock me) {
                 if (hash == me.CustomData.GetHashCode()) return;

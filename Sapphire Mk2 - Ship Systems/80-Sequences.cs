@@ -31,7 +31,7 @@ namespace IngameScript {
         }
 
         IEnumerator<bool> SEQ_DisconnectConnector(string blockTag) {
-            Debug("SEQ_DisconnectConnector: "+ blockTag);
+            Debug("SEQ_DisconnectConnector: " + blockTag);
             var c1 = myConnectors.Where(b => Collect.IsTagged(b, blockTag)).ToArray();
 
             foreach (var b in c1) b.Disconnect();

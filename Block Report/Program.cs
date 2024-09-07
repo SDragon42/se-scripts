@@ -18,16 +18,13 @@ using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ObjectBuilders.Definitions;
 using VRageMath;
 
-namespace IngameScript
-{
-    partial class Program : MyGridProgram
-    {
-        
+namespace IngameScript {
+    partial class Program : MyGridProgram {
+
         public Program() {
         }
 
-        public void Main(string argument, UpdateType updateSource)
-        {
+        public void Main(string argument, UpdateType updateSource) {
             var text = new StringBuilder();
 
             text.Append($"Run at: {DateTime.Now:hh:mm:ss}\n");
