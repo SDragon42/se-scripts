@@ -35,7 +35,7 @@ namespace IngameScript {
         }
 
 
-        
+
 
         bool isFirstRun = true;
 

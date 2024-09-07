@@ -73,8 +73,7 @@ namespace IngameScript {
         /// <param name="primaryTag"></param>
         /// <param name="secondaryTag"></param>
         /// <returns></returns>
-        IEnumerator<bool> SEQ_LaunchStage(string primaryTag, string secondaryTag, bool stage)
-        {
+        IEnumerator<bool> SEQ_LaunchStage(string primaryTag, string secondaryTag, bool stage) {
 
             yield return false;
         }

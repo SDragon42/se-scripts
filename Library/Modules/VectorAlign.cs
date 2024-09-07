@@ -66,8 +66,7 @@ namespace IngameScript {
                 return aligned;
             }
 
-            private Vector3D GetRotationVector(IMyGyro g, Vector3D currentVec, Vector3D targetVec)
-            {
+            private Vector3D GetRotationVector(IMyGyro g, Vector3D currentVec, Vector3D targetVec) {
                 // Transform vectors
                 Matrix orient;
                 g.Orientation.GetMatrix(out orient);

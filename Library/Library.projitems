@@ -9,7 +9,6 @@
     <Import_RootNamespace>IngameScript</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Class1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\IMyGridTerminalSystemExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\IMyShipMergeBlockExtensions.cs" />
