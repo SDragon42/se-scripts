@@ -55,8 +55,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TWR Calculator", "TWR Calcu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TWR Calculator 2", "TWR Calculator 2\TWR Calculator 2.csproj", "{1A7EF527-588D-41E4-94A6-D3710E273AEB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility Ship Systems - Friends", "Utility Ship Systems - Friends\Utility Ship Systems - Friends.csproj", "{22ED7F83-0D2F-4169-B68B-F67037A662F8}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{41D65D96-CE12-4254-9972-15093D8D1DDC}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -170,10 +168,6 @@ Global
 		{1A7EF527-588D-41E4-94A6-D3710E273AEB}.Debug|x64.Build.0 = Debug|x64
 		{1A7EF527-588D-41E4-94A6-D3710E273AEB}.Release|x64.ActiveCfg = Release|x64
 		{1A7EF527-588D-41E4-94A6-D3710E273AEB}.Release|x64.Build.0 = Release|x64
-		{22ED7F83-0D2F-4169-B68B-F67037A662F8}.Debug|x64.ActiveCfg = Debug|x64
-		{22ED7F83-0D2F-4169-B68B-F67037A662F8}.Debug|x64.Build.0 = Debug|x64
-		{22ED7F83-0D2F-4169-B68B-F67037A662F8}.Release|x64.ActiveCfg = Release|x64
-		{22ED7F83-0D2F-4169-B68B-F67037A662F8}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -189,7 +183,6 @@ Global
 		Library\Library.projitems*{0ef77089-6c24-488e-8773-a35aad108849}*SharedItemsImports = 5
 		SDLS - Shared\SDLS - Shared.projitems*{0ef77089-6c24-488e-8773-a35aad108849}*SharedItemsImports = 5
 		Library\Library.projitems*{1a7ef527-588d-41e4-94a6-d3710e273aeb}*SharedItemsImports = 5
-		Library\Library.projitems*{22ed7f83-0d2f-4169-b68b-f67037a662f8}*SharedItemsImports = 5
 		Library\Library.projitems*{364204b0-f4b0-49f9-b409-78f2549c4281}*SharedItemsImports = 5
 		Library\Library.projitems*{39c358d4-82fc-49dd-af85-f88cfe0dfb86}*SharedItemsImports = 5
 		Library\Library.projitems*{450dbc63-f8d8-4097-97dc-cedf7f166e25}*SharedItemsImports = 5
