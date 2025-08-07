@@ -1,0 +1,20 @@
+﻿Spot Racing Events #3 - Canyon Pass
+Script by: SDragon 42
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Includes the Artificial Horizon scipt by Whiplash
+http://steamcommunity.com/sharedfiles/filedetails/?id=713653017
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+This script will provide data for four displays on your racer, the current lap and lap time display, the current
+speed display, a lap time log display, and an artificial horizon display. Only the lap current lap display is required,
+the others are optional.
+
+the program will recognize one argument, "reset", which is used to reset the script to a ready to race state.
+
+Setup:
+Place 1 timer block, and set the delay to 1 sec. For the actions, add the timer block to "start", and to "Trigger now".
+Also add the program block to "Run" with an empty argument field.
+
+Place the Text panels to display the information. Name them using the names that are defined below.
+The displays will be automatically configured to display public text, and the font size will be set with the size 
+set below.
