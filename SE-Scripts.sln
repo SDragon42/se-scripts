@@ -452,8 +452,6 @@ Global
 		VVC.Shared\VVC.Shared.projitems*{9932323f-8939-440b-b87e-d2e2691367a0}*SharedItemsImports = 5
 		Library\Library.projitems*{a2a9a3f0-2de1-45cf-a5aa-e49ffa812176}*SharedItemsImports = 5
 		Library\Library.projitems*{b6359eb8-5bc7-4a7e-8879-22cd5f58a865}*SharedItemsImports = 5
-		Library\Library.projitems*{bc92a0bd-822a-435c-9edb-acd7f327c808}*SharedItemsImports = 5
-		VVC.Shared\VVC.Shared.projitems*{bc92a0bd-822a-435c-9edb-acd7f327c808}*SharedItemsImports = 5
 		Library\Library.projitems*{c249a124-de78-4b73-a9a6-5fae0933008f}*SharedItemsImports = 5
 		SDLS - Shared\SDLS - Shared.projitems*{c249a124-de78-4b73-a9a6-5fae0933008f}*SharedItemsImports = 5
 		Library\Library.projitems*{c6710304-8644-4016-9b1b-b714ce42c621}*SharedItemsImports = 5

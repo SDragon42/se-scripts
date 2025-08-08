@@ -22,25 +22,12 @@ using VRageMath;
 namespace IngameScript {
     public partial class Program : MyGridProgram {
 
-        readonly DebugLogging Log;
-
-        readonly Action<string> Debug = (text) => { };
-
-        public Program() {
-            Log = new DebugLogging(this);
-            Log.EchoMessages = true;
-            Log.Enabled = true;
-            Log.MaxTextLinesToKeep = 20;
-            Debug = (msg) => Log.AppendLine($"{DateTime.Now:HH:mm:ss.fff} {msg}");
-        }
+        const string CheckPointTag = "VVC.CheckPoint";
 
         public void Main(string argument, UpdateType updateSource) {
-            var message = $"{argument}|{DateTime.Now.Ticks}";
-            Debug(message);
-            IGC.SendBroadcastMessage(Constants.CheckPointTag,
-                                     message,
+            IGC.SendBroadcastMessage(CheckPointTag,
+                                     $"{argument}|{DateTime.Now.Ticks}",
                                      TransmissionDistance.AntennaRelay);
-            Log.UpdateDisplay();
         }
     }
 }

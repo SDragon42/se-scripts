@@ -23,6 +23,4 @@
     <AdditionalFiles Include="Instructions.readme" />
     <AdditionalFiles Include="thumb.png" />
   </ItemGroup>
-  <Import Project="..\VVC.Shared\VVC.Shared.projitems" Label="Shared" />
-  <Import Project="..\Library\Library.projitems" Label="Shared" />
 </Project>
