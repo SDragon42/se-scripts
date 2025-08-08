@@ -22,12 +22,15 @@ using VRageMath;
 namespace IngameScript {
     public partial class Program : MyGridProgram {
 
-        const string CheckPointTag = "VVC.CheckPoint";
+        // Do not change these values, they are used by the script.
+
+        // Broadcast tag for IGC
+        const string CHECKPOINT_TAG = "VVC.Checkpoint";
+
 
         public void Main(string argument, UpdateType updateSource) {
-            IGC.SendBroadcastMessage(CheckPointTag,
-                                     $"{argument}|{DateTime.Now.Ticks}",
-                                     TransmissionDistance.AntennaRelay);
+            var message = $"{argument}|{DateTime.Now.Ticks}";
+            IGC.SendBroadcastMessage(CHECKPOINT_TAG, message, TransmissionDistance.AntennaRelay);
         }
     }
 }
