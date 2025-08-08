@@ -35,7 +35,7 @@ namespace IngameScript {
         }
 
         public void Main(string argument, UpdateType updateSource) {
-            var message = $"{argument}|{DateTime.UtcNow}";
+            var message = $"{argument}|{DateTime.Now.Ticks}";
             Debug(message);
             IGC.SendBroadcastMessage(Constants.CheckPointTag,
                                      message,

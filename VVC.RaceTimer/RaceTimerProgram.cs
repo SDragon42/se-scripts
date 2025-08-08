@@ -27,9 +27,9 @@ namespace IngameScript {
         const string CMD_RESET = "reset";
         const string CMD_CHECKPOINT = "checkpoint";
 
-        DateTime _startTime = DateTime.UtcNow;
-        DateTime _currentTime = DateTime.UtcNow;
-        bool _isRaceActive = false;
+        long _startTime;
+        long _currentTime;
+        bool _isRaceActive;
         readonly Queue<string> _checkpointLog = new Queue<string>(100);
 
         List<IMyTextPanel> _displaySurfaces = new List<IMyTextPanel>();
@@ -40,37 +40,35 @@ namespace IngameScript {
 
         readonly Action<string> Debug = (text) => { };
 
-        readonly IDictionary<string, Action<string>> Commands = new Dictionary<string, Action<string>>();
-
         public Program() {
-            GridTerminalSystem.GetBlocksOfType(_displaySurfaces, surface => surface.CustomName == "LCD Panel - Race Info");
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
 
             _listener = IGC.RegisterBroadcastListener(Constants.CheckPointTag);
-            _listener.SetMessageCallback(CMD_CHECKPOINT);
+            _listener.SetMessageCallback(CMD_CHECKPOINT); // Runs this script with the argument as the message received.
+
+            GridTerminalSystem.GetBlocksOfType(_displaySurfaces, surface => surface.CustomName == "LCD Panel - Race Info");
 
             Log = new DebugLogging(this);
             Log.EchoMessages = true;
             Log.Enabled = true;
             Log.MaxTextLinesToKeep = 20;
             Debug = (msg) => Log.AppendLine($"{DateTime.Now:HH:mm:ss.fff} {msg}");
+
+            CommandReset(); // Reset the timer on startup.
         }
 
         public void Main(string argument, UpdateType updateSource) {
-            Echo($"Race Timer {RunningModule.GetSymbol()}");
-            //if (updateSource == UpdateType.Trigger)
-            //    Debug($"trig: [{argument}]");
-
+            Echo($"VVC Race Timer {RunningModule.GetSymbol()}");
             try {
-                switch (updateSource) {
-                    case UpdateType.IGC:
-                        Debug($"IGC: [{argument}]");
-                        ProcessCommunication(argument);
-                        break;
+                var commandParts = SplitArgument(argument);
+                switch (commandParts.Command) {
+                    case "": break;
+                    case CMD_START: CommandStart(); break;
+                    case CMD_STOP: CommandStop(); break;
+                    case CMD_RESET: CommandReset(); break;
+                    case CMD_CHECKPOINT: CommandCheckpoint(); break;
 
-                    default:
-                        ProcessCommand(argument);
-                        break;
+                    default: Debug($"Unknown: {commandParts.Command} | {commandParts.Data}"); break;
                 }
             } finally {
                 DisplayRaceInfo();
@@ -81,68 +79,32 @@ namespace IngameScript {
 
         void CommandStart() {
             Debug($"=> {CMD_START}");
-            _startTime = DateTime.UtcNow;
+            _startTime = DateTime.Now.Ticks;
             _currentTime = _startTime;
             _isRaceActive = true;
         }
 
         void CommandStop() {
             Debug($"=> {CMD_STOP}");
+            _currentTime = DateTime.Now.Ticks;
             _isRaceActive = false;
-            _currentTime = DateTime.UtcNow;
         }
 
         void CommandReset() {
             Debug($"=> {CMD_RESET}");
-            _startTime = DateTime.UtcNow;
+            _startTime = DateTime.Now.Ticks;
             _currentTime = _startTime;
             _isRaceActive = false;
             _checkpointLog.Clear();
         }
 
-        void CommandCheckpoint(string argument) {
+        void CommandCheckpoint() {
             Debug($"=> {CMD_CHECKPOINT}");
-            var commsData = GetTimeInfo(argument);
-            _checkpointLog.Enqueue($"{commsData.Checkpoint} : {commsData.TimeStamp}");
-        }
-
-        private void ProcessCommand(string argument) {
-            if (string.IsNullOrEmpty(argument))
-                return;
-
-            var commandParts = SplitArgument(argument);
-            switch (commandParts.Command) {
-                case "start":
-                    Debug($"=> {commandParts.Command}");
-                    _startTime = DateTime.UtcNow;
-                    _currentTime = _startTime;
-                    _isRaceActive = true;
-                    break;
-
-                case "stop":
-                    Debug($"=> {commandParts.Command}");
-                    _isRaceActive = false;
-                    _currentTime = DateTime.UtcNow;
-                    break;
-
-                case "reset":
-                    Debug($"=> {commandParts.Command}");
-                    _startTime = DateTime.UtcNow;
-                    _currentTime = _startTime;
-                    _isRaceActive = false;
-                    _checkpointLog.Clear();
-                    break;
-
-                default:
-                    Debug("UNKNWON: " + argument);
-                    break;
-            }
-
-        }
-
-        private void ProcessCommunication(string argument) {
-            var commsData = GetTimeInfo(argument);
-            _checkpointLog.Enqueue($"{commsData.Checkpoint} : {commsData.TimeStamp}");
+            var commsData = GetTimeInfo(_listener.AcceptMessage().Data as string);
+            var logMessage = commsData.Ticks.HasValue
+                ? $"{commsData.Checkpoint} : {CalculateElapsedTime(commsData.Ticks.Value).ToRaceTimeString()}"
+                : $"{commsData.Checkpoint}";
+            _checkpointLog.Enqueue(logMessage);
         }
 
         CmdParts SplitArgument(string argument) => new CmdParts(argument ?? string.Empty);
@@ -152,21 +114,25 @@ namespace IngameScript {
 
 
         private void DisplayRaceInfo() {
-            var nowTime = _isRaceActive ? DateTime.UtcNow : _currentTime;
-
             var message = new StringBuilder();
-            var elapsedTime = nowTime - _startTime;
-            message.AppendLine($"Time: {elapsedTime.Minutes:00}:{elapsedTime.Seconds:00}.{elapsedTime.Milliseconds:00}");
+            var nowTime = _isRaceActive ? DateTime.Now.Ticks : _currentTime;
+            var elapsedTime = CalculateElapsedTime(nowTime).ToRaceTimeString();
+            message.AppendLine($"Time: {elapsedTime}");
             message.AppendLine();
-            foreach (var checkpointTime in _checkpointLog) {
-                message.AppendLine(checkpointTime);
-            }
-
-            foreach (IMyTextSurface surface in _displaySurfaces) {
-                surface.WriteText(message.ToString());
-            }
-
+            message.AppendLines(_checkpointLog);
+            WriteToAllDisplays(message.ToString());
         }
+        private void WriteToAllDisplays(string text) {
+            foreach (IMyTextSurface surface in _displaySurfaces) {
+                //surface.ContentType = ContentType.TEXT_AND_IMAGE;
+                surface.WriteText(text);
+            }
+        }
+
+        private TimeSpan CalculateElapsedTime(long currentTicks) {
+            return new TimeSpan(currentTicks - _startTime);
+        }
+
 
 
         struct CmdParts {
@@ -182,16 +148,16 @@ namespace IngameScript {
 
         struct CheckpointInfo {
             public readonly string Checkpoint;
-            public readonly DateTime? TimeStamp;
+            public readonly long? Ticks;
 
             public CheckpointInfo(string argument) {
                 var parts = argument.Split(Constants.ArgSplitChar);
                 Checkpoint = parts[0];
-                TimeStamp = null;
+                Ticks = null;
                 if (parts.Length > 1) {
-                    DateTime ts;
-                    if (DateTime.TryParse(parts[1], out ts)) {
-                        TimeStamp = ts;
+                    long ts;
+                    if (long.TryParse(parts[1], out ts)) {
+                        Ticks = ts;
                     }
                 }
             }
