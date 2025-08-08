@@ -24,13 +24,11 @@ namespace IngameScript {
     public partial class Program : MyGridProgram {
 
         // Configuration values
-
-
         const string LCD_PANEL_NAME = "LCD Panel - Race Info";
 
 
-
         // Do not change these values, they are used by the script.
+        //////////////////////////////////////////////////////////////////////
 
         // Broadcast tag for IGC
         const string CHECKPOINT_TAG = "VVC.Checkpoint";
@@ -133,7 +131,6 @@ namespace IngameScript {
         }
         private void WriteToAllDisplays(string text) {
             foreach (IMyTextSurface surface in _displaySurfaces) {
-                //surface.ContentType = ContentType.TEXT_AND_IMAGE;
                 surface.WriteText(text);
             }
         }

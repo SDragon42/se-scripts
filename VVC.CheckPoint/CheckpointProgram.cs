@@ -23,6 +23,7 @@ namespace IngameScript {
     public partial class Program : MyGridProgram {
 
         // Do not change these values, they are used by the script.
+        //////////////////////////////////////////////////////////////////////
 
         // Broadcast tag for IGC
         const string CHECKPOINT_TAG = "VVC.Checkpoint";
