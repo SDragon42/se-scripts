@@ -21,7 +21,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        // Ship Commands 
+        // Ship Commands
         const string CMD_InitializeShip = "start";
         const string CMD_SetShipID = "setid";
         const string CMD_SetShipID4AllBlocks = "setid4all";
@@ -30,27 +30,27 @@ namespace IngameScript {
         const string CMD_Disconnect = "disconnect";
         const string CMD_Heartbeat = "heartbeat";
 
-        // Ship ID Constants 
+        // Ship ID Constants
         const string ShipID_Prefix = "DHI-";
         const string ShipID_Suffix = ":";
         const string ShipID_NoValue = "#";
 
-        // Door Closer Constants 
+        // Door Closer Constants
         const int MaxNumCycles2KeepDoorOpen = 3;
         const string ExcludeTag = "[Excluded]";
         const string AirtightHangerDoorName = "Airtight Hangar Door";
 
         const int MaxNumCyclesBeforeLockingConnetors = 3;
 
-        // Airlock Doors 
+        // Airlock Doors
         const string AirlockDoor_Interior = "interior";
         const string AirlockDoor_Exterior = "exterior";
 
-        // Oxygen Management Constants 
+        // Oxygen Management Constants
         const double MinO2FillPercentage = 0.3;
         const double MaxO2FillPercentage = 0.8;
 
-        // ############################################################ 
+        // ############################################################
 
 
         List<string> _airlockKeys = new List<string>();
@@ -375,7 +375,7 @@ namespace IngameScript {
         }
 
 
-        // Block Actions 
+        // Block Actions
         const string BlockAction_TurnOn = "OnOff_On";
         const string BlockAction_TurnOff = "OnOff_Off";
         const string DoorAction_CloseDoor = "Open_Off";
@@ -460,7 +460,7 @@ namespace IngameScript {
 
         private class MergeDecoupleSequence : IActionSequence {
             private const int STEP_1 = 10;
-            //private const int STEP_2 = 8; 
+            //private const int STEP_2 = 8;
             private const int STEP_2b = 9;
             private const int STEP_3 = 0;
 
@@ -484,8 +484,8 @@ namespace IngameScript {
                 switch (TicksRemaining) {
                     case STEP_1:
                         ApplyActionToBlock(_connector, ConnectorAction_Unlock);
-                        //    break; 
-                        //case STEP_2: 
+                        //    break;
+                        //case STEP_2:
                         ApplyActionToBlock(_connector, BlockAction_TurnOff);
                         break;
                     case STEP_2b:
