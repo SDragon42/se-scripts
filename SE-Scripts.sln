@@ -70,12 +70,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotRacing", "SpotRacing\Sp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockInfo", "BlockInfo\BlockInfo.csproj", "{EC26F768-D541-47A2-A84F-F0936286F379}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVC.CheckPoint", "VVC.CheckPoint\VVC.CheckPoint.csproj", "{BC92A0BD-822A-435C-9EDB-ACD7F327C808}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVC.RaceTimer", "VVC.RaceTimer\VVC.RaceTimer.csproj", "{9932323F-8939-440B-B87E-D2E2691367A0}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "VVC.Shared", "VVC.Shared\VVC.Shared.shproj", "{E43AB601-EEF6-4919-8CC5-FEAF7F30E871}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -186,14 +180,6 @@ Global
 		{EC26F768-D541-47A2-A84F-F0936286F379}.Debug|x64.Build.0 = Debug|x64
 		{EC26F768-D541-47A2-A84F-F0936286F379}.Release|x64.ActiveCfg = Release|x64
 		{EC26F768-D541-47A2-A84F-F0936286F379}.Release|x64.Build.0 = Release|x64
-		{BC92A0BD-822A-435C-9EDB-ACD7F327C808}.Debug|x64.ActiveCfg = Debug|x64
-		{BC92A0BD-822A-435C-9EDB-ACD7F327C808}.Debug|x64.Build.0 = Debug|x64
-		{BC92A0BD-822A-435C-9EDB-ACD7F327C808}.Release|x64.ActiveCfg = Release|x64
-		{BC92A0BD-822A-435C-9EDB-ACD7F327C808}.Release|x64.Build.0 = Release|x64
-		{9932323F-8939-440B-B87E-D2E2691367A0}.Debug|x64.ActiveCfg = Debug|x64
-		{9932323F-8939-440B-B87E-D2E2691367A0}.Debug|x64.Build.0 = Debug|x64
-		{9932323F-8939-440B-B87E-D2E2691367A0}.Release|x64.ActiveCfg = Release|x64
-		{9932323F-8939-440B-B87E-D2E2691367A0}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
