@@ -20,41 +20,73 @@ using VRageMath;
 
 namespace IngameScript {
     public partial class Program : MyGridProgram {
-        public Program() {
-        }
-
-        public void Save() {
-        }
-
         public void Main(string argument, UpdateType updateSource) {
-            //ShowBlockInfo("Action Relay");
-            //ShowGridNameOnConnector();
-            BroadcastMessage("Hello, World!");
+            // ShowBlockInfo("Action Relay");
+            ShowConnectedGridInfo();
+            // BroadcastMessage("Hello, World!");
         }
 
-        void ShowGridNameOnConnector() {
-           var connectors = new List<IMyShipConnector>();
-           GridTerminalSystem.GetBlocksOfType(connectors, c => c.CubeGrid == Me.CubeGrid && c.CustomName.Contains("[starting]"));
-           if (connectors.Count == 0) {
-               Echo("No connectors found with [starting] in the name.");
-               return;
-           }
-           var other = connectors[0].OtherConnector;
-           if (other == null) {
-               Echo("Nothing connected.");
-               return;
-           }
-           var gridName = other.CubeGrid.CustomName;
-           Echo($"Connected to grid: {gridName}");
+        void ShowConnectedGridInfo() {
+            var connectors = new List<IMyShipConnector>();
+            GridTerminalSystem.GetBlocksOfType(connectors, c => c.CubeGrid == Me.CubeGrid && c.CustomName.Contains("[starting]"));
+            if (connectors.Count == 0) {
+                Echo("No connectors found with [starting] in the name.");
+                return;
+            }
+
+            if (connectors[0].OtherConnector == null) {
+                Echo("Nothing connected.");
+                return;
+            }
+
+            Echo($"EntityId: {connectors[0].OtherConnector.CubeGrid.EntityId}");
+            Echo($"CustomName: {connectors[0].OtherConnector.CubeGrid.CustomName}");
+
+            var ownerId = GetGridOwnerId(connectors[0].OtherConnector.CubeGrid);
+
+            Echo($"OwnerId: {ownerId}");
         }
+
+        long GetGridOwnerId(IMyCubeGrid grid) {
+            var gridBlocks = new List<IMyTerminalBlock>();
+            GridTerminalSystem.GetBlocksOfType(gridBlocks, block => block.CubeGrid == grid);
+
+            var ownerBlockCounts = new Dictionary<long, int>();
+
+            foreach (var block in gridBlocks) {
+                var ownerId = block.OwnerId;
+                if (ownerId == 0) continue;
+                if (ownerBlockCounts.ContainsKey(ownerId)) {
+                    ownerBlockCounts[ownerId]++;
+                } else {
+                    ownerBlockCounts.Add(ownerId, 1);
+                }
+            }
+
+            var gridOwnerId = -1L;
+            var maxBlocks = 0;
+
+            Echo($"Found {ownerBlockCounts.Count} owners in the grid.");
+
+            foreach (var entry in ownerBlockCounts) {
+                Echo($"OwnerId: {entry.Key}, BlockCount: {entry.Value}");
+                if (entry.Value > maxBlocks) {
+                    maxBlocks = entry.Value;
+                    gridOwnerId = entry.Key;
+                }
+            }
+
+            return gridOwnerId;
+        }
+
 
         void ShowBlockInfo() {
-           var textBlocks = new List<IMyTextPanel>();
-           GridTerminalSystem.GetBlocksOfType(textBlocks, b => b.CubeGrid == Me.CubeGrid);
-           foreach (var b in textBlocks) {
-               b.ContentType = ContentType.TEXT_AND_IMAGE;
-               var d = b as IMyTextSurface;
-               var lines = new string[] {
+            var textBlocks = new List<IMyTextPanel>();
+            GridTerminalSystem.GetBlocksOfType(textBlocks, b => b.CubeGrid == Me.CubeGrid);
+            foreach (var b in textBlocks) {
+                b.ContentType = ContentType.TEXT_AND_IMAGE;
+                var d = b as IMyTextSurface;
+                var lines = new string[] {
                    d.SurfaceSize.ToString(),
                    // b.BlockDefinition.SubtypeId,
                    // b.BlockDefinition.SubtypeIdAttribute,
@@ -62,19 +94,19 @@ namespace IngameScript {
                    // b.BlockDefinition.TypeIdString,
                    // b.BlockDefinition.TypeIdStringAttribute,
                };
-               b.WriteText(string.Join("\n\n", lines));
-           }
+                b.WriteText(string.Join("\n\n", lines));
+            }
         }
 
         void ShowBlockInfo(string blockName) {
-           var block = GridTerminalSystem.GetBlockWithName(blockName);
-           if (block == null) {
-               Echo($"Block '{blockName}' not found.");
-               return;
-           }
+            var block = GridTerminalSystem.GetBlockWithName(blockName);
+            if (block == null) {
+                Echo($"Block '{blockName}' not found.");
+                return;
+            }
 
-           Echo($"Block '{blockName}' found");
-           Echo(block.ToString());
+            Echo($"Block '{blockName}' found");
+            Echo(block.ToString());
         }
 
         void BroadcastMessage(string message) {
