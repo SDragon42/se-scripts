@@ -47,7 +47,7 @@ namespace IngameScript {
                     _count++;
                     thisObj.Echo($"Profiler:Add - {_maxExecutions - _count}");
                     _logTime.Add(thisObj.Runtime.LastRunTimeMs);
-                    _logCost.Add(CalcInstuctionCostPercentage(thisObj));
+                    _logCost.Add(CalcInstructionCostPercentage(thisObj));
                 } else {
                     thisObj.Echo("Profiler:Display");
                     if (_results.Length == 0) {
@@ -65,7 +65,7 @@ namespace IngameScript {
                 DisplayResults(thisObj, string.Empty);
             }
 
-            static void RemoveExtreams<T>(IList<T> log) {
+            static void RemoveExtremes<T>(IList<T> log) {
                 var min = log.Min();
                 var max = log.Max();
                 log.Remove(min);
@@ -73,9 +73,9 @@ namespace IngameScript {
             }
 
             string BuildResults() {
-                RemoveExtreams(_logTime);
+                RemoveExtremes(_logTime);
                 _avgExecutionTime = _logTime.Average();
-                RemoveExtreams(_logCost);
+                RemoveExtremes(_logCost);
                 _avgExecutionCost = _logCost.Average();
 
                 var sb = new StringBuilder();
@@ -93,7 +93,7 @@ namespace IngameScript {
                 });
                 if (_displays.Count == 0) return;
                 foreach (var screen in _displays) {
-                    screen.ContentType = VRage.Game.GUI.TextPanel.ContentType.TEXT_AND_IMAGE;
+                    screen.ContentType = ContentType.TEXT_AND_IMAGE;
                     screen.WriteText(results);
                 }
             }
@@ -109,13 +109,13 @@ namespace IngameScript {
             /// https://forums.keenswh.com/threads/how-to-measure-the-performance-impact-of-certain-changes-to-ones-code.7395259/#post-1287057132
             /// </remarks>
             public static float ShowExecutionCost(MyGridProgram thisObj) {
-                var percentage = CalcInstuctionCostPercentage(thisObj);
+                var percentage = CalcInstructionCostPercentage(thisObj);
                 thisObj.Echo($"Instructions: {percentage:N2} %");
                 return percentage;
             }
-            private static float CalcInstuctionCostPercentage(MyGridProgram thisObj) {
-                var fper = thisObj.Runtime.CurrentInstructionCount / (float)thisObj.Runtime.MaxInstructionCount;
-                var percentage = fper * 100;
+            private static float CalcInstructionCostPercentage(MyGridProgram thisObj) {
+                var fPercentage = thisObj.Runtime.CurrentInstructionCount / (float)thisObj.Runtime.MaxInstructionCount;
+                var percentage = fPercentage * 100;
                 return percentage;
             }
 

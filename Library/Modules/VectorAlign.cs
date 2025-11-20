@@ -28,10 +28,10 @@ namespace IngameScript {
         class VectorAlign {
 
             const float MinimumAngleRadians = 0.01f; // How tight to maintain aim. Smaller is tighter.
-            readonly double ctrlCoeff;
+            readonly double _ctrlCoefficient;
 
-            public VectorAlign(double controlCoeff = 0.8) {
-                ctrlCoeff = controlCoeff;
+            public VectorAlign(double controlCoefficient = 0.8) {
+                _ctrlCoefficient = controlCoefficient;
             }
 
             public bool AlignWithGravity(IMyShipController sc, Base6Directions.Direction dir, IList<IMyGyro> gyroList, bool keepOverrideOn = false) {
@@ -56,7 +56,7 @@ namespace IngameScript {
                 for (var i = 0; i < gyroList.Count; ++i) {
                     var rotationVec = GetRotationVector(gyroList[i], currentVec, targetVec);
 
-                    aligned &= (rotationVec == Vector3D.Zero);
+                    aligned &= rotationVec == Vector3D.Zero;
                     SetGyro(gyroList[i],
                         (float)rotationVec.GetDim(0),
                         -(float)rotationVec.GetDim(1),
@@ -84,7 +84,7 @@ namespace IngameScript {
                 if (ang < MinimumAngleRadians) return Vector3D.Zero; // close enough 
 
                 var yawMax = g.GetMaximum<float>("Yaw");
-                var ctrl_vel = yawMax * (ang / Math.PI) * ctrlCoeff;
+                var ctrl_vel = yawMax * (ang / Math.PI) * _ctrlCoefficient;
                 ctrl_vel = Math.Min(yawMax, ctrl_vel);
                 ctrl_vel = Math.Max(0.01, ctrl_vel);
 

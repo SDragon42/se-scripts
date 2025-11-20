@@ -33,9 +33,7 @@ namespace IngameScript {
             public const string XBox_DPad = "\uE00F";
             public const string XBox_RB = "\uE006"; // Wider Color Constants
 
-            public static char ColorChar(int r, int g, int b) {
-                return (char)(0xE100 + (MathHelper.Clamp(r, 0, 7) << 6) + (MathHelper.Clamp(g, 0, 7) << 3) + MathHelper.Clamp(b, 0, 7));
-            }
+            public static char ColorChar(int r, int g, int b) => (char)(0xE100 + (MathHelper.Clamp(r, 0, 7) << 6) + (MathHelper.Clamp(g, 0, 7) << 3) + MathHelper.Clamp(b, 0, 7));
         }
     }
 }

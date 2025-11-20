@@ -40,7 +40,7 @@ namespace IngameScript {
         const string ExcludeTag = "[Excluded]";
         const string AirtightHangerDoorName = "Airtight Hangar Door";
 
-        const int MaxNumCyclesBeforeLockingConnetors = 3;
+        const int MaxNumCyclesBeforeLockingConnectors = 3;
 
         // Airlock Doors
         const string AirlockDoor_Interior = "interior";
@@ -173,7 +173,7 @@ namespace IngameScript {
         }
 
         private void SetShipIdOnBlocks(IList<IMyTerminalBlock> blocks) {
-            var newShipId = GetShipIdFromArugments();
+            var newShipId = GetShipIdFromArguments();
 
             for (var i = 0; i < blocks.Count; i++) {
                 var id = GetShipIdFromBlock(blocks[i]);
@@ -239,7 +239,7 @@ namespace IngameScript {
                         _unlockedConnectors.TryGetValue(connector, out connectorCount);
                         _unlockedConnectors.Remove(connector);
 
-                        if (connectorCount++ < MaxNumCyclesBeforeLockingConnetors)
+                        if (connectorCount++ < MaxNumCyclesBeforeLockingConnectors)
                             _unlockedConnectors.Add(connector, connectorCount);
                         else
                             connector.GetActionWithName(ConnectorAction_Lock).Apply(connector);
@@ -286,7 +286,7 @@ namespace IngameScript {
                 var tank = (IMyGasTank)oxygenTanks[i];
                 value += tank.FilledRatio;
             }
-            return (value / oxygenTanks.Count);
+            return value / oxygenTanks.Count;
         }
 
 
@@ -339,7 +339,7 @@ namespace IngameScript {
 
             return block.CustomName.Substring(0, idxSuffix + 1);
         }
-        private string GetShipIdFromArugments() {
+        private string GetShipIdFromArguments() {
             var value = _commandData;
             if (string.IsNullOrWhiteSpace(value))
                 value = ShipID_NoValue;
@@ -347,29 +347,25 @@ namespace IngameScript {
             return ShipID_Prefix + value.Trim() + ShipID_Suffix;
         }
 
-        private bool IsBlockOnThisShip(IMyTerminalBlock block) {
-            return (block.CustomName.StartsWith(_currentShipID));
-        }
-        private bool IsDoor(IMyTerminalBlock block) {
-            return (block is IMyDoor);
-        }
+        private bool IsBlockOnThisShip(IMyTerminalBlock block) => block.CustomName.StartsWith(_currentShipID);
+        private bool IsDoor(IMyTerminalBlock block) => block is IMyDoor;
         private bool IsAirlockDoorOnThisShip(IMyTerminalBlock block) {
-            var flag = (block is IMyDoor);
+            var flag = block is IMyDoor;
             flag &= IsBlockOnThisShip(block);
             return flag;
         }
         private bool IsAirlockVentOnThisShip(IMyTerminalBlock block) {
-            var flag = (block is IMyAirVent);
+            var flag = block is IMyAirVent;
             flag &= IsBlockOnThisShip(block);
             return flag;
         }
         private bool IsMergeBlockOnThisShip(IMyTerminalBlock block) {
-            var flag = (block is IMyShipMergeBlock);
+            var flag = block is IMyShipMergeBlock;
             flag &= IsBlockOnThisShip(block);
             return flag;
         }
         private bool IsConnectorOnThisShip(IMyTerminalBlock block) {
-            var flag = (block is IMyShipConnector);
+            var flag = block is IMyShipConnector;
             flag &= IsBlockOnThisShip(block);
             return flag;
         }

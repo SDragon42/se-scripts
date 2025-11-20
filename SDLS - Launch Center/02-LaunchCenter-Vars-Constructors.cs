@@ -64,7 +64,7 @@ namespace IngameScript {
 
         void ProcessArguments(string argument) {
             if (argument.Length == 0) return;
-            Log.AppendLine($"{DateTime.Now.ToShortTimeString()} - {argument}");
+            Log.AppendLine($"{DateTime.Now:t} - {argument}");
             switch (argument?.ToLower()) {
                 case CMD_CONNECT_BOOMS:
                     Operations.Add("boom", ConnectBoom2("launch-pad", 0.5F));

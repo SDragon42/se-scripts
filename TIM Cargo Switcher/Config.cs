@@ -43,7 +43,7 @@ namespace IngameScript {
 
             ConfigApplied.TimTag = Ini.Get(KEY_TimTag).ToString();
 
-            Debug = (Ini.Get(KEY_ShowDebug).ToBoolean())
+            Debug = Ini.Get(KEY_ShowDebug).ToBoolean()
                 ? Echo
                 : (text) => { };
             ConfigStorage.Debug = Debug;

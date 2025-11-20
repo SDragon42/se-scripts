@@ -39,8 +39,8 @@ namespace IngameScript {
             public static int GetInventoryMultiplier(List<IMyCargoContainer> blockList) {
                 if (blockList == null) return 0;
                 foreach (var b in blockList) {
-                    var mult = GetInventoryMultiplier(b);
-                    if (mult > 0) return mult;
+                    var multi = GetInventoryMultiplier(b);
+                    if (multi > 0) return multi;
                 }
                 return 0;
             }
@@ -86,19 +86,19 @@ namespace IngameScript {
             /// </summary>
             /// <param name="inv"></param>
             /// <returns></returns>
-            public static long GetInventoryMaxVolume(IMyInventory inv) { return inv?.MaxVolume.RawValue ?? 0; }
+            public static long GetInventoryMaxVolume(IMyInventory inv) => inv?.MaxVolume.RawValue ?? 0;
             /// <summary>
             /// Gets the currently used volume of the inventory in the block.
             /// </summary>
             /// <param name="inv"></param>
             /// <returns></returns>
-            public static long GetInventoryCurrentVolume(IMyInventory inv) { return inv?.CurrentVolume.RawValue ?? 0; }
+            public static long GetInventoryCurrentVolume(IMyInventory inv) => inv?.CurrentVolume.RawValue ?? 0;
             /// <summary>
             /// Gets the currently used mass of the inventory in the block.
             /// </summary>
             /// <param name="inv"></param>
             /// <returns></returns>
-            public static long GetInventoryCurrentMass(IMyInventory inv) { return inv?.CurrentMass.RawValue ?? 0; }
+            public static long GetInventoryCurrentMass(IMyInventory inv) => inv?.CurrentMass.RawValue ?? 0;
 
         }
     }

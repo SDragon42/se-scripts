@@ -24,7 +24,7 @@ namespace IngameScript {
         // config vars
         int _configHashCode = 0;
         const string SEC_TorpedoGuidanceTags = "Torpedo Guidance Tags";
-        readonly MyIniKey Key_ReferanceBlock = new MyIniKey(SEC_TorpedoGuidanceTags, "Reference Block Tag");
+        readonly MyIniKey Key_ReferenceBlock = new MyIniKey(SEC_TorpedoGuidanceTags, "Reference Block Tag");
         readonly MyIniKey Key_GuidanceTag = new MyIniKey(SEC_TorpedoGuidanceTags, "Guidance Tag");
         readonly MyIniKey Key_BeaconTag = new MyIniKey(SEC_TorpedoGuidanceTags, "Beacon Tag");
         readonly MyIniKey Key_PowerCellTag = new MyIniKey(SEC_TorpedoGuidanceTags, "Battery Tag");
@@ -41,7 +41,7 @@ namespace IngameScript {
             var ini = new MyIni();
 
             // Create Default Config
-            referenceTag = ini.Add(Key_ReferanceBlock, referenceTag).ToString().ToLower();
+            referenceTag = ini.Add(Key_ReferenceBlock, referenceTag).ToString().ToLower();
             torpedoPrimaryTag = ini.Add(Key_GuidanceTag, torpedoPrimaryTag).ToString().ToLower();
             torpedoBeaconTag = ini.Add(Key_BeaconTag, torpedoBeaconTag).ToString().ToLower();
             torpedoPowerCellTag = ini.Add(Key_PowerCellTag, torpedoPowerCellTag).ToString().ToLower();

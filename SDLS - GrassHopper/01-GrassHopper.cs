@@ -86,11 +86,11 @@ namespace IngameScript {
 
         void ProcessArguments(string argument) {
             if (argument.Length == 0) return;
-            Log.AppendLine($"{DateTime.Now.ToShortTimeString()} - {argument}");
+            Log.AppendLine($"{DateTime.Now:t} - {argument}");
             switch (argument?.ToLower()) {
                 case "go":
                     if (SequenceVectorAlign.HasTasks) break;
-                    SequenceVectorAlign.Add(Sequence_GravAlignOn());
+                    SequenceVectorAlign.Add(Sequence_GravityAlignOn());
 
                     startPos = shipController.GetPosition();
                     addSequenceRange(SequenceGrassHop,
@@ -114,7 +114,7 @@ namespace IngameScript {
                     SequenceGrassHop.Clear();
                     SequenceGrassHop.Add(FlightTest_Abort());
                     SequenceVectorAlign.Clear();
-                    SequenceVectorAlign.Add(Sequence_GravAlignOff());
+                    SequenceVectorAlign.Add(Sequence_GravityAlignOff());
                     break;
 
                 case "fly":
@@ -122,7 +122,7 @@ namespace IngameScript {
                     SequenceGrassHop.Add(FlightTest_Manual());
 
                     SequenceVectorAlign.Clear();
-                    SequenceVectorAlign.Add(Sequence_GravAlignOff());
+                    SequenceVectorAlign.Add(Sequence_GravityAlignOff());
                     break;
             }
         }
@@ -136,15 +136,15 @@ namespace IngameScript {
 
 
 
-        double getGravityForceN(IMyShipController sc) {
+        double GetGravityForceN(IMyShipController sc) {
             var gVector = sc.GetNaturalGravity();
             var gMs = Math.Sqrt(
                 Math.Pow(gVector.X, 2) +
                 Math.Pow(gVector.Y, 2) +
                 Math.Pow(gVector.Z, 2));
             var mass = sc.CalculateShipMass().PhysicalMass;
-            var gravForce = mass * gMs;
-            return gravForce;
+            var gravityForce = mass * gMs;
+            return gravityForce;
         }
 
         void Thruster_Off_NoThrust(IMyThrust t) {
@@ -201,8 +201,8 @@ namespace IngameScript {
         double powerDescentDistance = 500;
 
         //  Flight calculations
-        Vector3D _gravVec;
-        double _gravMS2;
+        Vector3D _gravityVector;
+        double _gravityMs2;
         bool _inNaturalGravity;
         double _actualMass;
         //double _cargoMass;
@@ -212,16 +212,16 @@ namespace IngameScript {
         //double _h2TankFilledPercent;
 
         void Calculations() {
-            _gravVec = shipController.GetNaturalGravity();
-            _inNaturalGravity = !Vector3D.IsZero(_gravVec);
-            _gravMS2 = Math.Sqrt(
-                Math.Pow(_gravVec.X, 2) +
-                Math.Pow(_gravVec.Y, 2) +
-                Math.Pow(_gravVec.Z, 2));
+            _gravityVector = shipController.GetNaturalGravity();
+            _inNaturalGravity = !Vector3D.IsZero(_gravityVector);
+            _gravityMs2 = Math.Sqrt(
+                Math.Pow(_gravityVector.X, 2) +
+                Math.Pow(_gravityVector.Y, 2) +
+                Math.Pow(_gravityVector.Z, 2));
 
             var shipMass = shipController.CalculateShipMass();
             _actualMass = shipMass.BaseMass + ((shipMass.TotalMass - shipMass.BaseMass) / 1);
-            _gravityForceOnShip = _actualMass * _gravMS2;
+            _gravityForceOnShip = _actualMass * _gravityMs2;
 
 
         }

@@ -61,19 +61,19 @@ namespace IngameScript {
         }
 
         void InitStructure() {
-            if (IsStructureInited) return;
+            if (IsStructureInitialized) return;
             Structure = GetRocketStructure(Me);
             StructureTag = GetRocketStructureTag(Structure);
-            IsStructureInited = true;
+            IsStructureInitialized = true;
         }
         private void InitRocketType() {
             LoadInAllProgramBlocks(TmpBlocks);
             RocketType = RocketStructure.Unknown;
             TmpBlocks.ForEach(b => RocketType |= GetRocketStructure(b));
 
-            collecter = (b) => Me.IsSameConstructAs(b) && Collect.IsTagged(b, StructureTag);
+            collector = (b) => Me.IsSameConstructAs(b) && Collect.IsTagged(b, StructureTag);
             if (Structure == RocketStructure.Pod && RocketType != RocketStructure.Pod)
-                collecter = Me.IsSameConstructAs;
+                collector = Me.IsSameConstructAs;
         }
 
         RocketStructure GetRocketStructure(IMyTerminalBlock b) {
@@ -104,7 +104,7 @@ namespace IngameScript {
             if (gridName == Me.CubeGrid.CustomName) return;
             Debug("GridName=" + gridName);
             Me.CubeGrid.CustomName = gridName;
-            IsStructureInited = false;
+            IsStructureInitialized = false;
             Antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(b => Collect.IsTagged(b, StructureTag));
             if (Antenna != null)
                 Antenna.HudText = gridName;
@@ -126,7 +126,7 @@ namespace IngameScript {
         void Command_Init() {
             Debug("CMD_Init");
             if (Mode != FlightMode.Off) return;
-            IsStructureInited = false;
+            IsStructureInitialized = false;
             InitStructure();
             SetStageMass();
         }

@@ -34,7 +34,7 @@ namespace IngameScript {
             Flag_SaveConfig = false;
             LoadConfig();
 
-            var reloadBlocks = (TimeLastBlockLoad >= BLOCK_RELOAD_TIME);
+            var reloadBlocks = TimeLastBlockLoad >= BLOCK_RELOAD_TIME;
             DockSecureModule.Init(this, reloadBlocks);
 
             if (reloadBlocks) {

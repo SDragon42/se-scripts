@@ -29,14 +29,14 @@ namespace IngameScript {
             } while (time < milliseconds);
         }
 
-        IEnumerator<bool> Sequence_LaunchGravAlign() {
+        IEnumerator<bool> Sequence_LaunchGravityAlign() {
             while (true) {
                 VecAlign.AlignWithGravity(Remote, Base6Directions.Direction.Backward, Gyros, true);
                 yield return true;
             }
         }
 
-        IEnumerator<bool> Sequence_LandGravAlign() {
+        IEnumerator<bool> Sequence_LandGravityAlign() {
             while (true) {
                 VecAlign.AlignWithGravity(Remote, Base6Directions.Direction.Down, Gyros);
                 yield return true;

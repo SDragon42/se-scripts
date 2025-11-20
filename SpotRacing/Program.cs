@@ -55,10 +55,10 @@ namespace IngameScript {
         The GPS coordinates are from the Space Engineers GPS system. The one addition is the number at the end of
         the line (45.0).  This is the radius out from the GPS point that a ship must pass through. In this case, it is a
         sphere of 90 meters across.
-        Multiple points can be defined for "check points" that must be crossed. Each point must be seperated with
+        Multiple points can be defined for "check points" that must be crossed. Each point must be separated with
         a "\n". The first point must be the start/finish point.
         */
-        const string CheckpontText = "GPS:Finish Line:42255.29:2960.54:-43144.8:45.0";
+        const string CheckpointText = "GPS:Finish Line:42255.29:2960.54:-43144.8:45.0";
 
         //
 
@@ -86,7 +86,7 @@ namespace IngameScript {
             // Calc
             var range2cp = (nextCheckpoint.Position - currPos).Length();
 
-            var inRange = (range2cp < nextCheckpoint.RangeRadius);
+            var inRange = range2cp < nextCheckpoint.RangeRadius;
             if (inRange && !_finishedRace) {
                 if (!_passedCP && range2cp > _prevDist2Checkpoint) {
                     _passedCP = true;
@@ -261,7 +261,7 @@ namespace IngameScript {
             // Load Checkpoints from Lap Display Panel
             _checkPoints.Clear();
             // if (_lapPanel != null) {
-                var tmpPoints = CheckpontText.Split(new char[] { '\n' });
+                var tmpPoints = CheckpointText.Split(new char[] { '\n' });
                 for (var i = 0; i < tmpPoints.Length; i++)
                     _checkPoints.Add(new CheckpointPosition(tmpPoints[i].Trim()));
             // }
@@ -471,11 +471,11 @@ namespace IngameScript {
 
         void DrawOrientationIndicator() {
             if (!inGravity) {
-                for (int j = 1; j <= gridSize; j++) {
+                for (var j = 1; j <= gridSize; j++) {
                     AddToGrid(new Vector2I(midpoint, j), spaceOrientationColor); //draws a horizontal line
                 }
 
-                for (int j = 1; j <= gridSize; j++) {
+                for (var j = 1; j <= gridSize; j++) {
                     AddToGrid(new Vector2I(j, midpoint), spaceOrientationColor); //draws a vertical line
                 }
             } else //draws a nose orientation indicator that looks like  --- W ---
@@ -488,11 +488,11 @@ namespace IngameScript {
                 AddToGrid(new Vector2I(midpoint - 1, midpoint - 3), planetaryOrientationColor);
                 AddToGrid(new Vector2I(midpoint - 1, midpoint + 3), planetaryOrientationColor);
 
-                for (int j = midpoint - planeSymbolWidth; j < midpoint - 4; j++) {
+                for (var j = midpoint - planeSymbolWidth; j < midpoint - 4; j++) {
                     AddToGrid(new Vector2I(midpoint, j), planetaryOrientationColor);
                 }
 
-                for (int j = midpoint + 5; j <= midpoint + planeSymbolWidth; j++) {
+                for (var j = midpoint + 5; j <= midpoint + planeSymbolWidth; j++) {
                     AddToGrid(new Vector2I(midpoint, j), planetaryOrientationColor);
                 }
             }
@@ -500,11 +500,11 @@ namespace IngameScript {
 
         void GetRollPitchAndHeading() {
             /// Get Needed Vectors ///
-            Vector3D shipForwardVec = _sc.WorldMatrix.Forward;
-            Vector3D shipLeftVec = _sc.WorldMatrix.Left;
-            Vector3D shipDownVec = _sc.WorldMatrix.Down;
-            Vector3D gravityVec = _sc.GetNaturalGravity();
-            Vector3D planetRelativeLeftVec = shipForwardVec.Cross(gravityVec);
+            var shipForwardVec = _sc.WorldMatrix.Forward;
+            var shipLeftVec = _sc.WorldMatrix.Left;
+            var shipDownVec = _sc.WorldMatrix.Down;
+            var gravityVec = _sc.GetNaturalGravity();
+            var planetRelativeLeftVec = shipForwardVec.Cross(gravityVec);
 
             if (gravityVec.Length().ToString() == "NaN" || gravityVec.Length() == 0) {
                 inGravity = false;
@@ -529,7 +529,7 @@ namespace IngameScript {
             rollAngle *= VectorCompareDirection(VectorProjection(shipLeftVec, gravityVec), gravityVec); //ccw is positive
 
             if (rollAngle > 90 || rollAngle < -90) {
-                rollAngle = 180 - rollAngle; //accounts for upsidedown
+                rollAngle = 180 - rollAngle; //accounts for upside down
             }
 
             pitchAngle = VectorAngleBetween(shipForwardVec, gravityVec); //angle from nose direction to gravity
@@ -539,15 +539,15 @@ namespace IngameScript {
 
             /// Compute Bearing ///
             //get east vector
-            Vector3D relativeEastVec = gravityVec.Cross(absoluteNorthVec);
+            var relativeEastVec = gravityVec.Cross(absoluteNorthVec);
 
             //get relative north vector
-            Vector3D relativeNorthVec = relativeEastVec.Cross(gravityVec);
+            var relativeNorthVec = relativeEastVec.Cross(gravityVec);
 
             //project forward vector onto a plane comprised of the north and east vectors
-            Vector3D forwardProjNorthVec = VectorProjection(shipForwardVec, relativeNorthVec);
-            Vector3D forwardProjEastVec = VectorProjection(shipForwardVec, relativeEastVec);
-            Vector3D forwardProjPlaneVec = forwardProjEastVec + forwardProjNorthVec;
+            var forwardProjNorthVec = VectorProjection(shipForwardVec, relativeNorthVec);
+            var forwardProjEastVec = VectorProjection(shipForwardVec, relativeEastVec);
+            var forwardProjPlaneVec = forwardProjEastVec + forwardProjNorthVec;
 
             //find angle from abs north to projected forward vector measured clockwise
             bearingAngle = Math.Acos(forwardProjPlaneVec.Dot(relativeNorthVec) / forwardProjPlaneVec.Length() / relativeNorthVec.Length()) * rad2deg;
@@ -557,8 +557,8 @@ namespace IngameScript {
         }
 
         void GetHorizonLine() {
-            int horizontalOffset = (int)Math.Round(pitchAngle / pitchIncrement * Math.Sin(rollAngle * deg2rad)); //offset of every point in the horizontal direction
-            int verticalOffset = (int)Math.Round(pitchAngle / pitchIncrement * Math.Cos(rollAngle * deg2rad)); //offset of every point in the vertical direction
+            var horizontalOffset = (int)Math.Round(pitchAngle / pitchIncrement * Math.Sin(rollAngle * deg2rad)); //offset of every point in the horizontal direction
+            var verticalOffset = (int)Math.Round(pitchAngle / pitchIncrement * Math.Cos(rollAngle * deg2rad)); //offset of every point in the vertical direction
 
             double constant = 1;
             if (isUpsideDown) {
@@ -567,11 +567,11 @@ namespace IngameScript {
 
             }
 
-            int adjustedMidpoint = midpoint - horizontalOffset; //offsets our midpoint horizontally due to pitch and roll
+            var adjustedMidpoint = midpoint - horizontalOffset; //offsets our midpoint horizontally due to pitch and roll
 
-            for (int i = 1; i <= gridSize; i++) //rows
+            for (var i = 1; i <= gridSize; i++) //rows
             {
-                int thisHeight = 0;
+                var thisHeight = 0;
 
                 if (i < midpoint) {
                     thisHeight = adjustedMidpoint - (int)Math.Round((adjustedMidpoint - i) * Math.Tan(constant * rollAngle * deg2rad));
@@ -583,12 +583,14 @@ namespace IngameScript {
 
                 AddToGrid(new Vector2I(thisHeight, i), horizonLineColor);
 
-                string aboveColor = aboveHorizonColor; string belowColor = belowHorizonColor;
+                var aboveColor = aboveHorizonColor;
+                var belowColor = belowHorizonColor;
                 if (isUpsideDown) {
-                    aboveColor = belowHorizonColor; belowColor = aboveHorizonColor;
+                    aboveColor = belowHorizonColor;
+                    belowColor = aboveHorizonColor;
                 }
-
-                for (int j = 1; j <= gridSize; j++) {
+    
+                for (var j = 1; j <= gridSize; j++) {
                     if (j < thisHeight) {
                         AddToGrid(new Vector2I(j, i), aboveColor);
                     } else if (j > thisHeight) {
@@ -600,7 +602,7 @@ namespace IngameScript {
 
         void AddToGrid(Vector2I place, string color) {
             string value;
-            bool exists = characterGrid.TryGetValue(place, out value);
+            var exists = characterGrid.TryGetValue(place, out value);
             if (exists) {
                 return;
             } else {
@@ -618,14 +620,14 @@ namespace IngameScript {
 
             // Draw Horizon
             grid.Append("     "); //5 spaces to center
-            for (int row = 1; row <= gridSize; row++) {
-                for (int column = 1; column <= gridSize; column++) {
-                    string character = backgroundColor;
+            for (var row = 1; row <= gridSize; row++) {
+                for (var column = 1; column <= gridSize; column++) {
+                    var character = backgroundColor;
 
-                    Vector2I thisGridPosition = new Vector2I(row, column);
+                    var thisGridPosition = new Vector2I(row, column);
 
-                    string thisCharacter;
-                    bool containsPosition = characterGrid.TryGetValue(thisGridPosition, out thisCharacter);
+                    var thisCharacter = "";
+                    var containsPosition = characterGrid.TryGetValue(thisGridPosition, out thisCharacter);
                     if (containsPosition) {
                         character = thisCharacter;
                     }
@@ -648,7 +650,9 @@ namespace IngameScript {
         string GetNumberPlacesString(double vel, double head) //gets a graphical string from velocity and heading
         {
             //Velocity Splitting
-            double velHundreds = 0; double velTens = 0; double velOnes = 0;
+            var velHundreds = 0.0; 
+            var velTens = 0.0;
+            var velOnes = 0.0;
             vel = Math.Round(vel);
             if (vel >= 100) {
                 velHundreds = Math.Floor(vel / 100);
@@ -656,7 +660,7 @@ namespace IngameScript {
                 velHundreds = 0;
             }
 
-            vel = vel - velHundreds * 100;
+            vel -= velHundreds * 100;
             if (vel >= 10) {
                 velTens = Math.Floor(vel / 10);
             } else {
@@ -666,7 +670,9 @@ namespace IngameScript {
             velOnes = vel - velTens * 10;
 
             //Heading Splitting
-            double headHundreds = 0; double headTens = 0; double headOnes = 0;
+            var headHundreds = 0.0;
+            var headTens = 0.0;
+            var headOnes = 0.0;
             head = Math.Round(head);
             if (head >= 100) {
                 headHundreds = Math.Floor(head / 100);
@@ -674,7 +680,7 @@ namespace IngameScript {
                 headHundreds = 0;
             }
 
-            head = head - headHundreds * 100;
+            head -= headHundreds * 100;
             if (head >= 10) {
                 headTens = Math.Floor(head / 10);
             } else {
@@ -690,54 +696,19 @@ namespace IngameScript {
 
         string GetStringFromNumber(double num) //gets graphical representation from a double
         {
-            string numString = "";
-
             switch (num.ToString()) {
-                case "0":
-                    numString = numZero;
-                    break;
-
-                case "1":
-                    numString = numOne;
-                    break;
-
-                case "2":
-                    numString = numTwo;
-                    break;
-
-                case "3":
-                    numString = numThree;
-                    break;
-
-                case "4":
-                    numString = numFour;
-                    break;
-
-                case "5":
-                    numString = numFive;
-                    break;
-
-                case "6":
-                    numString = numSix;
-                    break;
-
-                case "7":
-                    numString = numSeven;
-                    break;
-
-                case "8":
-                    numString = numEight;
-                    break;
-
-                case "9":
-                    numString = numNine;
-                    break;
-
-                default:
-                    numString = numZero;
-                    break;
+                case "0": return numZero;
+                case "1": return numOne;
+                case "2": return numTwo;
+                case "3": return numThree;
+                case "4": return numFour;
+                case "5": return numFive;
+                case "6": return numSix;
+                case "7": return numSeven;
+                case "8": return numEight;
+                case "9": return numNine;
+                default: return numZero;
             }
-            return numString;
         }
 
         string CombineStringsByLine(string inputString) //messy way of combining our characters line by line
@@ -745,7 +716,7 @@ namespace IngameScript {
             var stringLines = inputString.Split('\n');
             var outputString = new StringBuilder();
             if (enableSpeedDisplay || enableHeadingDisplay) {
-                for (int i = 0; i < 5; i++) {
+                for (var i = 0; i < 5; i++) {
                     if (enableSpeedDisplay)
                         outputString.Append("  " + stringLines[i] + backgroundColor + stringLines[i + 5] + backgroundColor + stringLines[i + 10] + backgroundColor + stringLines[i + 15]);
                     if (enableSpeedDisplay && enableHeadingDisplay)
@@ -760,11 +731,10 @@ namespace IngameScript {
 
         int VectorCompareDirection(Vector3D a, Vector3D b) //returns -1 if vectors return negative dot product
         {
-            double check = a.Dot(b);
-            if (check < 0)
-                return -1;
-            else
-                return 1;
+            var check = a.Dot(b);
+            return (check < 0)
+                ? -1
+                : 1;
         }
 
         double VectorAngleBetween(Vector3D a, Vector3D b) //returns degrees
@@ -774,17 +744,14 @@ namespace IngameScript {
 
         Vector3D VectorProjection(Vector3D a, Vector3D b) //projects a onto b
         {
-            Vector3D projection = a.Dot(b) / b.Length() / b.Length() * b;
+            var projection = a.Dot(b) / b.Length() / b.Length() * b;
             return projection;
         }
 
         bool VectorIsSameDirection(Vector3D a, Vector3D b) //returns true if vectors produce positive dot product
         {
-            double check = a.Dot(b);
-            if (check < 0)
-                return false;
-            else
-                return true;
+            var check = a.Dot(b);
+            return check >= 0;
         }
 
         //Whip's Running Symbol Method v3
