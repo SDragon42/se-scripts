@@ -25,7 +25,7 @@ namespace IngameScript {
             Debug($"SEQ_Delay: {milliseconds}");
             var time = 0.0;
             do {
-                yield return (time < milliseconds);
+                yield return time < milliseconds;
                 time += Runtime.TimeSinceLastRun.TotalMilliseconds;
             } while (time < milliseconds);
         }

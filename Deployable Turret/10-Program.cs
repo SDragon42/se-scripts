@@ -20,6 +20,47 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
+        const double BLOCK_RELOAD_TIME = 10.0;
+        const long INV_ITEM_COUNT_MODIFIER = 1000000L;
+
+        const string ListenerTagName = "DeployableTurret";
+        const string IGC_Update = "IGC_Update";
+
+        // Modules
+
+        //Blocks
+        IMyLargeTurretBase turret;
+        IMyBatteryBlock battery;
+        IMyRadioAntenna antenna;
+        readonly List<IMyParachute> parachutes = new List<IMyParachute>();
+        readonly List<IMyDecoy> decoys = new List<IMyDecoy>();
+        readonly List<IMyLandingGear> landingGears = new List<IMyLandingGear>();
+        readonly List<IMyInteriorLight> parachuteLights = new List<IMyInteriorLight>();
+        readonly List<IMyInteriorLight> disarmedLights = new List<IMyInteriorLight>();
+
+        readonly List<MyInventoryItem> inventoryItems = new List<MyInventoryItem>();
+
+        // Config Values
+        string CommGroupName { get; set; } = "";
+        bool StealthMode { get; set; } = false;
+        bool ShowStatusLights { get; set; } = false;
+        bool ShowStatusAntenna { get; set; } = false;
+        //bool ReportStatusCOMMs { get; set; } = false;
+
+        // Script Vars
+        double timeLastBlockLoad = BLOCK_RELOAD_TIME;
+        IMyBroadcastListener Listener;
+
+        public Program() {
+            Runtime.UpdateFrequency = UpdateFrequency.Update100;
+
+            Listener = IGC.RegisterBroadcastListener(ListenerTagName);
+            Listener.SetMessageCallback(IGC_Update);
+        }
+
+        public void Save() {
+        }
+
         public void Main(string argument, UpdateType updateSource) {
             timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
             var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);

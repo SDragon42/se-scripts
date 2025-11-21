@@ -35,13 +35,13 @@ namespace IngameScript {
                     System.Text.RegularExpressions.RegexOptions.IgnoreCase);
             }
 
-            public bool IsOtherProgramOnDuty(IMyGridTerminalSystem gts, IMyProgrammableBlock Me, Func<IMyProgrammableBlock, bool> preferedCriteria = null) {
+            public bool IsOtherProgramOnDuty(IMyGridTerminalSystem gts, IMyProgrammableBlock Me, Func<IMyProgrammableBlock, bool> preferredCriteria = null) {
                 if (tagRegex == null) return false;
                 gts.GetBlocksOfType(programBlocks, pb => (pb == Me) | tagRegex.IsMatch(pb.CustomName));
 
                 var i = programBlocks.IndexOf(Me);
                 var j = -1;
-                if (preferedCriteria != null) j = programBlocks.FindIndex(pb => pb.IsFunctional & pb.IsWorking & preferedCriteria(pb));
+                if (preferredCriteria != null) j = programBlocks.FindIndex(pb => pb.IsFunctional & pb.IsWorking & preferredCriteria(pb));
                 if (j < 0) j = programBlocks.FindIndex(pb => pb.IsFunctional & pb.IsWorking);
 
                 var blkTag = "[" + TagText + (programBlocks.Count > 1 ? " #" + (i + 1) : "") + "]";

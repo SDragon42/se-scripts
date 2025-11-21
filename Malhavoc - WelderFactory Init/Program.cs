@@ -80,7 +80,7 @@ namespace IngameScript {
             } else {
                 OperationMessage = "Moving welders to retracted position";
                 MovePistonAction = (p) => p.Retract();
-                PositionCheckFunc = IsReteacted;
+                PositionCheckFunc = IsRetracted;
             }
 
             LoadBlocks();
@@ -118,7 +118,7 @@ namespace IngameScript {
         }
 
         bool IsExtended(IMyPistonBase piston) => Math.Round(piston.CurrentPosition, 3) >= Math.Round(piston.MaxLimit, 3);
-        bool IsReteacted(IMyPistonBase piston) => Math.Round(piston.CurrentPosition, 3) <= Math.Round(piston.MinLimit, 3);
+        bool IsRetracted(IMyPistonBase piston) => Math.Round(piston.CurrentPosition, 3) <= Math.Round(piston.MinLimit, 3);
 
 
         const string SECTION_TAG = "Groups";

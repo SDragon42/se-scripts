@@ -21,7 +21,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        // Ship Commands 
+        // Ship Commands
         const string CMD_InitializeShip = "start";
         const string CMD_SetShipID = "setid";
         const string CMD_SetShipID4AllBlocks = "setid4all";
@@ -30,27 +30,27 @@ namespace IngameScript {
         const string CMD_Disconnect = "disconnect";
         const string CMD_Heartbeat = "heartbeat";
 
-        // Ship ID Constants 
+        // Ship ID Constants
         const string ShipID_Prefix = "DHI-";
         const string ShipID_Suffix = ":";
         const string ShipID_NoValue = "#";
 
-        // Door Closer Constants 
+        // Door Closer Constants
         const int MaxNumCycles2KeepDoorOpen = 3;
         const string ExcludeTag = "[Excluded]";
         const string AirtightHangerDoorName = "Airtight Hangar Door";
 
-        const int MaxNumCyclesBeforeLockingConnetors = 3;
+        const int MaxNumCyclesBeforeLockingConnectors = 3;
 
-        // Airlock Doors 
+        // Airlock Doors
         const string AirlockDoor_Interior = "interior";
         const string AirlockDoor_Exterior = "exterior";
 
-        // Oxygen Management Constants 
+        // Oxygen Management Constants
         const double MinO2FillPercentage = 0.3;
         const double MaxO2FillPercentage = 0.8;
 
-        // ############################################################ 
+        // ############################################################
 
 
         List<string> _airlockKeys = new List<string>();
@@ -173,7 +173,7 @@ namespace IngameScript {
         }
 
         private void SetShipIdOnBlocks(IList<IMyTerminalBlock> blocks) {
-            var newShipId = GetShipIdFromArugments();
+            var newShipId = GetShipIdFromArguments();
 
             for (var i = 0; i < blocks.Count; i++) {
                 var id = GetShipIdFromBlock(blocks[i]);
@@ -239,7 +239,7 @@ namespace IngameScript {
                         _unlockedConnectors.TryGetValue(connector, out connectorCount);
                         _unlockedConnectors.Remove(connector);
 
-                        if (connectorCount++ < MaxNumCyclesBeforeLockingConnetors)
+                        if (connectorCount++ < MaxNumCyclesBeforeLockingConnectors)
                             _unlockedConnectors.Add(connector, connectorCount);
                         else
                             connector.GetActionWithName(ConnectorAction_Lock).Apply(connector);
@@ -286,7 +286,7 @@ namespace IngameScript {
                 var tank = (IMyGasTank)oxygenTanks[i];
                 value += tank.FilledRatio;
             }
-            return (value / oxygenTanks.Count);
+            return value / oxygenTanks.Count;
         }
 
 
@@ -339,7 +339,7 @@ namespace IngameScript {
 
             return block.CustomName.Substring(0, idxSuffix + 1);
         }
-        private string GetShipIdFromArugments() {
+        private string GetShipIdFromArguments() {
             var value = _commandData;
             if (string.IsNullOrWhiteSpace(value))
                 value = ShipID_NoValue;
@@ -347,35 +347,31 @@ namespace IngameScript {
             return ShipID_Prefix + value.Trim() + ShipID_Suffix;
         }
 
-        private bool IsBlockOnThisShip(IMyTerminalBlock block) {
-            return (block.CustomName.StartsWith(_currentShipID));
-        }
-        private bool IsDoor(IMyTerminalBlock block) {
-            return (block is IMyDoor);
-        }
+        private bool IsBlockOnThisShip(IMyTerminalBlock block) => block.CustomName.StartsWith(_currentShipID);
+        private bool IsDoor(IMyTerminalBlock block) => block is IMyDoor;
         private bool IsAirlockDoorOnThisShip(IMyTerminalBlock block) {
-            var flag = (block is IMyDoor);
+            var flag = block is IMyDoor;
             flag &= IsBlockOnThisShip(block);
             return flag;
         }
         private bool IsAirlockVentOnThisShip(IMyTerminalBlock block) {
-            var flag = (block is IMyAirVent);
+            var flag = block is IMyAirVent;
             flag &= IsBlockOnThisShip(block);
             return flag;
         }
         private bool IsMergeBlockOnThisShip(IMyTerminalBlock block) {
-            var flag = (block is IMyShipMergeBlock);
+            var flag = block is IMyShipMergeBlock;
             flag &= IsBlockOnThisShip(block);
             return flag;
         }
         private bool IsConnectorOnThisShip(IMyTerminalBlock block) {
-            var flag = (block is IMyShipConnector);
+            var flag = block is IMyShipConnector;
             flag &= IsBlockOnThisShip(block);
             return flag;
         }
 
 
-        // Block Actions 
+        // Block Actions
         const string BlockAction_TurnOn = "OnOff_On";
         const string BlockAction_TurnOff = "OnOff_Off";
         const string DoorAction_CloseDoor = "Open_Off";
@@ -460,7 +456,7 @@ namespace IngameScript {
 
         private class MergeDecoupleSequence : IActionSequence {
             private const int STEP_1 = 10;
-            //private const int STEP_2 = 8; 
+            //private const int STEP_2 = 8;
             private const int STEP_2b = 9;
             private const int STEP_3 = 0;
 
@@ -484,8 +480,8 @@ namespace IngameScript {
                 switch (TicksRemaining) {
                     case STEP_1:
                         ApplyActionToBlock(_connector, ConnectorAction_Unlock);
-                        //    break; 
-                        //case STEP_2: 
+                        //    break;
+                        //case STEP_2:
                         ApplyActionToBlock(_connector, BlockAction_TurnOff);
                         break;
                     case STEP_2b:

@@ -146,7 +146,7 @@ namespace IngameScript {
 
         void LoadBlocks() {
             timeToReload -= Runtime.TimeSinceLastRun.TotalSeconds;
-            var skipLoad = (timeToReload > 0.0);
+            var skipLoad = timeToReload > 0.0;
             if (!skipLoad) timeToReload = BlockReloadTime;
             Echo($"Time to reload: {Math.Round(Math.Max(timeToReload, 0)):N0} seconds");
             if (skipLoad) return;

@@ -43,8 +43,8 @@ namespace IngameScript {
 
             public void Load(IMyTerminalBlock b, bool addIfMissing = false) {
                 if (b == null) return;
-                var datalines = b.CustomData.Split(SepNewLine, StringSplitOptions.None);
-                foreach (var line in datalines) {
+                var dataLines = b.CustomData.Split(SepNewLine, StringSplitOptions.None);
+                foreach (var line in dataLines) {
                     if (line.Length <= 0) continue;
                     if (line.StartsWith("# ")) continue;
 
@@ -81,7 +81,10 @@ namespace IngameScript {
                 public string Description { get; private set; }
 
                 string _value;
-                public string Value { get { return _value; } set { _value = value ?? string.Empty; } }
+                public string Value { 
+                    get { return _value; } 
+                    set { _value = value ?? string.Empty; } 
+                }
             }
         }
     }

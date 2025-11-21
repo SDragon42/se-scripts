@@ -81,9 +81,9 @@ namespace IngameScript {
         }
 
 
-        static T SelectBlock<T>(List<T> blockList, IMyTerminalBlock referenceBlock, double initalDist, Func<double, double, bool> compareFunc) where T : IMyTerminalBlock {
+        static T SelectBlock<T>(List<T> blockList, IMyTerminalBlock referenceBlock, double initialDist, Func<double, double, bool> compareFunc) where T : IMyTerminalBlock {
             T selected = default(T);
-            var lastDist = initalDist;
+            var lastDist = initialDist;
             var refPosition = referenceBlock.GetPosition();
 
             foreach (var b in blockList) {

@@ -82,7 +82,7 @@ namespace IngameScript {
 
         void LogPosition() {
             var position = Me.GetPosition();
-            var gps = VectorHelper.VectortoGps(position, Config.GpsLabel);
+            var gps = VectorHelper.VectorToGps(position, Config.GpsLabel);
             foreach (IMyTextSurface lcd in lcdPanels) {
                 lcd.ContentType = ContentType.TEXT_AND_IMAGE;
                 lcd.WriteText($"{gps}\n", true);
