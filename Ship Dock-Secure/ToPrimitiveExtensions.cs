@@ -20,7 +20,7 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRageMath;
 
 namespace IngameScript {
-    static class ToPrimativeExtensions {
+    static class ToPrimitiveExtensions {
         /// <summary>
         /// Tries to convert the string value to a boolean.
         /// </summary>

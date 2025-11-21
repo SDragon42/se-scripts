@@ -28,10 +28,10 @@ namespace IngameScript {
 
             bool toReset = false;
             TimeSpan time;
-            double interval;
+            readonly double interval;
 
             public double Remaining => interval - time.TotalSeconds;
-            public bool AtNextInterval => (time.TotalSeconds >= interval);
+            public bool AtNextInterval => time.TotalSeconds >= interval;
 
             public void Add(IMyGridProgramRuntimeInfo runtime) {
                 if (toReset) Reset();

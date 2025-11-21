@@ -22,49 +22,54 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
 
         // Modules
-        readonly BlocksByOrientation BlockOrientation = new BlocksByOrientation();
-
-        readonly MyIni Ini = new MyIni();
+        readonly BlocksByOrientation _blockOrientation = new BlocksByOrientation();
+        readonly MyIni _ini = new MyIni();
 
 
         // Block Lists
-        readonly List<IMyThrust> LiftThrusters = new List<IMyThrust>();
+        readonly List<IMyThrust> _liftThrusters = new List<IMyThrust>();
         IMyShipController _sc;
 
-        Action<string> Debug = (text) => { };
+        readonly StringBuilder _resultsBuilder = new StringBuilder();
 
 
         public Program() {
-            //Debug = Echo;
-            //LiftCapacity.Debug = Echo;
             LoadConfig(true);
-        }
-
-        public void Save() {
         }
 
 
         // Vars
-        float MinimumTWR = 0;
-        int InventoryMultiplier = 0;
-        string GroupName = string.Empty;
+        float _minimumTWR = 0;
+        int _inventoryMultiplier = 0;
+        string _groupName = string.Empty;
 
         public void Main(string argument, UpdateType updateSource) {
-            LoadConfig();
-            LoadBlocks();
-            if (_sc == null) return;
-            if (InventoryMultiplier <= 0) {
-                Echo("ERROR: Inventory Multiplier is not set!");
-                return;
-            }
-            var x = ThrusterHelper.GetMaxMass(_sc, LiftThrusters, MinimumTWR, InventoryMultiplier);
-            Echo($"At TWR {MinimumTWR:N1}");
-            Echo($"Max Mass: {x:N2} kg");
+            _resultsBuilder.Clear();
+            try {
+                LoadConfig();
+                LoadBlocks();
+                if (_sc == null) return;
+                if (_inventoryMultiplier <= 0) {
+                    _resultsBuilder.AppendLine("ERROR: Inventory Multiplier is not set!");
+                    return;
+                }
+                var x = ThrusterHelper.GetMaxMass(_sc, _liftThrusters, _minimumTWR, _inventoryMultiplier);
+                _resultsBuilder.AppendLine($"At TWR {_minimumTWR:N1}");
+                _resultsBuilder.AppendLine($"Max Mass: {x:N2} kg");
 
-            Echo("");
-            Echo($"At TWR {1.0:N1}");
-            var x2 = ThrusterHelper.GetMaxMass(_sc, LiftThrusters, 1.0, InventoryMultiplier);
-            Echo($"Max Mass: {x2:N2} kg");
+                _resultsBuilder.AppendLine("");
+                _resultsBuilder.AppendLine($"At TWR {1.0:N1}");
+                var x2 = ThrusterHelper.GetMaxMass(_sc, _liftThrusters, 1.0, _inventoryMultiplier);
+                _resultsBuilder.AppendLine($"Max Mass: {x2:N2} kg");
+            } finally {
+                var resultString = _resultsBuilder.ToString();
+                Echo(resultString);
+                var display = (Me as IMyTextSurfaceProvider)?.GetSurface(0);
+                if (display != null) {
+                    display.ContentType = ContentType.TEXT_AND_IMAGE;
+                    display.WriteText(resultString, append: false);
+                }
+            }
         }
 
 
@@ -78,25 +83,25 @@ namespace IngameScript {
             var configHash = Me.CustomData.GetHashCode();
             if (configHash == _lastConfigHash && !force) return;
 
-            Ini.TryParse(Me.CustomData);
+            _ini.TryParse(Me.CustomData);
 
-            Ini.Add(KEY_MinimumTWR, 1.5, comment: "The minimum TWR to use for calc maximum cargo capacity.");
-            Ini.Add(KEY_WorldInvMulti, 0, comment: "The World setting for Inventory Multiplier");
-            Ini.Add(KEY_ThrusterGroup, "", comment: "The Group name to use for thrusters");
+            _ini.Add(KEY_MinimumTWR, 1.5, comment: "The minimum TWR to use for calc maximum cargo capacity.");
+            _ini.Add(KEY_WorldInvMulti, 0, comment: "The World setting for Inventory Multiplier");
+            _ini.Add(KEY_ThrusterGroup, "", comment: "The Group name to use for thrusters");
 
-            MinimumTWR = Ini.Get(KEY_MinimumTWR).ToSingle();
-            InventoryMultiplier = Ini.Get(KEY_WorldInvMulti).ToInt32();
-            GroupName = Ini.Get(KEY_ThrusterGroup).ToString();
+            _minimumTWR = _ini.Get(KEY_MinimumTWR).ToSingle();
+            _inventoryMultiplier = _ini.Get(KEY_WorldInvMulti).ToInt32();
+            _groupName = _ini.Get(KEY_ThrusterGroup).ToString();
 
-            if (InventoryMultiplier <= 0) {
+            if (_inventoryMultiplier <= 0) {
                 var b = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCargoContainer>(Collect.IsCargoContainer);
                 if (b != null) {
-                    InventoryMultiplier = CargoHelper.GetInventoryMultiplier(b);
-                    Ini.Set(KEY_WorldInvMulti, InventoryMultiplier);
+                    _inventoryMultiplier = CargoHelper.GetInventoryMultiplier(b);
+                    _ini.Set(KEY_WorldInvMulti, _inventoryMultiplier);
                 }
             }
 
-            Me.CustomData = Ini.ToString();
+            Me.CustomData = _ini.ToString();
             _lastConfigHash = Me.CustomData.GetHashCode();
         }
 
@@ -107,22 +112,22 @@ namespace IngameScript {
                 b => IsOnThisGrid(b) && b is IMyCockpit,
                 b => IsOnThisGrid(b) && b is IMyRemoteControl);
             if (_sc == null) {
-                Echo($"No Cockpit or RemoteControl found.");
+                _resultsBuilder.AppendLine($"No Cockpit or RemoteControl found.");
                 return;
             }
-            Echo($"SC: {_sc.CustomName}");
+            _resultsBuilder.AppendLine($"SC: {_sc.CustomName}");
 
-            BlockOrientation.Init(_sc);
+            _blockOrientation.Init(_sc);
 
-            Func<IMyTerminalBlock, bool> collect;
-            LiftThrusters.Clear();
-            if (!string.IsNullOrWhiteSpace(GroupName)) {
-                var bg = GridTerminalSystem.GetBlockGroupWithName(GroupName);
-                bg?.GetBlocksOfType(LiftThrusters, BlockOrientation.IsDown);
+            //Func<IMyTerminalBlock, bool> collect;
+            _liftThrusters.Clear();
+            if (!string.IsNullOrWhiteSpace(_groupName)) {
+                var bg = GridTerminalSystem.GetBlockGroupWithName(_groupName);
+                bg?.GetBlocksOfType(_liftThrusters, _blockOrientation.IsDown);
             }
-            if (LiftThrusters.Count == 0)
-                GridTerminalSystem.GetBlocksOfType(LiftThrusters, BlockOrientation.IsDown);
-            Echo($"# Thrusters: {LiftThrusters.Count}");
+            if (_liftThrusters.Count == 0)
+                GridTerminalSystem.GetBlocksOfType(_liftThrusters, _blockOrientation.IsDown);
+            _resultsBuilder.AppendLine($"# Thrusters: {_liftThrusters.Count}");
         }
     }
 }

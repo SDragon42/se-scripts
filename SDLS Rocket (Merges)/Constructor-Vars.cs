@@ -31,7 +31,7 @@ namespace IngameScript {
         readonly StateMachineSets SequenceSets = new StateMachineSets();
 
         //Other
-        bool IsStructureInited = false;
+        bool IsStructureInitialized = false;
 
         RocketStructure Structure = RocketStructure.Unknown;
         string StructureTag = string.Empty;
@@ -67,7 +67,7 @@ namespace IngameScript {
             Load();
 
             // Should not be needed
-            collecter = Me.IsSameConstructAs;
+            collector = Me.IsSameConstructAs;
         }
 
         void Load() {
@@ -77,7 +77,7 @@ namespace IngameScript {
             //switch (parts[0]) {
             //    case "1":
             //        if (parts.Length != 5) return;
-            //        bool.TryParse(parts[i++], out IsStructureInited);
+            //        bool.TryParse(parts[i++], out IsStructureInitialized);
             //        bool.TryParse(parts[i++], out IsMaster);
             //        int tmp = 0;
             //        int.TryParse(parts[i++], out tmp);
@@ -92,7 +92,7 @@ namespace IngameScript {
         public void Save() {
             // Save State
             //Storage = "1" +
-            //    $"|{IsStructureInited}" +
+            //    $"|{IsStructureInitialized}" +
             //    //$"|{IsMaster}" +
             //    $"|{(int)RocketType}" +
             //    $"|{(int)Structure}" +
@@ -120,19 +120,19 @@ namespace IngameScript {
         //readonly List<IMyThrust> Stage1MainThrusters => GetTaggedBlocks(Thrusters, Cfg.Stage1Tag);
         //readonly List<IMyThrust> Stage2MainThrusters => GetTaggedBlocks(Thrusters, Cfg.Stage2Tag);
         //readonly List<IMyThrust> PodMainThrusters => GetTaggedBlocks(Thrusters, Cfg.PodTag);
-        readonly List<IMyThrust> ManuverThrusters = new List<IMyThrust>();
+        readonly List<IMyThrust> ManeuverThrusters = new List<IMyThrust>();
         readonly List<IMyThrust> AllThrusters = new List<IMyThrust>();
 
-        Func<IMyTerminalBlock, bool> collecter = null;
-        Func<IMyTerminalBlock, bool> collecterPrimary = null;
-        Func<IMyTerminalBlock, bool> collecterSecondary = null;
+        Func<IMyTerminalBlock, bool> collector = null;
+        Func<IMyTerminalBlock, bool> collectorPrimary = null;
+        Func<IMyTerminalBlock, bool> collectorSecondary = null;
 
         void LoadBlocks() {
-            GridTerminalSystem.GetBlocksOfType(Gyros, collecter);
-            GridTerminalSystem.GetBlocksOfType(LandingGears, collecter);
-            GridTerminalSystem.GetBlocksOfType(Connectors, collecter);
-            GridTerminalSystem.GetBlocksOfType(Parachutes, collecter);
-            GridTerminalSystem.GetBlocksOfType(AllThrusters, collecter);
+            GridTerminalSystem.GetBlocksOfType(Gyros, collector);
+            GridTerminalSystem.GetBlocksOfType(LandingGears, collector);
+            GridTerminalSystem.GetBlocksOfType(Connectors, collector);
+            GridTerminalSystem.GetBlocksOfType(Parachutes, collector);
+            GridTerminalSystem.GetBlocksOfType(AllThrusters, collector);
         }
 
         void LoadInAllProgramBlocks(List<IMyTerminalBlock> list) {

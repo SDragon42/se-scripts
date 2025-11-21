@@ -26,7 +26,7 @@ namespace IngameScript {
             TimeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
             var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - TimeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
 
-            Echo($"Utility Ship Systems 1.6.8 {RunningModule.GetSymbol()}");
+            Echo($"Utility Ship Systems 1.6.9 {RunningModule.GetSymbol()}");
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.\n");
             Echo("Configure script in 'Custom Data'\n");
             Echo(Instructions);
@@ -34,7 +34,7 @@ namespace IngameScript {
             Flag_SaveConfig = false;
             LoadConfig();
 
-            var reloadBlocks = (TimeLastBlockLoad >= BLOCK_RELOAD_TIME);
+            var reloadBlocks = TimeLastBlockLoad >= BLOCK_RELOAD_TIME;
             DockSecureModule.Init(this, reloadBlocks);
 
             if (reloadBlocks) {

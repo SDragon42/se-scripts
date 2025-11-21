@@ -31,7 +31,7 @@ namespace IngameScript {
             }
 
             readonly static Dictionary<char, FontChar> dic;
-            public static Dictionary<char, FontChar> GetChars() { return dic; }
+            public static Dictionary<char, FontChar> GetChars() => dic;
         }
     }
 }

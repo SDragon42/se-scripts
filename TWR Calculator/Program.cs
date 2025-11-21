@@ -39,7 +39,7 @@ namespace IngameScript {
             if (_configHashCode == Me.CustomData.GetHashCode() && !force)
                 return;
 
-            MyIni ini = new MyIni();
+            var ini = new MyIni();
             ini.TryParse(Me.CustomData);
 
             ShipControllerName = ini.Add("TWR", "Ship Ctrl Name", ShipControllerName, "Name of the remote control block.").ToString();

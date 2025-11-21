@@ -35,10 +35,10 @@ namespace IngameScript {
                 camera.EnableRaycast = true;
                 if (camera.CanScan(maxScanRange)) {
                     var info = camera.Raycast(maxScanRange, 0, 0);
-                    var range = (info.HitPosition.HasValue)
+                    var range = info.HitPosition.HasValue
                         ? Vector3D.Distance(camera.GetPosition(), info.HitPosition.Value)
                         : (double?)null;
-                    return new RangeInfo(info, (range - offset));
+                    return new RangeInfo(info, range - offset);
                 }
                 return RangeInfo.Empty;
             }

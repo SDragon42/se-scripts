@@ -94,11 +94,11 @@ namespace IngameScript {
 
                 var startIdx = (int)MathHelper.Clamp(Math.Round(bearing / 5), 0, 359);
                 var sb = new StringBuilder();
-                var headfoot = compassLineO.Substring(startIdx, 23);
+                var outerLine = compassLineO.Substring(startIdx, 23);
                 sb.AppendLine($"           ▼    {bearing,3:N0}°{GetCardinalDir(bearing),-3}");
-                sb.AppendLine(headfoot);
+                sb.AppendLine(outerLine);
                 sb.AppendLine(compassLineM.Substring(startIdx, 23));
-                sb.AppendLine(headfoot);
+                sb.AppendLine(outerLine);
                 sb.Append(compassFooter);
                 return sb.ToString();
             }

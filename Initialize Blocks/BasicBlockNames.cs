@@ -22,9 +22,8 @@ namespace IngameScript {
     partial class Program {
         class BasicBlockNames {
 
-            Dictionary<string, string> NameDictionary = new Dictionary<string, string>();
+            readonly Dictionary<string, string> NameDictionary = new Dictionary<string, string>();
             public BasicBlockNames() {
-
                 var d = NameDictionary;
                 d.Add("AirtightHangarDoor:", "Hangar Door");
                 d.Add("AirtightSlideDoor:LargeBlockSlideDoor", "Door");

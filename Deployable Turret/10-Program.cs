@@ -49,13 +49,13 @@ namespace IngameScript {
 
         // Script Vars
         double timeLastBlockLoad = BLOCK_RELOAD_TIME;
-        IMyBroadcastListener Lstn;
+        IMyBroadcastListener Listener;
 
         public Program() {
             Runtime.UpdateFrequency = UpdateFrequency.Update100;
 
-            Lstn = IGC.RegisterBroadcastListener(ListenerTagName);
-            Lstn.SetMessageCallback(IGC_Update);
+            Listener = IGC.RegisterBroadcastListener(ListenerTagName);
+            Listener.SetMessageCallback(IGC_Update);
         }
 
         public void Save() {
@@ -205,7 +205,7 @@ namespace IngameScript {
         void ProcessCommand(string command) {
             if (command != IGC_Update) return;
 
-            var msg = Lstn.AcceptMessage();
+            var msg = Listener.AcceptMessage();
             var data = msg.Data as string;
             if (string.IsNullOrWhiteSpace(data)) return;
 

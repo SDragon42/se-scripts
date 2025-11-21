@@ -31,7 +31,7 @@ namespace IngameScript {
                 var num = 1;
                 var numDigits = blocks.Count.ToString().Length;
                 foreach (var b in blocks) {
-                    b.CustomName = (newName + " " + (num++).ToString().PadLeft(numDigits, '0')).Trim();
+                    b.CustomName = (newName + " " + num++.ToString().PadLeft(numDigits, '0')).Trim();
                     customAction?.Invoke(b);
                 }
                 return blocks.Count();
@@ -57,7 +57,7 @@ namespace IngameScript {
 
             public static int RemoveSuffix(List<IMyTerminalBlock> blocks, string suffix) {
                 blocks = blocks.Where(b => b.CustomName.EndsWith(suffix, StringComparison.CurrentCultureIgnoreCase)).ToList();
-                blocks.ForEach(b => b.CustomName = (b.CustomName.Substring(0, b.CustomName.Length - suffix.Length)).Trim());
+                blocks.ForEach(b => b.CustomName = b.CustomName.Substring(0, b.CustomName.Length - suffix.Length).Trim());
                 return blocks.Count;
             }
 
