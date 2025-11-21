@@ -33,16 +33,16 @@ namespace IngameScript {
             const string SEC_Airlock = "Airlocks";
             public string AirlockTag { get; private set; } = "[airlock]";
 
-            public void Load(IMyTerminalBlock b, Program thiso) {
+            public void Load(IMyTerminalBlock b, Program prog) {
                 if (hash == b.CustomData.GetHashCode()) return;
 
                 ini.Clear();
                 ini.TryParse(b.CustomData);
 
-                thiso.blockReload_Time = ini.Add("Grid OS", "Block Reload Delay", thiso.blockReload_Time).ToDouble();
+                prog.blockReload_Time = ini.Add("Grid OS", "Block Reload Delay", prog.blockReload_Time).ToDouble();
 
                 ADCEnabled = ini.Add(SEC_adc, "Enabled", ADCEnabled).ToBoolean();
-                thiso.autoDoorCloser.CloseDelay = ini.Add(SEC_adc, "Delay", thiso.autoDoorCloser.CloseDelay).ToDouble();
+                prog.autoDoorCloser.CloseDelay = ini.Add(SEC_adc, "Delay", prog.autoDoorCloser.CloseDelay).ToDouble();
                 ADCExclusionTag = ini.Add(SEC_adc, "Exclude Tag", ADCExclusionTag).ToString();
 
                 AirlockTag = ini.Add(SEC_Airlock, "Airlock Tag", AirlockTag).ToString();

@@ -62,7 +62,7 @@ namespace IngameScript {
             /// <param name="v">Location of the GPS coordinates.</param>
             /// <param name="name">label for the GPS coordinates.</param>
             /// <returns></returns>
-            public static string VectortoGps(Vector3D v, string name = "Position") => $"GPS:{name}:{v.X}:{v.Y}:{v.Z}:";
+            public static string VectorToGps(Vector3D v, string name = "Position") => $"GPS:{name}:{v.X}:{v.Y}:{v.Z}:";
         }
     }
 }

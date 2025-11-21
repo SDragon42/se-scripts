@@ -26,7 +26,7 @@ namespace IngameScript {
         /// <param name="gts">GridTerminalSystem.</param>
         /// <param name="blockList">The List to hold the blocks found.</param>
         /// <param name="collectMethods">Array of collection methods to execute.</param>
-        public static void GetblocksOfTypeWithFirst<T>(this IMyGridTerminalSystem gts, List<IMyTerminalBlock> blockList, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class, IMyTerminalBlock {
+        public static void GetBlocksOfTypeWithFirst<T>(this IMyGridTerminalSystem gts, List<IMyTerminalBlock> blockList, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class, IMyTerminalBlock {
             if (collectMethods == null || collectMethods.Length == 0) {
                 gts.GetBlocksOfType<T>(blockList);
                 if (blockList.Count > 0) return;
@@ -44,7 +44,7 @@ namespace IngameScript {
         /// <param name="gts">GridTerminalSystem.</param>
         /// <param name="blockList">The List (typed) to hold the blocks found.</param>
         /// <param name="collectMethods">Array of collection methods to execute.</param>
-        public static void GetblocksOfTypeWithFirst<T>(this IMyGridTerminalSystem gts, List<T> blockList, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class, IMyTerminalBlock {
+        public static void GetBlocksOfTypeWithFirst<T>(this IMyGridTerminalSystem gts, List<T> blockList, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class, IMyTerminalBlock {
             if (collectMethods == null || collectMethods.Length == 0) {
                 gts.GetBlocksOfType<T>(blockList);
                 if (blockList.Count > 0) return;
@@ -65,7 +65,7 @@ namespace IngameScript {
         /// <param name="collectMethods">Array of collection methods to execute.</param>
         /// <returns></returns>
         public static T GetBlockOfTypeWithFirst<T>(this IMyGridTerminalSystem gts, params Func<IMyTerminalBlock, bool>[] collectMethods) where T : class, IMyTerminalBlock {
-            gts.GetblocksOfTypeWithFirst<T>(temp, collectMethods);
+            gts.GetBlocksOfTypeWithFirst<T>(temp, collectMethods);
             return (temp.Count > 0) ? (T)temp[0] : null;
         }
     }

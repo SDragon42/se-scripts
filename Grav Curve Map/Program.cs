@@ -44,16 +44,12 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             try {
-                Echo("Grav Map " + runningSym.GetSymbol(Runtime));
+                Echo("Gravity Map " + runningSym.GetSymbol(Runtime));
                 argument = argument?.ToLower() ?? string.Empty;
 
                 switch (argument) {
-                    case "abort":
-                        Abort();
-                        break;
-                    case "go":
-                        RunAscent();
-                        break;
+                    case "abort": Abort(); break;
+                    case "go": RunAscent(); break;
                     default: break;
                 }
 

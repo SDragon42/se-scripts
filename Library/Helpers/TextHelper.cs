@@ -25,8 +25,8 @@ namespace IngameScript {
         /// Taken from his Compass Script
         /// </summary>
         static class TextHelper {
-            static StringBuilder textSB = new StringBuilder();
-            const float adjustedPixelWidth = (512f / 0.778378367f);
+            static readonly StringBuilder textSB = new StringBuilder();
+            const float adjustedPixelWidth = 512f / 0.778378367f;
             const int monospaceCharWidth = 24 + 1; //accounting for spacer
 
             public static float GetMinimumFontSizeMonospace(int textCharacters) {
@@ -37,8 +37,8 @@ namespace IngameScript {
             public static string WrapTextMonospace(string text, float fontSize) {
                 textSB.Clear();
                 var words = text.Split(' ');
-                var screenWidth = (adjustedPixelWidth / fontSize);
-                int currentLineWidth = 0;
+                var screenWidth = adjustedPixelWidth / fontSize;
+                var currentLineWidth = 0;
                 foreach (var word in words) {
                     if (currentLineWidth == 0) {
                         textSB.Append($"{word}");
@@ -62,7 +62,7 @@ namespace IngameScript {
             public static string CenterTextMonospace(string wrappedText, float fontSize) {
                 textSB.Clear();
                 var lines = wrappedText.Split('\n');
-                var screenWidth = (adjustedPixelWidth / fontSize);
+                var screenWidth = adjustedPixelWidth / fontSize;
                 var maxCharsPerLine = Math.Floor(screenWidth / monospaceCharWidth);
 
                 foreach (var line in lines) {
@@ -78,7 +78,7 @@ namespace IngameScript {
             public static string RightJustifyMonospace(string wrappedText, float fontSize) {
                 textSB.Clear();
                 var lines = wrappedText.Split('\n');
-                var screenWidth = (adjustedPixelWidth / fontSize);
+                var screenWidth = adjustedPixelWidth / fontSize;
                 var maxCharsPerLine = (int)Math.Floor(screenWidth / monospaceCharWidth);
 
                 foreach (var line in lines) {

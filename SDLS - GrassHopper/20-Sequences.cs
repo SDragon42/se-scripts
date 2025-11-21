@@ -21,13 +21,13 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        IEnumerator<bool> Sequence_GravAlignOn() {
+        IEnumerator<bool> Sequence_GravityAlignOn() {
             while (true) {
                 VecAlign.AlignWithGravity(shipController, Base6Directions.Direction.Down, Gyros, true);
                 yield return true;
             }
         }
-        IEnumerator<bool> Sequence_GravAlignOff() {
+        IEnumerator<bool> Sequence_GravityAlignOff() {
             VectorAlign.SetGyrosOff(Gyros);
             yield return true;
         }
@@ -64,7 +64,7 @@ namespace IngameScript {
             Log.AppendLine("HFT - Fly Up");
             var lastPos = startPos;
             shipController.DampenersOverride = true;
-            var gForceN = getGravityForceN(shipController);
+            var gForceN = GetGravityForceN(shipController);
             var hoverThrust = gForceN / Thrusters_Landing1.Count;
 
             Thrusters_Maneuver.ForEach(Thruster_On);
@@ -117,7 +117,7 @@ namespace IngameScript {
             while (true) {
                 var current = shipController.GetPosition();
 
-                var gForceN = getGravityForceN(shipController);
+                var gForceN = GetGravityForceN(shipController);
                 var hoverThrust = gForceN / Thrusters_Landing1.Count;
 
                 if (shipController.GetShipSpeed() >= 5.0)
@@ -132,7 +132,7 @@ namespace IngameScript {
         IEnumerator<bool> FlightTest_FlyDown() {
             Log.AppendLine("HFT - Fly Down");
 
-            var gForceN = getGravityForceN(shipController);
+            var gForceN = GetGravityForceN(shipController);
             var hoverThrust = gForceN / Thrusters_Landing1.Count;
 
             Thrusters_Landing1.ForEach(t => t.ThrustOverride = (float)hoverThrust - 30000f);

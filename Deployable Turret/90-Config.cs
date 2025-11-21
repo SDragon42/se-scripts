@@ -22,7 +22,7 @@ namespace IngameScript {
 
         int configHashCode = 0;
 
-        const string SECTION_SANDBAG = "Sangbag";
+        const string SECTION_SANDBAG = "Sandbag";
 
         readonly MyIniKey Key_CommGroupName = new MyIniKey(SECTION_SANDBAG, "COMM Group Name");
         readonly MyIniKey Key_StealthMode = new MyIniKey(SECTION_SANDBAG, "Stealth Mode Enabled");

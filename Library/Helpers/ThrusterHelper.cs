@@ -48,17 +48,17 @@ namespace IngameScript {
             /// <returns></returns>
             public static double? GetMaxMass(IMyShipController sc, List<IMyThrust> thrusters, double minTwr, int worldInvMultiplier) {
                 var gVec = sc.GetNaturalGravity();
-                var gravMS2 = Math.Sqrt(Math.Pow(gVec.X, 2) + Math.Pow(gVec.Y, 2) + Math.Pow(gVec.Z, 2));
-                if (gravMS2 <= 0.0) return null;
+                var gravityMs2 = Math.Sqrt(Math.Pow(gVec.X, 2) + Math.Pow(gVec.Y, 2) + Math.Pow(gVec.Z, 2)); // m/s²
+                if (gravityMs2 <= 0.0) return null;
 
-                //Debug($"gravMS2: {gravMS2:N2}");
+                //Debug($"gravityMs2: {gravityMs2:N2}");
                 var baseMass = sc.CalculateShipMass().BaseMass;
                 //Debug($"baseMass: {baseMass:N2}");
                 var maxEffectiveThrust = thrusters.Sum(t => t.MaxEffectiveThrust);
                 //Debug($"Thrust: {maxEffectiveThrust:N2}");
                 var TwrThrust = maxEffectiveThrust / minTwr;
                 //Debug($"TwrThrust: {TwrThrust:N2}");
-                var maxCargoMass = ((TwrThrust / gravMS2) - baseMass) * worldInvMultiplier;
+                var maxCargoMass = ((TwrThrust / gravityMs2) - baseMass) * worldInvMultiplier;
                 return maxCargoMass;
             }
         }
