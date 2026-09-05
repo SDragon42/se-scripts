@@ -1,5 +1,12 @@
-﻿R e a d m e
------------
+﻿TIM Cargo Configuration Switcher v1.3
 
-In this file you can include any instructions or other comments you want to have injected onto the 
-top of your final script. You can safely delete this file if you do not want any such comments.
+Changed the block name configuration for the Taleden's Inventory Manager script.
+Configurations are stored in the Custom Data for the block under a key name.
+
+Commands:
+    use  - sets the block to use the named configuration.
+    save - saves the blocks current configuration to Config Data.
+
+
+Usage:
+    <command> <block tag> <command> <config tag>

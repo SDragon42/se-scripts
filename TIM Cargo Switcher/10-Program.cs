@@ -21,8 +21,6 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        const string SCRIPT_NAME = "TIM Config Switcher v1.3";
-
         readonly List<IMyTerminalBlock> blocks = new List<IMyTerminalBlock>();
         readonly char[] SPLITTER = new char[] { ' ' };
 
@@ -31,15 +29,13 @@ namespace IngameScript {
         readonly MyIni Ini = new MyIni();
         readonly TimBlockConfigData ConfigStorage = new TimBlockConfigData();
         readonly TimBlockName ConfigApplied = new TimBlockName();
-
-        Action<string> Debug = (text) => { };
+        // Action<string> Debug = (text) => { };
 
         public Program() {
             Commands.Add("use", CMD_SwitchTimConfig);
             Commands.Add("save", CMD_SaveTimConfig);
-
-            ConfigStorage.Echo = Echo;
-            ConfigApplied.Echo = Echo;
+            // ConfigStorage.Echo = Echo;
+            // ConfigApplied.Echo = Echo;
 
             ShowCommands();
             LoadConfig();
@@ -64,13 +60,12 @@ namespace IngameScript {
                 return;
             }
 
-            targetTag = "[" + Ini.Get(KEY_CargoSwitcherTag).ToString() + " " + argParts[0] + "]";
+            targetTag = "[" + Ini.Get(KEY_CargoSwitcherTag).ToString() + ":" + argParts[0] + "]";
             configTag = "[" + argParts[2].Trim() + "]";
             var command = argParts[1];
-
-            Debug("targetTag = " + targetTag);
-            Debug("configTag = " + configTag);
-            Debug("command = " + command);
+            // Debug("targetTag = " + targetTag.Replace("[","").Replace("]",""));
+            // Debug("configTag = " + configTag.Replace("[","").Replace("]",""));
+            // Debug("command = " + command);
 
             GridTerminalSystem.GetBlocksOfType(blocks, b => Collect.IsTagged(b, targetTag));
             Echo($"Found: {blocks.Count:N0} block(s)");
@@ -82,7 +77,7 @@ namespace IngameScript {
         }
 
         void ShowCommands() {
-            Echo(SCRIPT_NAME);
+            Echo("TIM Config Switcher v1.3");
             Echo("");
             Echo("Commands:");
             foreach (var k in Commands.Keys)
@@ -91,7 +86,7 @@ namespace IngameScript {
 
 
         void CMD_SwitchTimConfig() {
-            Debug("CMD_SwitchTimConfig");
+            // Debug("CMD_SwitchTimConfig");
             foreach (var b in blocks) {
                 var timConfig = string.Empty;
                 if (!ConfigStorage.Get(b, configTag, out timConfig)) continue;
@@ -100,7 +95,7 @@ namespace IngameScript {
         }
 
         void CMD_SaveTimConfig() {
-            Debug("CMD_SaveTimConfig");
+            // Debug("CMD_SaveTimConfig");
             foreach (var b in blocks) {
                 var timConfig = ConfigApplied.Get(b);
                 ConfigStorage.Set(b, configTag, timConfig);
