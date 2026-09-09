@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35222.181
+# Visual Studio Version 18
+VisualStudioVersion = 18.10.12201.205 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{41D65D96-CE12-4254-9972-15093D8D1DDC}"
 	ProjectSection(SolutionItems) = preProject
@@ -57,8 +57,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SDLS Rocket (Merges)", "SDLS Rocket (Merges)\SDLS Rocket (Merges).csproj", "{C6710304-8644-4016-9B1B-B714CE42C621}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SDLS Rocket (Rotors)", "SDLS Rocket (Rotors)\SDLS Rocket (Rotors).csproj", "{0A1E5346-B038-4546-9CE4-AABB60985827}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ship Dock-Secure", "Ship Dock-Secure\Ship Dock-Secure.csproj", "{73730779-0BBE-489A-B754-BD1808DC6EAE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TIM Cargo Switcher", "TIM Cargo Switcher\TIM Cargo Switcher.csproj", "{77DD6FC9-7727-43B7-820D-91EEBC430345}"
 EndProject
@@ -156,10 +154,6 @@ Global
 		{0A1E5346-B038-4546-9CE4-AABB60985827}.Debug|x64.Build.0 = Debug|x64
 		{0A1E5346-B038-4546-9CE4-AABB60985827}.Release|x64.ActiveCfg = Release|x64
 		{0A1E5346-B038-4546-9CE4-AABB60985827}.Release|x64.Build.0 = Release|x64
-		{73730779-0BBE-489A-B754-BD1808DC6EAE}.Debug|x64.ActiveCfg = Debug|x64
-		{73730779-0BBE-489A-B754-BD1808DC6EAE}.Debug|x64.Build.0 = Debug|x64
-		{73730779-0BBE-489A-B754-BD1808DC6EAE}.Release|x64.ActiveCfg = Release|x64
-		{73730779-0BBE-489A-B754-BD1808DC6EAE}.Release|x64.Build.0 = Release|x64
 		{77DD6FC9-7727-43B7-820D-91EEBC430345}.Debug|x64.ActiveCfg = Debug|x64
 		{77DD6FC9-7727-43B7-820D-91EEBC430345}.Debug|x64.Build.0 = Debug|x64
 		{77DD6FC9-7727-43B7-820D-91EEBC430345}.Release|x64.ActiveCfg = Release|x64
