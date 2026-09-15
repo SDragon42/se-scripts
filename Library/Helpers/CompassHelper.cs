@@ -20,10 +20,8 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        /// <summary>
-        /// I acquired some of this code from Whiplash's compass script (I think. I've had it a while)
-        /// https://steamcommunity.com/sharedfiles/filedetails/?id=616627882&searchtext=Compass
-        /// </summary>
+        // I acquired some of this code from Whiplash's compass script (I think. I've had it a while)
+        // https://steamcommunity.com/sharedfiles/filedetails/?id=616627882&searchtext=Compass
         static class CompassHelper {
             const double rad2deg = 180 / Math.PI; //constant to convert radians to degrees
 
@@ -38,11 +36,7 @@ namespace IngameScript {
 
             static readonly Vector3D absoluteNorthVec = new Vector3D(0.342063708833718, -0.704407897782847, -0.621934025954579); //this was determined via Keen's code
 
-            /// <summary>
-            /// Gets the compass bearing.
-            /// </summary>
-            /// <param name="sc"></param>
-            /// <returns></returns>
+            // Gets the compass bearing.
             public static double GetBearing(IMyShipController sc) {
                 var gravityVec = sc.GetNaturalGravity();
 
@@ -73,10 +67,7 @@ namespace IngameScript {
                 return projection;
             }
 
-            /// <summary>
-            /// Initialized the Compass output display.
-            /// </summary>
-            /// <param name="d"></param>
+            // Initializes the Compass output display.
             public static void InitDisplay(IMyTextSurface d) {
                 d.ContentType = ContentType.TEXT_AND_IMAGE;
                 d.Font = LCDFonts.MONOSPACE;
@@ -84,11 +75,7 @@ namespace IngameScript {
                 d.Alignment = TextAlignment.CENTER;
                 d.TextPadding = 8f;
             }
-            /// <summary>
-            /// Gets the text for the compass display.
-            /// </summary>
-            /// <param name="bearing"></param>
-            /// <returns></returns>
+            // Gets the text for the compass display.
             public static string GetDisplayText(double bearing) {
                 if (double.IsNaN(bearing)) return string.Empty;
 

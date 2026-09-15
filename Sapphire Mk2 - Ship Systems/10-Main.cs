@@ -208,9 +208,7 @@ namespace IngameScript {
             return value == gridId;
         }
 
-        /// <summary>
-        /// Disconnect used for local grid only.
-        /// </summary>
+        // Disconnect used for local grid only.
         void Disconnect() {
             Disconnect(commandArgs);
         }

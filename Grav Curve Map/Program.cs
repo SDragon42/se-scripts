@@ -119,7 +119,7 @@ namespace IngameScript {
                 if (!hasElevation)
                     break;
 
-                var gAccel = GetGravityAccel();
+                var gAccel = shipController.GetNaturalGravity().Length();
                 var coreAltitude = GetCoreAltitude();
                 var calcGAccel = GetCalculatedGravityAccel(coreAltitude);
 
@@ -146,14 +146,14 @@ namespace IngameScript {
             yield return false;
         }
 
-        double GetGravityAccel() {
-            var gVec = shipController.GetNaturalGravity();
-            var gAccel = Math.Sqrt(
-                Math.Pow(gVec.X, 2) +
-                Math.Pow(gVec.Y, 2) +
-                Math.Pow(gVec.Z, 2));
-            return gAccel;
-        }
+        // double GetGravityAccel() {
+        //     var gVec = shipController.GetNaturalGravity();
+        //     var gAccel = Math.Sqrt(
+        //         Math.Pow(gVec.X, 2) +
+        //         Math.Pow(gVec.Y, 2) +
+        //         Math.Pow(gVec.Z, 2));
+        //     return gAccel;
+        // }
 
         double GetCoreAltitude() {
             var loc = shipController.GetPosition();

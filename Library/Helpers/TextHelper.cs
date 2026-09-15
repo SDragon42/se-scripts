@@ -20,10 +20,8 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        /// <summary>
-        /// Whip's Monospace TextHelper Class v2
-        /// Taken from his Compass Script
-        /// </summary>
+        // Whip's Monospace TextHelper Class v2
+        // Taken from his Compass Script
         static class TextHelper {
             static readonly StringBuilder textSB = new StringBuilder();
             const float adjustedPixelWidth = 512f / 0.778378367f;

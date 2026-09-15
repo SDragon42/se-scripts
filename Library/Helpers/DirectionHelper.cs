@@ -20,15 +20,8 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        /// <summary>
-        /// 
-        /// </summary>
         static class DirectionHelper {
-            /// <summary>
-            /// Gets the Direction value from a text value.
-            /// </summary>
-            /// <param name="directionName"></param>
-            /// <returns></returns>
+            // Gets the Direction value from a text value.
             public static Base6Directions.Direction GetDirectionFromString(string directionName) {
                 directionName = directionName.ToLower().Trim();
                 switch (directionName) {
