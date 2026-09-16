@@ -22,111 +22,113 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
 
         readonly BlocksByOrientation _orientation = new BlocksByOrientation();
+        readonly Config _cfg;
+
         readonly List<IMyThrust> _thrusters = new List<IMyThrust>();
         readonly List<Base6Directions.Direction> _calcDirections = new List<Base6Directions.Direction>();
+        IMyShipController _sc;
 
-        int _configHashCode = 0;
-        string ShipControllerName = string.Empty;
-        string DisplayName = string.Empty;
-        int MassToIgnore = 0;
+        readonly StringBuilder _resultsBuilder = new StringBuilder();
 
 
         public Program() {
-            LoadConfig(true);
-        }
+            _cfg = new Config(Me, GridTerminalSystem);
+            _cfg.Load(true);
 
-        void LoadConfig(bool force = false) {
-            if (_configHashCode == Me.CustomData.GetHashCode() && !force)
-                return;
-
-            var ini = new MyIni();
-            ini.TryParse(Me.CustomData);
-
-            ShipControllerName = ini.Add("TWR", "Ship Ctrl Name", ShipControllerName, "Name of the remote control block.").ToString();
-            DisplayName = ini.Add("TWR", "Display Name", DisplayName, "Name of the display to show results on.").ToString();
-            MassToIgnore = ini.Add("TWR", "Ignore Mass", MassToIgnore, "The amount of mass to ignore from TWR calculations.").ToInt32();
-
-            Me.CustomData = ini.ToString();
-            _configHashCode = Me.CustomData.GetHashCode();
+            //TwrHelper.Debug = Echo;
         }
 
         public void Main(string argument, UpdateType updateSource) {
-            LoadConfig();
+            _resultsBuilder.Clear();
+            _cfg.Load();
 
-            var sc = GetShipController();
-            if (sc == null) {
-                Echo("No ship controller found.");
-                return;
+            try {
+                _sc = GetShipController();
+                if (_sc == null) {
+                    _resultsBuilder.AppendLine("No ship controller found.");
+                    return;
+                }
+                Echo($"Using: {_sc.CustomName}");
+
+                _orientation.Init(_sc);
+
+                _calcDirections.Clear();
+                if (argument.Length > 0)
+                    _calcDirections.Add(DirectionHelper.GetDirectionFromString(argument));
+                else
+                    _calcDirections.AddArray(Base6Directions.EnumDirections);
+
+                BuildText();
+            } finally {
+                // Display results
+                var resultText = _resultsBuilder.ToString();
+                Echo(resultText);
+                var display = (Me as IMyTextSurfaceProvider)?.GetSurface(0);
+                if (display != null) {
+                    display.ContentType = ContentType.TEXT_AND_IMAGE;
+                    display.WriteText(resultText, append: false);
+                }
+                var twrDisplay = GridTerminalSystem.GetBlockWithName(_cfg.DisplayName) as IMyTextPanel;
+                if (twrDisplay != null) {
+                    twrDisplay.ContentType = ContentType.TEXT_AND_IMAGE;
+                    twrDisplay.WriteText(resultText);
+                }
             }
-            Echo($"Using: " + sc.CustomName);
 
-            _orientation.Init(sc);
-            _calcDirections.Clear();
-
-            if (argument.Length > 0)
-                _calcDirections.Add(DirectionHelper.GetDirectionFromString(argument));
-            else
-                _calcDirections.AddArray(Base6Directions.EnumDirections);
-
-            var totalMass = sc.CalculateShipMass().PhysicalMass - MassToIgnore;
-            var resultText = BuildText(totalMass);
-
-            // Display results
-            Echo(resultText);
-            var display = (Me as IMyTextSurfaceProvider)?.GetSurface(0);
-            if (display != null) {
-                display.ContentType = ContentType.TEXT_AND_IMAGE;
-                display.WriteText(resultText, append: false);
-            }
-            var twrDisplay = GridTerminalSystem.GetBlockWithName(DisplayName) as IMyTextPanel;
-            if (twrDisplay != null) {
-                twrDisplay.ContentType = ContentType.TEXT_AND_IMAGE;
-                twrDisplay.WriteText(resultText);
-            }
         }
 
         IMyShipController GetShipController() {
             var sc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyShipController>(
-                b => b is IMyRemoteControl && b.CustomName == ShipControllerName,
-                b => b is IMyCockpit && b.CustomName == ShipControllerName
+                b => IsOnThisGrid(b) && b is IMyRemoteControl && b.CustomName == _cfg.ShipControllerName,
+                b => IsOnThisGrid(b) && b is IMyCockpit && b.CustomName == _cfg.ShipControllerName
                 );
             if (sc != null) return sc;
             sc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyShipController>(
-                b => b is IMyRemoteControl,
-                b => b is IMyCockpit
+                b => IsOnThisGrid(b) && b is IMyCockpit && ((IMyCockpit)b).IsMainCockpit,
+                b => IsOnThisGrid(b) && b is IMyRemoteControl && ((IMyRemoteControl)b).IsMainCockpit,
+                b => IsOnThisGrid(b) && b is IMyRemoteControl,
+                b => IsOnThisGrid(b) && b is IMyCockpit
                 );
             return sc;
         }
 
-        string BuildText(float totalMass) {
-            var sb = new StringBuilder();
-            sb.AppendLine($"Mass: {totalMass:N0} kg");
-            sb.AppendLine();
-            foreach (var dir in _calcDirections) {
-                var info = CalcTwrInDirection(totalMass, dir);
-                sb.AppendLine($"{_thrusters.Count:N0} {info.Thrust_Direction} Thrusters");
-                sb.AppendLine("    Effective / Maximum");
-                sb.AppendLine($"T: {info.EffectiveThrust / 1000.0,7:N0} kN / {info.MaxThrust / 1000.0:N0} kN");
-                sb.AppendLine($"TWR: {info.EffectiveTWR,8:N2} / {info.MaxTWR:N2}");
-                sb.AppendLine();
+        void BuildText() {
+            var totalMass = _sc.CalculateShipMass().PhysicalMass - _cfg.MassToIgnore;
+
+            _resultsBuilder.AppendLine($"Mass: {totalMass:N0} kg");
+            _resultsBuilder.AppendLine();
+
+            foreach (var direction in _calcDirections) {
+                LoadThrustersInDirection(direction);
+                _resultsBuilder.AppendLine($"{_thrusters.Count:N0} {direction} Thrusters");
+
+                _resultsBuilder.AppendLine("    Effective / Maximum");
+                var effectiveTwr = TwrHelper.CalculateEffectiveTWR(_sc, _thrusters, _cfg.InventoryMultiplier, twr: 1f);
+                //TwrHelper.CalculateEffectiveTWR(_sc, _thrusters, _cfg.InventoryMultiplier, twr: 1.5f);
+                //TwrHelper.CalculateEffectiveTWR(_sc, _thrusters, _cfg.InventoryMultiplier, twr: 1.59f);
+                //TwrHelper.CalculateEffectiveTWR(_sc, _thrusters, _cfg.InventoryMultiplier, twr: 1.592f);
+                //TwrHelper.CalculateEffectiveTWR(_sc, _thrusters, _cfg.InventoryMultiplier, twr: 1.5925f);
+                var maxTwr = TwrHelper.CalculateMaxTWR(_sc, _thrusters, _cfg.InventoryMultiplier, twr: 2f);
+                _resultsBuilder.AppendLine($"T:  {effectiveTwr.Thrust / 1000.0,7:N0} kN / {maxTwr.Thrust / 1000.0:N0} kN");
+                _resultsBuilder.AppendLine($"TWR: {effectiveTwr.TWR,8:N2} / {maxTwr.TWR:N2}");
+                _resultsBuilder.AppendLine($"Cargo: {effectiveTwr.CargoMass,8:N2} kg / {maxTwr.CargoMass:N2} kg");
+                //_resultsBuilder.AppendLine($"C: {effectiveTwr.CargoMass:N2} kg");
+                _resultsBuilder.AppendLine();
             }
-            return sb.ToString();
         }
 
-        TwrInformation CalcTwrInDirection(float totalMass, Base6Directions.Direction direction) {
-            Func<IMyTerminalBlock, bool> IsDirection;
+        void LoadThrustersInDirection(Base6Directions.Direction direction) {
+            Func<IMyTerminalBlock, bool> IsInDirection;
             switch (direction) {
-                case Base6Directions.Direction.Forward: IsDirection = _orientation.IsBackward; break;
-                case Base6Directions.Direction.Backward: IsDirection = _orientation.IsForward; break;
-                case Base6Directions.Direction.Left: IsDirection = _orientation.IsRight; break;
-                case Base6Directions.Direction.Right: IsDirection = _orientation.IsLeft; break;
-                case Base6Directions.Direction.Up: IsDirection = _orientation.IsDown; break;
-                case Base6Directions.Direction.Down: IsDirection = _orientation.IsUp; break;
-                default: IsDirection = (b) => false; break;
+                case Base6Directions.Direction.Forward: IsInDirection = _orientation.IsBackward; break;
+                case Base6Directions.Direction.Backward: IsInDirection = _orientation.IsForward; break;
+                case Base6Directions.Direction.Left: IsInDirection = _orientation.IsRight; break;
+                case Base6Directions.Direction.Right: IsInDirection = _orientation.IsLeft; break;
+                case Base6Directions.Direction.Up: IsInDirection = _orientation.IsDown; break;
+                case Base6Directions.Direction.Down: IsInDirection = _orientation.IsUp; break;
+                default: IsInDirection = (b) => false; break;
             }
-            GridTerminalSystem.GetBlocksOfType(_thrusters, b => IsOnThisGrid(b) && IsDirection(b) && b.IsWorking);
-
-            return new TwrInformation(_thrusters, direction, totalMass);
+            GridTerminalSystem.GetBlocksOfType(_thrusters, b => IsOnThisGrid(b) && IsInDirection(b) && b.IsWorking);
         }
 
     }

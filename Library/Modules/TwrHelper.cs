@@ -1,4 +1,4 @@
-// <mdk sortorder="1000" />
+// <mdk sortorder="2000" />
 using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
@@ -24,34 +24,57 @@ namespace IngameScript {
             public const float StandardGravity = 1.0f;
             public const float StandardGravityMagnitude = 9.81f;
 
-            public static TwrInfo CalculateCurrentTWR(IMyShipController sc, List<IMyThrust> liftThrusters, int inventoryMultiplier, float twr = float.NaN, float gravity = float.NaN) {
+            public static Action<string> Debug = (text) => { };
+
+            public static TwrInfo CalculateEffectiveTWR(IMyShipController sc, List<IMyThrust> liftThrusters, int inventoryMultiplier, float twr = float.NaN, float gravity = float.NaN)
+                => CalculateTWR(sc, liftThrusters, t => t.MaxEffectiveThrust, inventoryMultiplier, twr, gravity);
+    
+            public static TwrInfo CalculateMaxTWR(IMyShipController sc, List<IMyThrust> liftThrusters, int inventoryMultiplier, float twr = float.NaN, float gravity = float.NaN)
+                => CalculateTWR(sc, liftThrusters, t => t.MaxThrust, inventoryMultiplier, twr, gravity);
+
+            private static TwrInfo CalculateTWR(IMyShipController sc, List<IMyThrust> liftThrusters, Func<IMyThrust, float> thrustSelector, int inventoryMultiplier, float twr, float gravity) {
                 var shipMass = sc.CalculateShipMass();
 
-                var gravityMagnitude = float.IsNaN(gravity) 
+                //Debug($"gravity: {gravity}");
+                var gravityMagnitude = float.IsNaN(gravity)
                     ? (float)sc.GetNaturalGravity().Length()
                     : gravity * StandardGravityMagnitude;
+                //Debug($"gravityMagnitude: {gravityMagnitude}");
 
-                var effectiveThrust = liftThrusters.Sum(t => t.MaxEffectiveThrust);
+                var thrust = liftThrusters.Sum(thrustSelector);
+                //Debug($"thrust: {thrust}");
+
+                //Debug($"twr: {twr}");
                 if (float.IsNaN(twr)) {
-                    var physMassNewtons = shipMass.PhysicalMass * gravityMagnitude;
-                    twr = effectiveThrust / physMassNewtons;
+                    twr = thrust / (shipMass.PhysicalMass * gravityMagnitude);
                 }
+                
+                Debug($"twr: {twr}");
 
-                var twrThrust = effectiveThrust / twr;
-                var currentMaxCargoMass = ((twrThrust / gravityMagnitude) - shipMass.BaseMass) * inventoryMultiplier;
+                var twrThrust = thrust * twr;
+                Debug($"thrust: {thrust}");
+                Debug($"twrThrust: {twrThrust}");
+                //Debug($"gMagnitude: {gravityMagnitude}");
+                //Debug($"T / GM: {twrThrust / gravityMagnitude}");
+                //Debug($"SM: {shipMass.BaseMass}");
+                //Debug($"A: {(twrThrust / gravityMagnitude) - shipMass.BaseMass}");
+                //Debug($"B: {((twrThrust / gravityMagnitude) - shipMass.BaseMass) * inventoryMultiplier}");
+                var cargoMass = ((twrThrust / gravityMagnitude) - shipMass.BaseMass) * inventoryMultiplier;
+                //Debug($"cargoMass: {cargoMass}");
 
-                return new TwrInfo(twr, currentMaxCargoMass);
+                return new TwrInfo() {
+                    TWR = twr,
+                    CargoMass = cargoMass,
+                    Thrust = thrust
+                };
             }
 
         }
 
         class TwrInfo {
-            public TwrInfo(float twr, float maxCargoMass) {
-                TWR = twr;
-                MaxCargoMass = maxCargoMass;
-            }
-            public float TWR { get; private set; }
-            public float MaxCargoMass { get; private set; }
+            public double Thrust { get; set; }
+            public float TWR { get; set; }
+            public float CargoMass { get; set; }
         }
     }
 }

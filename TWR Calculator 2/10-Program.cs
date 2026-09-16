@@ -53,12 +53,12 @@ namespace IngameScript {
                     return;
                 }
 
-                var twrInfo = TwrHelper.CalculateCurrentTWR(_sc, _liftThrusters, _cfg.InventoryMultiplier, _cfg.MinimumTWR);
+                var twrInfo = TwrHelper.CalculateEffectiveTWR(_sc, _liftThrusters, _cfg.InventoryMultiplier, _cfg.MinimumTWR);
                 AddTwrInfoToOutput(twrInfo);
 
                 _resultsBuilder.AppendLine("");
 
-                twrInfo = TwrHelper.CalculateCurrentTWR(_sc, _liftThrusters, _cfg.InventoryMultiplier, 1.0f);
+                twrInfo = TwrHelper.CalculateEffectiveTWR(_sc, _liftThrusters, _cfg.InventoryMultiplier, 1.0f);
                 AddTwrInfoToOutput(twrInfo);
 
             } finally {
@@ -76,7 +76,7 @@ namespace IngameScript {
             if (!string.IsNullOrWhiteSpace(label))
                 _resultsBuilder.AppendLine(label);
             _resultsBuilder.AppendLine($"At TWR {info.TWR:N1}");
-            _resultsBuilder.AppendLine($"Max Mass: {info.MaxCargoMass:N2} kg");
+            _resultsBuilder.AppendLine($"Max Mass: {info.CargoMass:N2} kg");
         }
 
 
