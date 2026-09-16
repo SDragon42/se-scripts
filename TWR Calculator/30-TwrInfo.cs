@@ -21,16 +21,12 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        class TwrInfo {
-            public TwrInfo(List<IMyThrust> _thrusters, Base6Directions.Direction direction, float totalMass) {
+        class TwrInformation {
+            public TwrInformation(List<IMyThrust> _thrusters, Base6Directions.Direction direction, float totalMass) {
                 var massNewtons = totalMass / 0.101971621;
-
                 Thrust_Direction = direction;
-                NumThrusters = _thrusters.Count;
-
                 EffectiveThrust = _thrusters.Sum(b => (double)b.MaxEffectiveThrust);
                 MaxThrust = _thrusters.Sum(b => (double)b.MaxThrust);
-
                 EffectiveTWR = EffectiveThrust / massNewtons;
                 MaxTWR = MaxThrust / massNewtons;
             }
@@ -40,7 +36,6 @@ namespace IngameScript {
             public double MaxThrust { get; private set; }
             public double EffectiveTWR { get; private set; }
             public double MaxTWR { get; private set; }
-            public int NumThrusters { get; private set; }
         }
     }
 }

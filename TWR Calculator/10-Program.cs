@@ -73,6 +73,11 @@ namespace IngameScript {
 
             // Display results
             Echo(resultText);
+            var display = (Me as IMyTextSurfaceProvider)?.GetSurface(0);
+            if (display != null) {
+                display.ContentType = ContentType.TEXT_AND_IMAGE;
+                display.WriteText(resultText, append: false);
+            }
             var twrDisplay = GridTerminalSystem.GetBlockWithName(DisplayName) as IMyTextPanel;
             if (twrDisplay != null) {
                 twrDisplay.ContentType = ContentType.TEXT_AND_IMAGE;
@@ -108,7 +113,7 @@ namespace IngameScript {
             return sb.ToString();
         }
 
-        TwrInfo CalcTwrInDirection(float totalMass, Base6Directions.Direction direction) {
+        TwrInformation CalcTwrInDirection(float totalMass, Base6Directions.Direction direction) {
             Func<IMyTerminalBlock, bool> IsDirection;
             switch (direction) {
                 case Base6Directions.Direction.Forward: IsDirection = _orientation.IsBackward; break;
@@ -121,7 +126,7 @@ namespace IngameScript {
             }
             GridTerminalSystem.GetBlocksOfType(_thrusters, b => IsOnThisGrid(b) && IsDirection(b) && b.IsWorking);
 
-            return new TwrInfo(_thrusters, direction, totalMass);
+            return new TwrInformation(_thrusters, direction, totalMass);
         }
 
     }
