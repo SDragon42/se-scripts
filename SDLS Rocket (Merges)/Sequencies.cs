@@ -67,12 +67,8 @@ namespace IngameScript {
 
             yield return false;
         }
-        /// <summary>
-        /// Common Core
-        /// </summary>
-        /// <param name="primaryTag"></param>
-        /// <param name="secondaryTag"></param>
-        /// <returns></returns>
+        
+        // Common Core
         IEnumerator<bool> SEQ_LaunchStage(string primaryTag, string secondaryTag, bool stage) {
 
             yield return false;

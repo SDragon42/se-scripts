@@ -51,7 +51,7 @@ namespace IngameScript {
             }
 
             if (!MaxOperationalCargoMass.HasValue || MaxOperationalCargoMass.Value == 0) {
-                MaxOperationalCargoMass = ThrusterHelper.GetMaxMass(Sc, LiftThrusters, MinimumTWR, InventoryMultiplier);
+                MaxOperationalCargoMass = ThrusterHelper.GetMaxLiftableCargoMass(Sc, LiftThrusters, InventoryMultiplier, MinimumTWR);
                 Flag_SaveConfig = true;
             }
 
