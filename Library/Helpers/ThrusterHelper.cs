@@ -37,12 +37,12 @@ namespace IngameScript {
             private static float CalculateTWR(IMyShipController sc, List<IMyThrust> liftThrusters, Func<IMyThrust, float> thrustSelector, float gravity) {
                 var gravityMagnitude = GetGravityMagnitude(sc, gravity);
                 //Debug($"gravityMagnitude: {gravityMagnitude}");
-                //if (float.IsNaN(gravityMagnitude) || gravityMagnitude <= 0f) return float.NaN;
                 var thrust = liftThrusters.Sum(thrustSelector);
                 //Debug($"thrust: {thrust}");
+                var physicalMass = sc.CalculateShipMass().PhysicalMass;
                 var twr = float.IsNaN(gravityMagnitude) || gravityMagnitude <= 0f
-                    ? thrust / (sc.CalculateShipMass().PhysicalMass)
-                    : thrust / (sc.CalculateShipMass().PhysicalMass * gravityMagnitude);
+                    ? thrust / physicalMass
+                    : thrust / (physicalMass * gravityMagnitude);
                 //Debug($"twr: {twr}");
                 return (float)Math.Round(twr, 2);
             }
@@ -69,6 +69,7 @@ namespace IngameScript {
 
             static float CalculateLiftableCargoMass(IMyShipController sc, List<IMyThrust> thrusters, Func<IMyThrust, float> thrustSelector, int worldInvMultiplier, float minimumTwr = float.NaN, float gravity = float.NaN) {
                 minimumTwr = float.IsNaN(minimumTwr) ? 1.0f : minimumTwr;
+                if (float.IsNaN(minimumTwr) || minimumTwr <= 0f) return float.NaN;
                 //Debug($"minimumTwr: {minimumTwr}");
                 var gravityMagnitude = GetGravityMagnitude(sc, gravity);
                 //Debug($"gravityMagnitude: {gravityMagnitude}");
