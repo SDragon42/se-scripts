@@ -20,8 +20,8 @@ using VRageMath;
 
 namespace IngameScript {
     class TimBlockConfigData {
-        public Action<string> Echo = (text) => { };
-        public Action<string> Debug = (text) => { };
+        // public Action<string> Echo = (text) => { };
+        // public Action<string> Debug = (text) => { };
 
         bool GetIndexes(IMyTerminalBlock b, string key, out int start, out int end) {
             start = b.CustomData.IndexOf(key);
@@ -37,7 +37,7 @@ namespace IngameScript {
             return true;
         }
         public bool Get(IMyTerminalBlock b, string key, out string timConfig) {
-            Debug("ConfigData.Get()");
+            // Debug("ConfigData.Get()");
             timConfig = string.Empty;
 
             int start, end;
@@ -51,8 +51,8 @@ namespace IngameScript {
         }
         public void Set(IMyTerminalBlock b, string key, string timConfig) {
             try {
-                Debug("ConfigData.Set()");
-                Debug(">> " + timConfig);
+                // Debug("ConfigData.Set()");
+                // Debug(">> " + timConfig);
                 int start, end;
                 if (!GetIndexes(b, key, out start, out end)) {
                     b.CustomData += $"\n\n{key}";

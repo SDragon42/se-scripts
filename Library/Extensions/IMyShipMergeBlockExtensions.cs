@@ -19,11 +19,7 @@ using VRageMath;
 
 namespace IngameScript {
     static class MyShipMergeBlockExtensions {
-        /// <summary>
-        /// Checks if the merge block is merged to another merge block. This a temp fix until Keen fixed the built in IsConnected property.
-        /// </summary>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        // Checks if the merge block is merged to another merge block. This a temp fix until Keen fixed the built in IsConnected property.
         public static bool IsMerged(this IMyShipMergeBlock b) {
             //Find direction that block merges to
             Matrix mat;

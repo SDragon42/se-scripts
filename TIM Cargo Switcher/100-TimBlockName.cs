@@ -21,13 +21,12 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
         class TimBlockName {
-            public Action<string> Echo = (text) => { };
-            public Action<string> Debug = (text) => { };
-
+            // public Action<string> Echo = (text) => { };
+            // public Action<string> Debug = (text) => { };
             public string TimTag { get; set; }
 
             public string Get(IMyTerminalBlock b) {
-                Debug("TimBlockConfig.Get()");
+                // Debug("TimBlockConfig.Get()");
                 var start = b.CustomName.IndexOf("[" + TimTag);
                 if (start < 0) return string.Empty;
 
@@ -35,12 +34,12 @@ namespace IngameScript {
                 var end = b.CustomName.IndexOf(']', start);
 
                 var timConfig = b.CustomName.Substring(start, end - start);
-                Debug(">> " + timConfig);
+                // Debug(">> " + timConfig);
                 return timConfig;
             }
 
             public void Replace(IMyTerminalBlock b, string timConfig) {
-                Debug("TimBlockConfig.Replace()");
+                // Debug("TimBlockConfig.Replace()");
                 Remove(b);
                 b.CustomName = $"{b.CustomName} [{TimTag} {timConfig}]";
             }

@@ -100,14 +100,9 @@ namespace IngameScript {
 
 
 
-            /// <summary>Shows the percentage of instructions executed at the current moment.
-            /// </summary>
-            /// <param name="thisObj"></param>
-            /// <returns></returns>
-            /// <remarks>
-            /// This code is provided by Wicorel.
-            /// https://forums.keenswh.com/threads/how-to-measure-the-performance-impact-of-certain-changes-to-ones-code.7395259/#post-1287057132
-            /// </remarks>
+            // Shows the percentage of instructions executed at the current moment. 
+            //This code is provided by Wicorel.
+            // https://forums.keenswh.com/threads/how-to-measure-the-performance-impact-of-certain-changes-to-ones-code.7395259/#post-1287057132
             public static float ShowExecutionCost(MyGridProgram thisObj) {
                 var percentage = CalcInstructionCostPercentage(thisObj);
                 thisObj.Echo($"Instructions: {percentage:N2} %");
