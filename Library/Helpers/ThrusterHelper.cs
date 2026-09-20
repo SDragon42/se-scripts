@@ -21,19 +21,29 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
         public static class ThrusterHelper {
-            //public static Action<string> Debug = (t) => { };
-            //public static void GetThrusterOrientation(IMyTerminalBlock refBlock, IList<IMyThrust> unsortedThrusters, IList<IMyThrust> mainThrusters, IList<IMyThrust> otherThrusters) {
-            //    var forwardDir = refBlock.Orientation.Forward;
-            //    mainThrusters.Clear();
-            //    otherThrusters.Clear();
-            //    foreach (var thruster in unsortedThrusters) {
-            //        var thrustDirn = Base6Directions.GetFlippedDirection(thruster.Orientation.Forward);
-            //        if (thrustDirn == forwardDir)
-            //            mainThrusters.Add(thruster);
-            //        else
-            //            otherThrusters.Add(thruster);
-            //    }
-            //}
+            public const float StandardGravity = 1.0f;
+            public const float StandardGravityMagnitude = 9.81f;
+
+            // Used for debugging purposes, can be set to a custom action to log messages.
+            public static Action<string> Debug = (t) => { };
+
+
+            public static float CalculateEffectiveTWR(IMyShipController sc, List<IMyThrust> liftThrusters, float gravity = float.NaN)
+                => CalculateTWR(sc, liftThrusters, t => t.MaxEffectiveThrust, gravity);
+
+            public static float CalculateMaxTWR(IMyShipController sc, List<IMyThrust> liftThrusters, float gravity = float.NaN)
+                => CalculateTWR(sc, liftThrusters, t => t.MaxThrust, gravity);
+
+            private static float CalculateTWR(IMyShipController sc, List<IMyThrust> liftThrusters, Func<IMyThrust, float> thrustSelector, float gravity) {
+                var gravityMagnitude = GetGravityMagnitude(sc, gravity);
+                //Debug($"gravityMagnitude: {gravityMagnitude}");
+                var thrust = liftThrusters.Sum(thrustSelector);
+                //Debug($"thrust: {thrust}");
+                var twr = thrust / (sc.CalculateShipMass().PhysicalMass * gravityMagnitude);
+                //Debug($"twr: {twr}");
+                return (float)Math.Round(twr, 2);
+            }
+
 
             // Calculates the maximum liftable cargo mass for a ship based on the provided thrusters, world inverse multiplier, minimum thrust-to-weight ratio, and gravity.
             // param: "sc" - The ship controller of the grid.
@@ -42,19 +52,40 @@ namespace IngameScript {
             // param: "twr" - The minimum thrust-to-weight ratio the grid should maintain.
             // param: "gravity" - The gravity factor (relative to Earth's gravity).
             // returns: The maximum liftable cargo mass.
-            public static float GetMaxLiftableCargoMass(IMyShipController sc, List<IMyThrust> thrusters, int worldInvMultiplier, float twr, float gravity = float.NaN) {
-                // if (float.IsNaN(gravity)) gravity = (float)sc.GetNaturalGravity().Length() / 9.81f;
-                var gravityMagnitude = float.IsNaN(gravity)
-                    ? (float)sc.GetNaturalGravity().Length()
-                    : gravity * 9.81f; // m/s²
-                if (gravityMagnitude <= 0f) return float.NaN;
+            public static float CalculateEffectiveLiftableCargoMass(IMyShipController sc, List<IMyThrust> thrusters, int worldInvMultiplier, float minimumTwr = float.NaN, float gravity = float.NaN)
+                => CalculateLiftableCargoMass(sc, thrusters, t => t.MaxEffectiveThrust, worldInvMultiplier, minimumTwr, gravity);
+            // Calculates the maximum liftable cargo mass for a ship based on the provided thrusters, world inverse multiplier, minimum thrust-to-weight ratio, and gravity.
+            // param: "sc" - The ship controller of the grid.
+            // param: "thrusters" - The list of thrusters providing lift.
+            // param: "worldInvMultiplier" - The world inventory multiplier.
+            // param: "minimumTwr" - The minimum thrust-to-weight ratio the grid should maintain.
+            // param: "gravity" - The gravity factor (relative to Earth's gravity).
+            // returns: The maximum liftable cargo mass.
+            public static float CalculateMaxLiftableCargoMass(IMyShipController sc, List<IMyThrust> thrusters, int worldInvMultiplier, float minimumTwr = float.NaN, float gravity = float.NaN)
+                => CalculateLiftableCargoMass(sc, thrusters, t => t.MaxThrust, worldInvMultiplier, minimumTwr, gravity);
 
-                var effectiveThrust = thrusters.Sum(t => t.MaxEffectiveThrust);
-                var twrThrust = effectiveThrust / twr;
-                var gridMass = sc.CalculateShipMass().BaseMass;
-                var maxCargoMass = ((twrThrust / gravityMagnitude) - gridMass) * worldInvMultiplier;
-                return (float)maxCargoMass;
+            static float CalculateLiftableCargoMass(IMyShipController sc, List<IMyThrust> thrusters, Func<IMyThrust, float> thrustSelector, int worldInvMultiplier, float minimumTwr = float.NaN, float gravity = float.NaN) {
+                minimumTwr = float.IsNaN(minimumTwr) ? 1.0f : minimumTwr;
+                Debug($"minimumTwr: {minimumTwr}");
+                var gravityMagnitude = GetGravityMagnitude(sc, gravity);
+                Debug($"gravityMagnitude: {gravityMagnitude}");
+                if (float.IsNaN(gravityMagnitude) || gravityMagnitude <= 0f) return float.NaN;
+                var shipMass = sc.CalculateShipMass();
+                var gravAdjustedThrust = thrusters.Sum(thrustSelector) / gravityMagnitude;
+                Debug($"gravAdjustedThrust: {gravAdjustedThrust}");
+                var safeMaxMass3 = gravAdjustedThrust / minimumTwr;
+                Debug($"safeMaxMass3: {safeMaxMass3}");
+                var liftableCargoMass = (safeMaxMass3 - shipMass.BaseMass) * worldInvMultiplier;
+                Debug($"liftableCargoMass: {liftableCargoMass}");
+                var remainingCargoMass = liftableCargoMass - (shipMass.PhysicalMass - shipMass.BaseMass);
+                Debug($"remainingCargoMass: {remainingCargoMass}");
+                return remainingCargoMass;
             }
+
+            static float GetGravityMagnitude(IMyShipController sc, float gravity)
+                => float.IsNaN(gravity)
+                    ? (float)sc.GetNaturalGravity().Length()
+                    : gravity * StandardGravityMagnitude;
         }
     }
 }

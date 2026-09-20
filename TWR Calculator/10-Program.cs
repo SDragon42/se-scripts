@@ -34,8 +34,6 @@ namespace IngameScript {
         public Program() {
             _cfg = new Config(Me, GridTerminalSystem);
             _cfg.Load(true);
-
-            //TwrHelper.Debug = Echo;
         }
 
         public void Main(string argument, UpdateType updateSource) {
@@ -102,17 +100,21 @@ namespace IngameScript {
                 LoadThrustersInDirection(direction);
                 _resultsBuilder.AppendLine($"{_thrusters.Count:N0} {direction} Thrusters");
 
-                _resultsBuilder.AppendLine("    Effective / Maximum");
-                var effectiveTwr = TwrHelper.CalculateEffectiveTWR(_sc, _thrusters, _cfg.InventoryMultiplier, twr: 1f);
-                //TwrHelper.CalculateEffectiveTWR(_sc, _thrusters, _cfg.InventoryMultiplier, twr: 1.5f);
-                //TwrHelper.CalculateEffectiveTWR(_sc, _thrusters, _cfg.InventoryMultiplier, twr: 1.59f);
-                //TwrHelper.CalculateEffectiveTWR(_sc, _thrusters, _cfg.InventoryMultiplier, twr: 1.592f);
-                //TwrHelper.CalculateEffectiveTWR(_sc, _thrusters, _cfg.InventoryMultiplier, twr: 1.5925f);
-                var maxTwr = TwrHelper.CalculateMaxTWR(_sc, _thrusters, _cfg.InventoryMultiplier, twr: 2f);
-                _resultsBuilder.AppendLine($"T:  {effectiveTwr.Thrust / 1000.0,7:N0} kN / {maxTwr.Thrust / 1000.0:N0} kN");
-                _resultsBuilder.AppendLine($"TWR: {effectiveTwr.TWR,8:N2} / {maxTwr.TWR:N2}");
-                _resultsBuilder.AppendLine($"Cargo: {effectiveTwr.CargoMass,8:N2} kg / {maxTwr.CargoMass:N2} kg");
-                //_resultsBuilder.AppendLine($"C: {effectiveTwr.CargoMass:N2} kg");
+                _resultsBuilder.AppendLine("    Current / Maximum");
+
+                var currentThrust = _thrusters.Sum(t => t.MaxEffectiveThrust);
+                var maxThrust = _thrusters.Sum(t => t.MaxThrust);
+                _resultsBuilder.AppendLine($"T:  {FormatForce(currentThrust)} / {FormatForce(maxThrust)}");
+
+                var currentTwr = ThrusterHelper.CalculateEffectiveTWR(_sc, _thrusters);
+                var maxTwr = ThrusterHelper.CalculateMaxTWR(_sc, _thrusters);
+                _resultsBuilder.AppendLine($"TWR: {currentTwr,8:N2} / {maxTwr:N2}");
+
+                var currentLiftCargo = ThrusterHelper.CalculateEffectiveLiftableCargoMass(_sc, _thrusters, _cfg.InventoryMultiplier, minimumTwr: _cfg.MinimumTWR);
+                var maxLiftCargo = ThrusterHelper.CalculateMaxLiftableCargoMass(_sc, _thrusters, _cfg.InventoryMultiplier, minimumTwr: _cfg.MinimumTWR);
+                _resultsBuilder.AppendLine($"Effective Cargo: {FormatMass(currentLiftCargo)}");
+                _resultsBuilder.AppendLine($"Maximum Cargo: {FormatMass(maxLiftCargo)}");
+
                 _resultsBuilder.AppendLine();
             }
         }
@@ -129,6 +131,24 @@ namespace IngameScript {
                 default: IsInDirection = (b) => false; break;
             }
             GridTerminalSystem.GetBlocksOfType(_thrusters, b => IsOnThisGrid(b) && IsInDirection(b) && b.IsWorking);
+        }
+
+        string FormatMass(float mass) {
+            if (mass < 1000f)
+                return $"{mass:N2} kg";
+            else if (mass < 1000000f)
+                return $"{mass / 1000f:N2} t";
+            else
+                return $"{mass / 1000000f:N2} kt";
+        }
+
+        string FormatForce(float force) {
+            if (force < 1000f)
+                return $"{force:N2} N";
+            else if (force < 1000000f)
+                return $"{force / 1000f:N2} kN";
+            else
+                return $"{force / 1000000f:N2} MN";
         }
 
     }

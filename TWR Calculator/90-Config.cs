@@ -22,17 +22,15 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
 
         class Config {
-            //public float MinimumTWR { get; private set; } = 1.5f;
+            public float MinimumTWR { get; private set; } = 1.2f;
             public int InventoryMultiplier { get; private set; } = 0;
-            //public string ThrusterGroupName { get; private set; } = string.Empty;
             public string ShipControllerName { get; private set; } = string.Empty;
             public string DisplayName { get; private set; } = string.Empty;
             public int MassToIgnore { get; private set; } = 0;
 
             // Configuration
-            //readonly MyIniKey KEY_MinimumTWR = new MyIniKey("TWR", "Minimum TWR");
+            readonly MyIniKey KEY_MinimumTWR = new MyIniKey("TWR", "Minimum TWR");
             readonly MyIniKey KEY_WorldInvMulti = new MyIniKey("TWR", "Inventory Multiplier");
-            //readonly MyIniKey KEY_ThrusterGroup = new MyIniKey("TWR", "Thruster Group");
             readonly MyIniKey KEY_ShipCtrlName = new MyIniKey("TWR", "Ship Ctrl Name");
             readonly MyIniKey KEY_DisplayName = new MyIniKey("TWR", "Display Name");
             readonly MyIniKey KEY_IgnoreMass = new MyIniKey("TWR", "Ignore Mass");
@@ -53,9 +51,8 @@ namespace IngameScript {
 
                 _ini.TryParse(Me.CustomData);
 
-                //MinimumTWR = _ini.Add(KEY_MinimumTWR, MinimumTWR, "The minimum TWR to use for calc maximum cargo capacity").ToSingle();
+                MinimumTWR = _ini.Add(KEY_MinimumTWR, MinimumTWR, "The minimum TWR to use for calc maximum cargo capacity").ToSingle();
                 InventoryMultiplier = _ini.Add(KEY_WorldInvMulti, InventoryMultiplier, "The World setting for Inventory Multiplier").ToInt32();
-                //ThrusterGroupName = _ini.Add(KEY_ThrusterGroup, ThrusterGroupName, "The Group name to use for thrusters").ToString();
                 ShipControllerName = _ini.Add(KEY_ShipCtrlName, ShipControllerName, "Name of the remote control block").ToString();
                 DisplayName = _ini.Add(KEY_DisplayName, DisplayName, "Name of the display to show results on").ToString();
                 MassToIgnore = _ini.Add(KEY_IgnoreMass, MassToIgnore, "The amount of mass to ignore from TWR calculations").ToInt32();

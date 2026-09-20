@@ -53,17 +53,19 @@ namespace IngameScript {
                     return;
                 }
 
-                var twrInfo = TwrHelper.CalculateEffectiveTWR(_sc, _liftThrusters, _cfg.InventoryMultiplier, _cfg.MinimumTWR);
-                AddTwrInfoToOutput(twrInfo);
+                var EffectiveTwr = ThrusterHelper.CalculateEffectiveTWR(_sc, _liftThrusters);
 
+                var minimumTwr = 1.2f;
+                var cargoMass = ThrusterHelper.CalculateEffectiveLiftableCargoMass(_sc, _liftThrusters, _cfg.InventoryMultiplier, minimumTwr: minimumTwr);
+
+                _resultsBuilder.AppendLine($"TWR: {EffectiveTwr}");
                 _resultsBuilder.AppendLine("");
-
-                twrInfo = TwrHelper.CalculateEffectiveTWR(_sc, _liftThrusters, _cfg.InventoryMultiplier, 1.0f);
-                AddTwrInfoToOutput(twrInfo);
-
+                _resultsBuilder.AppendLine($"At Min. TWR: {minimumTwr}");
+                _resultsBuilder.AppendLine($"Cargo: " + FormatMass(cargoMass));
+                _resultsBuilder.AppendLine("");
             } finally {
                 var resultString = _resultsBuilder.ToString();
-                Echo(resultString);
+                Echo(resultString.Replace("[", "(").Replace("]", ")"));
                 var display = (Me as IMyTextSurfaceProvider)?.GetSurface(0);
                 if (display != null) {
                     display.ContentType = ContentType.TEXT_AND_IMAGE;
@@ -72,11 +74,22 @@ namespace IngameScript {
             }
         }
 
-        private void AddTwrInfoToOutput(TwrInfo info, string label = "") {
-            if (!string.IsNullOrWhiteSpace(label))
-                _resultsBuilder.AppendLine(label);
-            _resultsBuilder.AppendLine($"At TWR {info.TWR:N1}");
-            _resultsBuilder.AppendLine($"Max Mass: {info.CargoMass:N2} kg");
+        private string FormatMass(float mass) {
+            if (mass < 1000f)
+                return $"{mass:N2} kg";
+            else if (mass < 1000000f)
+                return $"{mass / 1000f:N2} t";
+            else
+                return $"{mass / 1000000f:N2} kt";
+        }
+
+        string FormatForce(float force) {
+            if (force < 1000f)
+                return $"{force:N2} N";
+            else if (force < 1000000f)
+                return $"{force / 1000f:N2} kN";
+            else
+                return $"{force / 1000000f:N2} MN";
         }
 
 
@@ -96,7 +109,6 @@ namespace IngameScript {
                 _resultsBuilder.AppendLine($"No Cockpit or RemoteControl found.");
                 return;
             }
-            _resultsBuilder.AppendLine($"SC: {_sc.CustomName}");
 
             _blockOrientation.Init(_sc);
 
@@ -105,7 +117,6 @@ namespace IngameScript {
                 GridTerminalSystem.GetBlockGroupWithName(_cfg.ThrusterGroupName)?.GetBlocksOfType(_liftThrusters, IsLiftThruster);
             if (_liftThrusters.Count == 0)
                 GridTerminalSystem.GetBlocksOfType(_liftThrusters, IsLiftThruster);
-            _resultsBuilder.AppendLine($"# Thrusters: {_liftThrusters.Count}");
         }
 
         bool IsLiftThruster(IMyTerminalBlock b) => IsOnThisGrid(b) && _blockOrientation.IsDown(b) && b.IsWorking;
