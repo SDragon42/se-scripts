@@ -23,7 +23,7 @@ namespace IngameScript {
 
         class Config {
             public float MinimumTWR { get; private set; } = 1.2f;
-            public int InventoryMultiplier { get; private set; } = 0;
+            public int InventoryMultiplier { get; private set; } = 1;
             public string ShipControllerName { get; private set; } = string.Empty;
             public string DisplayName { get; private set; } = string.Empty;
             public int MassToIgnore { get; private set; } = 0;
@@ -59,10 +59,10 @@ namespace IngameScript {
 
                 if (InventoryMultiplier <= 0) {
                     var b = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCargoContainer>(Collect.IsCargoContainer);
-                    if (b != null) {
-                        InventoryMultiplier = CargoHelper.GetInventoryMultiplier(b);
-                        _ini.Set(KEY_WorldInvMulti, InventoryMultiplier);
-                    }
+                    InventoryMultiplier = b != null
+                        ? CargoHelper.GetInventoryMultiplier(b)
+                        : 1;
+                    _ini.Set(KEY_WorldInvMulti, InventoryMultiplier);
                 }
 
                 Me.CustomData = _ini.ToString();
