@@ -68,6 +68,7 @@ namespace IngameScript {
                 => CalculateLiftableCargoMass(sc, thrusters, t => t.MaxThrust, worldInvMultiplier, minimumTwr, gravity);
 
             static float CalculateLiftableCargoMass(IMyShipController sc, List<IMyThrust> thrusters, Func<IMyThrust, float> thrustSelector, int worldInvMultiplier, float minimumTwr = float.NaN, float gravity = float.NaN) {
+                if (worldInvMultiplier <= 0) return float.NaN;
                 minimumTwr = float.IsNaN(minimumTwr) ? 1.0f : minimumTwr;
                 if (float.IsNaN(minimumTwr) || minimumTwr <= 0f) return float.NaN;
                 //Debug($"minimumTwr: {minimumTwr}");
