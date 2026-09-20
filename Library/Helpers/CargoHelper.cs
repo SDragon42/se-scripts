@@ -20,9 +20,6 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        /// <summary>
-        /// 
-        /// </summary>
         static class CargoHelper {
 
             public const long MaxVolume_SmBlock_SmContainer = 125000;
@@ -31,11 +28,7 @@ namespace IngameScript {
             public const long MaxVolume_LgBlock_SmContainer = 15625000;
             public const long MaxVolume_LgBlock_LgContainer = 421000000;
 
-            /// <summary>
-            /// Gets the Inventory Multiplier amount from the list of cargo containers.
-            /// </summary>
-            /// <param name="blockList"></param>
-            /// <returns></returns>
+            // Gets the Inventory Multiplier amount from the list of cargo containers.
             public static int GetInventoryMultiplier(List<IMyCargoContainer> blockList) {
                 if (blockList == null) return 0;
                 foreach (var b in blockList) {
@@ -44,11 +37,7 @@ namespace IngameScript {
                 }
                 return 0;
             }
-            /// <summary>
-            /// Gets the Inventory Multiplier amount from the cargo container block.
-            /// </summary>
-            /// <param name="b"></param>
-            /// <returns></returns>
+            // Gets the Inventory Multiplier amount from the cargo container block.
             public static int GetInventoryMultiplier(IMyCargoContainer b) {
                 var defMaxVolume = GetDefaultMaxVolume(b);
                 if (defMaxVolume <= 0) return 0;
@@ -57,11 +46,7 @@ namespace IngameScript {
                 return Convert.ToInt32(maxVolume / defMaxVolume);
             }
 
-            /// <summary>
-            /// Gets the maximum volume amount from the vanilla cargo container blocks.
-            /// </summary>
-            /// <param name="b"></param>
-            /// <returns></returns>
+            // Gets the maximum volume amount from the vanilla cargo container blocks.
             public static long GetDefaultMaxVolume(IMyCargoContainer b) {
                 if (b != null)
                     switch (b.BlockDefinition.SubtypeId) {
@@ -81,23 +66,11 @@ namespace IngameScript {
                         val += propMethod(b.GetInventory(i));
                 return val;
             }
-            /// <summary>
-            /// Gets the maximum volume of the inventory in the block.
-            /// </summary>
-            /// <param name="inv"></param>
-            /// <returns></returns>
+            // Gets the maximum volume of the inventory in the block.
             public static long GetInventoryMaxVolume(IMyInventory inv) => inv?.MaxVolume.RawValue ?? 0;
-            /// <summary>
-            /// Gets the currently used volume of the inventory in the block.
-            /// </summary>
-            /// <param name="inv"></param>
-            /// <returns></returns>
+            // Gets the currently used volume of the inventory in the block.
             public static long GetInventoryCurrentVolume(IMyInventory inv) => inv?.CurrentVolume.RawValue ?? 0;
-            /// <summary>
-            /// Gets the currently used mass of the inventory in the block.
-            /// </summary>
-            /// <param name="inv"></param>
-            /// <returns></returns>
+            // Gets the currently used mass of the inventory in the block.
             public static long GetInventoryCurrentMass(IMyInventory inv) => inv?.CurrentMass.RawValue ?? 0;
 
         }

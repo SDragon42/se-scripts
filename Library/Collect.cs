@@ -20,7 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        public partial class Collect {
+        static class Collect {
 
             public static bool IsOrientedForward(IMyTerminalBlock b) => b.Orientation.TransformDirectionInverse(b.Orientation.Forward) == Base6Directions.Direction.Forward;
             public static bool IsTagged(IMyTerminalBlock b, string tag) => b.CustomName.IndexOf(tag, StringComparison.OrdinalIgnoreCase) >= 0;
