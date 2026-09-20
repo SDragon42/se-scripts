@@ -55,13 +55,13 @@ namespace IngameScript {
 
                 var EffectiveTwr = ThrusterHelper.CalculateEffectiveTWR(_sc, _liftThrusters);
 
-                var minimumTwr = 1.2f;
+                var minimumTwr = _cfg.MinimumTWR;
                 var cargoMass = ThrusterHelper.CalculateEffectiveLiftableCargoMass(_sc, _liftThrusters, _cfg.InventoryMultiplier, minimumTwr: minimumTwr);
 
                 _resultsBuilder.AppendLine($"TWR: {EffectiveTwr}");
                 _resultsBuilder.AppendLine("");
                 _resultsBuilder.AppendLine($"At Min. TWR: {minimumTwr}");
-                _resultsBuilder.AppendLine($"Cargo: " + FormatMass(cargoMass));
+                _resultsBuilder.AppendLine($"Cargo: {FormatMass(cargoMass)}");
                 _resultsBuilder.AppendLine("");
             } finally {
                 var resultString = _resultsBuilder.ToString();
