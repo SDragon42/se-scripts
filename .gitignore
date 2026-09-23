@@ -350,4 +350,5 @@ MigrationBackup/
 .ionide/
 
 # MDK
+mdk.local.ini
 *.mdk.local.ini
