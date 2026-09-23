@@ -26,7 +26,7 @@ namespace IngameScript {
             TimeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
             var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - TimeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
 
-            Echo($"Utility Ship Systems 1.6.9 {RunningModule.GetSymbol()}");
+            Echo("Utility Ship Systems $SCRIPT_VERSION$ " + RunningModule.GetSymbol());
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.\n");
             Echo("Configure script in 'Custom Data'\n");
             Echo(Instructions);
@@ -51,7 +51,7 @@ namespace IngameScript {
             }
 
             if (!MaxOperationalCargoMass.HasValue || MaxOperationalCargoMass.Value == 0) {
-                MaxOperationalCargoMass = ThrusterHelper.GetMaxLiftableCargoMass(Sc, LiftThrusters, InventoryMultiplier, MinimumTWR);
+                MaxOperationalCargoMass = ThrusterHelper.CalculateMaxLiftableCargoMass(Sc, LiftThrusters, InventoryMultiplier, MinimumTWR);
                 Flag_SaveConfig = true;
             }
 
