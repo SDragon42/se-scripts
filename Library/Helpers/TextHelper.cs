@@ -88,6 +88,23 @@ namespace IngameScript {
                 }
                 return textSB.ToString();
             }
+
+
+            public static string FormatMass(float? mass) => FormatMass((double?)mass);
+            public static string FormatMass(double? mass) {
+                if (!mass.HasValue || double.IsNaN(mass.Value)) return string.Empty;
+                if (mass < 1000) return $"{mass:N2} kg";
+                if (mass < 1000000) return $"{mass / 1000:N2} t";
+                return $"{mass / 1000000:N2} kt";
+            }
+
+            public static string FormatForce(float? force) => FormatForce((double?)force);
+            public static string FormatForce(double? force) {
+                if (!force.HasValue || double.IsNaN(force.Value)) return string.Empty;
+                if (force < 1000) return $"{force:N2} N";
+                if (force < 1000000) return $"{force / 1000:N2} kN";
+                return $"{force / 1000000:N2} MN";
+            }
         }
     }
 }
