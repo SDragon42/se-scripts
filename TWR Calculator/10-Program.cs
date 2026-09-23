@@ -104,7 +104,7 @@ namespace IngameScript {
 
                 var currentThrust = _thrusters.Sum(t => t.MaxEffectiveThrust);
                 var maxThrust = _thrusters.Sum(t => t.MaxThrust);
-                _resultsBuilder.AppendLine($"T:  {FormatForce(currentThrust)} / {FormatForce(maxThrust)}");
+                _resultsBuilder.AppendLine($"T:  {TextHelper.FormatForce(currentThrust)} / {TextHelper.FormatForce(maxThrust)}");
 
                 var currentTwr = ThrusterHelper.CalculateEffectiveTWR(_sc, _thrusters);
                 var maxTwr = ThrusterHelper.CalculateMaxTWR(_sc, _thrusters);
@@ -112,8 +112,8 @@ namespace IngameScript {
 
                 var currentLiftCargo = ThrusterHelper.CalculateEffectiveLiftableCargoMass(_sc, _thrusters, _cfg.InventoryMultiplier, minimumTwr: _cfg.MinimumTWR);
                 var maxLiftCargo = ThrusterHelper.CalculateMaxLiftableCargoMass(_sc, _thrusters, _cfg.InventoryMultiplier, minimumTwr: _cfg.MinimumTWR);
-                _resultsBuilder.AppendLine($"Effective Cargo: {FormatMass(currentLiftCargo)}");
-                _resultsBuilder.AppendLine($"Maximum Cargo: {FormatMass(maxLiftCargo)}");
+                _resultsBuilder.AppendLine($"Effective Cargo: {TextHelper.FormatMass(currentLiftCargo)}");
+                _resultsBuilder.AppendLine($"Maximum Cargo: {TextHelper.FormatMass(maxLiftCargo)}");
 
                 _resultsBuilder.AppendLine();
             }
@@ -131,24 +131,6 @@ namespace IngameScript {
                 default: IsInDirection = (b) => false; break;
             }
             GridTerminalSystem.GetBlocksOfType(_thrusters, b => IsOnThisGrid(b) && IsInDirection(b) && b.IsWorking);
-        }
-
-        string FormatMass(float mass) {
-            if (mass < 1000f)
-                return $"{mass:N2} kg";
-            else if (mass < 1000000f)
-                return $"{mass / 1000f:N2} t";
-            else
-                return $"{mass / 1000000f:N2} kt";
-        }
-
-        string FormatForce(float force) {
-            if (force < 1000f)
-                return $"{force:N2} N";
-            else if (force < 1000000f)
-                return $"{force / 1000f:N2} kN";
-            else
-                return $"{force / 1000000f:N2} MN";
         }
 
     }
