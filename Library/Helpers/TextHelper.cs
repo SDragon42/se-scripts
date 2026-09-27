@@ -23,70 +23,76 @@ namespace IngameScript {
         // Whip's Monospace TextHelper Class v2
         // Taken from his Compass Script
         static class TextHelper {
-            static readonly StringBuilder textSB = new StringBuilder();
-            const float adjustedPixelWidth = 512f / 0.778378367f;
-            const int monospaceCharWidth = 24 + 1; //accounting for spacer
+            const float ADJUSTED_PIXEL_WIDTH = 512f / 0.778378367f; //adjusted for the font size of 0.778378367f to make the text fit the screen width of 512 pixels
+            const int MONOSPACE_CHAR_WIDTH = 24 + 1; //accounting for spacer
+
+            static StringBuilder _textBuilder = null;
+            static StringBuilder InitStringBuilder() {
+                if (_textBuilder == null) _textBuilder = new StringBuilder();
+                _textBuilder.Clear();
+                return _textBuilder;
+            }
 
             public static float GetMinimumFontSizeMonospace(int textCharacters) {
-                var pixelWidth = textCharacters * monospaceCharWidth;
-                return adjustedPixelWidth / pixelWidth;
+                var pixelWidth = textCharacters * MONOSPACE_CHAR_WIDTH;
+                return ADJUSTED_PIXEL_WIDTH / pixelWidth;
             }
 
             public static string WrapTextMonospace(string text, float fontSize) {
-                textSB.Clear();
+                var sb = InitStringBuilder();
                 var words = text.Split(' ');
-                var screenWidth = adjustedPixelWidth / fontSize;
+                var screenWidth = ADJUSTED_PIXEL_WIDTH / fontSize;
                 var currentLineWidth = 0;
                 foreach (var word in words) {
                     if (currentLineWidth == 0) {
-                        textSB.Append($"{word}");
-                        currentLineWidth += word.Length * monospaceCharWidth;
+                        sb.Append($"{word}");
+                        currentLineWidth += word.Length * MONOSPACE_CHAR_WIDTH;
                         continue;
                     }
 
-                    currentLineWidth += (1 + word.Length) * monospaceCharWidth;
+                    currentLineWidth += (1 + word.Length) * MONOSPACE_CHAR_WIDTH;
                     if (currentLineWidth > screenWidth) //new line
                     {
-                        currentLineWidth = word.Length * monospaceCharWidth;
-                        textSB.Append($"\n{word}");
+                        currentLineWidth = word.Length * MONOSPACE_CHAR_WIDTH;
+                        sb.Append($"\n{word}");
                     } else {
-                        textSB.Append($" {word}");
+                        sb.Append($" {word}");
                     }
 
                 }
-                return textSB.ToString();
+                return sb.ToString();
             }
 
             public static string CenterTextMonospace(string wrappedText, float fontSize) {
-                textSB.Clear();
+                var sb = InitStringBuilder();
                 var lines = wrappedText.Split('\n');
-                var screenWidth = adjustedPixelWidth / fontSize;
-                var maxCharsPerLine = Math.Floor(screenWidth / monospaceCharWidth);
+                var screenWidth = ADJUSTED_PIXEL_WIDTH / fontSize;
+                var maxCharsPerLine = Math.Floor(screenWidth / MONOSPACE_CHAR_WIDTH);
 
                 foreach (var line in lines) {
                     var trimmedLine = line.Trim();
                     var charCount = trimmedLine.Length;
                     var diff = maxCharsPerLine - charCount;
                     var halfDiff = (int)Math.Max(diff / 2, 0);
-                    textSB.Append(new string(' ', halfDiff)).Append(trimmedLine).Append("\n");
+                    sb.Append(new string(' ', halfDiff)).Append(trimmedLine).Append("\n");
                 }
-                return textSB.ToString();
+                return sb.ToString();
             }
 
             public static string RightJustifyMonospace(string wrappedText, float fontSize) {
-                textSB.Clear();
+                var sb = InitStringBuilder();
                 var lines = wrappedText.Split('\n');
-                var screenWidth = adjustedPixelWidth / fontSize;
-                var maxCharsPerLine = (int)Math.Floor(screenWidth / monospaceCharWidth);
+                var screenWidth = ADJUSTED_PIXEL_WIDTH / fontSize;
+                var maxCharsPerLine = (int)Math.Floor(screenWidth / MONOSPACE_CHAR_WIDTH);
 
                 foreach (var line in lines) {
                     var trimmedLine = line.Trim();
                     var charCount = trimmedLine.Length;
                     var diff = maxCharsPerLine - charCount;
                     diff = (int)Math.Max(0, diff);
-                    textSB.Append(new string(' ', diff)).Append(trimmedLine).Append("\n");
+                    sb.Append(new string(' ', diff)).Append(trimmedLine).Append("\n");
                 }
-                return textSB.ToString();
+                return sb.ToString();
             }
 
 
@@ -104,6 +110,14 @@ namespace IngameScript {
                 if (force < 1000) return $"{force:N2} N";
                 if (force < 1000000) return $"{force / 1000:N2} kN";
                 return $"{force / 1000000:N2} MN";
+            }
+
+            public static string FormatDistance(float? range) => FormatDistance((double?)range);
+            public static string FormatDistance(double? range) {
+                if (!range.HasValue || double.IsNaN(range.Value)) return string.Empty;
+                if (range < 1000) return $"{range:N1} m";
+                if (range < 1000000) return $"{range / 1000:N1} km";
+                return $"{range / 1000000:N1} Mm";
             }
         }
     }

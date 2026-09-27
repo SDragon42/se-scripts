@@ -20,130 +20,130 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+        // Modules
         readonly RunningSymbol RunningModule = new RunningSymbol();
-        readonly DockSecure DockSecureModule = new DockSecure();
+        readonly DockSecure DockSecureModule;
         readonly Proximity ProximityModule = new Proximity();
-        readonly BlocksByOrientation BlockOrientationModule = new BlocksByOrientation();
+        readonly BlocksByOrientation _orientation = new BlocksByOrientation();
 
-        readonly MyIni Ini = new MyIni();
-        readonly MyIni CameraIni = new MyIni();
+        // Configurations
+        readonly ScriptConfiguration _config = new ScriptConfiguration();
+        readonly CameraConfig _cameraConfig = new CameraConfig();
+        readonly DisplayConfig _displayConfig = new DisplayConfig();
 
-        readonly List<ProxCamera> ProxCameraList = new List<ProxCamera>();
-        readonly List<IMySoundBlock> ProxSpeakerList = new List<IMySoundBlock>();
-        readonly List<IMyFunctionalBlock> ToolList = new List<IMyFunctionalBlock>();
-        readonly List<ScreenConfig> ScreenList = new List<ScreenConfig>();
+        // Script Variables
+        readonly List<IMyThrust> _liftThrusters = new List<IMyThrust>();
+        readonly List<ProxCamera> _proximityCameraList = new List<ProxCamera>();
+        readonly List<IMySoundBlock> _proximitySpeakerList = new List<IMySoundBlock>();
+        readonly List<IMyFunctionalBlock> _toolList = new List<IMyFunctionalBlock>();
+        readonly List<ScreenConfig> _screenList = new List<ScreenConfig>();
 
-        IMyShipController Sc = null;
-        IMyCameraBlock ForeRangeCamera = null;
-        bool AlertSounding = false;
-        RangeInfo ForeRangeInfo;
+        IMyShipController _sc = null;
+        IMyCameraBlock _foreRangeCamera = null;
+        bool _alertSounding = false;
 
-        double TimeLastBlockLoad = BLOCK_RELOAD_TIME * 2;
-        double TimeLastCleared = 0;
-        string ProximityText = string.Empty;
-        string ScanRangeText = string.Empty;
+        double _timeLastBlockLoad = BLOCK_RELOAD_TIME * 2;
+        double _timeLastCleared = 0;
+        string _proximityText = string.Empty;
+        string _scanRangeText = string.Empty;
 
+        //float MinimumTWR = 0;
+        //int InventoryMultiplier = 0;
+        //double? MaxOperationalCargoMass;
 
-        string ProximityTag;
-        bool ProximityAlert;
-        double ProximityAlertRange;
-        double ProximityAlertSpeed;
-
-        string ForwardScanTag;
-        double ForwardScanRange;
-        double ForwardDisplayClearTime;
-
-        float MinimumTWR = 0;
-        int InventoryMultiplier = 0;
-        double? MaxOperationalCargoMass;
-
-        bool Flag_SaveConfig;
+        //bool Flag_SaveConfig;
 
         public Action<string> Debug = (msg) => { };
 
-        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
-        readonly string Instructions;
+        readonly IDictionary<string, Action> _commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
+        readonly string _instructions;
 
         public Program() {
+            Runtime.UpdateFrequency = FREQ_NORMAL;
             //Debug = Echo;
-            //_proximity.Debug = Echo;
+            //ProximityModule.Debug = Echo;
 
-            Commands.Add("dock", DockSecureModule.Dock);
-            Commands.Add("undock", DockSecureModule.UnDock);
-            Commands.Add("dock-toggle", DockSecureModule.ToggleDock);
-            Commands.Add("tools-off", TurnOffTools);
-            Commands.Add("scan-range", ScanAhead);
-            Commands.Add("tools-toggle", ToggleToolsOnOff);
+            DockSecureModule = new DockSecure(Me, GridTerminalSystem);
+            _commands.Add("dock", DockSecureModule.Dock);
+            _commands.Add("undock", DockSecureModule.UnDock);
+            _commands.Add("dock-toggle", DockSecureModule.ToggleDock);
+            _commands.Add("tools-off", TurnOffTools);
+            _commands.Add("tools-toggle", ToggleToolsOnOff);
+            _commands.Add("scan-range", ScanAhead);
 
             // Instructions
             var sb = new StringBuilder();
             sb.AppendLine("Script Commands");
-            foreach (var c in Commands.Keys) sb.AppendLine(c);
-            Instructions = sb.ToString();
-
-            Runtime.UpdateFrequency = UpdateFrequency.Update10;
+            foreach (var c in _commands.Keys) sb.AppendLine(c);
+            _instructions = sb.ToString();
         }
 
         void LoadBlocks() {
-            GridTerminalSystem.GetBlocksOfType(ToolList, b => IsOnThisGrid(b) && IsToolBlock(b));
-            GridTerminalSystem.GetBlocksOfType(ProxSpeakerList, b => IsOnThisGrid(b) && IsProximityBlock(b));
+            var reloadBlocks = _timeLastBlockLoad >= BLOCK_RELOAD_TIME;
+            if (!reloadBlocks) return;
+
+            _timeLastBlockLoad = 0;
+            DockSecureModule.LoadBlocks();
+
+            GridTerminalSystem.GetBlocksOfType(_toolList, b => Me.IsSameConstructAs(b) && IsToolBlock(b));
+            GridTerminalSystem.GetBlocksOfType(_proximitySpeakerList, b => Me.IsSameConstructAs(b) && IsProximityBlock(b));
 
             GridTerminalSystem.GetBlocksOfType(TmpBlocks, b =>
-                IsOnThisGrid(b)
+                Me.IsSameConstructAs(b)
                 && ((b is IMyTextSurfaceProvider) || (b is IMyTextSurface))
                 && (IsProximityBlock(b) || IsForwardRangeBlock(b)));
-            ScreenList.Clear();
-            var surfaceProfIni = new MyIni();
+            _screenList.Clear();
             foreach (var b in TmpBlocks) {
                 var surface = b as IMyTextSurface;
                 if (surface != null) {
-                    ScreenList.Add(new ScreenConfig(surface, IsProximityBlock(b), IsForwardRangeBlock(b)));
+                    _screenList.Add(new ScreenConfig(surface, IsProximityBlock(b), IsForwardRangeBlock(b)));
                     continue;
                 }
 
                 var surfaceProv = b as IMyTextSurfaceProvider;
                 if (surfaceProv != null) {
-                    surfaceProfIni.Clear();
-                    LoadTextScreenProviderConfig(b, surfaceProfIni);
-                    var pIdx = surfaceProfIni.Get(KEY_ProxScreenNumber).ToInt32();
-                    var rIdx = surfaceProfIni.Get(KEY_RangeScreenNumber).ToInt32();
+                    _displayConfig.Initialize(b, GridTerminalSystem);
+                    _displayConfig.Load();
+                    var pIdx = _displayConfig.ProximityScreenNumber;
+                    var rIdx = _displayConfig.RangeScreenNumber;
                     for (var i = 0; i < surfaceProv.SurfaceCount; i++) {
                         if (i != pIdx && i != rIdx) continue;
                         surface = surfaceProv.GetSurface(i);
-                        ScreenList.Add(new ScreenConfig(surface, i == pIdx, i == rIdx));
+                        _screenList.Add(new ScreenConfig(surface, i == pIdx, i == rIdx));
                     }
                 }
             }
 
-            GridTerminalSystem.GetBlocksOfType<IMyCameraBlock>(TmpBlocks, b => IsOnThisGrid(b) && IsProximityBlock(b));
-            ProxCameraList.Clear();
-            foreach (var b in TmpBlocks)
-                LoadCameraProximityConfig((IMyCameraBlock)b);
+            GridTerminalSystem.GetBlocksOfType<IMyCameraBlock>(TmpBlocks, b => Me.IsSameConstructAs(b) && IsProximityBlock(b));
+            _proximityCameraList.Clear();
+            foreach (var b in TmpBlocks) {
+                _cameraConfig.Initialize(b, GridTerminalSystem);
+                _cameraConfig.Load();
+                _proximityCameraList.Add(new ProxCamera((IMyCameraBlock)b, _cameraConfig.RangeOffset));
+            }
 
-            ForeRangeCamera = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCameraBlock>(b => IsOnThisGrid(b) && IsForwardRangeBlock(b));
+            _foreRangeCamera = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCameraBlock>(b => Me.IsSameConstructAs(b) && IsForwardRangeBlock(b));
 
-            Sc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyShipController>(
-                b => IsOnThisGrid(b) && b is IMyCockpit && ((IMyCockpit)b).IsMainCockpit,
-                b => IsOnThisGrid(b) && b is IMyCockpit,
-                b => IsOnThisGrid(b) && b is IMyRemoteControl);
+            _sc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyShipController>(
+                b => Me.IsSameConstructAs(b) && b is IMyCockpit && ((IMyCockpit)b).IsMainCockpit,
+                b => Me.IsSameConstructAs(b) && b is IMyCockpit,
+                b => Me.IsSameConstructAs(b) && b is IMyRemoteControl);
 
-            BlockOrientationModule.Init(Sc);
-            GridTerminalSystem.GetBlocksOfType(LiftThrusters, BlockOrientationModule.IsDown);
+            _orientation.Init(_sc);
+            GridTerminalSystem.GetBlocksOfType(_liftThrusters, _orientation.IsDown);
+
+            //if (InventoryMultiplier <= 0) {
+            //    var b = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCargoContainer>(Collect.IsCargoContainer);
+            //    if (b != null) {
+            //        InventoryMultiplier = CargoHelper.GetInventoryMultiplier(b);
+            //        Flag_SaveConfig = true;
+            //    }
+            //}
         }
 
         bool IsToolBlock(IMyTerminalBlock b) => b is IMyShipDrill || b is IMyShipWelder || b is IMyShipGrinder;
-        bool IsProximityBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ProximityTag);
-        bool IsForwardRangeBlock(IMyTerminalBlock b) => Collect.IsTagged(b, ForwardScanTag);
+        bool IsProximityBlock(IMyTerminalBlock b) => Collect.IsTagged(b, _config.ProximityTag);
+        bool IsForwardRangeBlock(IMyTerminalBlock b) => Collect.IsTagged(b, _config.ForwardScanTag);
 
-        class ScreenConfig {
-            public ScreenConfig(IMyTextSurface screen, bool isProx, bool isRange) {
-                Screen = screen;
-                IsProx = isProx;
-                IsRange = isRange;
-            }
-            public IMyTextSurface Screen { get; private set; }
-            public bool IsProx { get; private set; }
-            public bool IsRange { get; private set; }
-        }
     }
 }

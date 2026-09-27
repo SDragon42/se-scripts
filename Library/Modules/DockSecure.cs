@@ -20,38 +20,45 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class DockSecure {
+            readonly IMyProgrammableBlock Me;
+            readonly IMyGridTerminalSystem GridTerminalSystem;
             readonly List<IMyFunctionalBlock> _toggleBlocks = new List<IMyFunctionalBlock>();
             readonly List<IMyLandingGear> _landingGears = new List<IMyLandingGear>();
             readonly List<IMyShipConnector> _connectors = new List<IMyShipConnector>();
 
-            MyGridProgram thisObj;
+            public DockSecure(IMyProgrammableBlock me, IMyGridTerminalSystem gridTerminalSystem) {
+                Me = me;
+                GridTerminalSystem = gridTerminalSystem;
+            }
+
+            
             bool _wasLockedLastRun = false;
             bool _isLocked = false;
 
             public string Tag { get; set; } = string.Empty;
             public string IgnoreTag { get; set; } = string.Empty;
-            public bool Auto_On { get; set; }
-            public bool Auto_Off { get; set; }
-            public bool Thrusters_OnOff { get; set; }
-            public bool Gyros_OnOff { get; set; }
-            public bool Lights_OnOff { get; set; }
-            public bool Beacons_OnOff { get; set; }
-            public bool RadioAntennas_OnOff { get; set; }
-            public bool Sensors_OnOff { get; set; }
-            public bool OreDetectors_OnOff { get; set; }
-            public bool Sorters_Off { get; set; }
-            public bool Spotlights_OnOff { get; set; }
+            public bool Auto_On { get; set; } = true;
+            public bool Auto_Off { get; set; } = true;
+            public bool Thrusters_OnOff { get; set; } = true;
+            public bool Gyros_OnOff { get; set; } = true;
+            public bool Lights_OnOff { get; set; } = true;
+            public bool Beacons_OnOff { get; set; } = true;
+            public bool RadioAntennas_OnOff { get; set; } = true;
+            public bool Sensors_OnOff { get; set; } = true;
+            public bool OreDetectors_OnOff { get; set; } = true;
+            public bool Sorters_Off { get; set; } = true;
+            public bool Spotlights_OnOff { get; set; } = true;
 
             public bool IsDocked { get; private set; }
 
 
-            public void Init(MyGridProgram thisObj, bool findBlocks = true) {
-                this.thisObj = thisObj;
-                if (!findBlocks) return;
-                thisObj.GridTerminalSystem.GetBlocksOfType(_landingGears, IsValidBlock);
-                thisObj.GridTerminalSystem.GetBlocksOfType(_connectors, IsValidBlock);
+            public void LoadBlocks() {
+                GridTerminalSystem.GetBlocksOfType(_landingGears, IsValidBlock);
+                GridTerminalSystem.GetBlocksOfType(_connectors, IsValidBlock);
             }
+
             public void AutoToggleDock() {
                 CheckIfLocked();
                 if (_wasLockedLastRun == _isLocked) return;
@@ -94,11 +101,11 @@ namespace IngameScript {
 
 
             void TurnOffSystems() {
-                thisObj.GridTerminalSystem.GetBlocksOfType(_toggleBlocks, IsBlock2TurnOFF);
+                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, IsBlock2TurnOFF);
                 _toggleBlocks.ForEach(b => b.Enabled = false);
             }
             void TurnOnSystems() {
-                thisObj.GridTerminalSystem.GetBlocksOfType(_toggleBlocks, IsBlock2TurnON);
+                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, IsBlock2TurnON);
                 _toggleBlocks.ForEach(b => b.Enabled = true);
             }
 
@@ -112,7 +119,7 @@ namespace IngameScript {
             }
 
             bool IsValidBlock(IMyTerminalBlock b) {
-                var sc = thisObj.Me.IsSameConstructAs(b);
+                var sc = Me.IsSameConstructAs(b);
                 var tagged = Collect.IsTagged(b, Tag);
                 var ignored = !string.IsNullOrEmpty(IgnoreTag) && Collect.IsTagged(b, IgnoreTag);
                 return (sc || tagged) && !ignored;
@@ -136,5 +143,6 @@ namespace IngameScript {
             }
 
         }
+
     }
 }

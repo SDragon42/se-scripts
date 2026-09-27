@@ -21,8 +21,10 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
+        // Common Block List
         readonly List<IMyTerminalBlock> TmpBlocks = new List<IMyTerminalBlock>();
 
+        // Common Predicate Methods
         static bool IsSameGrid(IMyTerminalBlock a, IMyTerminalBlock b) => a.CubeGrid == b.CubeGrid;
         bool IsOnThisGrid(IMyTerminalBlock b) => IsSameGrid(Me, b);
 
