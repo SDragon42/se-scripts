@@ -1,4 +1,5 @@
-﻿using Sandbox.Game.EntityComponents;
+﻿// <mdk sortorder="2000" />
+using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
@@ -20,12 +21,14 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        static class Commands {
-            public const string TURRET_ON = "arm";
-            public const string TURRET_OFF = "disarm";
-
-            public const string PARACHUTES_ON = "parachutes-on";
-            public const string PARACHUTES_OFF = "parachutes-off";
+        static class RangeHelper {
+            public static bool TryGetDetailedRange(IMyCameraBlock camera, double maxScanRange, out MyDetectedEntityInfo detectedInfo) {
+                camera.EnableRaycast = true;
+                detectedInfo = default(MyDetectedEntityInfo);
+                if (!camera.CanScan(maxScanRange)) return false;
+                detectedInfo = camera.Raycast(maxScanRange, 0, 0);
+                return !detectedInfo.IsEmpty();
+            }
         }
 
     }

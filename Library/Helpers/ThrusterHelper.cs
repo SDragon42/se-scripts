@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         public static class ThrusterHelper {
             public const float StandardGravity = 1.0f;
             public const float StandardGravityMagnitude = 9.81f;
@@ -92,5 +93,6 @@ namespace IngameScript {
                     ? (float)sc.GetNaturalGravity().Length()
                     : gravity * StandardGravityMagnitude;
         }
+
     }
 }

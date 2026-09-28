@@ -20,11 +20,13 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         const double BlockReloadTime = 10;
         const string tagPrefix = "DHLI";
         const int DisconnectEnableDelayMs = 3000;
         // Union Space Transit - UST
         // Shadow Dragon Transport - SDT
         // Dragon Heavy Lift Industries - DHLI
+
     }
 }

@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         static class Collect {
 
             public static bool IsOrientedForward(IMyTerminalBlock b) => b.Orientation.TransformDirectionInverse(b.Orientation.Forward) == Base6Directions.Direction.Forward;
@@ -83,5 +84,6 @@ namespace IngameScript {
             public static bool IsLargeBlockSmallCargoContainer(IMyTerminalBlock b) => IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SubTypeIDs.LgBlock_SmContainer;
             public static bool IsLargeBlockLargeCargoContainer(IMyTerminalBlock b) => IsCargoContainer(b) && b.BlockDefinition.SubtypeId == SubTypeIDs.LgBlock_LgContainer;
         }
+
     }
 }

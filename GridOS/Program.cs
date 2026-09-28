@@ -56,7 +56,7 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             blockReload_TimeElapsed += Runtime.TimeSinceLastRun.TotalSeconds;
-            Echo($"Grid OS {symbol.GetSymbol(Runtime)}");
+            Echo($"Grid OS {symbol.GetSymbol()}");
             Echo(instructions);
             Echo($"Block Reload in {Math.Truncate(blockReload_Time - blockReload_TimeElapsed) + 1:N0} seconds.");
 

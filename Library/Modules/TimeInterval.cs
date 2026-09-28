@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class TimeInterval {
             public TimeInterval(double seconds) {
                 interval = Math.Max(seconds, 0);
@@ -45,5 +46,6 @@ namespace IngameScript {
                 toReset = false;
             }
         }
+
     }
 }

@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         static class CargoHelper {
 
             public const long MaxVolume_SmBlock_SmContainer = 125000;
@@ -74,5 +75,6 @@ namespace IngameScript {
             public static long GetInventoryCurrentMass(IMyInventory inv) => inv?.CurrentMass.RawValue ?? 0;
 
         }
+
     }
 }

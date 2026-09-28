@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         static class LCDChars {
             // alex-thatradarguy: for the xbox character codes
             // http://steamcommunity.com/sharedfiles/filedetails/?id=627416824
@@ -35,5 +36,6 @@ namespace IngameScript {
 
             public static char ColorChar(int r, int g, int b) => (char)(0xE100 + (MathHelper.Clamp(r, 0, 7) << 6) + (MathHelper.Clamp(g, 0, 7) << 3) + MathHelper.Clamp(b, 0, 7));
         }
+
     }
 }

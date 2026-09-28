@@ -61,5 +61,6 @@ namespace IngameScript {
                 hash = b.CustomData.GetHashCode();
             }
         }
+
     }
 }

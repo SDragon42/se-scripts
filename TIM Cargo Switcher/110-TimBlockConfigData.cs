@@ -19,52 +19,56 @@ using VRage.Game.ObjectBuilders.Definitions;
 using VRageMath;
 
 namespace IngameScript {
-    class TimBlockConfigData {
-        // public Action<string> Echo = (text) => { };
-        // public Action<string> Debug = (text) => { };
+    partial class Program {
 
-        bool GetIndexes(IMyTerminalBlock b, string key, out int start, out int end) {
-            start = b.CustomData.IndexOf(key);
-            if (start < 0) {
-                start = -1;
-                end = -1;
-                return false;
-            }
+        class TimBlockConfigData {
+            // public Action<string> Echo = (text) => { };
+            // public Action<string> Debug = (text) => { };
 
-            start += key.Length;
-            end = b.CustomData.IndexOf('[', start) - 1;
-            if (end < 0) end = b.CustomData.Length - 1;
-            return true;
-        }
-        public bool Get(IMyTerminalBlock b, string key, out string timConfig) {
-            // Debug("ConfigData.Get()");
-            timConfig = string.Empty;
-
-            int start, end;
-            if (!GetIndexes(b, key, out start, out end)) return false;
-
-            timConfig = b.CustomData
-                .Substring(start, end - start + 1)
-                .Replace('\n', ' ')
-                .Trim();
-            return true;
-        }
-        public void Set(IMyTerminalBlock b, string key, string timConfig) {
-            try {
-                // Debug("ConfigData.Set()");
-                // Debug(">> " + timConfig);
-                int start, end;
-                if (!GetIndexes(b, key, out start, out end)) {
-                    b.CustomData += $"\n\n{key}";
-                    if (!GetIndexes(b, key, out start, out end)) return;
+            bool GetIndexes(IMyTerminalBlock b, string key, out int start, out int end) {
+                start = b.CustomData.IndexOf(key);
+                if (start < 0) {
+                    start = -1;
+                    end = -1;
+                    return false;
                 }
 
-                var data = b.CustomData.Remove(start, end - start + 1);
-                timConfig = timConfig.Replace(' ', '\n') + "\n\n";
-                b.CustomData = data.Insert(start, timConfig);
-            } finally {
-                b.CustomData = b.CustomData.Trim();
+                start += key.Length;
+                end = b.CustomData.IndexOf('[', start) - 1;
+                if (end < 0) end = b.CustomData.Length - 1;
+                return true;
+            }
+            public bool Get(IMyTerminalBlock b, string key, out string timConfig) {
+                // Debug("ConfigData.Get()");
+                timConfig = string.Empty;
+
+                int start, end;
+                if (!GetIndexes(b, key, out start, out end)) return false;
+
+                timConfig = b.CustomData
+                    .Substring(start, end - start + 1)
+                    .Replace('\n', ' ')
+                    .Trim();
+                return true;
+            }
+            public void Set(IMyTerminalBlock b, string key, string timConfig) {
+                try {
+                    // Debug("ConfigData.Set()");
+                    // Debug(">> " + timConfig);
+                    int start, end;
+                    if (!GetIndexes(b, key, out start, out end)) {
+                        b.CustomData += $"\n\n{key}";
+                        if (!GetIndexes(b, key, out start, out end)) return;
+                    }
+
+                    var data = b.CustomData.Remove(start, end - start + 1);
+                    timConfig = timConfig.Replace(' ', '\n') + "\n\n";
+                    b.CustomData = data.Insert(start, timConfig);
+                } finally {
+                    b.CustomData = b.CustomData.Trim();
+                }
             }
         }
+
     }
 }

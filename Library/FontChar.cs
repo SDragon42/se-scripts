@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class FontChar {
             public FontChar(int width, IList<int> points) {
                 Width = width;
@@ -28,5 +29,6 @@ namespace IngameScript {
             public int Width { get; private set; }
             public IList<int> Points { get; private set; }
         }
+
     }
 }
