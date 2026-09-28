@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         static class SubTypeIDs {
             public const string TextPanelSM = "SmallTextPanel";
             public const string TextPanelLG = "LargeTextPanel";
@@ -44,5 +45,6 @@ namespace IngameScript {
             public const string LgBlock_SmContainer = "LargeBlockSmallContainer";
             public const string LgBlock_LgContainer = "LargeBlockLargeContainer";
         }
+
     }
 }

@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class DebugLogging : Logging {
             public const string DefaultDebugPanelName = "DEBUG";
 
@@ -63,5 +64,6 @@ namespace IngameScript {
                 surface.WriteText(text);
             }
         }
+
     }
 }

@@ -40,7 +40,7 @@ namespace IngameScript {
         bool isFirstRun = true;
 
         public void Main(string argument, UpdateType updateSource) {
-            Echo($"Drop GPS Recorder {runningSymbol.GetSymbol(Runtime)}");
+            Echo($"Drop GPS Recorder {runningSymbol.GetSymbol()}");
 
             Config.Load(Me);
             LoadBlocks();

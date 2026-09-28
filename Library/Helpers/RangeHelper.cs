@@ -1,4 +1,4 @@
-﻿// <mdk sortorder="900" />
+﻿// <mdk sortorder="2000" />
 using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
@@ -21,9 +21,14 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        static class LCDFonts {
-            public const string DEBUG = "Debug";
-            public const string MONOSPACE = "Monospace";
+        static class RangeHelper {
+            public static bool TryGetDetailedRange(IMyCameraBlock camera, double maxScanRange, out MyDetectedEntityInfo detectedInfo) {
+                camera.EnableRaycast = true;
+                detectedInfo = default(MyDetectedEntityInfo);
+                if (!camera.CanScan(maxScanRange)) return false;
+                detectedInfo = camera.Raycast(maxScanRange, 0, 0);
+                return !detectedInfo.IsEmpty();
+            }
         }
 
     }

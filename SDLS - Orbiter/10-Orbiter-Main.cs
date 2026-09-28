@@ -20,11 +20,12 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         public void Main(string argument, UpdateType updateSource) {
             UpTime += Runtime.TimeSinceLastRun;
             TagSelf();
             if ((updateSource & UpdateType.Update10) == UpdateType.Update10) {
-                Echo(Running.GetSymbol(Runtime));
+                Echo(Running.GetSymbol());
             }
 
             if (!Me.CubeGrid.CustomName.EndsWith(TAG.GRID))
@@ -73,9 +74,6 @@ namespace IngameScript {
             if (!Commands.ContainsKey(argument)) return;
             Commands[argument]?.Invoke();
         }
-
-
-
 
     }
 }

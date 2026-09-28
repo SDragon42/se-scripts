@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     public partial class Program : MyGridProgram {
+
         // Set to the name of your LCD / Text Panel displays and their font size.
         const string LCD_LapInfo_NAME = "LCD - Lap Info";
         const float LCD_LapInfo_FONTSIZE = 3.6f;

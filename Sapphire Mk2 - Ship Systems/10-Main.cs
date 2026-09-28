@@ -41,6 +41,7 @@ namespace IngameScript {
         readonly List<IMyThrust> trainThrusters = new List<IMyThrust>();
         readonly List<IMyGyro> trainGyros = new List<IMyGyro>();
         readonly List<IMyDoor> doorList = new List<IMyDoor>();
+        readonly List<IMyTerminalBlock> TmpBlocks = new List<IMyTerminalBlock>();
         IMyRadioAntenna myAntenna;
         IMyTextSurface debugOutput;
 
@@ -87,7 +88,7 @@ namespace IngameScript {
                 isMerged = CheckIfMerged();
                 onStandby = TagModule.IsOtherProgramOnDuty(GridTerminalSystem, Me, IsEngineProgramBlock);
 
-                Echo("Union Space Transit " + (onStandby ? "[ON STANDBY]" : RunningModule.GetSymbol(Runtime)));
+                Echo("Union Space Transit " + (onStandby ? "[ON STANDBY]" : RunningModule.GetSymbol()));
                 Echo("Configure script in 'Custom Data'\n");
 
                 stateMachine.RunAll();

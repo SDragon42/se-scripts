@@ -20,9 +20,8 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        class Proximity {
-            const double DEF_SCAN_RANGE = 100.0;
 
+        class Proximity {
             readonly List<Base6Directions.Direction> KeyList;
             readonly Dictionary<Base6Directions.Direction, double?> _prox1 = new Dictionary<Base6Directions.Direction, double?>();
             readonly Dictionary<Base6Directions.Direction, double?> _prox2 = new Dictionary<Base6Directions.Direction, double?>();
@@ -33,12 +32,11 @@ namespace IngameScript {
             BlocksByOrientation _orientation;
             IMyShipController _sc;
 
-            public double ScanRange { get; set; }
+            public double ScanRange { get; set; } = 100;
 
 
 
             public Proximity() {
-                ScanRange = DEF_SCAN_RANGE;
                 KeyList = Enum.GetValues(typeof(Base6Directions.Direction)).Cast<Base6Directions.Direction>().ToList();
                 foreach (var key in KeyList) {
                     _prox1.Add(key, null);
@@ -94,13 +92,17 @@ namespace IngameScript {
             double? GetMinimumRange(MyGridProgram mpg, List<ProxCamera> cameras, Func<IMyTerminalBlock, bool> directionMethod) {
                 var allRanges = cameras
                     .Where(c => directionMethod(c.Camera))
-                    .Select(c => new { c.Camera, Ranger.GetDetailedRange(c.Camera, ScanRange, c.Offset).Range });
-                foreach (var r in allRanges) Debug($"  {r.Range,4:N2} - {r.Camera.CustomName}");
+                    .Select(proxCamera => new { proxCamera.Camera, Range = GetRange(proxCamera) });
                 var range = allRanges.Min(r => r.Range);
-                if (!range.HasValue) return null;
-                if (range > ScanRange) return null;
-                //if (range < 0.000001) return null;
-                return range;
+                return (range.HasValue && range <= ScanRange) ? range : null;
+            }
+
+            double? GetRange(ProxCamera proxCamera) {
+                MyDetectedEntityInfo info;
+                var success = RangeHelper.TryGetDetailedRange(proxCamera.Camera, ScanRange, out info);
+                if (!success) return null;
+                var range = Vector3D.Distance(proxCamera.Camera.GetPosition(), info.HitPosition ?? info.Position);
+                return range - proxCamera.Offset;
             }
 
         }
@@ -113,5 +115,6 @@ namespace IngameScript {
             public IMyCameraBlock Camera { get; private set; }
             public double Offset { get; private set; }
         }
+
     }
 }

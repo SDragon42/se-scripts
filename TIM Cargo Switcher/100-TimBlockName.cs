@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class TimBlockName {
             // public Action<string> Echo = (text) => { };
             // public Action<string> Debug = (text) => { };
@@ -52,5 +53,6 @@ namespace IngameScript {
                 b.CustomName = b.CustomName.Remove(start, end - start + 1).Trim();
             }
         }
+
     }
 }

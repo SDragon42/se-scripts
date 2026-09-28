@@ -60,5 +60,6 @@ namespace IngameScript {
             if (string.IsNullOrEmpty(TurretId))
                 TurretId = Me.CubeGrid.EntityId.ToString();
         }
+
     }
 }

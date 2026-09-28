@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class FlightDataRecorder {
             readonly Logging Log;
             readonly Dictionary<string, string> Items;
@@ -69,5 +70,6 @@ namespace IngameScript {
             }
             public string GetLog() => Log.GetLogText();
         }
+
     }
 }

@@ -20,8 +20,8 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        class TagRegex {
 
+        class TagRegex {
             readonly List<IMyProgrammableBlock> programBlocks = new List<IMyProgrammableBlock>();
             System.Text.RegularExpressions.Regex tagRegex = null;
             public string TagText { get; private set; }
@@ -57,5 +57,6 @@ namespace IngameScript {
                 return true;
             }
         }
+
     }
 }
