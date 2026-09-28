@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         // Automatically will close doors after a set amount of time
         // Whiplash's : Whip's Auto Door and Airlock Script
         // http://steamcommunity.com/sharedfiles/filedetails/?id=416932930
@@ -52,7 +53,6 @@ namespace IngameScript {
                     if (OpenDoors.ContainsKey(door)) OpenDoors.Remove(door);
                 }
             }
-
         }
 
     }

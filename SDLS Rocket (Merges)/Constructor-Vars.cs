@@ -21,6 +21,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         readonly Dictionary<string, Action> Commands = new Dictionary<string, Action>();
         readonly string Instructions;
 

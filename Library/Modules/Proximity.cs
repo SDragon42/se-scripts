@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class Proximity {
             readonly List<Base6Directions.Direction> KeyList;
             readonly Dictionary<Base6Directions.Direction, double?> _prox1 = new Dictionary<Base6Directions.Direction, double?>();
@@ -114,5 +115,6 @@ namespace IngameScript {
             public IMyCameraBlock Camera { get; private set; }
             public double Offset { get; private set; }
         }
+
     }
 }

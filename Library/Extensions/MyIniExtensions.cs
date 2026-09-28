@@ -18,6 +18,7 @@ using VRage;
 using VRageMath;
 
 namespace IngameScript {
+
     static class MyIniExtensions {
         // Added the INI key/value to the MyIni object if it doesn't already exist, and returns the MyIniValue instance.
         public static MyIniValue Add<T>(this MyIni ini, string section, string name, T value, string comment = null) where T : struct => ini.Add(new MyIniKey(section, name), value.ToString(), comment);
@@ -48,4 +49,5 @@ namespace IngameScript {
             ini.Delete(oldKey);
         }
     }
+
 }

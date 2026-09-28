@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         // Whip's Monospace TextHelper Class v2
         // Taken from his Compass Script
         static class TextHelper {
@@ -120,5 +121,6 @@ namespace IngameScript {
                 return $"{range / 1000000:N1} Mm";
             }
         }
+
     }
 }

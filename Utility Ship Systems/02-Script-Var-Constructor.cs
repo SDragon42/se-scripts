@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         // Modules
         readonly RunningSymbol RunningModule = new RunningSymbol();
         readonly DockSecure DockSecureModule;

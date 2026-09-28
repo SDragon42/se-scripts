@@ -147,6 +147,5 @@ namespace IngameScript {
             _configHashCode = Me.CustomData.GetHashCode();
         }
 
-
     }
 }

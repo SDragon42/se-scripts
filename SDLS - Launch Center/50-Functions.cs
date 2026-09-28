@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         bool Connector_Disconnect(IMyShipConnector connector) {
             if (!Collect.IsConnectorConnected(connector))
                 return false;
@@ -55,5 +56,6 @@ namespace IngameScript {
             piston.Velocity = velocity;
             return true;
         }
+
     }
 }

@@ -120,9 +120,6 @@ namespace IngameScript {
         //    _Operations.Add(op);
         //}
 
-
-
-
         enum RotorLimit { Low, High }
 
     }

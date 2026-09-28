@@ -210,7 +210,7 @@ namespace IngameScript {
             if (string.IsNullOrWhiteSpace(data)) return;
 
             var cmdParts = data.Split(CMD_SPLIT, StringSplitOptions.RemoveEmptyEntries);
-
         }
+
     }
 }

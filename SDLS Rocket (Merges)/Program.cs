@@ -92,12 +92,6 @@ namespace IngameScript {
             }
         }
 
-
-
-
-
-
-
         void SetGridName() {
             var gridName = (ConnectedMerges.Count > 0) ? Cfg.GridName_Merged : Cfg.GridName;
             if (gridName.Length == 0) return;
@@ -205,7 +199,7 @@ namespace IngameScript {
             H2Tanks.ForEach(b => b.Stockpile = true);
             AllThrusters.ForEach(b => b.Enabled = false);
             SendCmdToOtherParts(CMD_Shutdown);
-
         }
+
     }
 }

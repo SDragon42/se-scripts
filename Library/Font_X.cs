@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         static class Font_X {
             static Font_X() {
                 dic = new Dictionary<char, FontChar>();
@@ -33,5 +34,6 @@ namespace IngameScript {
             readonly static Dictionary<char, FontChar> dic;
             public static Dictionary<char, FontChar> GetChars() => dic;
         }
+
     }
 }

@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class RunningSymbol {
             const double MAX_TIME_SYMBOL = 0.2; // # of symbols (8) divided by the total display time of 1.6 seconds. ex: 1.6 / 8 = 0.2 seconds per symbol.
             readonly string[] SYMBOLS = { "(|    )", "( |   )", "(  |  )", "(   | )", "(    |)", "(   | )", "(  |  )", "( |   )" };

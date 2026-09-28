@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         public void Main(string argument, UpdateType updateSource) {
             UpTime += Runtime.TimeSinceLastRun;
             TagSelf();
@@ -73,9 +74,6 @@ namespace IngameScript {
             if (!Commands.ContainsKey(argument)) return;
             Commands[argument]?.Invoke();
         }
-
-
-
 
     }
 }

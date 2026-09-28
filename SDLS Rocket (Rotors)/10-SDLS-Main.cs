@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         public void Main(string argument, UpdateType updateSource) {
             UpTime += Runtime.TimeSinceLastRun;
             TagSelf();
@@ -120,5 +121,6 @@ namespace IngameScript {
                 ((IMyFunctionalBlock)b).Enabled = turnOn;
             });
         }
+
     }
 }

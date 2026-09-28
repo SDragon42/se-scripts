@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class StateMachineQueue {
             readonly Queue<IEnumerator<bool>> TaskQueue = new Queue<IEnumerator<bool>>();
 
@@ -49,5 +50,6 @@ namespace IngameScript {
                 return Run();
             }
         }
+
     }
 }

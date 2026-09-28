@@ -19,6 +19,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         static class Commands {
             public const string TURRET_ON = "arm";
             public const string TURRET_OFF = "disarm";
@@ -26,5 +27,6 @@ namespace IngameScript {
             public const string PARACHUTES_ON = "parachutes-on";
             public const string PARACHUTES_OFF = "parachutes-off";
         }
+
     }
 }

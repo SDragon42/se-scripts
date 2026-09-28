@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
+
         delegate int RenameMethodSig(List<IMyTerminalBlock> blocks, string content);
         readonly Dictionary<string, RenameMethodSig> GroupPrefixes = new Dictionary<string, RenameMethodSig>();
 

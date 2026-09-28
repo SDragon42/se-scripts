@@ -21,6 +21,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class Config {
             const string SectionTags = "SDLS Rocket Tags";
             const string SectionGrid = "SDLS Rocket Grid";
@@ -77,5 +78,6 @@ namespace IngameScript {
                 hash = me.CustomData.GetHashCode();
             }
         }
+
     }
 }
