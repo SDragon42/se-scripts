@@ -18,8 +18,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CargoHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CompassHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DirectionHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ranger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\RenameMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\RangeHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\RenameHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\TextHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ThrusterHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VectorHelper.cs" />

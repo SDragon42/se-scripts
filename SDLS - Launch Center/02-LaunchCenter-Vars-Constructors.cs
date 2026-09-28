@@ -54,7 +54,7 @@ namespace IngameScript {
 
 
         public void Main(string argument, UpdateType updateSource) {
-            //Echo("Launch Center " + Running.GetSymbol(Runtime));
+            Echo("Launch Center " + Running.GetSymbol());
             try {
                 // Process Arguments
                 //ProcessArguments(argument);
@@ -108,9 +108,6 @@ namespace IngameScript {
         //        : RetractBoom("[boom-orbiter]", 1f, RotorLimit.Low);
         //    _Operations.Add(op);
         //}
-
-
-
 
         enum RotorLimit { Low, High }
 

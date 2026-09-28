@@ -28,6 +28,8 @@ namespace IngameScript {
             InitRocketType();
             SetExecutionRate();
 
+            Echo(ScriptTag + " " + RSymbol.GetSymbol());
+
             Echo("Mode: " + Mode);
             Echo("Structure: " + Structure);
             Echo("Rocket: " + RocketType);
@@ -94,12 +96,6 @@ namespace IngameScript {
                 default: return Cfg.PodTag;
             }
         }
-
-
-
-
-
-
 
         void SetGridName() {
             var isMerged = ConnectedMerges.Count > 0;
@@ -212,7 +208,7 @@ namespace IngameScript {
             H2Tanks.ForEach(b => b.Stockpile = true);
             AllThrusters.ForEach(b => b.Enabled = false);
             SendCmdToOtherParts(CMD_Shutdown);
-
         }
+
     }
 }

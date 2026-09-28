@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
+
         const string TAG_LAUNCH = "[main]";
         const string TAG_LANDING1 = "[landing-1]";
         const string TAG_LANDING2 = "[landing-2]";
@@ -60,7 +61,7 @@ namespace IngameScript {
         }
 
         public void Main(string argument, UpdateType updateSource) {
-            Echo("GrassHopper " + RunSymbol.GetSymbol(Runtime));
+            Echo("GrassHopper " + RunSymbol.GetSymbol());
             LoadConfig();
             LoadBlocks();
             try {
@@ -222,8 +223,7 @@ namespace IngameScript {
             var shipMass = shipController.CalculateShipMass();
             _actualMass = shipMass.BaseMass + ((shipMass.TotalMass - shipMass.BaseMass) / 1);
             _gravityForceOnShip = _actualMass * _gravityMs2;
-
-
         }
+
     }
 }

@@ -18,6 +18,7 @@ using VRage;
 using VRageMath;
 
 namespace IngameScript {
+
     static class MyShipMergeBlockExtensions {
         // Checks if the merge block is merged to another merge block. This a temp fix until Keen fixed the built in IsConnected property.
         public static bool IsMerged(this IMyShipMergeBlock b) {
@@ -37,4 +38,5 @@ namespace IngameScript {
             return right2 == -right1;
         }
     }
+
 }

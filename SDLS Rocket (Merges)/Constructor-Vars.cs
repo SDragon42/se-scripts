@@ -21,6 +21,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         readonly Dictionary<string, Action> Commands = new Dictionary<string, Action>();
         readonly string Instructions;
 
@@ -115,6 +116,7 @@ namespace IngameScript {
         readonly List<IMyShipConnector> Connectors = new List<IMyShipConnector>();
         readonly List<IMyShipMergeBlock> ConnectedMerges = new List<IMyShipMergeBlock>();
         readonly List<IMyParachute> Parachutes = new List<IMyParachute>();
+        readonly List<IMyTerminalBlock> TmpBlocks = new List<IMyTerminalBlock>();
 
         IMyRadioAntenna Antenna = null;
 

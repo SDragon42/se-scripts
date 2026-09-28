@@ -20,79 +20,61 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
-        public void Main(string argument, UpdateType updateSource) {
-            if (argument != string.Empty) argument = argument.ToLower();
-            TimeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
-            TimeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
-            var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - TimeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
 
-            Echo($"Utility Ship Systems 1.6.9 {RunningModule.GetSymbol()}");
+        public void Main(string argument, UpdateType updateSource) {
+            // Initialize the script and load configuration if necessary
+            _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
+            _timeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
+            var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
+
+            Echo("Utility Ship Systems $SCRIPT_VERSION$ " + RunningModule.GetSymbol());
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.\n");
             Echo("Configure script in 'Custom Data'\n");
-            Echo(Instructions);
+            Echo(_instructions);
 
-            Flag_SaveConfig = false;
-            LoadConfig();
+            // Load the configuration
+            //Flag_SaveConfig = false;
+            _config.Initialize(Me, GridTerminalSystem);
+            _config.Load(DockSecureModule, ProximityModule);
 
-            var reloadBlocks = TimeLastBlockLoad >= BLOCK_RELOAD_TIME;
-            DockSecureModule.Init(this, reloadBlocks);
+            // Load blocks if necessary
+            LoadBlocks();
 
-            if (reloadBlocks) {
-                LoadBlocks();
-                TimeLastBlockLoad = 0;
+            //if (!MaxOperationalCargoMass.HasValue || MaxOperationalCargoMass.Value == 0) {
+            //    MaxOperationalCargoMass = ThrusterHelper.CalculateMaxLiftableCargoMass(_sc, _liftThrusters, InventoryMultiplier, MinimumTWR);
+            //    Flag_SaveConfig = true;
+            //}
 
-                if (InventoryMultiplier <= 0) {
-                    var b = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCargoContainer>(Collect.IsCargoContainer);
-                    if (b != null) {
-                        InventoryMultiplier = CargoHelper.GetInventoryMultiplier(b);
-                        Flag_SaveConfig = true;
-                    }
-                }
-            }
+            //if (Flag_SaveConfig) _config.Save();
 
-            if (!MaxOperationalCargoMass.HasValue || MaxOperationalCargoMass.Value == 0) {
-                MaxOperationalCargoMass = ThrusterHelper.GetMaxLiftableCargoMass(Sc, LiftThrusters, InventoryMultiplier, MinimumTWR);
-                Flag_SaveConfig = true;
-            }
+            // Handle Script Commands
+            if (_commands.ContainsKey(argument)) _commands[argument]?.Invoke();
 
-            SaveConfig();
-
-            if (Commands.ContainsKey(argument)) Commands[argument]?.Invoke();
-
+            // Automatic Operations
             DockSecureModule.AutoToggleDock();
             UpdateProximity();
-            Runtime.UpdateFrequency = DockSecureModule.IsDocked ? UpdateFrequency.Update100 : UpdateFrequency.Update10;
+            Runtime.UpdateFrequency = DockSecureModule.IsDocked ? FREQ_DOCKED : FREQ_NORMAL;
 
-            if (TimeLastCleared >= ForwardDisplayClearTime && ScanRangeText.Length > 0) {
-                ScanRangeText = string.Empty;
-                TimeLastCleared = 0;
+            if (_timeLastCleared >= _config.ForwardScanRangeDisplayTime && _scanRangeText.Length > 0) {
+                _scanRangeText = string.Empty;
+                _timeLastCleared = 0;
             }
 
-            foreach (var sc in ScreenList) {
-                if (sc.IsRange && (!sc.IsProx || ScanRangeText.Length > 0)) {
-                    InitDisplay(sc.Screen, fontName: LCDFonts.DEBUG, fontSize: DISPLAY_RANGE_FONT_SIZE, alignment: TextAlignment.CENTER);
-                    sc.Screen.WriteText(ScanRangeText);
-                    continue;
-                }
-                if (sc.IsProx) {
-                    InitDisplay(sc.Screen, fontName: LCDFonts.MONOSPACE, fontSize: DISPLAY_PROX_FONT_SIZE, alignment: TextAlignment.CENTER);
-                    sc.Screen.WriteText(ProximityText);
-                }
-            }
+            UpdateScreens();
         }
 
         void UpdateProximity() {
             if (!DockSecureModule.IsDocked) {
-                ProximityModule.RunScan(this, Sc, ProxCameraList);
+                ProximityModule.RunScan(this, _sc, _proximityCameraList);
                 CheckAlert();
-                ProximityText = BuildProximityDisplayText();
+                _proximityText = BuildProximityDisplayText();
             } else {
-                ProximityText = "\nDocked\n";
+                _proximityText = "\nDocked\n";
                 TurnOffProximityAlert();
             }
         }
         void CheckAlert() {
-            var speed = Sc.GetShipSpeed();
+            var speed = _sc.GetShipSpeed();
             foreach (var dir in Base6Directions.EnumDirections) {
                 if (SetAlert(dir, speed)) return;
             }
@@ -101,70 +83,36 @@ namespace IngameScript {
         bool SetAlert(Base6Directions.Direction dir, double speed) {
             var range = ProximityModule.GetRange(dir);
             var diff = ProximityModule.GetRangeDiff(dir);
-            if (diff < 0 && speed >= ProximityAlertSpeed && range <= ProximityAlertRange) {
+            if (diff < 0 && speed >= _config.ProximityAlertSpeed && range <= _config.ProximityAlertRange) {
                 TurnOnProximityAlert();
                 return true;
             }
             return false;
         }
         void TurnOnProximityAlert() {
-            if (AlertSounding)
+            if (_alertSounding)
                 return;
-            if (!ProximityAlert)
+            if (!_config.ProximityAlert)
                 return;
-            ProxSpeakerList.ForEach(s => s.Play());
-            AlertSounding = true;
+            _proximitySpeakerList.ForEach(s => s.Play());
+            _alertSounding = true;
         }
         void TurnOffProximityAlert() {
-            if (AlertSounding)
-                ProxSpeakerList.ForEach(s => s.Stop());
-            AlertSounding = false;
-        }
-        string BuildProximityDisplayText() {
-            var txtUp = GetFormattedRange(Base6Directions.Direction.Up);
-            var txtDown = GetFormattedRange(Base6Directions.Direction.Down);
-            var txtLeft = GetFormattedRange(Base6Directions.Direction.Left);
-            var txtRight = GetFormattedRange(Base6Directions.Direction.Right);
-            var txtBack = GetFormattedRange(Base6Directions.Direction.Backward);
-            var txtForward = GetFormattedRange(Base6Directions.Direction.Forward);
-            var txtForward2 = string.Empty.PadRight(txtForward.Length, ' ');
-            return $"{txtForward} {txtUp} {txtForward2}\n{txtLeft}<{txtBack}>{txtRight}\n{txtDown}";
-        }
-        string GetFormattedRange(Base6Directions.Direction dir) {
-            var range = ProximityModule.GetRange(dir);
-            if (!range.HasValue) return "----";
-            return (range.Value < 100.0)
-                ? $"{range,4:N1}"
-                : $"{range,4:N0}";
+            if (_alertSounding)
+                _proximitySpeakerList.ForEach(s => s.Stop());
+            _alertSounding = false;
         }
 
         void ScanAhead() {
-            if (ForeRangeCamera == null) return;
-            ForeRangeInfo = Ranger.GetDetailedRange(ForeRangeCamera, ForwardScanRange);
-            BuildForwardDisplayText();
-            TimeLastCleared = 0;
-        }
-        void BuildForwardDisplayText() {
-            ScanRangeText =
-                $"Entity: {ForeRangeInfo.DetectedEntity.Type}\n" +
-                $"Name: {ForeRangeInfo.DetectedEntity.Name}\n" +
-                $"Range: {ForeRangeInfo.Range:N1} m";
-        }
-        void InitDisplay(IMyTextSurface display, string fontName = LCDFonts.DEBUG, float fontSize = 1f, TextAlignment alignment = TextAlignment.LEFT, float padding = 0f) {
-            display.Font = fontName;
-            display.TextPadding = padding;
-            display.Alignment = alignment;
-            display.ContentType = ContentType.TEXT_AND_IMAGE;
-
-            if (display.TextureSize.X < DEFAULT_SCREEN_WIDTH) fontSize /= 2;
-            display.FontSize = fontSize;
+            if (_foreRangeCamera == null) return;
+            MyDetectedEntityInfo _foreRangeInfo;
+            RangeHelper.TryGetDetailedRange(_foreRangeCamera, _config.ForwardScanRange, out _foreRangeInfo);
+            _scanRangeText = BuildForwardDisplayText(_foreRangeInfo, _foreRangeCamera);
+            _timeLastCleared = 0;
         }
 
-        void TurnOffTools() {
-            ToolList.ForEach(b => b.Enabled = false);
-        }
-        void ToggleToolsOnOff() {
-            ToolList.ForEach(b => b.Enabled = !b.Enabled);
-        }
+        void TurnOffTools() => _toolList.ForEach(b => b.Enabled = false);
+        void ToggleToolsOnOff() => _toolList.ForEach(b => b.Enabled = !b.Enabled);
+
     }
 }

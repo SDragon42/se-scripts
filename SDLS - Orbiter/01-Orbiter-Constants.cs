@@ -27,5 +27,6 @@ namespace IngameScript {
         const string CMD_SCAN = "scan";
         const string CMD_ALIGN_LAUNCH = "align-launch";
         const string CMD_ALIGN_LAND = "align-land";
+
     }
 }

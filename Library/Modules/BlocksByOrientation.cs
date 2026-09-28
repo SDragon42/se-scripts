@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class BlocksByOrientation {
             readonly Matrix _identityMatrix = new Matrix(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
@@ -51,16 +52,5 @@ namespace IngameScript {
             }
         }
 
-        //static class BlocksByOrientation2 {
-        //    public static bool IsForward(IMyTerminalBlock refBlock, IMyTerminalBlock block) {
-        //        return false;
-        //    }
-
-        //    //static bool IsInDirection<T>(IMyTerminalBlock refBlock, T b, Vector3 direction) where T : IMyTerminalBlock {
-        //    static bool IsInDirection(IMyTerminalBlock refBlock,
-        //        Base6Directions.Direction direction, IMyTerminalBlock block) {
-        //        return (refBlock.Orientation.Forward == direction);
-        //    }
-        //}
     }
 }

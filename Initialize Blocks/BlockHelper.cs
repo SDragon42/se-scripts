@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         static class BlockHelper {
             public static string GetKey(IMyTerminalBlock b) {
                 return (b != null)
@@ -27,5 +28,6 @@ namespace IngameScript {
                     : string.Empty;
             }
         }
+
     }
 }

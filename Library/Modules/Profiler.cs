@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class Profiler {
             const int DEFAULT_MAX_EXECUTIONS = 60;
             const string DEFAULT_SCREEN_NAME = "PROFILE";
@@ -115,5 +116,6 @@ namespace IngameScript {
             }
 
         }
+
     }
 }

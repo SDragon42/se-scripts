@@ -20,7 +20,8 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        static class RenameMethods {
+
+        static class RenameHelper {
             public static int RenameTo(List<IMyTerminalBlock> blocks, string newName) {
                 blocks.ForEach(b => b.CustomName = newName.Trim());
                 return blocks.Count();
@@ -86,5 +87,6 @@ namespace IngameScript {
                 return blockPairs.Count;
             }
         }
+
     }
 }

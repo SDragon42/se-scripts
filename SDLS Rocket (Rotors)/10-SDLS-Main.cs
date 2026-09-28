@@ -20,12 +20,13 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         public void Main(string argument, UpdateType updateSource) {
             UpTime += Runtime.TimeSinceLastRun;
             TagSelf();
             NameGrids();
             if ((updateSource & UpdateType.Update10) == UpdateType.Update10)
-                Echo("SDLS " + Running.GetSymbol(Runtime));
+                Echo("SDLS " + Running.GetSymbol());
             else
                 Echo("SDLS");
 
@@ -120,5 +121,6 @@ namespace IngameScript {
                 ((IMyFunctionalBlock)b).Enabled = turnOn;
             });
         }
+
     }
 }
