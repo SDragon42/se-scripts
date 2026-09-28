@@ -29,14 +29,14 @@ namespace IngameScript {
         readonly string instructions;
 
         public Program() {
-            GroupPrefixes.Add("rename to:", RenameMethods.RenameTo);
-            GroupPrefixes.Add("num rename to:", RenameMethods.NumberRenameTo);
-            GroupPrefixes.Add("prefix with:", RenameMethods.PrefixWith);
-            GroupPrefixes.Add("suffix with:", RenameMethods.SuffixWith);
-            GroupPrefixes.Add("remove:", RenameMethods.Remove);
-            GroupPrefixes.Add("remove prefix:", RenameMethods.RemovePrefix);
-            GroupPrefixes.Add("remove suffix:", RenameMethods.RemoveSuffix);
-            GroupPrefixes.Add("replace:", RenameMethods.Replace);
+            GroupPrefixes.Add("rename to:", RenameHelper.RenameTo);
+            GroupPrefixes.Add("num rename to:", RenameHelper.NumberRenameTo);
+            GroupPrefixes.Add("prefix with:", RenameHelper.PrefixWith);
+            GroupPrefixes.Add("suffix with:", RenameHelper.SuffixWith);
+            GroupPrefixes.Add("remove:", RenameHelper.Remove);
+            GroupPrefixes.Add("remove prefix:", RenameHelper.RemovePrefix);
+            GroupPrefixes.Add("remove suffix:", RenameHelper.RemoveSuffix);
+            GroupPrefixes.Add("replace:", RenameHelper.Replace);
 
             // Instructions
             var sb = new StringBuilder();

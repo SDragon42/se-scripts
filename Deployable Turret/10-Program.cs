@@ -198,7 +198,7 @@ namespace IngameScript {
                 b.CustomName = "Parachute";
             }
 
-            RenameMethods.NumberRenameTo(landingGears, "LandingGear");
+            RenameHelper.NumberRenameTo(landingGears, "LandingGear");
         }
 
         static char[] CMD_SPLIT = new char[] { ' ' };

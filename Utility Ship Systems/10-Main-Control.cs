@@ -106,7 +106,7 @@ namespace IngameScript {
         void ScanAhead() {
             if (_foreRangeCamera == null) return;
             MyDetectedEntityInfo _foreRangeInfo;
-            Ranger.TryGetDetailedRange(_foreRangeCamera, _config.ForwardScanRange, out _foreRangeInfo);
+            RangeHelper.TryGetDetailedRange(_foreRangeCamera, _config.ForwardScanRange, out _foreRangeInfo);
             _scanRangeText = BuildForwardDisplayText(_foreRangeInfo, _foreRangeCamera);
             _timeLastCleared = 0;
         }
