@@ -38,6 +38,7 @@ namespace IngameScript {
         readonly List<IMySoundBlock> _proximitySpeakerList = new List<IMySoundBlock>();
         readonly List<IMyFunctionalBlock> _toolList = new List<IMyFunctionalBlock>();
         readonly List<ScreenConfig> _screenList = new List<ScreenConfig>();
+        readonly List<IMyTerminalBlock> TmpBlocks = new List<IMyTerminalBlock>();
 
         IMyShipController _sc = null;
         IMyCameraBlock _foreRangeCamera = null;

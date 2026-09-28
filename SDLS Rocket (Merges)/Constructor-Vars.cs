@@ -111,6 +111,7 @@ namespace IngameScript {
         readonly List<IMyShipConnector> Connectors = new List<IMyShipConnector>();
         readonly List<IMyShipMergeBlock> ConnectedMerges = new List<IMyShipMergeBlock>();
         readonly List<IMyParachute> Parachutes = new List<IMyParachute>();
+        readonly List<IMyTerminalBlock> TmpBlocks = new List<IMyTerminalBlock>();
 
         IMyRadioAntenna Antenna = null;
 

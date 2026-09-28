@@ -25,6 +25,7 @@ namespace IngameScript {
         readonly Dictionary<string, RenameMethodSig> GroupPrefixes = new Dictionary<string, RenameMethodSig>();
 
         readonly List<IMyBlockGroup> groups = new List<IMyBlockGroup>();
+        readonly List<IMyTerminalBlock> blocks = new List<IMyTerminalBlock>();
 
         readonly string instructions;
 
@@ -58,10 +59,10 @@ namespace IngameScript {
             foreach (var currentGroup in groups) {
                 if (!IsRenameGroup(currentGroup)) continue;
 
-                currentGroup.GetBlocks(TmpBlocks);
+                currentGroup.GetBlocks(blocks);
                 var methodKeyPair = GetMethodKeyPair(currentGroup);
                 var content = currentGroup.Name.Substring(methodKeyPair.Key.Length);
-                var count = methodKeyPair.Value.Invoke(TmpBlocks, content);
+                var count = methodKeyPair.Value.Invoke(blocks, content);
                 log.AppendLine(currentGroup.Name);
                 log.AppendLine($"# Blocks : {count:N0}");
             }

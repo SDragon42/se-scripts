@@ -41,6 +41,7 @@ namespace IngameScript {
         readonly List<IMyThrust> trainThrusters = new List<IMyThrust>();
         readonly List<IMyGyro> trainGyros = new List<IMyGyro>();
         readonly List<IMyDoor> doorList = new List<IMyDoor>();
+        readonly List<IMyTerminalBlock> TmpBlocks = new List<IMyTerminalBlock>();
         IMyRadioAntenna myAntenna;
         IMyTextSurface debugOutput;
 
