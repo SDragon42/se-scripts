@@ -47,6 +47,19 @@ namespace IngameScript {
                 dockSecure.Tag = _ini.Add(ConfigSections.UTILITY_SHIP, "Tag", "[utility]").ToString();
                 dockSecure.IgnoreTag = _ini.Add(ConfigSections.UTILITY_SHIP, "Ignore-Tag", "[ignore]").ToString();
 
+                // Migrate old settings to new section
+                _ini.Migrate(ConfigSections.UTILITY_SHIP, ConfigSections.UTILITY_SHIP_SYSTEMS, "Auto Turn OFF Systems");
+                _ini.Migrate(ConfigSections.UTILITY_SHIP, ConfigSections.UTILITY_SHIP_SYSTEMS, "Auto Turn ON Systems");
+                _ini.Migrate(ConfigSections.UTILITY_SHIP, ConfigSections.UTILITY_SHIP_SYSTEMS, "Thrusters On/Off");
+                _ini.Migrate(ConfigSections.UTILITY_SHIP, ConfigSections.UTILITY_SHIP_SYSTEMS, "Gyros On/Off");
+                _ini.Migrate(ConfigSections.UTILITY_SHIP, ConfigSections.UTILITY_SHIP_SYSTEMS, "Lights On/Off");
+                _ini.Migrate(ConfigSections.UTILITY_SHIP, ConfigSections.UTILITY_SHIP_SYSTEMS, "Beacons On/Off");
+                _ini.Migrate(ConfigSections.UTILITY_SHIP, ConfigSections.UTILITY_SHIP_SYSTEMS, "Radio Antennas On/Off");
+                _ini.Migrate(ConfigSections.UTILITY_SHIP, ConfigSections.UTILITY_SHIP_SYSTEMS, "Sensors On/Off");
+                _ini.Migrate(ConfigSections.UTILITY_SHIP, ConfigSections.UTILITY_SHIP_SYSTEMS, "Ore Detectors On/Off");
+                _ini.Migrate(ConfigSections.UTILITY_SHIP, ConfigSections.UTILITY_SHIP_SYSTEMS, "Spotlights On/Off");
+
+                // Read/Create the new settings
                 dockSecure.Auto_Off = _ini.Add(ConfigSections.UTILITY_SHIP_SYSTEMS, "Auto Turn OFF Systems", dockSecure.Auto_Off).ToBoolean();
                 dockSecure.Auto_On = _ini.Add(ConfigSections.UTILITY_SHIP_SYSTEMS, "Auto Turn ON Systems", dockSecure.Auto_On).ToBoolean();
                 dockSecure.Thrusters_OnOff = _ini.Add(ConfigSections.UTILITY_SHIP_SYSTEMS, "Thrusters On/Off", dockSecure.Thrusters_OnOff).ToBoolean();

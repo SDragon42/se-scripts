@@ -101,7 +101,7 @@ namespace IngameScript {
                 var success = Ranger.TryGetDetailedRange(proxCamera.Camera, ScanRange, out info);
                 if (!success) return null;
                 var range = Vector3D.Distance(proxCamera.Camera.GetPosition(), info.HitPosition ?? info.Position);
-                return range + proxCamera.Offset;
+                return range - proxCamera.Offset;
             }
 
         }
