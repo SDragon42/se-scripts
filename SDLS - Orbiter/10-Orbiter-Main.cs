@@ -25,7 +25,7 @@ namespace IngameScript {
             UpTime += Runtime.TimeSinceLastRun;
             TagSelf();
             if ((updateSource & UpdateType.Update10) == UpdateType.Update10) {
-                Echo(Running.GetSymbol(Runtime));
+                Echo(Running.GetSymbol());
             }
 
             if (!Me.CubeGrid.CustomName.EndsWith(TAG.GRID))

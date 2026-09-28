@@ -26,7 +26,7 @@ namespace IngameScript {
             TagSelf();
             NameGrids();
             if ((updateSource & UpdateType.Update10) == UpdateType.Update10)
-                Echo("SDLS " + Running.GetSymbol(Runtime));
+                Echo("SDLS " + Running.GetSymbol());
             else
                 Echo("SDLS");
 

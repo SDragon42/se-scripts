@@ -61,7 +61,7 @@ namespace IngameScript {
         }
 
         public void Main(string argument, UpdateType updateSource) {
-            Echo("GrassHopper " + RunSymbol.GetSymbol(Runtime));
+            Echo("GrassHopper " + RunSymbol.GetSymbol());
             LoadConfig();
             LoadBlocks();
             try {

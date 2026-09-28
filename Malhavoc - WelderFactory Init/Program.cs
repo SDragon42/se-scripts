@@ -39,7 +39,7 @@ namespace IngameScript {
             LoadConfig();
             var autoRun = (updateSource & UpdateType.Update10) == UpdateType.Update10;
             if (autoRun)
-                Echo("Running " + Running.GetSymbol(Runtime));
+                Echo("Running " + Running.GetSymbol());
 
             argument = argument?.ToLower();
             switch (argument) {

@@ -43,7 +43,7 @@ namespace IngameScript {
 
 
         public void Main(string argument, UpdateType updateSource) {
-            Echo("Launch Center " + Running.GetSymbol(Runtime));
+            Echo("Launch Center " + Running.GetSymbol());
             try {
                 // Process Arguments
                 ProcessArguments(argument);

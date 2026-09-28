@@ -88,7 +88,7 @@ namespace IngameScript {
                 isMerged = CheckIfMerged();
                 onStandby = TagModule.IsOtherProgramOnDuty(GridTerminalSystem, Me, IsEngineProgramBlock);
 
-                Echo("Union Space Transit " + (onStandby ? "[ON STANDBY]" : RunningModule.GetSymbol(Runtime)));
+                Echo("Union Space Transit " + (onStandby ? "[ON STANDBY]" : RunningModule.GetSymbol()));
                 Echo("Configure script in 'Custom Data'\n");
 
                 stateMachine.RunAll();

@@ -26,7 +26,7 @@ namespace IngameScript {
             InitStructure();
             InitRocketType();
 
-            Echo(ScriptName + " " + RSymbol.GetSymbol(Runtime));
+            Echo(ScriptName + " " + RSymbol.GetSymbol());
 
             Echo("Mode: " + Mode);
             Echo("Rocket: " + RocketType);
