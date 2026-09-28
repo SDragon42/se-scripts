@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         // I acquired some of this code from Whiplash's compass script (I think. I've had it a while)
         // https://steamcommunity.com/sharedfiles/filedetails/?id=616627882&searchtext=Compass
         static class CompassHelper {
@@ -96,5 +97,6 @@ namespace IngameScript {
                 return cardinals[idx];
             }
         }
+
     }
 }

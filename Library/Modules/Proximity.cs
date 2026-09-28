@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class Proximity {
             readonly List<Base6Directions.Direction> KeyList;
             readonly Dictionary<Base6Directions.Direction, double?> _prox1 = new Dictionary<Base6Directions.Direction, double?>();
@@ -98,7 +99,7 @@ namespace IngameScript {
 
             double? GetRange(ProxCamera proxCamera) {
                 MyDetectedEntityInfo info;
-                var success = Ranger.TryGetDetailedRange(proxCamera.Camera, ScanRange, out info);
+                var success = RangeHelper.TryGetDetailedRange(proxCamera.Camera, ScanRange, out info);
                 if (!success) return null;
                 var range = Vector3D.Distance(proxCamera.Camera.GetPosition(), info.HitPosition ?? info.Position);
                 return range - proxCamera.Offset;
@@ -114,5 +115,6 @@ namespace IngameScript {
             public IMyCameraBlock Camera { get; private set; }
             public double Offset { get; private set; }
         }
+
     }
 }

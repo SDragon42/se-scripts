@@ -58,6 +58,7 @@ namespace IngameScript {
         readonly List<IMyThrust> StackStageThrusters = new List<IMyThrust>();
         readonly List<IMyGasTank> StackH2Tanks = new List<IMyGasTank>();
         readonly List<IMyProgrammableBlock> GridPrograms = new List<IMyProgrammableBlock>();
+        readonly List<IMyTerminalBlock> TmpBlocks = new List<IMyTerminalBlock>();
 
 
         public Program() {

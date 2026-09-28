@@ -20,9 +20,11 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         static class LCDFonts {
             public const string DEBUG = "Debug";
             public const string MONOSPACE = "Monospace";
         }
+
     }
 }

@@ -21,7 +21,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        static class Ranger {
+        static class RangeHelper {
             public static bool TryGetDetailedRange(IMyCameraBlock camera, double maxScanRange, out MyDetectedEntityInfo detectedInfo) {
                 camera.EnableRaycast = true;
                 detectedInfo = default(MyDetectedEntityInfo);

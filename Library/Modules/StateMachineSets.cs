@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         class StateMachineSets {
             readonly List<string> Keys2Remove = new List<string>();
             readonly Dictionary<string, StateMachineQueue> AllTasks = new Dictionary<string, StateMachineQueue>();
@@ -70,7 +71,7 @@ namespace IngameScript {
                     Remove(key);
                 }
             }
-
         }
+
     }
 }

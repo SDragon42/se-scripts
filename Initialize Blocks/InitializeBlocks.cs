@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
+
         readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
 
         readonly IDictionary<string, Action<string[]>> Commands = new Dictionary<string, Action<string[]>>();
@@ -253,8 +254,6 @@ namespace IngameScript {
             light.Color = new Color(100, 100, 100);
             light.Radius = light.GetMaximum<float>("Radius");
         }
-
-
 
     }
 }

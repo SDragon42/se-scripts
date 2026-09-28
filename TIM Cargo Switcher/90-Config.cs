@@ -56,5 +56,6 @@ namespace IngameScript {
             _configHashCode = text.GetHashCode();
             Me.CustomData = text;
         }
+
     }
 }

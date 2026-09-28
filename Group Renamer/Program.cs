@@ -20,22 +20,24 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
+
         delegate int RenameMethodSig(List<IMyTerminalBlock> blocks, string content);
         readonly Dictionary<string, RenameMethodSig> GroupPrefixes = new Dictionary<string, RenameMethodSig>();
 
         readonly List<IMyBlockGroup> groups = new List<IMyBlockGroup>();
+        readonly List<IMyTerminalBlock> blocks = new List<IMyTerminalBlock>();
 
         readonly string instructions;
 
         public Program() {
-            GroupPrefixes.Add("rename to:", RenameMethods.RenameTo);
-            GroupPrefixes.Add("num rename to:", RenameMethods.NumberRenameTo);
-            GroupPrefixes.Add("prefix with:", RenameMethods.PrefixWith);
-            GroupPrefixes.Add("suffix with:", RenameMethods.SuffixWith);
-            GroupPrefixes.Add("remove:", RenameMethods.Remove);
-            GroupPrefixes.Add("remove prefix:", RenameMethods.RemovePrefix);
-            GroupPrefixes.Add("remove suffix:", RenameMethods.RemoveSuffix);
-            GroupPrefixes.Add("replace:", RenameMethods.Replace);
+            GroupPrefixes.Add("rename to:", RenameHelper.RenameTo);
+            GroupPrefixes.Add("num rename to:", RenameHelper.NumberRenameTo);
+            GroupPrefixes.Add("prefix with:", RenameHelper.PrefixWith);
+            GroupPrefixes.Add("suffix with:", RenameHelper.SuffixWith);
+            GroupPrefixes.Add("remove:", RenameHelper.Remove);
+            GroupPrefixes.Add("remove prefix:", RenameHelper.RemovePrefix);
+            GroupPrefixes.Add("remove suffix:", RenameHelper.RemoveSuffix);
+            GroupPrefixes.Add("replace:", RenameHelper.Replace);
 
             // Instructions
             var sb = new StringBuilder();
@@ -57,10 +59,10 @@ namespace IngameScript {
             foreach (var currentGroup in groups) {
                 if (!IsRenameGroup(currentGroup)) continue;
 
-                currentGroup.GetBlocks(TmpBlocks);
+                currentGroup.GetBlocks(blocks);
                 var methodKeyPair = GetMethodKeyPair(currentGroup);
                 var content = currentGroup.Name.Substring(methodKeyPair.Key.Length);
-                var count = methodKeyPair.Value.Invoke(TmpBlocks, content);
+                var count = methodKeyPair.Value.Invoke(blocks, content);
                 log.AppendLine(currentGroup.Name);
                 log.AppendLine($"# Blocks : {count:N0}");
             }

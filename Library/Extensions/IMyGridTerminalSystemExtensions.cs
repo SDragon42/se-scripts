@@ -18,6 +18,7 @@ using VRage;
 using VRageMath;
 
 namespace IngameScript {
+
     static class IMyGridTerminalSystemExtensions {
         // Get the Blocks with the first collect method that finds any blocks. If the collectMethods array is null, then all blocks of type T are loaded into the list.
         // typeparam "T" - The base type of the blocks to find.
@@ -46,4 +47,5 @@ namespace IngameScript {
             return (temp.Count > 0) ? (T)temp[0] : null;
         }
     }
+
 }

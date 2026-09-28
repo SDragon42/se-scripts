@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program : MyGridProgram {
+
         public void Main(string argument, UpdateType updateSource) {
             // Initialize the script and load configuration if necessary
             _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
@@ -105,12 +106,13 @@ namespace IngameScript {
         void ScanAhead() {
             if (_foreRangeCamera == null) return;
             MyDetectedEntityInfo _foreRangeInfo;
-            Ranger.TryGetDetailedRange(_foreRangeCamera, _config.ForwardScanRange, out _foreRangeInfo);
+            RangeHelper.TryGetDetailedRange(_foreRangeCamera, _config.ForwardScanRange, out _foreRangeInfo);
             _scanRangeText = BuildForwardDisplayText(_foreRangeInfo, _foreRangeCamera);
             _timeLastCleared = 0;
         }
 
         void TurnOffTools() => _toolList.ForEach(b => b.Enabled = false);
         void ToggleToolsOnOff() => _toolList.ForEach(b => b.Enabled = !b.Enabled);
+
     }
 }

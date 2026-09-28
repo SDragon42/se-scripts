@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
+
         static class DirectionHelper {
             // Gets the Direction value from a text value.
             public static Base6Directions.Direction GetDirectionFromString(string directionName) {
@@ -39,5 +40,6 @@ namespace IngameScript {
                 }
             }
         }
+
     }
 }

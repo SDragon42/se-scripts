@@ -102,7 +102,7 @@ namespace IngameScript {
                 g.SetValueFloat("Roll", roll);
                 g.GyroOverride = gyroOverride;
             }
-
         }
+
     }
 }
