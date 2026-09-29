@@ -30,6 +30,12 @@ namespace IngameScript {
 
             config.Load();
             LoadBlocks();
+
+            // antenna != null && battery != null && turret != null;
+            if (antenna == null || battery == null || turret == null) {
+                Echo("Critical blocks missing!");
+                return;
+            }
             //Debug($"{decoys.Count} Decoys");
             //Debug($"{parachutes.Count} Parachutes");
             //Debug($"{landingGears.Count} LandingGears");
@@ -65,7 +71,7 @@ namespace IngameScript {
             if (config.ShowStatusOnAntenna) {
                 // Show Low power
                 if (battery != null && battery.IsWorking) {
-                    var remaining = battery.MaxStoredPower / battery.MaxStoredPower;
+                    var remaining = battery.CurrentStoredPower / battery.MaxStoredPower;
                     if (remaining <= 0.25f && remaining > 0.1)
                         antennaMessage += "\nLOW POWER";
                     if (remaining <= 0.1f)
@@ -103,7 +109,12 @@ namespace IngameScript {
                 //if (tmp == 0)
                 //    hasAllParachutes = false;
             }
-            hasAllParachutes = (parachutes.Count / canvasAmount) == 1;
+
+            if (canvasAmount == 0) {
+                hasAllParachutes = false;
+            } else {
+                hasAllParachutes = (parachutes.Count / canvasAmount) == 1;
+            }
         }
 
         long GetInventoryItemCount(IMyInventory inven) {
@@ -135,7 +146,6 @@ namespace IngameScript {
             turret = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyLargeTurretBase>(Me.IsSameConstructAs);
             antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(Me.IsSameConstructAs);
 
-            GridTerminalSystem.GetBlocksOfType(decoys, Me.IsSameConstructAs);
             GridTerminalSystem.GetBlocksOfType(decoys, Me.IsSameConstructAs);
             GridTerminalSystem.GetBlocksOfType(parachutes, Me.IsSameConstructAs);
             GridTerminalSystem.GetBlocksOfType(landingGears, Me.IsSameConstructAs);

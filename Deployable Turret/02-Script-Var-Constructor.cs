@@ -69,10 +69,10 @@ namespace IngameScript {
             //IgcCommands.Add("parachutes-on", TurnOnParachutes);
             //IgcCommands.Add("parachutes-off", TurnOffParachutes);
 
-            IgcCommands.Add("deploy", null);
+            // IgcCommands.Add("deploy", null);
 
-            IgcCommands.Add("stealth-on", null);
-            IgcCommands.Add("stealth-off", null);
+            // IgcCommands.Add("stealth-on", null);
+            // IgcCommands.Add("stealth-off", null);
 
             foreach (var cmd in IgcCommands) MainCommands.Add(cmd.Key, cmd.Value);
             MainCommands.Add("init", InitializeBlocks);
