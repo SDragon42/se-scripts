@@ -21,40 +21,24 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        int _configHashCode = -1;
+        class Config : ConfigBase {
 
-        const string SECTION_CONFIG = "TIM Cargo Switcher";
-        readonly MyIniKey KEY_TimTag = new MyIniKey(SECTION_CONFIG, "TIM Tag");
-        readonly MyIniKey KEY_CargoSwitcherTag = new MyIniKey(SECTION_CONFIG, "Cargo Switcher Tag");
-        readonly MyIniKey KEY_ShowDebug = new MyIniKey(SECTION_CONFIG, "Show Debug Info");
+            // public string TimTag { get; set; } = "TIM";
+            public string CargoSwitcherTag { get; set; } = "timcs";
+            // public bool ShowDebug { get; set; } = false;
 
+            const string SECTION_CONFIG = "TIM Cargo Switcher";
 
-        void LoadConfig() {
-            var tmpHashCode = Me.CustomData.GetHashCode();
-            if (_configHashCode == tmpHashCode) return;
-            _configHashCode = tmpHashCode;
+            public void Load(TimBlockName configApplied) {
+                if (!LoadIni()) return;
 
-            Ini.Clear();
-            Ini.TryParse(Me.CustomData);
+                // TimTag = _ini.Add(SECTION_CONFIG, "TIM Tag", TimTag).ToString();
+                configApplied.TimTag = _ini.Get(SECTION_CONFIG, "TIM Tag").ToString();
+                CargoSwitcherTag = _ini.Add(SECTION_CONFIG, "Cargo Switcher Tag", CargoSwitcherTag).ToString();
+                // ShowDebug = _ini.Add(SECTION_CONFIG, "Show Debug Info", ShowDebug).ToBoolean();
 
-            Ini.Add(KEY_TimTag, "TIM");
-            Ini.Add(KEY_CargoSwitcherTag, "timcs");
-            Ini.Add(KEY_ShowDebug, false);
-
-            ConfigApplied.TimTag = Ini.Get(KEY_TimTag).ToString();
-            // Debug = Ini.Get(KEY_ShowDebug).ToBoolean()
-            //     ? Echo
-            //     : (text) => { };
-            // ConfigStorage.Debug = Debug;
-            // ConfigApplied.Debug = Debug;
-
-            SaveConfig();
-        }
-
-        void SaveConfig() {
-            var text = Ini.ToString();
-            _configHashCode = text.GetHashCode();
-            Me.CustomData = text;
+                Save();
+            }
         }
 
     }

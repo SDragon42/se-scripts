@@ -22,19 +22,21 @@ namespace IngameScript {
     partial class Program {
 
         public void Main(string argument, UpdateType updateSource) {
-            Echo(ScriptTitle);
+            Echo(SCRIPT_TITLE);
             string command;
             ProcessArgument(argument, out command);
-            ProcessConfig();
+            _config.Load();
             LoadBlocks();
-            if (guidanceBlocks.Count == 0) {
+            if (_guidanceBlocks.Count == 0) {
                 Echo("No torpedo guidance blocks found");
-                Echo($"Tag: {torpedoPrimaryTag}");
+                Echo($"Tag: {_config.torpedoPrimaryTag}");
                 command = string.Empty;
             }
             RechargeAllPowerCells();
-            RunCommand(command);
-            Echo(Instructions);
+            
+            if (_commands.ContainsKey(command)) _commands[command]?.Invoke();
+
+            Echo(_instructions);
         }
 
 
@@ -46,39 +48,30 @@ namespace IngameScript {
         }
 
         void LoadBlocks() {
-            referenceBlock = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyShipController>(
-                b => b.IsSameConstructAs(Me) && b.CustomName.ToLower().Contains(referenceTag),
+            _referenceBlock = (IMyTerminalBlock)GridTerminalSystem.GetBlockOfTypeWithFirst<IMyShipController>(
+                b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, _config.referenceTag),
                 b => b.IsSameConstructAs(Me) && b is IMyCockpit && ((IMyCockpit)b).IsMainCockpit,
                 b => b.IsSameConstructAs(Me) && b is IMyCockpit && ((IMyCockpit)b).IsUnderControl,
                 b => b.IsSameConstructAs(Me) && b is IMyCockpit,
-                b => b.IsSameConstructAs(Me) && b is IMyRemoteControl);
-            if (referenceBlock == null) referenceBlock = Me;
-            Debug($"FRef: {referenceBlock.CustomName}");
+                b => b.IsSameConstructAs(Me) && b is IMyRemoteControl)
+                ?? Me;
+            Debug($"FRef: {_referenceBlock.CustomName}");
 
-            GridTerminalSystem.GetBlocksOfType(guidanceBlocks, IsTorpedoGuidance);
-            Debug($"# Found Torps: {guidanceBlocks.Count}");
+            GridTerminalSystem.GetBlocksOfType(_guidanceBlocks, IsTorpedoGuidance);
+            Debug($"# Found Torps: {_guidanceBlocks.Count}");
 
-            GridTerminalSystem.GetBlocksOfType(beaconBlocks, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, torpedoBeaconTag));
-            Debug($"# Found Torp Beacons: {beaconBlocks.Count}");
+            GridTerminalSystem.GetBlocksOfType(_beaconBlocks, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, _config.torpedoBeaconTag));
+            Debug($"# Found Torp Beacons: {_beaconBlocks.Count}");
 
-            powerCellBlocks.Clear();
-            if (torpedoPowerCellTag.Length > 0) {
-                GridTerminalSystem.GetBlocksOfType(powerCellBlocks, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, torpedoPowerCellTag));
-                Debug($"# Found Torp P.Cells: {powerCellBlocks.Count}");
+            _powerCellBlocks.Clear();
+            if (_config.torpedoPowerCellTag.Length > 0) {
+                GridTerminalSystem.GetBlocksOfType(_powerCellBlocks, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, _config.torpedoPowerCellTag));
+                Debug($"# Found Torp P.Cells: {_powerCellBlocks.Count}");
             }
         }
-        bool IsTorpedoGuidance(IMyTerminalBlock b) {
-            if (!b.IsSameConstructAs(Me)) return false;
-            if (!Collect.IsTagged(b, torpedoPrimaryTag)) return false;
-            if (torpedoSecondaryTag.Length > 0)
-                return Collect.IsTagged(b, torpedoSecondaryTag);
-            return true;
-        }
-
-
-        void RunCommand(string command) {
-            if (Commands.ContainsKey(command)) Commands[command]?.Invoke();
-        }
+        bool IsTorpedoGuidance(IMyTerminalBlock b) => Me.IsSameConstructAs(b) 
+                                                    && Collect.IsTagged(b, _config.torpedoPrimaryTag)
+                                                    && (torpedoSecondaryTag.Length == 0 || Collect.IsTagged(b, torpedoSecondaryTag));
 
 
         static T SelectBlock<T>(List<T> blockList, IMyTerminalBlock referenceBlock, double initialDist, Func<double, double, bool> compareFunc) where T : IMyTerminalBlock {
