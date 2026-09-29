@@ -21,10 +21,6 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        const string CMD_CONNECT_BOOMS = "connect-boom";
-        const string CMD_DISCONNECT_BOOMS = "disconnect-boom";
-        const string CMD_LAUNCH = "launch";
-
 
     }
 }
