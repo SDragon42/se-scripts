@@ -23,19 +23,16 @@ namespace IngameScript {
 
         class Config : ConfigBase {
 
-            // public string TimTag { get; set; } = "TIM";
+            const string DEFAULT_TIM_TAG = "TIM";
             public string CargoSwitcherTag { get; set; } = "timcs";
-            // public bool ShowDebug { get; set; } = false;
 
             const string SECTION_CONFIG = "TIM Cargo Switcher";
 
             public void Load(TimBlockName configApplied) {
                 if (!LoadIni()) return;
 
-                // TimTag = _ini.Add(SECTION_CONFIG, "TIM Tag", TimTag).ToString();
-                configApplied.TimTag = _ini.Get(SECTION_CONFIG, "TIM Tag").ToString();
+                configApplied.TimTag = _ini.Add(SECTION_CONFIG, "TIM Tag", DEFAULT_TIM_TAG).ToString();
                 CargoSwitcherTag = _ini.Add(SECTION_CONFIG, "Cargo Switcher Tag", CargoSwitcherTag).ToString();
-                // ShowDebug = _ini.Add(SECTION_CONFIG, "Show Debug Info", ShowDebug).ToBoolean();
 
                 Save();
             }
