@@ -22,7 +22,7 @@ namespace IngameScript {
 
         class Config : ConfigBase {
             public string CommGroupName { get; set; } = "Deployed-Defense";
-            public string TurretId { get; set; } = string.Empty;
+            public string Id { get; set; } = string.Empty;
             public bool StealthMode { get; set; } = false;
             public bool ShowStatusOnAntenna { get; set; } = true;
             public bool ReportStatusOnCOMMs { get; set; } = true;
@@ -37,13 +37,15 @@ namespace IngameScript {
                 if (!LoadIni()) return;
 
                 CommGroupName = _ini.Add(SECTION_REMOTE_TURRET, "COMM Group Name", CommGroupName).ToString();
-                TurretId = _ini.Add(SECTION_REMOTE_TURRET, "ID", string.Empty).ToString();
+                Id = _ini.Add(SECTION_REMOTE_TURRET, "ID", Id).ToString();
                 StealthMode = _ini.Add(SECTION_REMOTE_TURRET, "Stealth Mode Enabled", false).ToBoolean();
                 ShowStatusOnAntenna = _ini.Add(SECTION_REMOTE_TURRET, "Show Status on Antenna", true).ToBoolean();
                 ReportStatusOnCOMMs = _ini.Add(SECTION_REMOTE_TURRET, "Report Status on COMMs", true).ToBoolean();
 
-                if (string.IsNullOrEmpty(TurretId))
-                    TurretId = Block.CubeGrid.EntityId.ToString();
+                if (string.IsNullOrEmpty(Id)) {
+                    Id = Block.CubeGrid.EntityId.ToString();
+                    _ini.Set(SECTION_REMOTE_TURRET, "ID", Id);
+                }
 
                 Save();
             }

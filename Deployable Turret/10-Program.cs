@@ -66,7 +66,7 @@ namespace IngameScript {
             antenna.EnableBroadcasting = !config.StealthMode;
             if (config.StealthMode) return;
 
-            var antennaMessage = config.TurretId;
+            var antennaMessage = config.Id;
 
             if (config.ShowStatusOnAntenna) {
                 // Show Low power
