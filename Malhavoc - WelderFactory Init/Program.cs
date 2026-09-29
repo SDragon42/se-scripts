@@ -21,22 +21,24 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        string GroupKey_AllWelders = string.Empty;
-        string GroupKey_AllPistons = string.Empty;
-        float Speed_Operation = 0.015f;
-        float Speed_MoveToPosition = 1.0F;
-
-
         readonly RunningSymbol Running = new RunningSymbol();
         readonly List<IMyPistonBase> PistonList = new List<IMyPistonBase>();
         readonly List<IMyShipWelder> WelderList = new List<IMyShipWelder>();
         readonly StateMachineQueue Operation = new StateMachineQueue();
 
+        readonly Config _config = new Config();
+
         string OperationMessage = string.Empty;
 
 
+        public Program() {
+            _config.Initialize(Me, GridTerminalSystem);
+            _config.Load();
+        }
+
+
         public void Main(string argument, UpdateType updateSource) {
-            LoadConfig();
+            _config.Load();
             var autoRun = (updateSource & UpdateType.Update10) == UpdateType.Update10;
             if (autoRun)
                 Echo("Running " + Running.GetSymbol());
@@ -89,7 +91,7 @@ namespace IngameScript {
             WelderList.ForEach(w => w.Enabled = false);
             yield return true;
 
-            PistonList.ForEach(p => p.Velocity = Speed_MoveToPosition);
+            PistonList.ForEach(p => p.Velocity = _config.Speed_MoveToPosition);
             PistonList.ForEach(MovePistonAction);
 
             var allAtEnd = false;
@@ -98,7 +100,7 @@ namespace IngameScript {
                 allAtEnd = PistonList.All(PositionCheckFunc);
             } while (!allAtEnd);
 
-            PistonList.ForEach(p => p.Velocity = Speed_Operation);
+            PistonList.ForEach(p => p.Velocity = _config.Speed_Operation);
             PistonList.ForEach(MovePistonAction);
             yield return true;
             OperationMessage = string.Empty;
@@ -107,8 +109,8 @@ namespace IngameScript {
 
 
         void LoadBlocks() {
-            LoadList(GroupKey_AllPistons, PistonList);
-            LoadList(GroupKey_AllWelders, WelderList);
+            LoadList(_config.GroupKey_AllPistons, PistonList);
+            LoadList(_config.GroupKey_AllWelders, WelderList);
         }
         void LoadList<T>(string groupName, List<T> blockList) where T : class {
             blockList.Clear();
@@ -121,30 +123,26 @@ namespace IngameScript {
         bool IsRetracted(IMyPistonBase piston) => Math.Round(piston.CurrentPosition, 3) <= Math.Round(piston.MinLimit, 3);
 
 
-        const string SECTION_TAG = "Groups";
-        readonly MyIniKey Key_AllWelders = new MyIniKey(SECTION_TAG, "Group - All Welders");
-        readonly MyIniKey Key_AllPistons = new MyIniKey(SECTION_TAG, "Group - All Pistons");
+        class Config : ConfigBase {
+            public string GroupKey_AllWelders { get; private set; } = string.Empty;
+            public string GroupKey_AllPistons { get; private set; } = string.Empty;
+            public float Speed_Operation { get; private set; } = 0.015f;
+            public float Speed_MoveToPosition { get; private set; } = 1.0F;
+            
+            const string SECTION_TAG = "Groups";
+            const string SECTION_TAG2 = "Speeds";
 
-        const string SECTION_TAG2 = "Speeds";
-        readonly MyIniKey Key_SpeedOperation = new MyIniKey(SECTION_TAG2, "Pistons - Operation Speed");
-        readonly MyIniKey Key_SpeedPosition = new MyIniKey(SECTION_TAG2, "Pistons - Position Speed");
+            public void Load() {
+                if (!LoadIni()) return;
 
-        int _configHashCode = 0;
-        void LoadConfig() {
-            var tmpHashCode = Me.CustomData.GetHashCode();
-            if (_configHashCode == tmpHashCode) return;
+                GroupKey_AllWelders = _ini.Add(SECTION_TAG, "Group - All Welders", GroupKey_AllWelders).ToString();
+                GroupKey_AllPistons = _ini.Add(SECTION_TAG, "Group - All Pistons", GroupKey_AllPistons).ToString();
 
-            var ini = new MyIni();
+                Speed_Operation = _ini.Add(SECTION_TAG2, "Pistons - Operation Speed", Speed_Operation).ToSingle();
+                Speed_MoveToPosition = _ini.Add(SECTION_TAG2, "Pistons - Position Speed", Speed_MoveToPosition).ToSingle();
 
-            ini.TryParse(Me.CustomData);
-
-            GroupKey_AllWelders = ini.Add(Key_AllWelders, GroupKey_AllWelders).ToString();
-            GroupKey_AllPistons = ini.Add(Key_AllPistons, GroupKey_AllPistons).ToString();
-            Speed_Operation = ini.Add(Key_SpeedOperation, Speed_Operation).ToSingle();
-            Speed_MoveToPosition = ini.Add(Key_SpeedPosition, Speed_MoveToPosition).ToSingle();
-
-            Me.CustomData = ini.ToString();
-            _configHashCode = Me.CustomData.GetHashCode();
+                Save();
+            }
         }
 
     }
