@@ -20,45 +20,33 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        int configHashCode = 0;
+        class Config : ConfigBase {
+            public string CommGroupName { get; set; } = "Deployed-Defense";
+            public string TurretId { get; set; } = string.Empty;
+            public bool StealthMode { get; set; } = false;
+            public bool ShowStatusOnAntenna { get; set; } = true;
+            public bool ReportStatusOnCOMMs { get; set; } = true;
+            // public bool ShowStatusLights { get; set; } = false;
+            // public bool ShowStatusAntenna { get; set; } = false;
 
-        const string SECTION_REMOTE_TURRET = "Remote Turret";
+            // int configHashCode = 0;
 
-        readonly MyIniKey Key_CommGroupName = new MyIniKey(SECTION_REMOTE_TURRET, "COMM Group Name");
-        readonly MyIniKey Key_TurretId = new MyIniKey(SECTION_REMOTE_TURRET, "ID");
-        readonly MyIniKey Key_StealthMode = new MyIniKey(SECTION_REMOTE_TURRET, "Stealth Mode Enabled");
-        readonly MyIniKey Key_ShowStatusOnAntenna = new MyIniKey(SECTION_REMOTE_TURRET, "Show Status on Antenna");
-        readonly MyIniKey Key_ReportStatusOnComms = new MyIniKey(SECTION_REMOTE_TURRET, "Report Status on COMMs");
+            const string SECTION_REMOTE_TURRET = "Remote Turret";
 
+            public void Load() {
+                if (!LoadIni()) return;
 
-        void LoadConfig() {
-            var tmpHashCode = Me.CustomData.GetHashCode();
-            if (configHashCode == tmpHashCode) return;
-            configHashCode = tmpHashCode;
+                CommGroupName = _ini.Add(SECTION_REMOTE_TURRET, "COMM Group Name", CommGroupName).ToString();
+                TurretId = _ini.Add(SECTION_REMOTE_TURRET, "ID", string.Empty).ToString();
+                StealthMode = _ini.Add(SECTION_REMOTE_TURRET, "Stealth Mode Enabled", false).ToBoolean();
+                ShowStatusOnAntenna = _ini.Add(SECTION_REMOTE_TURRET, "Show Status on Antenna", true).ToBoolean();
+                ReportStatusOnCOMMs = _ini.Add(SECTION_REMOTE_TURRET, "Report Status on COMMs", true).ToBoolean();
 
-            MyIniParseResult result;
-            var ini = new MyIni();
-            ini.Clear();
-            if (!ini.TryParse(Me.CustomData, out result)) {
-                ini.EndContent = Me.CustomData;
+                if (string.IsNullOrEmpty(TurretId))
+                    TurretId = Block.CubeGrid.EntityId.ToString();
+
+                Save();
             }
-
-            ini.Add(Key_CommGroupName, "Deployed-Defense");
-            ini.Add(Key_TurretId, string.Empty);
-            ini.Add(Key_StealthMode, false);
-            ini.Add(Key_ShowStatusOnAntenna, true);
-            ini.Add(Key_ReportStatusOnComms, true);
-
-            Me.CustomData = ini.ToString();
-
-            CommGroupName = ini.Get(Key_CommGroupName).ToString();
-            TurretId = ini.Get(Key_TurretId).ToString();
-            StealthMode = ini.Get(Key_StealthMode).ToBoolean();
-            ShowStatusOnAntenna = ini.Get(Key_ShowStatusOnAntenna).ToBoolean();
-            ReportStatusOnCOMMs = ini.Get(Key_ReportStatusOnComms).ToBoolean();
-
-            if (string.IsNullOrEmpty(TurretId))
-                TurretId = Me.CubeGrid.EntityId.ToString();
         }
 
     }

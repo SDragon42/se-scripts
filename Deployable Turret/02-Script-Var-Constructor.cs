@@ -23,9 +23,9 @@ namespace IngameScript {
         public Action<string> Debug = (msg) => { };
 
         const double BLOCK_RELOAD_TIME = 10.0;
-
+        const long INV_ITEM_COUNT_MODIFIER = 1000000L;
         const string ListenerTagName = "DeployableTurret";
-        //const string IGC_Update = "IGC_Update";
+        const string IGC_Update = "IGC_Update";
 
         readonly RunningSymbol runningSymbol = new RunningSymbol();
         readonly StateMachineQueue ActionQueue = new StateMachineQueue();
@@ -42,11 +42,7 @@ namespace IngameScript {
         readonly List<MyInventoryItem> inventoryItems = new List<MyInventoryItem>();
 
         // Config Values
-        string CommGroupName { get; set; } = "";
-        string TurretId { get; set; } = "";
-        bool StealthMode { get; set; } = false;
-        bool ShowStatusOnAntenna { get; set; } = false;
-        bool ReportStatusOnCOMMs { get; set; } = false;
+        Config config = new Config();
 
         //
         readonly IDictionary<string, Action> MainCommands = new Dictionary<string, Action>();
@@ -82,6 +78,8 @@ namespace IngameScript {
             MainCommands.Add("init", InitializeBlocks);
             MainCommands.Add("IGC_Update", IgcUpdate);
 
+            config.Initialize(Me, GridTerminalSystem);
+            config.Load();
         }
 
         public void Save() {
