@@ -30,12 +30,7 @@ namespace IngameScript {
 
             config.Load();
             LoadBlocks();
-
-            // antenna != null && battery != null && turret != null;
-            if (antenna == null || battery == null || turret == null) {
-                Echo("Critical blocks missing!");
-                return;
-            }
+            
             //Debug($"{decoys.Count} Decoys");
             //Debug($"{parachutes.Count} Parachutes");
             //Debug($"{landingGears.Count} LandingGears");
@@ -59,10 +54,15 @@ namespace IngameScript {
             Runtime.UpdateFrequency = ActionQueue.HasTasks ? UpdateFrequency.Update10 : UpdateFrequency.Update100;
 
             Echo("");
-            Echo(turret.Enabled ? "* ARMED *" : "- Disarmed -");
+            if (turret != null) {
+                Echo(turret.Enabled ? "* ARMED *" : "- Disarmed -");
+            } else {
+                Echo("Turret missing!");
+            }
         }
 
         private void SetAntenna() {
+            if (antenna == null) return;
             antenna.EnableBroadcasting = !config.StealthMode;
             if (config.StealthMode) return;
 
@@ -208,7 +208,7 @@ namespace IngameScript {
         }
 
         void ArmTurret() {
-            if (turret.Enabled)
+            if (turret == null || turret.Enabled)
                 return;
             ActionQueue.Clear();
             ActionQueue.Add(ArmTurret_TurnOnLights_Sequence());
