@@ -21,42 +21,30 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        // config vars
-        int _configHashCode = 0;
-        const string SEC_TorpedoGuidanceTags = "Torpedo Guidance Tags";
-        readonly MyIniKey Key_ReferenceBlock = new MyIniKey(SEC_TorpedoGuidanceTags, "Reference Block Tag");
-        readonly MyIniKey Key_GuidanceTag = new MyIniKey(SEC_TorpedoGuidanceTags, "Guidance Tag");
-        readonly MyIniKey Key_BeaconTag = new MyIniKey(SEC_TorpedoGuidanceTags, "Beacon Tag");
-        readonly MyIniKey Key_PowerCellTag = new MyIniKey(SEC_TorpedoGuidanceTags, "Battery Tag");
+        class Config : ConfigBase {
+            public string referenceTag { get; private set; } = "Cockpit";
+            public string torpedoPrimaryTag  { get; private set; } = "Torpedo Payload Guidance";
+            public string torpedoBeaconTag  { get; private set; } = "Torpedo Payload Beacon";
+            public string torpedoPowerCellTag { get; private set; } = "Torp Power Cell";
+            public TorpedoSelectionMode selectionMode { get; private set; } = TorpedoSelectionMode.Random;
 
-        const string SEC_TorpedoLaunch = "Torpedo Launch";
-        readonly MyIniKey Key_LaunchMode = new MyIniKey(SEC_TorpedoLaunch, "Launch Mode");
+            const string SEC_TorpedoGuidanceTags = "Torpedo Guidance Tags";
+            const string SEC_TorpedoLaunch = "Torpedo Launch";
 
-        void ProcessConfig() {
-            Debug("ProcessConfig()");
-            var tmpHashCode = Me.CustomData.GetHashCode();
-            if (_configHashCode == tmpHashCode) return;
-            _configHashCode = tmpHashCode;
+            public void Load() {
+                if (!LoadIni()) return;
 
-            var ini = new MyIni();
+                referenceTag = _ini.Add(SEC_TorpedoGuidanceTags, "Reference Block Tag", referenceTag).ToString().ToLower();
+                torpedoPrimaryTag = _ini.Add(SEC_TorpedoGuidanceTags, "Guidance Tag", torpedoPrimaryTag).ToString().ToLower();
+                torpedoBeaconTag = _ini.Add(SEC_TorpedoGuidanceTags, "Beacon Tag", torpedoBeaconTag).ToString().ToLower();
+                torpedoPowerCellTag = _ini.Add(SEC_TorpedoGuidanceTags, "Battery Tag", torpedoPowerCellTag).ToString().ToLower();
 
-            // Create Default Config
-            referenceTag = ini.Add(Key_ReferenceBlock, referenceTag).ToString().ToLower();
-            torpedoPrimaryTag = ini.Add(Key_GuidanceTag, torpedoPrimaryTag).ToString().ToLower();
-            torpedoBeaconTag = ini.Add(Key_BeaconTag, torpedoBeaconTag).ToString().ToLower();
-            torpedoPowerCellTag = ini.Add(Key_PowerCellTag, torpedoPowerCellTag).ToString().ToLower();
+                var mode = _ini.Add(SEC_TorpedoLaunch, "Launch Mode", (int)selectionMode, "Modes: 0 = Random, 1 = Closest, 2 = Furthest").ToInt32();
+                if (Enum.IsDefined(typeof(TorpedoSelectionMode), mode))
+                    selectionMode = (TorpedoSelectionMode)mode;
 
-            var mode = ini.Add(Key_LaunchMode, (int)selectionMode, "Modes: 0 = Random, 1 = Closest, 2 = Furthest").ToInt32();
-            if (Enum.IsDefined(typeof(TorpedoSelectionMode), mode))
-                selectionMode = (TorpedoSelectionMode)mode;
-
-            Me.CustomData = ini.ToString();
-            _configHashCode = Me.CustomData.GetHashCode();
-
-            Debug($"Ref: {referenceTag}");
-            Debug($"GTag: {torpedoPrimaryTag}");
-            Debug($"BTag: {torpedoBeaconTag}");
-            Debug($"Smode: {selectionMode}");
+                Save();
+            }
         }
 
     }
