@@ -22,25 +22,30 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
 
         public void Main(string argument, UpdateType updateSource) {
+            Echo(ScriptTag);
             Cfg.Load(Me);
             InitStructure();
             InitRocketType();
+            SetExecutionRate();
 
-            Echo(ScriptName + " " + RSymbol.GetSymbol());
+            Echo(ScriptTag + " " + RSymbol.GetSymbol());
 
             Echo("Mode: " + Mode);
-            Echo("Rocket: " + RocketType);
             Echo("Structure: " + Structure);
-            Echo("--------------------");
-            //Echo(Instructions);
+            Echo("Rocket: " + RocketType);
 
-            GridTerminalSystem.GetBlocksOfType(ConnectedMerges, b => Me.IsSameConstructAs(b) && b.IsConnected);
-            SetExecutionRate();
-            Echo("Rate: " + Runtime.UpdateFrequency.ToString());
-            SetGridName();
+            if (Mode != FlightMode.Off) {
+                Echo("--------------------");
+                Echo(RSymbol.GetSymbol(Runtime));
+
+                GridTerminalSystem.GetBlocksOfType(ConnectedMerges, b => Me.IsSameConstructAs(b) && b.IsConnected);
+
+                SetGridName();
+            }
 
             if (Commands.ContainsKey(argument)) Commands[argument].Invoke();
 
+            if (Mode == FlightMode.Off) return;
             SequenceSets.RunAll();
 
             Log.UpdateDisplay();
@@ -48,7 +53,7 @@ namespace IngameScript {
 
         private void SetExecutionRate() {
             if (Mode == FlightMode.Off)
-                Runtime.UpdateFrequency = UpdateFrequency.Update100;
+                Runtime.UpdateFrequency = UpdateFrequency.None;
             else
                 Runtime.UpdateFrequency = (Structure == RocketStructure.Pod || ConnectedMerges.Count == 0) ? UpdateFrequency.Update10 : UpdateFrequency.Update100;
         }
@@ -93,7 +98,9 @@ namespace IngameScript {
         }
 
         void SetGridName() {
-            var gridName = (ConnectedMerges.Count > 0) ? Cfg.GridName_Merged : Cfg.GridName;
+            var isMerged = ConnectedMerges.Count > 0;
+            if (isMerged && Structure != RocketStructure.Pod) return;
+            var gridName = isMerged ? Cfg.GridName_Merged : Cfg.GridName;
             if (gridName.Length == 0) return;
             if (gridName == Me.CubeGrid.CustomName) return;
             Debug("GridName=" + gridName);
@@ -191,7 +198,9 @@ namespace IngameScript {
             Debug("CMD_Shutdown");
             LoadBlocks();
             Mode = FlightMode.Off;
+
             if (Structure != RocketStructure.Pod) return;
+
             VectorAlign.SetGyrosOff(Gyros);
             LandingGears.ForEach(b => b.Lock());
             Parachutes.ForEach(b => b.Enabled = false);
