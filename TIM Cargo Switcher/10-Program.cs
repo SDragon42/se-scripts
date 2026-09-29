@@ -29,16 +29,19 @@ namespace IngameScript {
         readonly MyIni Ini = new MyIni();
         readonly TimBlockConfigData ConfigStorage = new TimBlockConfigData();
         readonly TimBlockName ConfigApplied = new TimBlockName();
+        readonly Config _config = new Config();
         // Action<string> Debug = (text) => { };
 
         public Program() {
+            _config.Initialize(Me, GridTerminalSystem);
+            _config.Load(ConfigApplied);
+
             Commands.Add("use", CMD_SwitchTimConfig);
             Commands.Add("save", CMD_SaveTimConfig);
             // ConfigStorage.Echo = Echo;
             // ConfigApplied.Echo = Echo;
 
             ShowCommands();
-            LoadConfig();
         }
 
         string targetTag;
@@ -46,7 +49,7 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             ShowCommands();
-            LoadConfig();
+            _config.Load(ConfigApplied);
 
             targetTag = string.Empty;
             configTag = string.Empty;
@@ -60,7 +63,7 @@ namespace IngameScript {
                 return;
             }
 
-            targetTag = "[" + Ini.Get(KEY_CargoSwitcherTag).ToString() + ":" + argParts[0] + "]";
+            targetTag = "[" + _config.CargoSwitcherTag + ":" + argParts[0] + "]";
             configTag = "[" + argParts[2].Trim() + "]";
             var command = argParts[1];
             // Debug("targetTag = " + targetTag.Replace("[","").Replace("]",""));

@@ -22,7 +22,7 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
 
         readonly BlocksByOrientation _orientation = new BlocksByOrientation();
-        readonly Config _cfg;
+        readonly Config _cfg = new Config();
 
         readonly List<IMyThrust> _thrusters = new List<IMyThrust>();
         readonly List<Base6Directions.Direction> _calcDirections = new List<Base6Directions.Direction>();
@@ -32,8 +32,8 @@ namespace IngameScript {
 
 
         public Program() {
-            _cfg = new Config(Me, GridTerminalSystem);
-            _cfg.Load(true);
+            _cfg.Initialize(Me, GridTerminalSystem);
+            _cfg.Load();
         }
 
         public void Main(string argument, UpdateType updateSource) {

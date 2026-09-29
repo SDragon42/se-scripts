@@ -21,13 +21,11 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        readonly ScriptConfig Config = new ScriptConfig();
-
-        readonly RunningSymbol runningSymbol = new RunningSymbol();
-
-        readonly List<IMyShipMergeBlock> currentMergeBlocks = new List<IMyShipMergeBlock>();
-        readonly List<IMyShipMergeBlock> disconnectedMergeBlocks = new List<IMyShipMergeBlock>();
-        readonly List<IMyTextPanel> lcdPanels = new List<IMyTextPanel>();
+        readonly ScriptConfig _config = new ScriptConfig();
+        readonly RunningSymbol _runningSymbol = new RunningSymbol();
+        readonly List<IMyShipMergeBlock> _currentMergeBlocks = new List<IMyShipMergeBlock>();
+        readonly List<IMyShipMergeBlock> _disconnectedMergeBlocks = new List<IMyShipMergeBlock>();
+        readonly List<IMyTextPanel> _lcdPanels = new List<IMyTextPanel>();
 
 
         public Program() {
@@ -35,46 +33,37 @@ namespace IngameScript {
         }
 
 
-
-
-        bool isFirstRun = true;
+        bool _isFirstRun = true;
 
         public void Main(string argument, UpdateType updateSource) {
-            Echo($"Drop GPS Recorder {runningSymbol.GetSymbol()}");
+            Echo($"Drop GPS Recorder {_runningSymbol.GetSymbol()}");
 
-            Config.Load(Me);
+            _config.Initialize(Me, GridTerminalSystem);
+            _config.Load();
+
             LoadBlocks();
 
-            currentMergeBlocks.ForEach(CheckForMergeDisconnect);
-            isFirstRun = false;
+            _currentMergeBlocks.ForEach(CheckForMergeDisconnect);
+            _isFirstRun = false;
         }
 
         void LoadBlocks() {
-            GridTerminalSystem.GetBlocksOfType(lcdPanels, b => {
-                if (!b.IsSameConstructAs(Me)) return false;
-                if (!b.CustomName.ToLower().Contains(Config.LcdTag)) return false;
-                return true;
-            });
-            GridTerminalSystem.GetBlocksOfType(currentMergeBlocks, b => {
-                if (!b.IsSameConstructAs(Me)) return false;
-                if (Config.MergeTag.Length > 0)
-                    if (!b.CustomName.ToLower().Contains(Config.MergeTag)) return false;
-                return true;
-            });
+            GridTerminalSystem.GetBlocksOfType(_lcdPanels, b => Me.IsSameConstructAs(b) && Collect.IsTagged(b, _config.LcdTag));
+            GridTerminalSystem.GetBlocksOfType(_currentMergeBlocks, b => Me.IsSameConstructAs(b) && (_config.MergeTag.Length == 0 || Collect.IsTagged(b, _config.MergeTag)));
         }
 
         private void CheckForMergeDisconnect(IMyShipMergeBlock current) {
-            var isInDisconnect = disconnectedMergeBlocks.Contains(current);
+            var isInDisconnectList = _disconnectedMergeBlocks.Contains(current);
 
             if (current.IsConnected) {
-                if (isInDisconnect)
-                    disconnectedMergeBlocks.Remove(current);
+                if (isInDisconnectList)
+                    _disconnectedMergeBlocks.Remove(current);
                 return;
             }
 
-            if (!isInDisconnect) {
-                disconnectedMergeBlocks.Add(current);
-                if (!isFirstRun)
+            if (!isInDisconnectList) {
+                _disconnectedMergeBlocks.Add(current);
+                if (!_isFirstRun)
                     LogPosition();
             }
 
@@ -82,8 +71,8 @@ namespace IngameScript {
 
         void LogPosition() {
             var position = Me.GetPosition();
-            var gps = VectorHelper.VectorToGps(position, Config.GpsLabel);
-            foreach (IMyTextSurface lcd in lcdPanels) {
+            var gps = VectorHelper.VectorToGps(position, _config.GpsLabel);
+            foreach (IMyTextSurface lcd in _lcdPanels) {
                 lcd.ContentType = ContentType.TEXT_AND_IMAGE;
                 lcd.WriteText($"{gps}\n", true);
             }

@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Modules\AirlockSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\AutoDoorCloser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\BlocksByOrientation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\ConfigBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\DebugLogging.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\DockSecure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\FlightDataRecorder.cs" />
