@@ -21,40 +21,21 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        int _configHashCode = -1;
+        class Config : ConfigBase {
 
-        const string SECTION_CONFIG = "TIM Cargo Switcher";
-        readonly MyIniKey KEY_TimTag = new MyIniKey(SECTION_CONFIG, "TIM Tag");
-        readonly MyIniKey KEY_CargoSwitcherTag = new MyIniKey(SECTION_CONFIG, "Cargo Switcher Tag");
-        readonly MyIniKey KEY_ShowDebug = new MyIniKey(SECTION_CONFIG, "Show Debug Info");
+            const string DEFAULT_TIM_TAG = "TIM";
+            public string CargoSwitcherTag { get; set; } = "timcs";
 
+            const string SECTION_CONFIG = "TIM Cargo Switcher";
 
-        void LoadConfig() {
-            var tmpHashCode = Me.CustomData.GetHashCode();
-            if (_configHashCode == tmpHashCode) return;
-            _configHashCode = tmpHashCode;
+            public void Load(TimBlockName configApplied) {
+                if (!LoadIni()) return;
 
-            Ini.Clear();
-            Ini.TryParse(Me.CustomData);
+                configApplied.TimTag = _ini.Add(SECTION_CONFIG, "TIM Tag", DEFAULT_TIM_TAG).ToString();
+                CargoSwitcherTag = _ini.Add(SECTION_CONFIG, "Cargo Switcher Tag", CargoSwitcherTag).ToString();
 
-            Ini.Add(KEY_TimTag, "TIM");
-            Ini.Add(KEY_CargoSwitcherTag, "timcs");
-            Ini.Add(KEY_ShowDebug, false);
-
-            ConfigApplied.TimTag = Ini.Get(KEY_TimTag).ToString();
-            // Debug = Ini.Get(KEY_ShowDebug).ToBoolean()
-            //     ? Echo
-            //     : (text) => { };
-            // ConfigStorage.Debug = Debug;
-            // ConfigApplied.Debug = Debug;
-
-            SaveConfig();
-        }
-
-        void SaveConfig() {
-            var text = Ini.ToString();
-            _configHashCode = text.GetHashCode();
-            Me.CustomData = text;
+                Save();
+            }
         }
 
     }

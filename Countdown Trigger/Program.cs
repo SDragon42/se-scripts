@@ -21,13 +21,15 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        readonly MyIni Ini = new MyIni();
+        // readonly MyIni Ini = new MyIni();
+        readonly Config _config = new Config();
         readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
 
         readonly StateMachineSets Operation = new StateMachineSets();
 
         public Program() {
-            LoadConfig();
+            _config.Initialize(Me, GridTerminalSystem);
+            _config.Load();
         }
 
         public void Save() {
@@ -37,7 +39,7 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             Echo("Countdown Timer");
-            LoadConfig();
+            _config.Load();
 
             var argumentParts = argument.Split(ArgSplit, 2);
             if (argumentParts.Length == 2) {
@@ -83,7 +85,7 @@ namespace IngameScript {
             if (displayBlocks.Count == 0) Echo("No LCD block found");
             if (timerBlocks.Count > 0) {
 
-                var timeRemaining = CountdownSeconds;
+                var timeRemaining = _config.CountdownSeconds;
                 ShowCountdown(displayBlocks, timeRemaining);
                 while (timeRemaining >= 0) {
                     yield return true;
@@ -91,12 +93,11 @@ namespace IngameScript {
                     ShowCountdown(displayBlocks, timeRemaining);
                 }
 
-
                 yield return true;
                 timerBlocks.ForEach(t => t.Trigger());
 
                 yield return true;
-                var clearDelaySeconds = DisplayClearSeconds;
+                var clearDelaySeconds = _config.DisplayClearSeconds;
                 while (clearDelaySeconds >= 0) {
                     yield return true;
                     clearDelaySeconds -= Runtime.TimeSinceLastRun.TotalSeconds;
@@ -114,26 +115,19 @@ namespace IngameScript {
         }
 
 
-        int _configHashCode = 0;
+        class Config : ConfigBase {
+            public double CountdownSeconds { get; private set; } = 30;
+            public double DisplayClearSeconds { get; private set; } = 5;
 
-        readonly MyIniKey Key_NumSeconds = new MyIniKey("Timer", "Countdown Time");
-        readonly MyIniKey Key_DisplayClearSeconds = new MyIniKey("Timer", "Display Clear Time");
+            public void Load() {
+                if (!LoadIni()) return;
 
-        void LoadConfig() {
-            var tmpHashCode = Me.CustomData.GetHashCode();
-            if (_configHashCode == tmpHashCode) return;
+                CountdownSeconds = _ini.Add("Timer", "Countdown Time", CountdownSeconds).ToDouble();
+                DisplayClearSeconds = _ini.Add("Timer", "Display Clear Time", DisplayClearSeconds).ToDouble();
 
-            Ini.Clear();
-            Ini.TryParse(Me.CustomData);
-
-            Ini.Add(Key_NumSeconds, 30);
-            Ini.Add(Key_DisplayClearSeconds, 5);
-
-            Me.CustomData = Ini.ToString();
-            _configHashCode = Me.CustomData.GetHashCode();
+                Save();
+            }
         }
 
-        double CountdownSeconds => Ini.Get(Key_NumSeconds).ToDouble();
-        double DisplayClearSeconds => Ini.Get(Key_DisplayClearSeconds).ToDouble();
     }
 }

@@ -116,37 +116,5 @@ namespace IngameScript {
             }
         }
 
-        //================================================================================
-        abstract class ConfigBase {
-            protected IMyTerminalBlock Block { get; private set; }
-            protected IMyGridTerminalSystem GridTerminalSystem { get; private set; }
-            protected readonly MyIni _ini = new MyIni();
-            private int _lastConfigHash = 0;
-
-            // Initialize the configuration with the block and grid terminal system.
-            public void Initialize(IMyTerminalBlock block, IMyGridTerminalSystem gridTerminalSystem) {
-                Block = block;
-                GridTerminalSystem = gridTerminalSystem;
-            }
-
-            // Load the configuration from the block's CustomData.
-            // Returns true if the configuration was loaded, false if it was already up to date.
-            protected bool LoadIni() {
-                var tmpHashCode = Block.CustomData.GetHashCode();
-                if (_lastConfigHash == tmpHashCode) return false;
-                _lastConfigHash = tmpHashCode;
-                _ini.Clear();
-                _ini.TryParse(Block.CustomData);
-                return true;
-            }
-
-            // Save the configuration to the block's CustomData.
-            public void Save() {
-                Block.CustomData = _ini.ToString();
-                _lastConfigHash = Block.CustomData.GetHashCode();
-            }
-
-        }
-
     }
 }

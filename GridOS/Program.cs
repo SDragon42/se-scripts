@@ -34,12 +34,16 @@ namespace IngameScript {
         readonly Dictionary<string, Action> command = new Dictionary<string, Action>();
         readonly string instructions;
 
-        double blockReload_Time = 10;
         double blockReload_TimeElapsed = 0;
 
         public Program() {
-            config.Load(Me, this);
+            Runtime.UpdateFrequency = UpdateFrequency.Update10;
 
+            // Initialize and load configuration
+            config.Initialize(Me, GridTerminalSystem);
+            config.Load(autoDoorCloser);
+
+            // Commands
             command.Add("openhangar", null);
             command.Add("closehangar", null);
             command.Add("togglehangar", null);
@@ -47,8 +51,6 @@ namespace IngameScript {
 
             // Instructions
             instructions = "Script Commands\n" + string.Join("\n", command.Keys.ToArray());
-
-            Runtime.UpdateFrequency = UpdateFrequency.Update10;
         }
 
         public void Save() {
@@ -58,9 +60,9 @@ namespace IngameScript {
             blockReload_TimeElapsed += Runtime.TimeSinceLastRun.TotalSeconds;
             Echo($"Grid OS {symbol.GetSymbol()}");
             Echo(instructions);
-            Echo($"Block Reload in {Math.Truncate(blockReload_Time - blockReload_TimeElapsed) + 1:N0} seconds.");
+            Echo($"Block Reload in {Math.Truncate(config.BlockReloadTime - blockReload_TimeElapsed) + 1:N0} seconds.");
 
-            config.Load(Me, this);
+            config.Load(autoDoorCloser);
             LoadBlocks();
 
             ParseArgs(argument);
@@ -83,18 +85,16 @@ namespace IngameScript {
 
 
         void LoadBlocks(bool forceLoad = false) {
-            if (!forceLoad && blockReload_TimeElapsed < blockReload_Time) return;
+            if (!forceLoad && blockReload_TimeElapsed < config.BlockReloadTime) return;
 
             GridTerminalSystem.GetBlocksOfType(autoDoors, b =>
-                b.IsSameConstructAs(Me)
+                Me.IsSameConstructAs(b)
                 && !Collect.IsTagged(b, config.ADCExclusionTag)
                 && !Collect.IsTagged(b, config.AirlockTag)
                 && !Collect.IsHangarDoor(b));
-
             GridTerminalSystem.GetBlocksOfType(airlockDoors, b =>
-                b.IsSameConstructAs(Me)
-                && Collect.IsTagged(b, config.AirlockTag)
-                );
+                Me.IsSameConstructAs(b)
+                && Collect.IsTagged(b, config.AirlockTag));
 
             blockReload_TimeElapsed = 0;
         }
@@ -104,12 +104,9 @@ namespace IngameScript {
             autoDoors.ForEach(d => d.CloseDoor());
         }
         void OpenHangar() {
-
-
             sequences.Add("hangar_" + argParams, OpenHangar_Sequence());
             // alert sound
             // warning lights
-
         }
         void CloseHangar() {
         }
