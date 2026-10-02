@@ -110,18 +110,18 @@ namespace IngameScript {
             }
 
             void CheckIfLocked() {
-                _isLocked = _connectors.Where(Collect.IsConnectorConnected).Any();
+                _isLocked = _connectors.Where(IsConnectorConnected).Any();
                 if (_isLocked) {
                     IsDocked = true;
                     return;
                 }
-                _isLocked = _landingGears.Where(Collect.IsLandingGearLocked).Any();
+                _isLocked = _landingGears.Where(IsLandingGearLocked).Any();
             }
 
             bool IsValidBlock(IMyTerminalBlock b) {
                 var sc = Me.IsSameConstructAs(b);
-                var tagged = Collect.IsTagged(b, Tag);
-                var ignored = !string.IsNullOrEmpty(IgnoreTag) && Collect.IsTagged(b, IgnoreTag);
+                var tagged = IsTagged(b, Tag);
+                var ignored = !string.IsNullOrEmpty(IgnoreTag) && IsTagged(b, IgnoreTag);
                 return (sc || tagged) && !ignored;
             }
             bool IsBlock2TurnON(IMyTerminalBlock b) {

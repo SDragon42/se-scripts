@@ -42,7 +42,7 @@ namespace IngameScript {
                 MassToIgnore = _ini.Add(SECTION_TWR, "Ignore Mass", MassToIgnore, "The amount of mass to ignore from TWR calculations").ToInt32();
 
                 if (InventoryMultiplier <= 0) {
-                    var b = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCargoContainer>(Collect.IsCargoContainer);
+                    var b = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCargoContainer>(IsCargoContainer);
                     if (b != null) {
                         InventoryMultiplier = CargoHelper.GetInventoryMultiplier(b);
                         _ini.Set(KEY_WorldInvMulti, InventoryMultiplier);

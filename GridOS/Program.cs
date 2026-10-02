@@ -89,12 +89,12 @@ namespace IngameScript {
 
             GridTerminalSystem.GetBlocksOfType(autoDoors, b =>
                 Me.IsSameConstructAs(b)
-                && !Collect.IsTagged(b, config.ADCExclusionTag)
-                && !Collect.IsTagged(b, config.AirlockTag)
-                && !Collect.IsHangarDoor(b));
+                && !IsTagged(b, config.ADCExclusionTag)
+                && !IsTagged(b, config.AirlockTag)
+                && !IsHangarDoor(b));
             GridTerminalSystem.GetBlocksOfType(airlockDoors, b =>
                 Me.IsSameConstructAs(b)
-                && Collect.IsTagged(b, config.AirlockTag));
+                && IsTagged(b, config.AirlockTag));
 
             blockReload_TimeElapsed = 0;
         }

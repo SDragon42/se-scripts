@@ -98,8 +98,8 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(Parachutes, IsOnThisGrid);
             GridTerminalSystem.GetBlocksOfType(Gyros, IsOnThisGrid);
             GridTerminalSystem.GetBlocksOfType(LandingGears, IsOnThisGrid);
-            GridTerminalSystem.GetBlocksOfType(StackLaunchClamps, b => IsOnThisGrid(b) && Collect.IsTagged(b, TAG.LAUNCH_CLAMP));
-            GridTerminalSystem.GetBlocksOfType(StackStageClamps, b => IsOnThisGrid(b) && Collect.IsTagged(b, TAG.STAGE1_CLAMP));
+            GridTerminalSystem.GetBlocksOfType(StackLaunchClamps, b => IsOnThisGrid(b) && IsTagged(b, TAG.LAUNCH_CLAMP));
+            GridTerminalSystem.GetBlocksOfType(StackStageClamps, b => IsOnThisGrid(b) && IsTagged(b, TAG.STAGE1_CLAMP));
             //GridTerminalSystem.GetBlocksOfType(LaunchClamps, IsOnThisGrid);
             //GridTerminalSystem.GetBlocksOfType(StageClamps, b => IsOnThisGrid(b) && Orientation.IsUp(b));
             GridTerminalSystem.GetBlocksOfType(StackBoosterClamps, b => IsOnThisGrid(b) && (Orientation.IsLeft(b) || Orientation.IsRight(b)));
@@ -110,8 +110,8 @@ namespace IngameScript {
             StackAscentThrusters.Clear();
             GridTerminalSystem.GetBlocksOfType(AllThrusters, b => {
                 if (!IsOnThisGrid(b)) return false;
-                if (Collect.IsTagged(b, TAG.MANEUVER)) ManeuverThrusters.Add(b);
-                if (Collect.IsTagged(b, TAG.MAIN)) StackAscentThrusters.Add(b);
+                if (IsTagged(b, TAG.MANEUVER)) ManeuverThrusters.Add(b);
+                if (IsTagged(b, TAG.MAIN)) StackAscentThrusters.Add(b);
                 return true;
             });
 

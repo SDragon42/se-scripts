@@ -82,9 +82,9 @@ namespace IngameScript {
             shipController = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>();
             if (shipController == null) throw new Exception("No RC block found");
 
-            outputSurface = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyTextPanel>(b => Collect.IsTagged(b, "[log]"));
+            outputSurface = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyTextPanel>(b => IsTagged(b, "[log]"));
             if (outputSurface == null) throw new Exception("No display with [log]");
-            calcSurface = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyTextPanel>(b => Collect.IsTagged(b, "[grav]"));
+            calcSurface = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyTextPanel>(b => IsTagged(b, "[grav]"));
             if (calcSurface == null) throw new Exception("No display with [grav]");
             InitDisplay();
 

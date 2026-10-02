@@ -52,7 +52,7 @@ namespace IngameScript {
             }
 
             bool AirlockCriteria(IMyTerminalBlock b) {
-                var result = b.IsSameConstructAs(Me);
+                var result = Me.IsSameConstructAs(b);
                 return true;
             }
         }

@@ -42,6 +42,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Modules\TimeInterval.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\VectorAlign.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SubTypeIDs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_CommonMethods.cs" />
   </ItemGroup>
 </Project>
