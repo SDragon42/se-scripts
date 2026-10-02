@@ -10,11 +10,11 @@ MDK² packages each project into a single deployable script in the `IngameScript
 
 ## Shared code and script boundaries
 
-`Library\Library.projitems` is imported by most script projects and compiles its helpers, extensions, and modules into every importing script. Reuse its `Collect`, block-selection helpers, configuration extensions, logging, state-machine, and display utilities rather than duplicating them in individual scripts. A `Library` change has a broad impact across importing projects.
+`Library\Library.projitems` is imported by most script projects and compiles its helpers, extensions, and modules into every importing script. Reuse its block-selection predicates, configuration extensions, logging, state-machine, and display utilities rather than duplicating them in individual scripts. A `Library` change has a broad impact across importing projects.
 
 The SDLS launch-system projects additionally import `SDLS - Shared\SDLS - Shared.projitems`; its partial `Program` files provide the shared SDLS constants, variables, collection logic, sequencing, and miscellaneous behavior. Keep SDLS-specific additions there when they are shared by the Booster and Orbiter projects, and preserve the `partial Program` structure.
 
-Individual script projects own their block tags, commands, and configuration. Blocks are commonly selected with `GridTerminalSystem.GetBlocksOfType` plus `IsSameConstructAs(Me)`, project-specific grid predicates, and bracketed custom-name tags such as `[main]` or `[airlock]`. Reuse the existing tag constants and `Collect.IsTagged` so block naming remains compatible with deployed ships.
+Individual script projects own their block tags, commands, and configuration. Blocks are commonly selected with `GridTerminalSystem.GetBlocksOfType` plus `IsSameConstructAs(Me)`, project-specific grid predicates, and bracketed custom-name tags such as `[main]` or `[airlock]`. Reuse the existing tag constants and `IsTagged` predicate so block naming remains compatible with deployed ships.
 
 ## Runtime and configuration conventions
 
