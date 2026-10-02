@@ -145,7 +145,7 @@ namespace IngameScript {
         //void LoadInAllProgramBlocks(List<IMyTerminalBlock> list) {
         //    GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(list, b => Me.IsSameConstructAs(b) && Collect.IsTagged(b, ScriptTag));
         //}
-        void LoadInAllProgramBlocks(List<IMyTerminalBlock> list) => GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(list, b => Me.IsSameConstructAs(b) && Collect.IsTagged(b, ScriptTag));
+        void LoadInAllProgramBlocks(List<IMyTerminalBlock> list) => GridTerminalSystem.GetBlocksOfType<IMyProgrammableBlock>(list, b => Me.IsSameConstructAs(b) && IsTagged(b, ScriptTag));
 
 
     }

@@ -163,7 +163,7 @@ namespace IngameScript {
         void Thruster_On(IMyThrust t) => t.Enabled = true;
 
         void GtsBlocks<T>(List<T> list, string tag) where T : class, IMyTerminalBlock {
-            GridTerminalSystem.GetBlocksOfType(list, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, tag));
+            GridTerminalSystem.GetBlocksOfType(list, b => Me.IsSameConstructAs(b) && IsTagged(b, tag));
         }
 
 

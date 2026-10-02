@@ -76,16 +76,16 @@ namespace IngameScript {
             RocketType = RocketStructure.Unknown;
             TmpBlocks.ForEach(b => RocketType |= GetRocketStructure(b));
 
-            collector = (b) => Me.IsSameConstructAs(b) && Collect.IsTagged(b, StructureTag);
+            collector = (b) => Me.IsSameConstructAs(b) && IsTagged(b, StructureTag);
             if (Structure == RocketStructure.Pod && RocketType != RocketStructure.Pod)
                 collector = Me.IsSameConstructAs;
         }
 
         RocketStructure GetRocketStructure(IMyTerminalBlock b) {
-            if (Collect.IsTagged(b, Cfg.PodTag)) return RocketStructure.Pod;
-            else if (Collect.IsTagged(b, Cfg.Stage2Tag)) return RocketStructure.Stage2;
-            else if (Collect.IsTagged(b, Cfg.Stage1Tag)) return RocketStructure.Stage1;
-            else if (Collect.IsTagged(b, Cfg.BoosterTag)) return RocketStructure.Booster;
+            if (IsTagged(b, Cfg.PodTag)) return RocketStructure.Pod;
+            else if (IsTagged(b, Cfg.Stage2Tag)) return RocketStructure.Stage2;
+            else if (IsTagged(b, Cfg.Stage1Tag)) return RocketStructure.Stage1;
+            else if (IsTagged(b, Cfg.BoosterTag)) return RocketStructure.Booster;
             return RocketStructure.Unknown;
         }
         string GetRocketStructureTag(RocketStructure structure) {
@@ -106,14 +106,14 @@ namespace IngameScript {
             Debug("GridName=" + gridName);
             Me.CubeGrid.CustomName = gridName;
             IsStructureInitialized = false;
-            Antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(b => Collect.IsTagged(b, StructureTag));
+            Antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(b => IsTagged(b, StructureTag));
             if (Antenna != null)
                 Antenna.HudText = gridName;
         }
 
         void SetStageMass() {
             if (ConnectedMerges.Count > 0) return;
-            var rc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>(b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, StructureTag));
+            var rc = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>(b => Me.IsSameConstructAs(b) && IsTagged(b, StructureTag));
             if (rc == null) { Debug("* stage RC not found *"); return; }
 
             var dryMass = rc.CalculateShipMass().BaseMass;

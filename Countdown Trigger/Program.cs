@@ -65,7 +65,7 @@ namespace IngameScript {
             if (!Operation.HasTask(tag)) return;
             Operation.Remove(tag);
             var displayBlocks = new List<IMyTextPanel>();
-            GridTerminalSystem.GetBlocksOfType(displayBlocks, b => Collect.IsTagged(b, tag));
+            GridTerminalSystem.GetBlocksOfType(displayBlocks, b => IsTagged(b, tag));
             displayBlocks.ForEach(d => d.WriteText(string.Empty));
         }
 
@@ -76,10 +76,10 @@ namespace IngameScript {
 
         IEnumerator<bool> RunUndockSequence(string tag) {
             var timerBlocks = new List<IMyTimerBlock>();
-            GridTerminalSystem.GetBlocksOfType(timerBlocks, b => Collect.IsTagged(b, tag));
+            GridTerminalSystem.GetBlocksOfType(timerBlocks, b => IsTagged(b, tag));
 
             var displayBlocks = new List<IMyTextPanel>();
-            GridTerminalSystem.GetBlocksOfType(displayBlocks, b => Collect.IsTagged(b, tag));
+            GridTerminalSystem.GetBlocksOfType(displayBlocks, b => IsTagged(b, tag));
 
             if (timerBlocks.Count == 0) Echo("No Timer block found");
             if (displayBlocks.Count == 0) Echo("No LCD block found");

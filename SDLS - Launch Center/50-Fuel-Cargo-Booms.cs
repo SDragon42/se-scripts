@@ -22,9 +22,9 @@ namespace IngameScript {
     partial class Program {
 
         IEnumerator<bool> ConnectBoom(string tag, float velocity, RotorLimit toLimit) {
-            GridTerminalSystem.GetBlocksOfType(_blocks, b => Collect.IsTagged(b, tag));
+            GridTerminalSystem.GetBlocksOfType(_blocks, b => IsTagged(b, tag));
             var rotor = _blocks.Where(b => b is IMyMotorAdvancedStator).FirstOrDefault() as IMyMotorAdvancedStator;
-            var connector = _blocks.Where(Collect.IsConnector).FirstOrDefault() as IMyShipConnector;
+            var connector = _blocks.Where(IsConnector).FirstOrDefault() as IMyShipConnector;
             if (rotor == null || connector == null) yield return false;
 
             var limit = Math.Round(
@@ -38,9 +38,9 @@ namespace IngameScript {
         }
 
         IEnumerator<bool> RetractBoom(string tag, float velocity, RotorLimit toLimit) {
-            GridTerminalSystem.GetBlocksOfType(_blocks, b => Collect.IsTagged(b, tag));
+            GridTerminalSystem.GetBlocksOfType(_blocks, b => IsTagged(b, tag));
             var rotor = _blocks.Where(b => b is IMyMotorAdvancedStator).FirstOrDefault() as IMyMotorAdvancedStator;
-            var connector = _blocks.Where(Collect.IsConnector).FirstOrDefault() as IMyShipConnector;
+            var connector = _blocks.Where(IsConnector).FirstOrDefault() as IMyShipConnector;
             if (rotor == null || connector == null) yield return false;
 
             var limit = Math.Round(
@@ -53,8 +53,8 @@ namespace IngameScript {
 
 
         void GetBoom2Blocks(string tag, out List<IMyShipConnector> connectors, out IMyPistonBase piston) {
-            GridTerminalSystem.GetBlocksOfType(_blocks, b => Collect.IsTagged(b, tag));
-            connectors = _blocks.Where(Collect.IsConnector).Cast<IMyShipConnector>().ToList();
+            GridTerminalSystem.GetBlocksOfType(_blocks, b => IsTagged(b, tag));
+            connectors = _blocks.Where(IsConnector).Cast<IMyShipConnector>().ToList();
             piston = _blocks.Where(b => b is IMyPistonBase).FirstOrDefault() as IMyPistonBase;
         }
         IEnumerator<bool> ConnectBoom2(string tag, float velocity) {
@@ -67,7 +67,7 @@ namespace IngameScript {
 
             piston.Velocity = velocity;
             while (true) {
-                if (connectors.Any(Collect.IsConnectorConnectable)) break;
+                if (connectors.Any(IsConnectorConnectable)) break;
                 var pistonExtensionDiff = Math.Round(piston.MaxLimit, 3) - Math.Round(piston.CurrentPosition, 3);
                 if (Math.Round(pistonExtensionDiff, 0) == 0) break;
                 yield return true;

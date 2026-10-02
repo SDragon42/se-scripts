@@ -22,15 +22,15 @@ namespace IngameScript {
     partial class Program {
 
         bool Connector_Disconnect(IMyShipConnector connector) {
-            if (!Collect.IsConnectorConnected(connector))
+            if (!IsConnectorConnected(connector))
                 return false;
             connector.Disconnect();
             return true;
         }
         bool Connector_Connect(IMyShipConnector connector) {
-            if (Collect.IsConnectorConnected(connector))
+            if (IsConnectorConnected(connector))
                 return false;
-            if (!Collect.IsConnectorConnectable(connector))
+            if (!IsConnectorConnectable(connector))
                 return true;
             connector.Connect();
             return true;

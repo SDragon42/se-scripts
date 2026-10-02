@@ -99,10 +99,8 @@ namespace IngameScript {
                     SetAntenna(!onStandby);
                     if (!onStandby) {
                         SetGridName(trainName);
-                        foreach (var t in trainThrusters) {
-                            if (Collect.IsThrusterIon(t)) if (t.IsSameConstructAs(Me)) t.Enabled = true;
-                        }
-                        foreach (var g in trainGyros) if (g.IsSameConstructAs(Me)) g.Enabled = true;
+                        foreach (var t in trainThrusters) if (Me.IsSameConstructAs(t) && IsThrusterIon(t)) t.Enabled = true;
+                        foreach (var g in trainGyros) if (Me.IsSameConstructAs(g)) g.Enabled = true;
                     }
                 } else {
                     SetGridName(gridName);
@@ -152,14 +150,14 @@ namespace IngameScript {
             Echo($"Time to reload: {Math.Round(Math.Max(timeToReload, 0)):N0} seconds");
             if (skipLoad) return;
 
-            //GridTerminalSystem.GetBlocksOfType(allMerges, b => b.IsSameConstructAs(Me));
-            GridTerminalSystem.GetBlocksOfType(myMerges, b => b.IsSameConstructAs(Me) && IsMyGrid(b));
-            GridTerminalSystem.GetBlocksOfType(myConnectors, b => b.IsSameConstructAs(Me) && IsMyGrid(b));
-            GridTerminalSystem.GetBlocksOfType(trainThrusters, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, "[Train]"));
-            GridTerminalSystem.GetBlocksOfType(trainGyros, b => b.IsSameConstructAs(Me) && Collect.IsTagged(b, "[Train]"));
-            GridTerminalSystem.GetBlocksOfType(doorList, b => b.IsSameConstructAs(Me) && Collect.IsHumanDoor(b));
+            //GridTerminalSystem.GetBlocksOfType(allMerges, b => Me.IsSameConstructAs(b));
+            GridTerminalSystem.GetBlocksOfType(myMerges, b => Me.IsSameConstructAs(b) && IsMyGrid(b));
+            GridTerminalSystem.GetBlocksOfType(myConnectors, b => Me.IsSameConstructAs(b) && IsMyGrid(b));
+            GridTerminalSystem.GetBlocksOfType(trainThrusters, b => Me.IsSameConstructAs(b) && IsTagged(b, "[Train]"));
+            GridTerminalSystem.GetBlocksOfType(trainGyros, b => Me.IsSameConstructAs(b) && IsTagged(b, "[Train]"));
+            GridTerminalSystem.GetBlocksOfType(doorList, b => Me.IsSameConstructAs(b) && IsHumanDoor(b));
 
-            myAntenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(b => b.IsSameConstructAs(Me) && IsMyGrid(b));
+            myAntenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(b => Me.IsSameConstructAs(b) && IsMyGrid(b));
 
             debugOutput = GridTerminalSystem.GetBlockWithName("DEBUG") as IMyTextSurface;
         }
@@ -171,7 +169,7 @@ namespace IngameScript {
             gridId = Me.CubeGrid.EntityId;
             isEngine = IsEngineGrid();
 
-            GridTerminalSystem.GetBlocksOfType(TmpBlocks, b => b.IsSameConstructAs(Me) && (b is IMyShipConnector || b is IMyShipMergeBlock || b is IMyRadioAntenna));
+            GridTerminalSystem.GetBlocksOfType(TmpBlocks, b => Me.IsSameConstructAs(b) && (b is IMyShipConnector || b is IMyShipMergeBlock || b is IMyRadioAntenna));
             Debug($"  # Blocks: {TmpBlocks.Count}");
             foreach (var blk in TmpBlocks) {
                 var ini = new MyIni();

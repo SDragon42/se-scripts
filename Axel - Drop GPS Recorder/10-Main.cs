@@ -48,8 +48,8 @@ namespace IngameScript {
         }
 
         void LoadBlocks() {
-            GridTerminalSystem.GetBlocksOfType(_lcdPanels, b => Me.IsSameConstructAs(b) && Collect.IsTagged(b, _config.LcdTag));
-            GridTerminalSystem.GetBlocksOfType(_currentMergeBlocks, b => Me.IsSameConstructAs(b) && (_config.MergeTag.Length == 0 || Collect.IsTagged(b, _config.MergeTag)));
+            GridTerminalSystem.GetBlocksOfType(_lcdPanels, b => Me.IsSameConstructAs(b) && IsTagged(b, _config.LcdTag));
+            GridTerminalSystem.GetBlocksOfType(_currentMergeBlocks, b => Me.IsSameConstructAs(b) && IsTagged(b, _config.MergeTag));
         }
 
         private void CheckForMergeDisconnect(IMyShipMergeBlock current) {

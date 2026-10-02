@@ -70,7 +70,7 @@ namespace IngameScript {
             // Debug("configTag = " + configTag.Replace("[","").Replace("]",""));
             // Debug("command = " + command);
 
-            GridTerminalSystem.GetBlocksOfType(blocks, b => Collect.IsTagged(b, targetTag));
+            GridTerminalSystem.GetBlocksOfType(blocks, b => IsTagged(b, targetTag));
             Echo($"Found: {blocks.Count:N0} block(s)");
 
             if (Commands.ContainsKey(command))
