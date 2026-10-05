@@ -43,7 +43,7 @@ namespace IngameScript {
         }
 
         string GetFormattedRange(Base6Directions.Direction dir) {
-            var range = ProximityModule.GetRange(dir);
+            var range = _proximity.GetRange(dir);
             if (!range.HasValue) return "----";
             return (range.Value < 100.0)
                 ? $"{range,4:N1}"

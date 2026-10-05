@@ -27,7 +27,7 @@ namespace IngameScript {
             _timeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
             var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
 
-            Echo("Utility Ship Systems $SCRIPT_VERSION$ " + RunningModule.GetSymbol());
+            Echo("Utility Ship Systems $SCRIPT_VERSION$ " + _running.GetSymbol());
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.\n");
             Echo("Configure script in 'Custom Data'\n");
             Echo(_instructions);
@@ -35,10 +35,11 @@ namespace IngameScript {
             // Load the configuration
             //Flag_SaveConfig = false;
             _config.Initialize(Me, GridTerminalSystem);
-            _config.Load(DockSecureModule, ProximityModule);
+            _config.Load(_dockSecure, _proximity);
 
             // Load blocks if necessary
             LoadBlocks();
+            _proximity.Init(_sc);
 
             //if (!MaxOperationalCargoMass.HasValue || MaxOperationalCargoMass.Value == 0) {
             //    MaxOperationalCargoMass = ThrusterHelper.CalculateMaxLiftableCargoMass(_sc, _liftThrusters, InventoryMultiplier, MinimumTWR);
@@ -51,7 +52,7 @@ namespace IngameScript {
             if (_commands.ContainsKey(argument)) _commands[argument]?.Invoke();
 
             // Automatic Operations
-            DockSecureModule.AutoToggleDock();
+            _dockSecure.RunUpdate();
             UpdateProximity();
             Runtime.UpdateFrequency = DockSecureModule.IsDocked ? FREQ_DOCKED : FREQ_NORMAL;
 
@@ -64,8 +65,8 @@ namespace IngameScript {
         }
 
         void UpdateProximity() {
-            if (!DockSecureModule.IsDocked) {
-                ProximityModule.RunScan(this, _sc, _proximityCameraList);
+            if (!_dockSecure.IsDocked) {
+                _proximity.RunScan(_proximityCameraList);
                 CheckAlert();
                 _proximityText = BuildProximityDisplayText();
             } else {
@@ -81,8 +82,8 @@ namespace IngameScript {
             TurnOffProximityAlert();
         }
         bool SetAlert(Base6Directions.Direction dir, double speed) {
-            var range = ProximityModule.GetRange(dir);
-            var diff = ProximityModule.GetRangeDiff(dir);
+            var range = _proximity.GetRange(dir);
+            var diff = _proximity.GetRangeDiff(dir);
             if (diff < 0 && speed >= _config.ProximityAlertSpeed && range <= _config.ProximityAlertRange) {
                 TurnOnProximityAlert();
                 return true;

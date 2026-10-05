@@ -31,6 +31,7 @@ namespace IngameScript {
         readonly RunningSymbol runningSym = new RunningSymbol();
         readonly StateMachineSets sequenceSets = new StateMachineSets();
         readonly Logging log = new Logging();
+        readonly BlocksByOrientation _orientation = new BlocksByOrientation();
 
         IMyShipController shipController = null;
         IMyTextSurface outputSurface = null;
@@ -88,8 +89,8 @@ namespace IngameScript {
             if (calcSurface == null) throw new Exception("No display with [grav]");
             InitDisplay();
 
-            var orient = new BlocksByOrientation(shipController);
-            GridTerminalSystem.GetBlocksOfType(upThrusters, b => orient.IsDown(b));
+            _orientation.Init(shipController);
+            GridTerminalSystem.GetBlocksOfType(upThrusters, b => _orientation.IsDown(b));
             if (upThrusters.Count == 0) throw new Exception("No up thrusters");
 
             GridTerminalSystem.GetBlocksOfType(gears);

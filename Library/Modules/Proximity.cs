@@ -22,61 +22,50 @@ namespace IngameScript {
     partial class Program {
 
         class Proximity {
-            readonly List<Base6Directions.Direction> KeyList;
+            public const double DEFAULT_SCAN_RANGE = 100;
+
             readonly Dictionary<Base6Directions.Direction, double?> _prox1 = new Dictionary<Base6Directions.Direction, double?>();
             readonly Dictionary<Base6Directions.Direction, double?> _prox2 = new Dictionary<Base6Directions.Direction, double?>();
-
             Dictionary<Base6Directions.Direction, double?> _currProx;
             Dictionary<Base6Directions.Direction, double?> _prevProx;
-
-            BlocksByOrientation _orientation;
+            readonly BlocksByOrientation _orientation = new BlocksByOrientation();
             IMyShipController _sc;
 
-            public double ScanRange { get; set; } = 100;
-
-
-
             public Proximity() {
-                KeyList = Enum.GetValues(typeof(Base6Directions.Direction)).Cast<Base6Directions.Direction>().ToList();
-                foreach (var key in KeyList) {
-                    _prox1.Add(key, null);
-                    _prox2.Add(key, null);
+                foreach (var dir in Base6Directions.EnumDirections) {
+                    _prox1.Add(dir, null);
+                    _prox2.Add(dir, null);
                 }
-
                 _currProx = _prox1;
                 _prevProx = _prox2;
             }
 
+            public double ScanRange { get; set; } = DEFAULT_SCAN_RANGE;
+
+
             public Action<string> Debug = (msg) => { };
 
-
-
+            public double? GetClosestRange() => _currProx.Min(kv => kv.Value);
             public double? GetRange(Base6Directions.Direction dir) => _currProx[dir];
             public double? GetRangeDiff(Base6Directions.Direction dir) => _currProx[dir] - _prevProx[dir];
 
-            public void RunScan(MyGridProgram mgp, IMyShipController sc, List<ProxCamera> cameras) {
+
+            public void Init(IMyShipController sc) {
+                if (sc == _sc) return;
+                _sc = sc;
+                _orientation.Init(_sc);
+            }
+            public void RunScan(List<ProxCamera> cameras) {
+                if (_sc == null || _orientation == null) return;
                 SwapProxyLists();
-                KeyList.ForEach(k => _currProx[k] = null);
+                foreach (var k in Base6Directions.EnumDirections) { _currProx[k] = null; }
 
-                if (_sc != sc) {
-                    _sc = sc;
-                    _orientation = new BlocksByOrientation(sc);
-                }
-
-                if (_orientation != null) {
-                    Debug("Forward");
-                    _currProx[Base6Directions.Direction.Forward] = GetMinimumRange(mgp, cameras, _orientation.IsForward);
-                    Debug("Backward");
-                    _currProx[Base6Directions.Direction.Backward] = GetMinimumRange(mgp, cameras, _orientation.IsBackward);
-                    Debug("Left");
-                    _currProx[Base6Directions.Direction.Left] = GetMinimumRange(mgp, cameras, _orientation.IsLeft);
-                    Debug("Right");
-                    _currProx[Base6Directions.Direction.Right] = GetMinimumRange(mgp, cameras, _orientation.IsRight);
-                    Debug("Up");
-                    _currProx[Base6Directions.Direction.Up] = GetMinimumRange(mgp, cameras, _orientation.IsUp);
-                    Debug("Down");
-                    _currProx[Base6Directions.Direction.Down] = GetMinimumRange(mgp, cameras, _orientation.IsDown);
-                }
+                _currProx[Base6Directions.Direction.Forward] = GetMinimumRange(cameras, _orientation.IsForward);
+                _currProx[Base6Directions.Direction.Backward] = GetMinimumRange(cameras, _orientation.IsBackward);
+                _currProx[Base6Directions.Direction.Left] = GetMinimumRange(cameras, _orientation.IsLeft);
+                _currProx[Base6Directions.Direction.Right] = GetMinimumRange(cameras, _orientation.IsRight);
+                _currProx[Base6Directions.Direction.Up] = GetMinimumRange(cameras, _orientation.IsUp);
+                _currProx[Base6Directions.Direction.Down] = GetMinimumRange(cameras, _orientation.IsDown);
             }
 
             void SwapProxyLists() {
@@ -89,7 +78,7 @@ namespace IngameScript {
                 }
             }
 
-            double? GetMinimumRange(MyGridProgram mpg, List<ProxCamera> cameras, Func<IMyTerminalBlock, bool> directionMethod) {
+            double? GetMinimumRange(List<ProxCamera> cameras, Func<IMyTerminalBlock, bool> directionMethod) {
                 var allRanges = cameras
                     .Where(c => directionMethod(c.Camera))
                     .Select(proxCamera => new { proxCamera.Camera, Range = GetRange(proxCamera) });
