@@ -60,8 +60,10 @@ namespace IngameScript {
                 _ini.Migrate(ConfigSections.UTILITY_SHIP, ConfigSections.UTILITY_SHIP_SYSTEMS, "Spotlights On/Off");
 
                 // Read/Create the new settings
-                dockSecure.Auto_Off = _ini.Add(ConfigSections.UTILITY_SHIP_SYSTEMS, "Auto Turn OFF Systems", dockSecure.Auto_Off).ToBoolean();
-                dockSecure.Auto_On = _ini.Add(ConfigSections.UTILITY_SHIP_SYSTEMS, "Auto Turn ON Systems", dockSecure.Auto_On).ToBoolean();
+                var enableAutoOnOff = (_ini.GetAndDelete(ConfigSections.UTILITY_SHIP, "Auto Turn OFF Systems")?.ToBoolean() ?? false)
+                                   || (_ini.GetAndDelete(ConfigSections.UTILITY_SHIP, "Auto Turn ON Systems")?.ToBoolean() ?? false)
+                                   || dockSecure.EnableAutoOnOff;
+                dockSecure.EnableAutoOnOff = _ini.Add(ConfigSections.UTILITY_SHIP_SYSTEMS, "Enable Auto On/Off", enableAutoOnOff).ToBoolean();
                 dockSecure.Thrusters_OnOff = _ini.Add(ConfigSections.UTILITY_SHIP_SYSTEMS, "Thrusters On/Off", dockSecure.Thrusters_OnOff).ToBoolean();
                 dockSecure.Gyros_OnOff = _ini.Add(ConfigSections.UTILITY_SHIP_SYSTEMS, "Gyros On/Off", dockSecure.Gyros_OnOff).ToBoolean();
                 dockSecure.Lights_OnOff = _ini.Add(ConfigSections.UTILITY_SHIP_SYSTEMS, "Lights On/Off", dockSecure.Lights_OnOff).ToBoolean();

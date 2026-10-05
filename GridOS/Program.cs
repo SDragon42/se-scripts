@@ -31,7 +31,7 @@ namespace IngameScript {
         readonly List<IMyDoor> autoDoors = new List<IMyDoor>();
         readonly List<IMyDoor> airlockDoors = new List<IMyDoor>();
 
-        readonly Dictionary<string, Action> command = new Dictionary<string, Action>();
+        readonly Dictionary<string, Action> command = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
         readonly string instructions;
 
         double blockReload_TimeElapsed = 0;

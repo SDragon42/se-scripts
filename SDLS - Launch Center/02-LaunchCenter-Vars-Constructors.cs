@@ -30,7 +30,7 @@ namespace IngameScript {
         //Lists
         readonly List<IMyTerminalBlock> _blocks = new List<IMyTerminalBlock>();
 
-        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
+        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
         string commandKey;
         string commandArgs;
 

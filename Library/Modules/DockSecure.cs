@@ -27,20 +27,20 @@ namespace IngameScript {
             readonly List<IMyFunctionalBlock> _toggleBlocks = new List<IMyFunctionalBlock>();
             readonly List<IMyLandingGear> _landingGears = new List<IMyLandingGear>();
             readonly List<IMyShipConnector> _connectors = new List<IMyShipConnector>();
+            readonly StateMachineQueue _operation = new StateMachineQueue();
 
             public DockSecure(IMyProgrammableBlock me, IMyGridTerminalSystem gridTerminalSystem) {
                 Me = me;
                 GridTerminalSystem = gridTerminalSystem;
             }
 
-            
+
             bool _wasLockedLastRun = false;
-            bool _isLocked = false;
 
             public string Tag { get; set; } = string.Empty;
             public string IgnoreTag { get; set; } = string.Empty;
-            public bool Auto_On { get; set; } = true;
-            public bool Auto_Off { get; set; } = true;
+            public bool EnableAutoOnOff { get; set; } = false;
+
             public bool Thrusters_OnOff { get; set; } = true;
             public bool Gyros_OnOff { get; set; } = true;
             public bool Lights_OnOff { get; set; } = true;
@@ -59,64 +59,73 @@ namespace IngameScript {
                 GridTerminalSystem.GetBlocksOfType(_connectors, IsValidBlock);
             }
 
-            public void AutoToggleDock() {
-                CheckIfLocked();
-                if (_wasLockedLastRun == _isLocked) return;
-                _wasLockedLastRun = _isLocked;
+            public void RunUpdate() {
+                _operation.Run();
 
-                if (_isLocked) {
-                    if (Auto_Off) {
-                        TurnOffSystems();
-                        IsDocked = true;
-                    }
-                } else {
-                    if (Auto_On)
-                        TurnOnSystems();
-                    IsDocked = false;
-                }
+                if (!EnableAutoOnOff) return;
+                var isLocked = IsLocked();
+                if (_wasLockedLastRun == isLocked) return;
+                _wasLockedLastRun = isLocked;
+
+                if (isLocked)
+                    Dock(true);
+                else
+                    UnDock();
             }
             public void ToggleDock() {
-                CheckIfLocked();
-                if (_isLocked)
+                if (IsLocked())
                     UnDock();
                 else
                     Dock();
             }
-            public void Dock() {
-                _landingGears.ForEach(b => b.Lock());
-                _connectors.ForEach(b => b.Connect());
-                CheckIfLocked();
-                if (_isLocked) {
-                    TurnOffSystems();
-                    IsDocked = true;
-                }
+            public void Dock() => Dock(false);
+            void Dock(bool forceTurnOff) {
+                _operation.Clear();
+                _operation.Add(DockOperations(forceTurnOff));
             }
             public void UnDock() {
-                TurnOnSystems();
+                _operation.Clear();
+                _operation.Add(UnDockOperations());
+            }
+
+
+            IEnumerator<bool> DockOperations(bool forceTurnOff = false) {
+                _landingGears.ForEach(b => b.Lock());
+                _connectors.ForEach(b => b.Connect());
+                if (!IsLocked() && !forceTurnOff) yield break;
+
+                IsDocked = true;
+
+                if (Thrusters_OnOff) ToggleThrusters(false);
+                if (Gyros_OnOff) ToggleGyros(false);
+                if (Lights_OnOff) ToggleLights(false);
+                if (Beacons_OnOff) ToggleBeacons(false);
+                if (RadioAntennas_OnOff) ToggleRadioAntennas(false);
+                if (Sensors_OnOff) ToggleSensors(false);
+                if (OreDetectors_OnOff) ToggleOreDetectors(false);
+                if (Spotlights_OnOff) ToggleSpotlights(false);
+                if (Sorters_Off) ToggleConveyorSorters(false);
+                yield return true;
+            }
+
+            IEnumerator<bool> UnDockOperations() {
+                if (Thrusters_OnOff) ToggleThrusters(true);
+                if (Gyros_OnOff) ToggleGyros(true);
+                if (Lights_OnOff) ToggleLights(true);
+                if (Beacons_OnOff) ToggleBeacons(true);
+                if (RadioAntennas_OnOff) ToggleRadioAntennas(true);
+                if (Sensors_OnOff) ToggleSensors(true);
+                if (OreDetectors_OnOff) ToggleOreDetectors(true);
+                if (Spotlights_OnOff) ToggleSpotlights(true);
+                yield return true;
+
                 _landingGears.ForEach(b => b.Unlock());
                 _connectors.ForEach(b => b.Disconnect());
-                _isLocked = false;
                 IsDocked = false;
+                yield return true;
             }
 
-
-            void TurnOffSystems() {
-                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, IsBlock2TurnOFF);
-                _toggleBlocks.ForEach(b => b.Enabled = false);
-            }
-            void TurnOnSystems() {
-                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, IsBlock2TurnON);
-                _toggleBlocks.ForEach(b => b.Enabled = true);
-            }
-
-            void CheckIfLocked() {
-                _isLocked = _connectors.Where(IsConnectorConnected).Any();
-                if (_isLocked) {
-                    IsDocked = true;
-                    return;
-                }
-                _isLocked = _landingGears.Where(IsLandingGearLocked).Any();
-            }
+            bool IsLocked() => _connectors.Any(IsConnectorConnected) || _landingGears.Any(IsLandingGearLocked);
 
             bool IsValidBlock(IMyTerminalBlock b) {
                 var sc = Me.IsSameConstructAs(b);
@@ -124,22 +133,50 @@ namespace IngameScript {
                 var ignored = !string.IsNullOrEmpty(IgnoreTag) && IsTagged(b, IgnoreTag);
                 return (sc || tagged) && !ignored;
             }
-            bool IsBlock2TurnON(IMyTerminalBlock b) {
-                if (!IsValidBlock(b)) return false;
-                if (Thrusters_OnOff && b is IMyThrust) return true;
-                if (Gyros_OnOff && b is IMyGyro) return true;
-                if (Lights_OnOff && b is IMyInteriorLight) return true;
-                if (Beacons_OnOff && b is IMyBeacon) return true;
-                if (RadioAntennas_OnOff && b is IMyRadioAntenna) return true;
-                if (Sensors_OnOff && b is IMySensorBlock) return true;
-                if (OreDetectors_OnOff && b is IMyOreDetector) return true;
-                if (Spotlights_OnOff && (b is IMyReflectorLight)) return true;
-                return false;
+
+            void ToggleThrusters(bool enabled) {
+                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, b => IsValidBlock(b) && b is IMyThrust);
+                _toggleBlocks.ForEach(b => b.Enabled = enabled);
             }
-            bool IsBlock2TurnOFF(IMyTerminalBlock b) {
-                if (IsBlock2TurnON(b)) return true;
-                if (Sorters_Off && (b is IMyConveyorSorter)) return true;
-                return false;
+
+            void ToggleGyros(bool enabled) {
+                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, b => IsValidBlock(b) && b is IMyGyro);
+                _toggleBlocks.ForEach(b => b.Enabled = enabled);
+            }
+
+            void ToggleLights(bool enabled) {
+                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, b => IsValidBlock(b) && b is IMyInteriorLight);
+                _toggleBlocks.ForEach(b => b.Enabled = enabled);
+            }
+
+            void ToggleBeacons(bool enabled) {
+                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, b => IsValidBlock(b) && b is IMyBeacon);
+                _toggleBlocks.ForEach(b => b.Enabled = enabled);
+            }
+
+            void ToggleRadioAntennas(bool enabled) {
+                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, b => IsValidBlock(b) && b is IMyRadioAntenna);
+                _toggleBlocks.ForEach(b => b.Enabled = enabled);
+            }
+
+            void ToggleSensors(bool enabled) {
+                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, b => IsValidBlock(b) && b is IMySensorBlock);
+                _toggleBlocks.ForEach(b => b.Enabled = enabled);
+            }
+
+            void ToggleOreDetectors(bool enabled) {
+                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, b => IsValidBlock(b) && b is IMyOreDetector);
+                _toggleBlocks.ForEach(b => b.Enabled = enabled);
+            }
+
+            void ToggleSpotlights(bool enabled) {
+                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, b => IsValidBlock(b) && b is IMyReflectorLight);
+                _toggleBlocks.ForEach(b => b.Enabled = enabled);
+            }
+
+            void ToggleConveyorSorters(bool enabled) {
+                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, b => IsValidBlock(b) && b is IMyConveyorSorter);
+                _toggleBlocks.ForEach(b => b.Enabled = enabled);
             }
 
         }

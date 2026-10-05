@@ -66,6 +66,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotRacing", "SpotRacing\Sp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockInfo", "BlockInfo\BlockInfo.csproj", "{EC26F768-D541-47A2-A84F-F0936286F379}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ship Proximity", "Ship Proximity\Ship Proximity.csproj", "{9931105F-D071-498B-9772-F38119EFF02A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -168,6 +170,10 @@ Global
 		{EC26F768-D541-47A2-A84F-F0936286F379}.Debug|x64.Build.0 = Debug|x64
 		{EC26F768-D541-47A2-A84F-F0936286F379}.Release|x64.ActiveCfg = Release|x64
 		{EC26F768-D541-47A2-A84F-F0936286F379}.Release|x64.Build.0 = Release|x64
+		{9931105F-D071-498B-9772-F38119EFF02A}.Debug|x64.ActiveCfg = Debug|x64
+		{9931105F-D071-498B-9772-F38119EFF02A}.Debug|x64.Build.0 = Debug|x64
+		{9931105F-D071-498B-9772-F38119EFF02A}.Release|x64.ActiveCfg = Release|x64
+		{9931105F-D071-498B-9772-F38119EFF02A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -33,6 +33,14 @@ namespace IngameScript {
             return ini.Get(key);
         }
 
+        public static MyIniValue? GetAndDelete(this MyIni ini, string section, string name) => ini.GetAndDelete(new MyIniKey(section, name));
+        public static MyIniValue? GetAndDelete(this MyIni ini, MyIniKey key) {
+            if (!ini.ContainsKey(key)) return null;
+            var value = ini.Get(key);
+            ini.Delete(key);
+            return value;
+        }
+
         // Migrate the value from the old key to the new key, and delete the old key.
         public static void Migrate(this MyIni ini, string oldSection, string newSection, string name) => ini.Migrate(new MyIniKey(oldSection, name), new MyIniKey(newSection, name));
         // Migrate the value from the old key to the new key, and delete the old key.

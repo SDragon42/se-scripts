@@ -25,8 +25,6 @@ namespace IngameScript {
         const float DEFAULT_SCREEN_WIDTH = 512f;
         const float DISPLAY_RANGE_FONT_SIZE = 3.5f;
         const float DISPLAY_PROX_FONT_SIZE = 3.45f;
-        const UpdateFrequency FREQ_NORMAL = UpdateFrequency.Update10;
-        const UpdateFrequency FREQ_DOCKED = UpdateFrequency.Update100;
 
     }
 }

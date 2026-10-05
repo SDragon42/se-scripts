@@ -24,9 +24,7 @@ namespace IngameScript {
         class BlocksByOrientation {
             readonly Matrix _identityMatrix = new Matrix(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
-            public BlocksByOrientation(IMyShipController sc = null) {
-                Init(sc);
-            }
+            public BlocksByOrientation() { }
 
             Matrix _scMatrix;
 
@@ -48,7 +46,7 @@ namespace IngameScript {
                 Matrix blockMatrix;
                 b.Orientation.GetMatrix(out blockMatrix);
                 var blockDir = Vector3.Transform(blockMatrix.Forward, _scMatrix);
-                return (blockDir == direction);
+                return blockDir == direction;
             }
         }
 

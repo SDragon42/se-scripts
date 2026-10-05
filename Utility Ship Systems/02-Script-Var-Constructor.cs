@@ -22,9 +22,9 @@ namespace IngameScript {
     partial class Program {
 
         // Modules
-        readonly RunningSymbol RunningModule = new RunningSymbol();
-        readonly DockSecure DockSecureModule;
-        readonly Proximity ProximityModule = new Proximity();
+        readonly RunningSymbol _running = new RunningSymbol();
+        readonly DockSecure _dockSecure;
+        readonly Proximity _proximity = new Proximity();
         readonly BlocksByOrientation _orientation = new BlocksByOrientation();
 
         // Configurations
@@ -61,14 +61,14 @@ namespace IngameScript {
         readonly string _instructions;
 
         public Program() {
-            Runtime.UpdateFrequency = FREQ_NORMAL;
+            Runtime.UpdateFrequency = UpdateFrequency.Update10;
             //Debug = Echo;
             //ProximityModule.Debug = Echo;
 
-            DockSecureModule = new DockSecure(Me, GridTerminalSystem);
-            _commands.Add("dock", DockSecureModule.Dock);
-            _commands.Add("undock", DockSecureModule.UnDock);
-            _commands.Add("dock-toggle", DockSecureModule.ToggleDock);
+            _dockSecure = new DockSecure(Me, GridTerminalSystem);
+            _commands.Add("dock", _dockSecure.Dock);
+            _commands.Add("undock", _dockSecure.UnDock);
+            _commands.Add("dock-toggle", _dockSecure.ToggleDock);
             _commands.Add("tools-off", TurnOffTools);
             _commands.Add("tools-toggle", ToggleToolsOnOff);
             _commands.Add("scan-range", ScanAhead);
@@ -85,7 +85,7 @@ namespace IngameScript {
             if (!reloadBlocks) return;
 
             _timeLastBlockLoad = 0;
-            DockSecureModule.LoadBlocks();
+            _dockSecure.LoadBlocks();
 
             GridTerminalSystem.GetBlocksOfType(_toolList, b => Me.IsSameConstructAs(b) && IsToolBlock(b));
             GridTerminalSystem.GetBlocksOfType(_proximitySpeakerList, b => Me.IsSameConstructAs(b) && IsProximityBlock(b));

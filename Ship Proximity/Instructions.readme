@@ -1,0 +1,21 @@
+﻿Proximity and Range
+By SDragon42
+ver $VERSION$    $MDK_DATE$
+------------------------------------------------------------
+
+Displays a "straight-line" proximity range from the ship to an obstacle.
+Also supports a long range straight-line scan and will display basic information
+on the target.
+The configuration for the script is set in the "Custom Data" window.
+
+
+The following commands can be used when running in partial/manual mode:
+
+scan-range
+    Performs a ray-cast scan on the tagged camera and displays information on the target.
+
+on
+    Turns on the auto execution of the script.
+
+off
+    Turns off the auto-execution of the script.
