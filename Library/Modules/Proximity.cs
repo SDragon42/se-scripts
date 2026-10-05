@@ -56,9 +56,12 @@ namespace IngameScript {
                 _orientation.Init(_sc);
             }
             public void RunScan(List<ProxCamera> cameras) {
-                if (_sc == null || _orientation == null) return;
+                if (_sc == null || _orientation == null) {
+                    ClearCurrentProxy();
+                    return;
+                }
                 SwapProxyLists();
-                foreach (var k in Base6Directions.EnumDirections) { _currProx[k] = null; }
+                ClearCurrentProxy();
 
                 _currProx[Base6Directions.Direction.Forward] = GetMinimumRange(cameras, _orientation.IsForward);
                 _currProx[Base6Directions.Direction.Backward] = GetMinimumRange(cameras, _orientation.IsBackward);
@@ -76,6 +79,9 @@ namespace IngameScript {
                     _currProx = _prox2;
                     _prevProx = _prox1;
                 }
+            }
+            void ClearCurrentProxy() {
+                foreach (var k in Base6Directions.EnumDirections) { _currProx[k] = null; }
             }
 
             double? GetMinimumRange(List<ProxCamera> cameras, Func<IMyTerminalBlock, bool> directionMethod) {

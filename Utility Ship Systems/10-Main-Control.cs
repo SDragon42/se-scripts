@@ -54,7 +54,6 @@ namespace IngameScript {
             // Automatic Operations
             _dockSecure.RunUpdate();
             UpdateProximity();
-            // Runtime.UpdateFrequency = _dockSecure.IsDocked ? FREQ_DOCKED : FREQ_NORMAL;
 
             if (_timeLastCleared >= _config.ForwardScanRangeDisplayTime && _scanRangeText.Length > 0) {
                 _scanRangeText = string.Empty;

@@ -83,29 +83,32 @@ namespace IngameScript {
         }
 
         public void Main(string argument, UpdateType updateSource) {
-            var isRunning = Runtime.UpdateFrequency != UpdateFrequency.None;
-            var runningStatus = isRunning ? _running.GetSymbol() : "( OFF )";
-            Echo("Proximity & Range v$VERSION$ " + runningStatus);
-            if (isRunning) {
-                _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
-                _timeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
-                var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
-                Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.\n");
+            try {
+                var isRunning = Runtime.UpdateFrequency != UpdateFrequency.None;
+                var runningStatus = isRunning ? _running.GetSymbol() : "( OFF )";
+                Echo("Proximity & Range v$VERSION$ " + runningStatus);
+                if (isRunning) {
+                    _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
+                    _timeLastCleared += Runtime.TimeSinceLastRun.TotalSeconds;
+                    var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
+                    Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.\n");
+                }
+                Echo("Configure script in 'Custom Data'\n");
+                Echo(_instructions);
+                _config.Load(_proximity);
+                LoadBlocks();
+                _proximity.Init(_shipController);
+
+                if (argument.Length > 0) argument = argument.ToLower();
+                if (_commands.ContainsKey(argument)) _commands[argument]?.Invoke();
+
+                if (Runtime.UpdateFrequency == UpdateFrequency.None) return;
+
+                // Automatic Operations
+                UpdateProximity();
+            } finally {
+                UpdateScreens();
             }
-            Echo("Configure script in 'Custom Data'\n");
-            Echo(_instructions);
-            _config.Load(_proximity);
-            LoadBlocks();
-            _proximity.Init(_shipController);
-
-            if (argument.Length > 0) argument = argument.ToLower();
-            if (_commands.ContainsKey(argument)) _commands[argument]?.Invoke();
-
-            if (Runtime.UpdateFrequency == UpdateFrequency.None) return;
-
-            // Automatic Operations
-            UpdateProximity();
-            UpdateScreens();
         }
 
         // Implementation for turning on the system
@@ -195,6 +198,8 @@ namespace IngameScript {
                 var closestRange = _proximity.GetClosestRange();
                 var alertActive = closestRange.HasValue && closestRange.Value <= _config.ProximityAlertRange;
                 SetProximityAlert(alertActive);
+            } else {
+                SetProximityAlert(false);
             }
             _proximityText = BuildProximityDisplayText();
         }
@@ -287,7 +292,6 @@ namespace IngameScript {
             public string ProximityTag { get; private set; } = "[proximity]";
             public bool ProximityAlert { get; private set; } = false;
             public double ProximityAlertRange { get; private set; } = 10;
-            public double ProximityAlertSpeed { get; private set; } = 5;
 
             public string ForwardScanTag { get; private set; } = "[range]";
             public double ForwardScanRange { get; private set; } = 15000;
@@ -301,7 +305,6 @@ namespace IngameScript {
                 proximity.ScanRange = _ini.Add(ConfigSections.PROXIMITY, "Range (m)", proximity.ScanRange).ToDouble();
                 ProximityAlert = _ini.Add(ConfigSections.PROXIMITY, "Alert On/Off", ProximityAlert).ToBoolean();
                 ProximityAlertRange = _ini.Add(ConfigSections.PROXIMITY, "Alert Range (m)", ProximityAlertRange).ToDouble();
-                ProximityAlertSpeed = _ini.Add(ConfigSections.PROXIMITY, "Alert Speed (m/s)", ProximityAlertSpeed).ToDouble();
 
                 // Range Scanning settings
                 ForwardScanTag = _ini.Add(ConfigSections.RANGE, "Tag", ForwardScanTag).ToString();

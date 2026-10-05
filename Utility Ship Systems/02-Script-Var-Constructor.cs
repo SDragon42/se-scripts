@@ -61,7 +61,7 @@ namespace IngameScript {
         readonly string _instructions;
 
         public Program() {
-            Runtime.UpdateFrequency = FREQ_NORMAL;
+            Runtime.UpdateFrequency = UpdateFrequency.Update10;
             //Debug = Echo;
             //ProximityModule.Debug = Echo;
 

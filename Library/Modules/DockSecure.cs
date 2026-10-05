@@ -101,10 +101,11 @@ namespace IngameScript {
                 if (Lights_OnOff) ToggleLights(false);
                 if (Beacons_OnOff) ToggleBeacons(false);
                 if (RadioAntennas_OnOff) ToggleRadioAntennas(false);
-                if (Gyros_OnOff) ToggleGyros(false);
                 if (Sensors_OnOff) ToggleSensors(false);
                 if (OreDetectors_OnOff) ToggleOreDetectors(false);
                 if (Spotlights_OnOff) ToggleSpotlights(false);
+                if (Sorters_Off) ToggleConveyorSorters(false);
+                yield return true;
             }
 
             IEnumerator<bool> UnDockOperations() {
@@ -113,7 +114,6 @@ namespace IngameScript {
                 if (Lights_OnOff) ToggleLights(true);
                 if (Beacons_OnOff) ToggleBeacons(true);
                 if (RadioAntennas_OnOff) ToggleRadioAntennas(true);
-                if (Gyros_OnOff) ToggleGyros(true);
                 if (Sensors_OnOff) ToggleSensors(true);
                 if (OreDetectors_OnOff) ToggleOreDetectors(true);
                 if (Spotlights_OnOff) ToggleSpotlights(true);
@@ -122,6 +122,7 @@ namespace IngameScript {
                 _landingGears.ForEach(b => b.Unlock());
                 _connectors.ForEach(b => b.Disconnect());
                 IsDocked = false;
+                yield return true;
             }
 
             bool IsLocked() => _connectors.Any(IsConnectorConnected) || _landingGears.Any(IsLandingGearLocked);
@@ -170,6 +171,11 @@ namespace IngameScript {
 
             void ToggleSpotlights(bool enabled) {
                 GridTerminalSystem.GetBlocksOfType(_toggleBlocks, b => IsValidBlock(b) && b is IMyReflectorLight);
+                _toggleBlocks.ForEach(b => b.Enabled = enabled);
+            }
+
+            void ToggleConveyorSorters(bool enabled) {
+                GridTerminalSystem.GetBlocksOfType(_toggleBlocks, b => IsValidBlock(b) && b is IMyConveyorSorter);
                 _toggleBlocks.ForEach(b => b.Enabled = enabled);
             }
 
