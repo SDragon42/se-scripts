@@ -59,7 +59,7 @@ namespace IngameScript {
         TimeSpan UpTime = TimeSpan.Zero;
         bool BlocksLoaded = false;
 
-        readonly Dictionary<string, Action> Commands = new Dictionary<string, Action>();
+        readonly Dictionary<string, Action> Commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
 
 
     }

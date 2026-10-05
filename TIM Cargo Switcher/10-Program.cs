@@ -24,7 +24,7 @@ namespace IngameScript {
         readonly List<IMyTerminalBlock> blocks = new List<IMyTerminalBlock>();
         readonly char[] SPLITTER = new char[] { ' ' };
 
-        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
+        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
 
         readonly MyIni Ini = new MyIni();
         readonly TimBlockConfigData ConfigStorage = new TimBlockConfigData();

@@ -33,7 +33,7 @@ namespace IngameScript {
         readonly char[] ArgumentSplitter = new char[] { ' ' };
         string commandKey;
         string commandArgs;
-        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
+        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
 
         //readonly List<IMyShipMergeBlock> allMerges = new List<IMyShipMergeBlock>();
         readonly List<IMyShipMergeBlock> myMerges = new List<IMyShipMergeBlock>();

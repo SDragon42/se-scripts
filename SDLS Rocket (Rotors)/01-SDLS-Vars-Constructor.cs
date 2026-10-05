@@ -21,7 +21,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>();
+        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
         TimeSpan UpTime = TimeSpan.Zero;
         bool IsMasterGrid = false;
         RocketStructure Structure = RocketStructure.None;

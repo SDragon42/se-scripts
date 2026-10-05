@@ -45,8 +45,8 @@ namespace IngameScript {
         Config config = new Config();
 
         //
-        readonly IDictionary<string, Action> MainCommands = new Dictionary<string, Action>();
-        readonly IDictionary<string, Action> IgcCommands = new Dictionary<string, Action>();
+        readonly IDictionary<string, Action> MainCommands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
+        readonly IDictionary<string, Action> IgcCommands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
 
         // Script Vars
         readonly IMyBroadcastListener Listener;

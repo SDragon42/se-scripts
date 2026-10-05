@@ -22,7 +22,7 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        readonly Dictionary<string, Action> Commands = new Dictionary<string, Action>();
+        readonly Dictionary<string, Action> Commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
         readonly string Instructions;
 
         //Modules

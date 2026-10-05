@@ -35,7 +35,7 @@ namespace IngameScript {
 
         // Command vars
         readonly IDictionary<TorpedoSelectionMode, Func<IMyRadioAntenna>> _torpedoSelection = new Dictionary<TorpedoSelectionMode, Func<IMyRadioAntenna>>();
-        readonly IDictionary<string, Action> _commands = new Dictionary<string, Action>();
+        readonly IDictionary<string, Action> _commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
         readonly string _instructions;
         readonly Random _randomGenerator = new Random();
 
