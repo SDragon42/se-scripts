@@ -42,7 +42,6 @@ namespace IngameScript {
         readonly List<ProxCamera> _proximityCameraList = new List<ProxCamera>();
         readonly List<IMyInteriorLight> _proximityLightList = new List<IMyInteriorLight>();
         IMyCameraBlock _foreRangeCamera = null;
-        // readonly List<IMySoundBlock> _proximitySpeakerList = new List<IMySoundBlock>();
         readonly List<ScreenConfig> _screenList = new List<ScreenConfig>();
 
         double _timeLastBlockLoad = BLOCK_RELOAD_TIME * 2;
@@ -70,6 +69,14 @@ namespace IngameScript {
                     case "1":
                         if (storageParts.Length != 2) break;
                         Enum.TryParse(storageParts[++i], out updateFrequency);
+                        if (updateFrequency == UpdateFrequency.None) updateFrequency = UpdateFrequency.Once;
+                        break;
+                    case "2":
+                        if (storageParts.Length != 4) break;
+                        Enum.TryParse(storageParts[++i], out updateFrequency);
+                        if (updateFrequency == UpdateFrequency.None) updateFrequency = UpdateFrequency.Once;
+                        _proximityText = storageParts[++i];
+                        _scanRangeText = storageParts[++i];
                         break;
                     default: break;
                 }
@@ -79,12 +86,12 @@ namespace IngameScript {
         }
 
         public void Save() {
-            Storage = "1|" + Runtime.UpdateFrequency;
+            Storage = "2|" + Runtime.UpdateFrequency + "|" + _proximityText + "|" + _scanRangeText;
         }
 
         public void Main(string argument, UpdateType updateSource) {
             try {
-                var isRunning = Runtime.UpdateFrequency != UpdateFrequency.None;
+                var isRunning = Runtime.UpdateFrequency == UpdateFrequency.Update10;
                 var runningStatus = isRunning ? _running.GetSymbol() : "( OFF )";
                 Echo("Proximity & Range v$VERSION$ " + runningStatus);
                 if (isRunning) {
@@ -121,6 +128,8 @@ namespace IngameScript {
             Runtime.UpdateFrequency = UpdateFrequency.None;
             SetProximityAlert(false);
             _timeLastBlockLoad = BLOCK_RELOAD_TIME * 2;
+            _proximityText = "\nSTANDBY";
+            _scanRangeText = "";
         }
 
         // Scan ahead using the forward range camera
