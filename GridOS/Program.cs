@@ -22,89 +22,86 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        readonly RunningSymbol symbol = new RunningSymbol();
-        readonly AutoDoorCloser autoDoorCloser = new AutoDoorCloser();
-        readonly StateMachineSets sequences = new StateMachineSets();
+        readonly RunningSymbol _running = new RunningSymbol();
+        readonly AutoDoorCloser _autoDoorCloser = new AutoDoorCloser();
+        readonly StateMachineSets _sequences = new StateMachineSets();
 
-        readonly Config config = new Config();
+        readonly Config _config = new Config();
 
-        readonly List<IMyDoor> autoDoors = new List<IMyDoor>();
-        readonly List<IMyDoor> airlockDoors = new List<IMyDoor>();
+        readonly List<IMyDoor> _autoDoors = new List<IMyDoor>();
+        readonly List<IMyDoor> _airlockDoors = new List<IMyDoor>();
 
-        readonly Dictionary<string, Action> command = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
-        readonly string instructions;
+        readonly Dictionary<string, Action> _commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
+        readonly string _instructions;
 
-        double blockReload_TimeElapsed = 0;
+        double _blockReload_TimeElapsed = 0;
 
         public Program() {
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
 
             // Initialize and load configuration
-            config.Initialize(Me, GridTerminalSystem);
-            config.Load(autoDoorCloser);
+            _config.Initialize(Me, GridTerminalSystem);
+            _config.Load(_autoDoorCloser);
 
             // Commands
-            command.Add("openhangar", null);
-            command.Add("closehangar", null);
-            command.Add("togglehangar", null);
-            command.Add("closedoors", CloseDoors);
+            _commands.Add("openhangar", null);
+            _commands.Add("closehangar", null);
+            _commands.Add("togglehangar", null);
+            _commands.Add("closedoors", CloseDoors);
 
             // Instructions
-            instructions = "Script Commands\n" + string.Join("\n", command.Keys.ToArray());
+            _instructions = "Script Commands\n" + string.Join("\n", _commands.Keys);
         }
 
         public void Save() {
         }
 
         public void Main(string argument, UpdateType updateSource) {
-            blockReload_TimeElapsed += Runtime.TimeSinceLastRun.TotalSeconds;
-            Echo($"Grid OS {symbol.GetSymbol()}");
-            Echo(instructions);
-            Echo($"Block Reload in {Math.Truncate(config.BlockReloadTime - blockReload_TimeElapsed) + 1:N0} seconds.");
+            _blockReload_TimeElapsed += Runtime.TimeSinceLastRun.TotalSeconds;
+            Echo($"Grid OS {_running.GetSymbol()}");
+            Echo(_instructions);
+            Echo($"Block Reload in {Math.Truncate(_config.BlockReloadTime - _blockReload_TimeElapsed) + 1:N0} seconds.");
 
-            config.Load(autoDoorCloser);
+            _config.Load(_autoDoorCloser);
             LoadBlocks();
 
             ParseArgs(argument);
-            if (command.ContainsKey(argCmd))
-                command[argument]?.Invoke();
+            if (_commands.ContainsKey(_argCmd)) _commands[_argCmd]?.Invoke();
 
-            if (config.ADCEnabled) autoDoorCloser.CloseOpenDoors(Runtime, autoDoors, Me);
+            if (_config.ADCEnabled) _autoDoorCloser.CloseOpenDoors(Runtime, _autoDoors, Me);
         }
 
-        string argCmd = "";
-        string argParams = "";
+        string _argCmd = "";
+        string _argParams = "";
         void ParseArgs(string argument) {
-            argCmd = "";
-            argParams = "";
+            _argCmd = "";
+            _argParams = "";
             argument = argument?.ToLower() ?? string.Empty;
             var argParts = argument.Split(new char[] { ' ' }, 2);
-            if (argParts.Length >= 1) argCmd = argParts[0];
-            if (argParts.Length >= 2) argParams = argParts[2];
+            if (argParts.Length >= 1) _argCmd = argParts[0];
+            if (argParts.Length >= 2) _argParams = argParts[1];
         }
 
 
         void LoadBlocks(bool forceLoad = false) {
-            if (!forceLoad && blockReload_TimeElapsed < config.BlockReloadTime) return;
+            if (!forceLoad && _blockReload_TimeElapsed < _config.BlockReloadTime) return;
 
-            GridTerminalSystem.GetBlocksOfType(autoDoors, b =>
+            GridTerminalSystem.GetBlocksOfType(_autoDoors, b =>
                 Me.IsSameConstructAs(b)
-                && !IsTagged(b, config.ADCExclusionTag)
-                && !IsTagged(b, config.AirlockTag)
+                && !IsTagged(b, _config.ADCExclusionTag)
+                && !IsTagged(b, _config.AirlockTag)
                 && !IsHangarDoor(b));
-            GridTerminalSystem.GetBlocksOfType(airlockDoors, b =>
+            GridTerminalSystem.GetBlocksOfType(_airlockDoors, b =>
                 Me.IsSameConstructAs(b)
-                && IsTagged(b, config.AirlockTag));
+                && IsTagged(b, _config.AirlockTag));
 
-            blockReload_TimeElapsed = 0;
+            _blockReload_TimeElapsed = 0;
         }
 
 
-        void CloseDoors() {
-            autoDoors.ForEach(d => d.CloseDoor());
-        }
+        void CloseDoors() => _autoDoors.ForEach(d => d.CloseDoor());
         void OpenHangar() {
-            sequences.Add("hangar_" + argParams, OpenHangar_Sequence());
+            _sequences.Add("hangar_" + _argParams, OpenHangar_Sequence());
             // alert sound
             // warning lights
         }

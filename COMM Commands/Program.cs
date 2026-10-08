@@ -21,8 +21,8 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        readonly Logging Log = new Logging(50);
-        readonly Queue<string> MessageQueue = new Queue<string>();
+        readonly Logging _log = new Logging(50);
+        readonly Queue<string> _messageQueue = new Queue<string>();
 
         public Program() {
             Runtime.UpdateFrequency = UpdateFrequency.Once;
@@ -36,7 +36,7 @@ namespace IngameScript {
                 Echo("COMM Commands");
 
                 if (argument.Length > 0)
-                    MessageQueue.Enqueue(argument);
+                    _messageQueue.Enqueue(argument);
 
                 ProcessQueue();
                 DisplayLog();
@@ -49,20 +49,20 @@ namespace IngameScript {
                 throw ex;
 
             } finally {
-                Runtime.UpdateFrequency = (MessageQueue.Count > 0)
+                Runtime.UpdateFrequency = (_messageQueue.Count > 0)
                     ? UpdateFrequency.Update10
                     : UpdateFrequency.None;
             }
         }
 
         void ProcessQueue() {
-            if (MessageQueue.Count == 0) return;
+            if (_messageQueue.Count == 0) return;
 
-            var msg = MessageQueue.Dequeue();
+            var msg = _messageQueue.Dequeue();
         }
 
         void DisplayLog() {
-            if (!Log.Enabled) return;
+            if (!_log.Enabled) return;
         }
 
 

@@ -28,24 +28,24 @@ namespace IngameScript {
         public void Save() {
         }
 
-        readonly RunningSymbol runningSym = new RunningSymbol();
-        readonly StateMachineSets sequenceSets = new StateMachineSets();
-        readonly Logging log = new Logging();
+        readonly RunningSymbol _running = new RunningSymbol();
+        readonly StateMachineSets _sequenceSets = new StateMachineSets();
+        readonly Logging _log = new Logging();
         readonly BlocksByOrientation _orientation = new BlocksByOrientation();
 
-        IMyShipController shipController = null;
-        IMyTextSurface outputSurface = null;
-        IMyTextSurface calcSurface = null;
+        IMyShipController _shipController = null;
+        IMyTextSurface _outputSurface = null;
+        IMyTextSurface _calcSurface = null;
 
-        Vector3D planetCenter = new Vector3D(0.0, 0.0, 0.0);
-        double maxR = 0;
+        Vector3D _planetCenter = new Vector3D(0.0, 0.0, 0.0);
+        double _maxR = 0;
 
-        readonly List<IMyThrust> upThrusters = new List<IMyThrust>();
-        readonly List<IMyLandingGear> gears = new List<IMyLandingGear>();
+        readonly List<IMyThrust> _upThrusters = new List<IMyThrust>();
+        readonly List<IMyLandingGear> _landingGears = new List<IMyLandingGear>();
 
         public void Main(string argument, UpdateType updateSource) {
             try {
-                Echo("Gravity Map " + runningSym.GetSymbol(Runtime));
+                Echo("Gravity Map " + _running.GetSymbol(Runtime));
                 argument = argument?.ToLower() ?? string.Empty;
 
                 switch (argument) {
@@ -54,60 +54,60 @@ namespace IngameScript {
                     default: break;
                 }
 
-                sequenceSets.RunAll();
+                _sequenceSets.RunAll();
             } catch (Exception ex) {
-                log.AppendLine("ERROR");
-                log.AppendLine(ex.Message);
+                _log.AppendLine("ERROR");
+                _log.AppendLine(ex.Message);
             }
 
-            Echo(log.GetLogText());
+            Echo(_log.GetLogText());
         }
 
         void Abort() {
-            log.AppendLine("Abort()");
+            _log.AppendLine("Abort()");
             LoadBlocks();
-            upThrusters.ForEach(t => t.ThrustOverride = 0f);
+            _upThrusters.ForEach(t => t.ThrustOverride = 0f);
             Runtime.UpdateFrequency = UpdateFrequency.None;
-            sequenceSets.Clear();
+            _sequenceSets.Clear();
         }
 
         void RunAscent() {
-            log.AppendLine("RunAscent()");
+            _log.AppendLine("RunAscent()");
             LoadBlocks();
-            outputSurface.WriteText(string.Empty);
-            calcSurface.WriteText(string.Empty);
-            sequenceSets.Add("accent", SEQ_RunAscent());
+            _outputSurface.WriteText(string.Empty);
+            _calcSurface.WriteText(string.Empty);
+            _sequenceSets.Add("accent", SEQ_RunAscent());
         }
 
         private void LoadBlocks() {
-            shipController = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>();
-            if (shipController == null) throw new Exception("No RC block found");
+            _shipController = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRemoteControl>();
+            if (_shipController == null) throw new Exception("No RC block found");
 
-            outputSurface = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyTextPanel>(b => IsTagged(b, "[log]"));
-            if (outputSurface == null) throw new Exception("No display with [log]");
-            calcSurface = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyTextPanel>(b => IsTagged(b, "[grav]"));
-            if (calcSurface == null) throw new Exception("No display with [grav]");
+            _outputSurface = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyTextPanel>(b => IsTagged(b, "[log]"));
+            if (_outputSurface == null) throw new Exception("No display with [log]");
+            _calcSurface = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyTextPanel>(b => IsTagged(b, "[grav]"));
+            if (_calcSurface == null) throw new Exception("No display with [grav]");
             InitDisplay();
 
-            _orientation.Init(shipController);
-            GridTerminalSystem.GetBlocksOfType(upThrusters, b => _orientation.IsDown(b));
-            if (upThrusters.Count == 0) throw new Exception("No up thrusters");
+            _orientation.Init(_shipController);
+            GridTerminalSystem.GetBlocksOfType(_upThrusters, b => _orientation.IsDown(b));
+            if (_upThrusters.Count == 0) throw new Exception("No up thrusters");
 
-            GridTerminalSystem.GetBlocksOfType(gears);
+            GridTerminalSystem.GetBlocksOfType(_landingGears);
         }
 
 
         IEnumerator<bool> SEQ_RunAscent() {
-            log.AppendLine("SEQ_RunAscent()");
+            _log.AppendLine("SEQ_RunAscent()");
 
-            upThrusters.ForEach(t => t.Enabled = true);
+            _upThrusters.ForEach(t => t.Enabled = true);
             yield return true;
 
-            upThrusters.ForEach(t => t.ThrustOverridePercentage = 1f);
-            gears.ForEach(g => g.Unlock());
+            _upThrusters.ForEach(t => t.ThrustOverridePercentage = 1f);
+            _landingGears.ForEach(g => g.Unlock());
 
             var lastElevation = 0.0;
-            shipController.TryGetPlanetElevation(MyPlanetElevation.Sealevel, out lastElevation);
+            _shipController.TryGetPlanetElevation(MyPlanetElevation.Sealevel, out lastElevation);
 
             var seaLevelElevation = 0.0;
             var lastGAccel = 0.0;
@@ -116,33 +116,33 @@ namespace IngameScript {
             do {
                 yield return true;
 
-                hasElevation = shipController.TryGetPlanetElevation(MyPlanetElevation.Sealevel, out seaLevelElevation);
+                hasElevation = _shipController.TryGetPlanetElevation(MyPlanetElevation.Sealevel, out seaLevelElevation);
                 if (!hasElevation)
                     break;
 
-                var gAccel = shipController.GetNaturalGravity().Length();
+                var gAccel = _shipController.GetNaturalGravity().Length();
                 var coreAltitude = GetCoreAltitude();
                 var calcGAccel = GetCalculatedGravityAccel(coreAltitude);
 
-                calcSurface.WriteText($"Real: {gAccel:N2} m/s\nCalc: {calcGAccel:N2} m/s");
+                _calcSurface.WriteText($"Real: {gAccel:N2} m/s\nCalc: {calcGAccel:N2} m/s");
 
                 if (!double.IsNaN(gAccel)) {
                     gAccel = Math.Round(gAccel, 2);
                     if (gAccel != lastGAccel && lastGAccel != 0.0) {
                         var midElevation = lastElevation + (seaLevelElevation - lastElevation);
                         points.Add(midElevation);
-                        outputSurface.WriteText($"{midElevation:N2}  {gAccel,3:N2}\n", true);
+                        _outputSurface.WriteText($"{midElevation:N2}  {gAccel,3:N2}\n", true);
                     }
                 } else {
                     var midElevation = points.Average();
-                    outputSurface.WriteText($"{midElevation:N2}  {0.0,3:N2}\n", true);
+                    _outputSurface.WriteText($"{midElevation:N2}  {0.0,3:N2}\n", true);
                 }
 
                 lastGAccel = gAccel;
                 lastElevation = seaLevelElevation;
             } while (hasElevation);
 
-            upThrusters.ForEach(t => t.ThrustOverride = 0f);
+            _upThrusters.ForEach(t => t.ThrustOverride = 0f);
 
             yield return false;
         }
@@ -157,8 +157,8 @@ namespace IngameScript {
         // }
 
         double GetCoreAltitude() {
-            var loc = shipController.GetPosition();
-            var coreAltitude = (loc - planetCenter).Length();
+            var loc = _shipController.GetPosition();
+            var coreAltitude = (loc - _planetCenter).Length();
             return coreAltitude;
         }
 
@@ -190,18 +190,18 @@ namespace IngameScript {
         }
 
         void InitDisplay() {
-            if (outputSurface != null) {
-                outputSurface.ContentType = ContentType.TEXT_AND_IMAGE;
-                outputSurface.TextPadding = 0f;
-                outputSurface.Alignment = TextAlignment.RIGHT;
+            if (_outputSurface != null) {
+                _outputSurface.ContentType = ContentType.TEXT_AND_IMAGE;
+                _outputSurface.TextPadding = 0f;
+                _outputSurface.Alignment = TextAlignment.RIGHT;
             }
 
-            if (calcSurface != null) {
-                calcSurface.ContentType = ContentType.TEXT_AND_IMAGE;
-                calcSurface.TextPadding = 8f;
-                calcSurface.Alignment = TextAlignment.CENTER;
-                calcSurface.FontSize = 3.6f;
-                calcSurface.Font = LCDFonts.MONOSPACE;
+            if (_calcSurface != null) {
+                _calcSurface.ContentType = ContentType.TEXT_AND_IMAGE;
+                _calcSurface.TextPadding = 8f;
+                _calcSurface.Alignment = TextAlignment.CENTER;
+                _calcSurface.FontSize = 3.6f;
+                _calcSurface.Font = LCDFonts.MONOSPACE;
             }
         }
 

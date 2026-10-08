@@ -23,14 +23,13 @@ namespace IngameScript {
         
         
         public void Main(string argument, UpdateType updateSource) {
-            timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
-            var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
-            Echo($"Deployable Turret 0.1 {runningSymbol.GetSymbol(Runtime)}");
+            _timeLastBlockLoad += Runtime.TimeSinceLastRun.TotalSeconds;
+            var timeTilUpdate = MathHelper.Clamp(Math.Truncate(BLOCK_RELOAD_TIME - _timeLastBlockLoad) + 1, 0, BLOCK_RELOAD_TIME);
+            Echo($"Deployable Turret 0.1 {_running.GetSymbol(Runtime)}");
             Echo($"Scanning for blocks in {timeTilUpdate:N0} seconds.\n");
 
-            config.Load();
+            _config.Load();
             LoadBlocks();
-            
             //Debug($"{decoys.Count} Decoys");
             //Debug($"{parachutes.Count} Parachutes");
             //Debug($"{landingGears.Count} LandingGears");
@@ -44,34 +43,34 @@ namespace IngameScript {
 
             // Set Lights
             //SetLights(disarmedLights, disarmedLightsOn);
-            SetLights(parachuteLights, !hasAllParachutes);
+            SetLights(_parachuteLights, !_hasAllParachutes);
             SetAntenna();
 
-            if (MainCommands.ContainsKey(argument)) MainCommands[argument]?.Invoke();
+            if (_mainCommands.ContainsKey(argument)) _mainCommands[argument]?.Invoke();
 
-            ActionQueue.Run();
+            _actionQueue.Run();
 
-            Runtime.UpdateFrequency = ActionQueue.HasTasks ? UpdateFrequency.Update10 : UpdateFrequency.Update100;
+            Runtime.UpdateFrequency = _actionQueue.HasTasks ? UpdateFrequency.Update10 : UpdateFrequency.Update100;
 
             Echo("");
-            if (turret != null) {
-                Echo(turret.Enabled ? "* ARMED *" : "- Disarmed -");
+            if (_turret != null) {
+                Echo(_turret.Enabled ? "* ARMED *" : "- Disarmed -");
             } else {
                 Echo("Turret missing!");
             }
         }
 
         private void SetAntenna() {
-            if (antenna == null) return;
-            antenna.EnableBroadcasting = !config.StealthMode;
-            if (config.StealthMode) return;
+            if (_antenna == null) return;
+            _antenna.EnableBroadcasting = !_config.StealthMode;
+            if (_config.StealthMode) return;
 
-            var antennaMessage = config.Id;
+            var antennaMessage = _config.Id;
 
-            if (config.ShowStatusOnAntenna) {
+            if (_config.ShowStatusOnAntenna) {
                 // Show Low power
-                if (battery != null && battery.IsWorking) {
-                    var remaining = battery.CurrentStoredPower / battery.MaxStoredPower;
+                if (_battery != null && _battery.IsWorking) {
+                    var remaining = _battery.CurrentStoredPower / _battery.MaxStoredPower;
                     if (remaining <= 0.25f && remaining > 0.1)
                         antennaMessage += "\nLOW POWER";
                     if (remaining <= 0.1f)
@@ -79,31 +78,31 @@ namespace IngameScript {
                 }
 
                 // Ammo Level
-                switch (ammoAmount) {
+                switch (_ammoAmount) {
                     case 2: antennaMessage += "\nLOW AMMO"; break;
                     case 1: antennaMessage += "\nCRITICAL AMMO"; break;
                     case 0: antennaMessage += "\nNO AMMO"; break;
                 }
 
                 // Show Damage
-                if (battery == null)
+                if (_battery == null)
                     antennaMessage += "\nBATTERY DESTROYED";
             }
 
-            antenna.HudText = antennaMessage;
+            _antenna.HudText = antennaMessage;
         }
 
         private void GetCurrentStatus() {
-            ammoAmount = 0L;
-            if (turret != null) {
-                ammoAmount = GetInventoryItemCount(turret.GetInventory());
-                if (ammoAmount == 0)
-                    turret.Enabled = false;
+            _ammoAmount = 0L;
+            if (_turret != null) {
+                _ammoAmount = GetInventoryItemCount(_turret.GetInventory());
+                if (_ammoAmount == 0)
+                    _turret.Enabled = false;
             }
 
             var canvasAmount = 0L;
             //hasAllParachutes = true;
-            foreach (var para in parachutes) {
+            foreach (var para in _parachutes) {
                 var tmp = GetInventoryItemCount(para.GetInventory());
                 canvasAmount += tmp;
                 //if (tmp == 0)
@@ -111,54 +110,54 @@ namespace IngameScript {
             }
 
             if (canvasAmount == 0) {
-                hasAllParachutes = false;
+                _hasAllParachutes = false;
             } else {
-                hasAllParachutes = (parachutes.Count / canvasAmount) == 1;
+                _hasAllParachutes = (_parachutes.Count / canvasAmount) == 1;
             }
         }
 
-        long GetInventoryItemCount(IMyInventory inven) {
-            inventoryItems.Clear();
-            inven.GetItems(inventoryItems);
+        long GetInventoryItemCount(IMyInventory inventory) {
+            _inventoryItems.Clear();
+            inventory.GetItems(_inventoryItems);
             var amount = 0L;
-            foreach (var item in inventoryItems)
+            foreach (var item in _inventoryItems)
                 amount += item.Amount.RawValue;
 
             return amount / 1000000L; // Inventory Item Count Modifier
         }
 
         void SetLights(List<IMyInteriorLight> lights, bool enabled) {
-            if (config.StealthMode) enabled = false;
+            if (_config.StealthMode) enabled = false;
             foreach (var b in lights) b.Enabled = enabled;
         }
 
 
         void LoadBlocks() {
-            if (timeLastBlockLoad < BLOCK_RELOAD_TIME) return;
-            timeLastBlockLoad = 0;
+            if (_timeLastBlockLoad < BLOCK_RELOAD_TIME) return;
+            _timeLastBlockLoad = 0;
 
-            antenna = null;
-            battery = null;
-            turret = null;
+            _antenna = null;
+            _battery = null;
+            _turret = null;
 
             // Load Blocks
-            battery = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyBatteryBlock>(Me.IsSameConstructAs);
-            turret = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyLargeTurretBase>(Me.IsSameConstructAs);
-            antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(Me.IsSameConstructAs);
+            _battery = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyBatteryBlock>(Me.IsSameConstructAs);
+            _turret = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyLargeTurretBase>(Me.IsSameConstructAs);
+            _antenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(Me.IsSameConstructAs);
 
-            GridTerminalSystem.GetBlocksOfType(decoys, Me.IsSameConstructAs);
-            GridTerminalSystem.GetBlocksOfType(parachutes, Me.IsSameConstructAs);
-            GridTerminalSystem.GetBlocksOfType(landingGears, Me.IsSameConstructAs);
+            GridTerminalSystem.GetBlocksOfType(_decoys, Me.IsSameConstructAs);
+            GridTerminalSystem.GetBlocksOfType(_parachutes, Me.IsSameConstructAs);
+            GridTerminalSystem.GetBlocksOfType(_landingGears, Me.IsSameConstructAs);
 
-            GridTerminalSystem.GetBlocksOfType(parachuteLights, OnParachuteBlock);
-            GridTerminalSystem.GetBlocksOfType(disarmedLights, b => !OnParachuteBlock(b));
+            GridTerminalSystem.GetBlocksOfType(_parachuteLights, OnParachuteBlock);
+            GridTerminalSystem.GetBlocksOfType(_disarmedLights, b => !OnParachuteBlock(b));
         }
-        bool OnParachuteBlock(IMyTerminalBlock b) => parachutes.Any(p => (b.Position - p.Position).Length() == 1);
+        bool OnParachuteBlock(IMyTerminalBlock b) => _parachutes.Any(p => (b.Position - p.Position).Length() == 1);
 
         void InitializeBlocks() {
-            var blinkOffsetInterval = 100f / parachuteLights.Count;
+            var blinkOffsetInterval = 100f / _parachuteLights.Count;
             var blinkOff = 0f;
-            foreach (var b in parachuteLights) {
+            foreach (var b in _parachuteLights) {
                 b.Color = Color.Orange;
                 b.Radius = 2f;
                 b.BlinkIntervalSeconds = 1f;
@@ -170,7 +169,7 @@ namespace IngameScript {
                 blinkOff += blinkOffsetInterval;
             }
 
-            foreach (var b in disarmedLights) {
+            foreach (var b in _disarmedLights) {
                 b.Color = Color.Black;
                 b.Radius = 5f;
                 b.BlinkIntervalSeconds = 0f;
@@ -181,7 +180,7 @@ namespace IngameScript {
                 b.CustomName = "Light - Disarmed";
             }
 
-            foreach (var b in decoys) {
+            foreach (var b in _decoys) {
                 b.ShowInTerminal = false;
                 b.CustomName = "Decoy";
             }
@@ -200,7 +199,7 @@ namespace IngameScript {
 
 
         void IgcUpdate() {
-            var msg = Listener.AcceptMessage();
+            var msg = _listener.AcceptMessage();
             var data = msg.Data as string;
             if (string.IsNullOrWhiteSpace(data)) return;
 
@@ -208,83 +207,62 @@ namespace IngameScript {
         }
 
         void ArmTurret() {
-            if (turret == null || turret.Enabled)
-                return;
-            ActionQueue.Clear();
-            ActionQueue.Add(ArmTurret_TurnOnLights_Sequence());
-            ActionQueue.Add(Delay(10000));
-            ActionQueue.Add(ArmTurret_TurnOffLights_Sequence());
-            ActionQueue.Add(ArmTurret_Sequence(true));
-
-            ActionQueue.Run();
+            if (_turret == null || _turret.Enabled) return;
+            _actionQueue.Clear();
+            _actionQueue.Add(ArmTurret_TurnOnLights_Sequence());
+            _actionQueue.Add(DelayEnumerator(10));
+            _actionQueue.Add(ArmTurret_TurnOffLights_Sequence());
+            _actionQueue.Add(ArmTurret_Sequence(true));
+            _actionQueue.Run();
         }
         void DisarmTurret() {
-            ActionQueue.Clear();
-            ActionQueue.Add(ArmTurret_Sequence(false));
-            ActionQueue.Add(DisarmTurret_TurnOnLights_Sequence());
-
-            ActionQueue.Run();
+            _actionQueue.Clear();
+            _actionQueue.Add(ArmTurret_Sequence(false));
+            _actionQueue.Add(DisarmTurret_TurnOnLights_Sequence());
+            _actionQueue.Run();
         }
 
-        void TurnOnParachutes() {
-            foreach (var p in parachutes)
-                p.Enabled = true;
-        }
-        void TurnOffParachutes() {
-            foreach (var p in parachutes)
-                p.Enabled = false;
-        }
+        void TurnOnParachutes() => _parachutes.ForEach(p => p.Enabled = true);
+        void TurnOffParachutes() => _parachutes.ForEach(p => p.Enabled = false);
 
 
         IEnumerator<bool> ArmTurret_TurnOnLights_Sequence() {
-            foreach (var b in disarmedLights) {
+            foreach (var b in _disarmedLights) {
                 b.Color = Color.Red;
                 b.BlinkIntervalSeconds = 1f;
                 b.BlinkLength = 50f;
                 b.BlinkOffset = 0f;
                 b.Enabled = true;
             }
-
             yield return true;
         }
 
         IEnumerator<bool> ArmTurret_TurnOffLights_Sequence() {
-            foreach (var b in disarmedLights) {
+            foreach (var b in _disarmedLights) {
                 b.Color = Color.Black;
                 b.BlinkIntervalSeconds = 0f;
                 b.BlinkLength = 0f;
                 b.BlinkOffset = 0f;
                 b.Enabled = false;
             }
-
             yield return true;
         }
 
         IEnumerator<bool> DisarmTurret_TurnOnLights_Sequence() {
-            foreach (var b in disarmedLights) {
+            foreach (var b in _disarmedLights) {
                 b.Color = Color.Green;
                 b.BlinkIntervalSeconds = 0f;
                 b.BlinkLength = 0f;
                 b.BlinkOffset = 0f;
                 b.Enabled = true;
             }
-
             yield return true;
         }
 
         IEnumerator<bool> ArmTurret_Sequence(bool enabled) {
-            if (turret != null)
-                turret.Enabled = enabled;
-
+            if (_turret != null)
+                _turret.Enabled = enabled;
             yield return true;
-        }
-
-        IEnumerator<bool> Delay(double milliseconds) {
-            var time = 0.0;
-            do {
-                yield return (time < milliseconds);
-                time += Runtime.TimeSinceLastRun.TotalMilliseconds;
-            } while (time < milliseconds);
         }
 
     }

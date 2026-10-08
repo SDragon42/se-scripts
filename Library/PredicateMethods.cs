@@ -26,7 +26,8 @@ namespace IngameScript {
         bool IsOnThisGrid(IMyTerminalBlock b) => IsSameGrid(Me, b);
 
         static bool IsOrientedForward(IMyTerminalBlock b) => b.Orientation.TransformDirectionInverse(b.Orientation.Forward) == Base6Directions.Direction.Forward;
-        static bool IsTagged(IMyTerminalBlock b, string tag) => b.CustomName.IndexOf(tag, StringComparison.OrdinalIgnoreCase) >= 0;
+        // static bool IsTagged(IMyTerminalBlock b, string tag) => b.CustomName.IndexOf(tag, StringComparison.OrdinalIgnoreCase) >= 0;
+        static bool IsTagged(IMyTerminalBlock b, string tag) => tag.Length == 0 || b.CustomName.IndexOf(tag, StringComparison.OrdinalIgnoreCase) >= 0;
         static bool IsTaggedAny(IMyTerminalBlock b, params string[] tags) => tags.Any(t => IsTagged(b, t));
 
         static bool IsConnector(IMyTerminalBlock b) => b is IMyShipConnector;

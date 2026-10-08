@@ -21,14 +21,14 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        readonly RunningSymbol Running = new RunningSymbol();
-        readonly List<IMyPistonBase> PistonList = new List<IMyPistonBase>();
-        readonly List<IMyShipWelder> WelderList = new List<IMyShipWelder>();
-        readonly StateMachineQueue Operation = new StateMachineQueue();
+        readonly RunningSymbol _running = new RunningSymbol();
+        readonly List<IMyPistonBase> _pistons = new List<IMyPistonBase>();
+        readonly List<IMyShipWelder> _welders = new List<IMyShipWelder>();
+        readonly StateMachineQueue _operation = new StateMachineQueue();
 
         readonly Config _config = new Config();
 
-        string OperationMessage = string.Empty;
+        string _operationMessage = string.Empty;
 
 
         public Program() {
@@ -40,35 +40,34 @@ namespace IngameScript {
         public void Main(string argument, UpdateType updateSource) {
             _config.Load();
             var autoRun = (updateSource & UpdateType.Update10) == UpdateType.Update10;
-            if (autoRun)
-                Echo("Running " + Running.GetSymbol());
+            if (autoRun) Echo("Running " + _running.GetSymbol());
 
             argument = argument?.ToLower();
             switch (argument) {
                 case "extend":
-                    Operation.Clear();
-                    Operation.Add(SetFactoryState(true));
+                    _operation.Clear();
+                    _operation.Add(SetFactoryState(true));
                     break;
                 case "retract":
-                    Operation.Clear();
-                    Operation.Add(SetFactoryState(false));
+                    _operation.Clear();
+                    _operation.Add(SetFactoryState(false));
                     break;
             }
 
-            Operation.Run();
+            _operation.Run();
 
-            if (Operation.HasTasks)
+            if (_operation.HasTasks)
                 Runtime.UpdateFrequency = UpdateFrequency.Update10;
             else if (autoRun)
                 Runtime.UpdateFrequency = UpdateFrequency.Once;
             else
                 Runtime.UpdateFrequency = UpdateFrequency.None;
 
-            Echo(OperationMessage);
+            Echo(_operationMessage);
         }
 
         IEnumerator<bool> SetFactoryState(bool extend) {
-            OperationMessage = extend
+            _operationMessage = extend
                 ? "Moving welders to start position"
                 : "Moving welders to retracted position";
 
@@ -76,11 +75,11 @@ namespace IngameScript {
             Func<IMyPistonBase, bool> PositionCheckFunc;
 
             if (extend) {
-                OperationMessage = "Moving welders to start position";
+                _operationMessage = "Moving welders to start position";
                 MovePistonAction = (p) => p.Extend();
                 PositionCheckFunc = IsExtended;
             } else {
-                OperationMessage = "Moving welders to retracted position";
+                _operationMessage = "Moving welders to retracted position";
                 MovePistonAction = (p) => p.Retract();
                 PositionCheckFunc = IsRetracted;
             }
@@ -88,29 +87,29 @@ namespace IngameScript {
             LoadBlocks();
             yield return true;
 
-            WelderList.ForEach(w => w.Enabled = false);
+            _welders.ForEach(w => w.Enabled = false);
             yield return true;
 
-            PistonList.ForEach(p => p.Velocity = _config.Speed_MoveToPosition);
-            PistonList.ForEach(MovePistonAction);
+            _pistons.ForEach(p => p.Velocity = _config.Speed_MoveToPosition);
+            _pistons.ForEach(MovePistonAction);
 
             var allAtEnd = false;
             do {
                 yield return true;
-                allAtEnd = PistonList.All(PositionCheckFunc);
+                allAtEnd = _pistons.All(PositionCheckFunc);
             } while (!allAtEnd);
 
-            PistonList.ForEach(p => p.Velocity = _config.Speed_Operation);
-            PistonList.ForEach(MovePistonAction);
+            _pistons.ForEach(p => p.Velocity = _config.Speed_Operation);
+            _pistons.ForEach(MovePistonAction);
             yield return true;
-            OperationMessage = string.Empty;
+            _operationMessage = string.Empty;
             yield return false;
         }
 
 
         void LoadBlocks() {
-            LoadList(_config.GroupKey_AllPistons, PistonList);
-            LoadList(_config.GroupKey_AllWelders, WelderList);
+            LoadList(_config.GroupKey_AllPistons, _pistons);
+            LoadList(_config.GroupKey_AllWelders, _welders);
         }
         void LoadList<T>(string groupName, List<T> blockList) where T : class {
             blockList.Clear();

@@ -20,6 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     public partial class Program : MyGridProgram {
+
         public void Main(string argument, UpdateType updateSource) {
             // ShowBlockInfo("Action Relay");
             ShowConnectedGridInfo();
@@ -122,5 +123,6 @@ namespace IngameScript {
                 block.SendSignal(1);
             }
         }
+        
     }
 }

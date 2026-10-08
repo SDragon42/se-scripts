@@ -22,55 +22,49 @@ namespace IngameScript {
     partial class Program : MyGridProgram {
 
         // Modules
-        readonly RunningSymbol RunningModule = new RunningSymbol();
-        readonly TagRegex TagModule = new TagRegex();
-        readonly Logging DebugLogModule;
-        readonly StateMachineSets stateMachine = new StateMachineSets();
-        readonly AutoDoorCloser doorCloser = new AutoDoorCloser();
+        readonly RunningSymbol _running = new RunningSymbol();
+        readonly TagRegex _tag = new TagRegex();
+        readonly Logging _debugLog;
+        readonly StateMachineSets _operations = new StateMachineSets();
+        readonly AutoDoorCloser _doorCloser = new AutoDoorCloser();
 
-        readonly string Instructions;
+        readonly string _instructions;
 
-        readonly char[] ArgumentSplitter = new char[] { ' ' };
-        string commandKey;
-        string commandArgs;
-        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
+        readonly char[] _argSplitter = new char[] { ' ' };
+        string _commandKey;
+        string _commandArgs;
+        readonly IDictionary<string, Action> _commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
 
         //readonly List<IMyShipMergeBlock> allMerges = new List<IMyShipMergeBlock>();
-        readonly List<IMyShipMergeBlock> myMerges = new List<IMyShipMergeBlock>();
-        readonly List<IMyShipConnector> myConnectors = new List<IMyShipConnector>();
-        readonly List<IMyThrust> trainThrusters = new List<IMyThrust>();
-        readonly List<IMyGyro> trainGyros = new List<IMyGyro>();
-        readonly List<IMyDoor> doorList = new List<IMyDoor>();
-        readonly List<IMyTerminalBlock> TmpBlocks = new List<IMyTerminalBlock>();
-        IMyRadioAntenna myAntenna;
-        IMyTextSurface debugOutput;
+        readonly List<IMyShipMergeBlock> _myMerges = new List<IMyShipMergeBlock>();
+        readonly List<IMyShipConnector> _myConnectors = new List<IMyShipConnector>();
+        readonly List<IMyThrust> _trainThrusters = new List<IMyThrust>();
+        readonly List<IMyGyro> _trainGyros = new List<IMyGyro>();
+        readonly List<IMyDoor> _doorList = new List<IMyDoor>();
+        readonly List<IMyTerminalBlock> _tempBlocks = new List<IMyTerminalBlock>();
+        IMyRadioAntenna _myAntenna;
+        IMyTextSurface _debugOutput;
 
-        double timeToReload = 0;
-        bool isMerged;
-        bool onStandby;
+        double _timeToReload = 0;
+        bool _isMerged;
+        bool _onStandby;
 
         Action<string> Debug = (t) => { };
 
         public Program() {
-
-            Commands.Add("set-id", SetGridID);
-            Commands.Add("disconnect", Disconnect);
-
-            // Instructions
-            var sb = new StringBuilder();
-            sb.AppendLine("Script Commands");
-            foreach (var c in Commands.Keys) sb.AppendLine(c);
-            Instructions = sb.ToString();
-
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
 
-            TagModule.SetTagRegex(tagPrefix);
+            _commands.Add("set-id", SetGridID);
+            _commands.Add("disconnect", Disconnect);
 
-            //doorCloser.Debug = (t) => DebugLogModule.AppendLine(t);
+            // Instructions
+            _instructions = "Script Commands\n" + string.Join("\n", _commands.Keys);
+
+            _tag.SetTagRegex(TAG_PREFIX);
 
             // Debug Logging Module Config
-            DebugLogModule = new Logging(40);
-            Debug = (t) => DebugLogModule.AppendLine(t);
+            _debugLog = new Logging(40);
+            Debug = (t) => _debugLog.AppendLine(t);
         }
 
         public void Save() {
@@ -78,47 +72,47 @@ namespace IngameScript {
 
         public void Main(string argument, UpdateType updateSource) {
             try {
-                var argumentParts = argument.Split(ArgumentSplitter, 2);
-                commandKey = argumentParts[0];
-                commandArgs = argumentParts.Length < 2 ? string.Empty : argumentParts[1];
+                var argumentParts = argument.Split(_argSplitter, 2);
+                _commandKey = argumentParts[0];
+                _commandArgs = argumentParts.Length < 2 ? string.Empty : argumentParts[1];
 
                 LoadConfig();
                 LoadBlocks();
 
-                isMerged = CheckIfMerged();
-                onStandby = TagModule.IsOtherProgramOnDuty(GridTerminalSystem, Me, IsEngineProgramBlock);
+                _isMerged = CheckIfMerged();
+                _onStandby = _tag.IsOtherProgramOnDuty(GridTerminalSystem, Me, IsEngineProgramBlock);
 
-                Echo("Union Space Transit " + (onStandby ? "[ON STANDBY]" : RunningModule.GetSymbol()));
+                Echo("Union Space Transit " + (_onStandby ? "[ON STANDBY]" : _running.GetSymbol()));
                 Echo("Configure script in 'Custom Data'\n");
 
-                stateMachine.RunAll();
+                _operations.RunAll();
 
-                Echo(Instructions);
+                Echo(_instructions);
 
-                if (isMerged) {
-                    SetAntenna(!onStandby);
-                    if (!onStandby) {
+                if (_isMerged) {
+                    SetAntenna(!_onStandby);
+                    if (!_onStandby) {
                         SetGridName(trainName);
-                        foreach (var t in trainThrusters) if (Me.IsSameConstructAs(t) && IsThrusterIon(t)) t.Enabled = true;
-                        foreach (var g in trainGyros) if (Me.IsSameConstructAs(g)) g.Enabled = true;
+                        foreach (var t in _trainThrusters) if (Me.IsSameConstructAs(t) && IsThrusterIon(t)) t.Enabled = true;
+                        foreach (var g in _trainGyros) if (Me.IsSameConstructAs(g)) g.Enabled = true;
                     }
                 } else {
                     SetGridName(gridName);
                     SetAntenna(true);
-                    if (!onStandby) {
-                        foreach (var t in trainThrusters) t.Enabled = false;
-                        foreach (var g in trainGyros) g.Enabled = false;
+                    if (!_onStandby) {
+                        foreach (var t in _trainThrusters) t.Enabled = false;
+                        foreach (var g in _trainGyros) g.Enabled = false;
                     }
                 }
 
-                if (!onStandby) doorCloser.CloseOpenDoors(Runtime, doorList, Me);
+                if (!_onStandby) _doorCloser.CloseOpenDoors(Runtime, _doorList, Me);
 
                 SetGridID();
 
-                if (Commands.ContainsKey(commandKey)) Commands[commandKey]?.Invoke();
+                if (_commands.ContainsKey(_commandKey)) _commands[_commandKey]?.Invoke();
 
 
-                if (onStandby && !stateMachine.HasTasks) {
+                if (_onStandby && !_operations.HasTasks) {
                     Runtime.UpdateFrequency = UpdateFrequency.Update100;
                     return;
                 }
@@ -126,9 +120,9 @@ namespace IngameScript {
 
             } finally {
                 SaveConfig();
-                var debugText = DebugLogModule.ToString();
+                var debugText = _debugLog.ToString();
                 Echo(debugText);
-                debugOutput?.WriteText(debugText);
+                _debugOutput?.WriteText(debugText);
             }
         }
 
@@ -136,42 +130,42 @@ namespace IngameScript {
             if (!string.IsNullOrEmpty(name) && Me.CubeGrid.CustomName != name) Me.CubeGrid.CustomName = name;
         }
         void SetAntenna(bool enabled) {
-            if (myAntenna == null) return;
-            myAntenna.Enabled = enabled;
-            myAntenna.EnableBroadcasting = enabled;
-            myAntenna.ShowShipName = isMerged;
+            if (_myAntenna == null) return;
+            _myAntenna.Enabled = enabled;
+            _myAntenna.EnableBroadcasting = enabled;
+            _myAntenna.ShowShipName = _isMerged;
         }
 
 
         void LoadBlocks() {
-            timeToReload -= Runtime.TimeSinceLastRun.TotalSeconds;
-            var skipLoad = timeToReload > 0.0;
-            if (!skipLoad) timeToReload = BlockReloadTime;
-            Echo($"Time to reload: {Math.Round(Math.Max(timeToReload, 0)):N0} seconds");
+            _timeToReload -= Runtime.TimeSinceLastRun.TotalSeconds;
+            var skipLoad = _timeToReload > 0.0;
+            if (!skipLoad) _timeToReload = BLOCK_RELOAD_TIME;
+            Echo($"Time to reload: {Math.Round(Math.Max(_timeToReload, 0)):N0} seconds");
             if (skipLoad) return;
 
             //GridTerminalSystem.GetBlocksOfType(allMerges, b => Me.IsSameConstructAs(b));
-            GridTerminalSystem.GetBlocksOfType(myMerges, b => Me.IsSameConstructAs(b) && IsMyGrid(b));
-            GridTerminalSystem.GetBlocksOfType(myConnectors, b => Me.IsSameConstructAs(b) && IsMyGrid(b));
-            GridTerminalSystem.GetBlocksOfType(trainThrusters, b => Me.IsSameConstructAs(b) && IsTagged(b, "[Train]"));
-            GridTerminalSystem.GetBlocksOfType(trainGyros, b => Me.IsSameConstructAs(b) && IsTagged(b, "[Train]"));
-            GridTerminalSystem.GetBlocksOfType(doorList, b => Me.IsSameConstructAs(b) && IsHumanDoor(b));
+            GridTerminalSystem.GetBlocksOfType(_myMerges, b => Me.IsSameConstructAs(b) && IsMyGrid(b));
+            GridTerminalSystem.GetBlocksOfType(_myConnectors, b => Me.IsSameConstructAs(b) && IsMyGrid(b));
+            GridTerminalSystem.GetBlocksOfType(_trainThrusters, b => Me.IsSameConstructAs(b) && IsTagged(b, "[Train]"));
+            GridTerminalSystem.GetBlocksOfType(_trainGyros, b => Me.IsSameConstructAs(b) && IsTagged(b, "[Train]"));
+            GridTerminalSystem.GetBlocksOfType(_doorList, b => Me.IsSameConstructAs(b) && IsHumanDoor(b));
 
-            myAntenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(b => Me.IsSameConstructAs(b) && IsMyGrid(b));
+            _myAntenna = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyRadioAntenna>(b => Me.IsSameConstructAs(b) && IsMyGrid(b));
 
-            debugOutput = GridTerminalSystem.GetBlockWithName("DEBUG") as IMyTextSurface;
+            _debugOutput = GridTerminalSystem.GetBlockWithName("DEBUG") as IMyTextSurface;
         }
 
         void SetGridID() {
             //Debug("SetGridID()");
-            if (isMerged) return;
+            if (_isMerged) return;
             if (gridId == Me.CubeGrid.EntityId) return;
             gridId = Me.CubeGrid.EntityId;
             isEngine = IsEngineGrid();
 
-            GridTerminalSystem.GetBlocksOfType(TmpBlocks, b => Me.IsSameConstructAs(b) && (b is IMyShipConnector || b is IMyShipMergeBlock || b is IMyRadioAntenna));
-            Debug($"  # Blocks: {TmpBlocks.Count}");
-            foreach (var blk in TmpBlocks) {
+            GridTerminalSystem.GetBlocksOfType(_tempBlocks, b => Me.IsSameConstructAs(b) && (b is IMyShipConnector || b is IMyShipMergeBlock || b is IMyRadioAntenna));
+            Debug($"  # Blocks: {_tempBlocks.Count}");
+            foreach (var blk in _tempBlocks) {
                 var ini = new MyIni();
                 if (!ini.TryParse(blk.CustomData)) ini.EndContent = Me.CustomData;
                 ini.Add(Key_GridId, gridId, " Unique ID for this grid");
@@ -181,15 +175,15 @@ namespace IngameScript {
         }
 
         bool CheckIfMerged() {
-            GridTerminalSystem.GetBlocksOfType<IMyShipMergeBlock>(TmpBlocks, Me.IsSameConstructAs);
-            return TmpBlocks.Any(b => ((IMyShipMergeBlock)b).IsMerged());
+            GridTerminalSystem.GetBlocksOfType<IMyShipMergeBlock>(_tempBlocks, Me.IsSameConstructAs);
+            return _tempBlocks.Any(b => ((IMyShipMergeBlock)b).IsMerged());
         }
 
         bool IsEngineGrid() {
-            GridTerminalSystem.GetBlocksOfType<IMyCockpit>(TmpBlocks, Me.IsSameConstructAs);
-            var hasCockpit = TmpBlocks.Count > 0;
-            GridTerminalSystem.GetBlocksOfType<IMyShipMergeBlock>(TmpBlocks, Me.IsSameConstructAs);
-            var isTrain = TmpBlocks.Any(b => ((IMyShipMergeBlock)b).IsConnected);
+            GridTerminalSystem.GetBlocksOfType<IMyCockpit>(_tempBlocks, Me.IsSameConstructAs);
+            var hasCockpit = _tempBlocks.Count > 0;
+            GridTerminalSystem.GetBlocksOfType<IMyShipMergeBlock>(_tempBlocks, Me.IsSameConstructAs);
+            var isTrain = _tempBlocks.Any(b => ((IMyShipMergeBlock)b).IsConnected);
             return hasCockpit && !isTrain;
         }
         bool IsEngineProgramBlock(IMyProgrammableBlock pb) {
@@ -209,21 +203,21 @@ namespace IngameScript {
 
         // Disconnect used for local grid only.
         void Disconnect() {
-            Disconnect(commandArgs);
+            Disconnect(_commandArgs);
         }
         void Disconnect(string blockTag) {
             Debug("Disconnect: " + blockTag);
             var seqKey = "disconnect" + blockTag;
-            if (stateMachine.HasTask(seqKey)) return;
+            if (_operations.HasTask(seqKey)) return;
 
-            stateMachine.Add(seqKey, SEQ_DisconnectConnector(blockTag), true);
-            stateMachine.Add(seqKey, SEQ_DisconnectMerge(blockTag));
-            stateMachine.Add(seqKey, SEQ_Delay(DisconnectEnableDelayMs));
-            stateMachine.Add(seqKey, SEQ_EnableConnector(blockTag));
-            stateMachine.Add(seqKey, SEQ_Delay(DisconnectEnableDelayMs));
-            stateMachine.Add(seqKey, SEQ_AwaitConnectorClear(blockTag));
-            stateMachine.Add(seqKey, SEQ_Delay(DisconnectEnableDelayMs));
-            stateMachine.Add(seqKey, SEQ_EnableMerge(blockTag));
+            _operations.Add(seqKey, SEQ_DisconnectConnector(blockTag), true);
+            _operations.Add(seqKey, SEQ_DisconnectMerge(blockTag));
+            _operations.Add(seqKey, SEQ_Delay(DISCONNECT_ENABLE_DELAY));
+            _operations.Add(seqKey, SEQ_EnableConnector(blockTag));
+            _operations.Add(seqKey, SEQ_Delay(DISCONNECT_ENABLE_DELAY));
+            _operations.Add(seqKey, SEQ_AwaitConnectorClear(blockTag));
+            _operations.Add(seqKey, SEQ_Delay(DISCONNECT_ENABLE_DELAY));
+            _operations.Add(seqKey, SEQ_EnableMerge(blockTag));
         }
 
     }

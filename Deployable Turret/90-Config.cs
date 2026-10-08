@@ -29,8 +29,6 @@ namespace IngameScript {
             // public bool ShowStatusLights { get; set; } = false;
             // public bool ShowStatusAntenna { get; set; } = false;
 
-            // int configHashCode = 0;
-
             const string SECTION_REMOTE_TURRET = "Remote Turret";
 
             public void Load() {

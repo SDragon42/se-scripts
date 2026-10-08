@@ -22,69 +22,59 @@ namespace IngameScript {
     partial class Program {
 
         static class RenameHelper {
-            public static int RenameTo(List<IMyTerminalBlock> blocks, string newName) {
-                blocks.ForEach(b => b.CustomName = newName.Trim());
-                return blocks.Count();
+            public static void RenameTo(List<IMyTerminalBlock> blocks, string newName) {
+                foreach (var b in blocks)
+                    b.CustomName = newName.Trim();
             }
 
-            public static int NumberRenameTo(List<IMyTerminalBlock> blocks, string newName) => NumberRenameTo<IMyTerminalBlock>(blocks, newName);
-            public static int NumberRenameTo<T>(List<T> blocks, string newName, Action<T> customAction = null) where T : IMyTerminalBlock {
+            public static void NumberRenameTo(List<IMyTerminalBlock> blocks, string newName) {
                 var num = 1;
-                var numDigits = blocks.Count.ToString().Length;
-                foreach (var b in blocks) {
+                var numDigits = (int)Math.Floor(Math.Log10(blocks.Count)) + 1;
+                foreach (var b in blocks)
                     b.CustomName = (newName + " " + num++.ToString().PadLeft(numDigits, '0')).Trim();
-                    customAction?.Invoke(b);
+            }
+
+            public static void PrefixWith(List<IMyTerminalBlock> blocks, string prefix) {
+                foreach (var b in blocks)
+                    if (!b.CustomName.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase))
+                        b.CustomName = (prefix + b.CustomName).Trim();
+            }
+
+            public static void SuffixWith(List<IMyTerminalBlock> blocks, string suffix) {
+                foreach (var b in blocks)
+                    if (!b.CustomName.EndsWith(suffix, StringComparison.CurrentCultureIgnoreCase))
+                        b.CustomName = (b.CustomName + suffix).Trim();
+            }
+
+            public static void RemovePrefix(List<IMyTerminalBlock> blocks, string prefix) {
+                foreach (var b in blocks)
+                    if (b.CustomName.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase))
+                        b.CustomName = b.CustomName.Substring(prefix.Length).Trim();
+            }
+
+            public static void RemoveSuffix(List<IMyTerminalBlock> blocks, string suffix) {
+                foreach (var b in blocks)
+                    if (b.CustomName.EndsWith(suffix, StringComparison.CurrentCultureIgnoreCase))
+                        b.CustomName = b.CustomName.Substring(0, b.CustomName.Length - suffix.Length).Trim();
+            }
+
+            public static void Remove(List<IMyTerminalBlock> blocks, string text) {
+                foreach (var b in blocks) {
+                    var startIndex = b.CustomName.IndexOf(text, StringComparison.CurrentCultureIgnoreCase);
+                    if (startIndex < 0) continue;
+                    b.CustomName = b.CustomName.Remove(startIndex, text.Length).Trim();
                 }
-                return blocks.Count();
             }
-
-            public static int PrefixWith(List<IMyTerminalBlock> blocks, string prefix) {
-                blocks = blocks.Where(b => !b.CustomName.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase)).ToList();
-                blocks.ForEach(b => b.CustomName = (prefix + b.CustomName).Trim());
-                return blocks.Count;
-            }
-
-            public static int SuffixWith(List<IMyTerminalBlock> blocks, string suffix) {
-                blocks = blocks.Where(b => !b.CustomName.EndsWith(suffix, StringComparison.CurrentCultureIgnoreCase)).ToList();
-                blocks.ForEach(b => b.CustomName = (b.CustomName + suffix).Trim());
-                return blocks.Count;
-            }
-
-            public static int RemovePrefix(List<IMyTerminalBlock> blocks, string prefix) {
-                blocks = blocks.Where(b => b.CustomName.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase)).ToList();
-                blocks.ForEach(b => b.CustomName = b.CustomName.Substring(prefix.Length).Trim());
-                return blocks.Count;
-            }
-
-            public static int RemoveSuffix(List<IMyTerminalBlock> blocks, string suffix) {
-                blocks = blocks.Where(b => b.CustomName.EndsWith(suffix, StringComparison.CurrentCultureIgnoreCase)).ToList();
-                blocks.ForEach(b => b.CustomName = b.CustomName.Substring(0, b.CustomName.Length - suffix.Length).Trim());
-                return blocks.Count;
-            }
-
-            public static int Remove(List<IMyTerminalBlock> blocks, string text) {
-                var lowerText = text.ToLower();
-                var textLength = lowerText.Length;
-                var blockPairs = blocks.Select(b => new { b, searchText = b.CustomName.ToLower() })
-                    .Select(pair => new { pair.b, startIdx = pair.searchText.IndexOf(lowerText) })
-                    .Where(pair => pair.startIdx >= 0)
-                    .ToList();
-                blockPairs.ForEach(pair => pair.b.CustomName = pair.b.CustomName.Remove(pair.startIdx, textLength).Trim());
-                return blockPairs.Count;
-            }
-            public static int Replace(List<IMyTerminalBlock> blocks, string text) {
+            public static void Replace(List<IMyTerminalBlock> blocks, string text) {
                 var parts = text.Split('|');
-                var remove = parts[0];
-                var add = parts.Length > 1 ? parts[1] : string.Empty;
-
-                text = remove.ToLower();
-                var textLength = text.Length;
-                var blockPairs = blocks.Select(b => new { b, searchText = b.CustomName.ToLower() })
-                    .Select(pair => new { pair.b, startIdx = pair.searchText.IndexOf(text) })
-                    .Where(pair => pair.startIdx >= 0)
-                    .ToList();
-                blockPairs.ForEach(pair => pair.b.CustomName = pair.b.CustomName.Remove(pair.startIdx, textLength).Insert(pair.startIdx, add).Trim());
-                return blockPairs.Count;
+                var removeText = parts[0];
+                if (removeText.Length == 0) return;
+                var addText = parts.Length > 1 ? parts[1] : string.Empty;
+                foreach (var b in blocks) {
+                    var startIndex = b.CustomName.IndexOf(removeText, StringComparison.CurrentCultureIgnoreCase);
+                    if (startIndex < 0) continue;
+                    b.CustomName = b.CustomName.Remove(startIndex, removeText.Length).Insert(startIndex, addText).Trim();
+                }
             }
         }
 

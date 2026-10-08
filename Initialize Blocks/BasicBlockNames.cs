@@ -20,8 +20,8 @@ using VRageMath;
 
 namespace IngameScript {
     partial class Program {
-        class BasicBlockNames {
 
+        class BasicBlockNames {
             readonly Dictionary<string, string> NameDictionary = new Dictionary<string, string>();
             public BasicBlockNames() {
                 var d = NameDictionary;
@@ -194,5 +194,6 @@ namespace IngameScript {
             }
 
         }
+        
     }
 }

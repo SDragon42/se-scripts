@@ -21,9 +21,6 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        public Program() {
-        }
-
         public void Main(string argument, UpdateType updateSource) {
             var text = new StringBuilder();
 
@@ -38,7 +35,7 @@ namespace IngameScript {
                 .Distinct()
                 .Select(s => new {
                     typeName = s,
-                    count = allBlocks.Where(b => b.GetType().ToString().Equals(s)).Count()
+                    count = allBlocks.Count(b => b.GetType().ToString().Equals(s))
                 })
                 .Select(t => new {
                     typeName = t.typeName.Substring(t.typeName.LastIndexOf('.') + 1),
@@ -46,8 +43,7 @@ namespace IngameScript {
                 })
                 .OrderBy(bt => bt.typeName)
                 .ToList()
-                .ForEach(bt => text.Append($"{bt.count,2:N0}  {bt.typeName}\n"))
-                ;
+                .ForEach(bt => text.Append($"{bt.count,2:N0}  {bt.typeName}\n"));
 
             Me.CustomData = text.ToString();
             Echo(Me.CustomData);

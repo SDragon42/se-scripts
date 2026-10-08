@@ -21,38 +21,39 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        readonly List<IMyTerminalBlock> blocks = new List<IMyTerminalBlock>();
+        readonly List<IMyTerminalBlock> _blocks = new List<IMyTerminalBlock>();
         readonly char[] SPLITTER = new char[] { ' ' };
 
-        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
+        readonly IDictionary<string, Action> _commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
+        string _instructions;
 
-        readonly MyIni Ini = new MyIni();
-        readonly TimBlockConfigData ConfigStorage = new TimBlockConfigData();
-        readonly TimBlockName ConfigApplied = new TimBlockName();
+        readonly TimBlockConfigData _configStorage = new TimBlockConfigData();
+        readonly TimBlockName _configApplied = new TimBlockName();
         readonly Config _config = new Config();
         // Action<string> Debug = (text) => { };
 
+        string _targetTag;
+        string _configTag;
+
         public Program() {
             _config.Initialize(Me, GridTerminalSystem);
-            _config.Load(ConfigApplied);
+            _config.Load(_configApplied);
 
-            Commands.Add("use", CMD_SwitchTimConfig);
-            Commands.Add("save", CMD_SaveTimConfig);
+            _commands.Add("use", CMD_SwitchTimConfig);
+            _commands.Add("save", CMD_SaveTimConfig);
             // ConfigStorage.Echo = Echo;
             // ConfigApplied.Echo = Echo;
 
+            _instructions = "Commands:\n" + string.Join("\n", _commands.Keys);
             ShowCommands();
         }
 
-        string targetTag;
-        string configTag;
-
         public void Main(string argument, UpdateType updateSource) {
             ShowCommands();
-            _config.Load(ConfigApplied);
+            _config.Load(_configApplied);
 
-            targetTag = string.Empty;
-            configTag = string.Empty;
+            _targetTag = string.Empty;
+            _configTag = string.Empty;
 
             var argParts = argument.Split(SPLITTER, 3, StringSplitOptions.RemoveEmptyEntries);
             if (argParts.Length < 3) {
@@ -63,45 +64,43 @@ namespace IngameScript {
                 return;
             }
 
-            targetTag = "[" + _config.CargoSwitcherTag + ":" + argParts[0] + "]";
-            configTag = "[" + argParts[2].Trim() + "]";
+            _targetTag = "[" + _config.CargoSwitcherTag + ":" + argParts[0] + "]";
+            _configTag = "[" + argParts[2].Trim() + "]";
             var command = argParts[1];
             // Debug("targetTag = " + targetTag.Replace("[","").Replace("]",""));
             // Debug("configTag = " + configTag.Replace("[","").Replace("]",""));
             // Debug("command = " + command);
 
-            GridTerminalSystem.GetBlocksOfType(blocks, b => IsTagged(b, targetTag));
-            Echo($"Found: {blocks.Count:N0} block(s)");
+            GridTerminalSystem.GetBlocksOfType(_blocks, b => IsTagged(b, _targetTag));
+            Echo($"Found: {_blocks.Count:N0} block(s)");
 
-            if (Commands.ContainsKey(command))
-                Commands[command]?.Invoke();
+            if (_commands.ContainsKey(command))
+                _commands[command]?.Invoke();
             else
                 Echo($"Command '{command}' not recognized");
         }
 
         void ShowCommands() {
-            Echo("TIM Config Switcher v1.3");
+            Echo("TIM Config Switcher v$VERSION$");
             Echo("");
-            Echo("Commands:");
-            foreach (var k in Commands.Keys)
-                if (k != string.Empty) Echo(k);
+            Echo(_instructions);
         }
 
 
         void CMD_SwitchTimConfig() {
             // Debug("CMD_SwitchTimConfig");
-            foreach (var b in blocks) {
+            foreach (var b in _blocks) {
                 var timConfig = string.Empty;
-                if (!ConfigStorage.Get(b, configTag, out timConfig)) continue;
-                ConfigApplied.Replace(b, timConfig.Trim());
+                if (!_configStorage.Get(b, _configTag, out timConfig)) continue;
+                _configApplied.Replace(b, timConfig.Trim());
             }
         }
 
         void CMD_SaveTimConfig() {
             // Debug("CMD_SaveTimConfig");
-            foreach (var b in blocks) {
-                var timConfig = ConfigApplied.Get(b);
-                ConfigStorage.Set(b, configTag, timConfig);
+            foreach (var b in _blocks) {
+                var timConfig = _configApplied.Get(b);
+                _configStorage.Set(b, _configTag, timConfig);
             }
         }
 
