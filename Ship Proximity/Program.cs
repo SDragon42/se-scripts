@@ -38,7 +38,7 @@ namespace IngameScript {
 
         // Blocks
         IMyShipController _shipController = null;
-        readonly List<IMyTerminalBlock> TmpBlocks = new List<IMyTerminalBlock>();
+        readonly List<IMyTerminalBlock> _tempBlocks = new List<IMyTerminalBlock>();
         readonly List<ProxCamera> _proximityCameraList = new List<ProxCamera>();
         readonly List<IMyInteriorLight> _proximityLightList = new List<IMyInteriorLight>();
         IMyCameraBlock _foreRangeCamera = null;
@@ -159,9 +159,9 @@ namespace IngameScript {
             _foreRangeCamera = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCameraBlock>(b => Me.IsSameConstructAs(b) && IsForwardRangeBlock(b));
 
             // Proximity Cameras
-            GridTerminalSystem.GetBlocksOfType<IMyCameraBlock>(TmpBlocks, b => Me.IsSameConstructAs(b) && IsProximityBlock(b));
+            GridTerminalSystem.GetBlocksOfType<IMyCameraBlock>(_tempBlocks, b => Me.IsSameConstructAs(b) && IsProximityBlock(b));
             _proximityCameraList.Clear();
-            foreach (var b in TmpBlocks) {
+            foreach (var b in _tempBlocks) {
                 _cameraConfig.Initialize(b, GridTerminalSystem);
                 _cameraConfig.Load();
                 _proximityCameraList.Add(new ProxCamera((IMyCameraBlock)b, _cameraConfig.RangeOffset));
@@ -170,11 +170,11 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_proximityLightList, b => Me.IsSameConstructAs(b) && IsProximityBlock(b));
 
             // Display Screens
-            GridTerminalSystem.GetBlocksOfType(TmpBlocks, b => Me.IsSameConstructAs(b)
+            GridTerminalSystem.GetBlocksOfType(_tempBlocks, b => Me.IsSameConstructAs(b)
                                                             && ((b is IMyTextSurfaceProvider) || (b is IMyTextSurface))
                                                             && (IsProximityBlock(b) || IsForwardRangeBlock(b)));
             _screenList.Clear();
-            foreach (var b in TmpBlocks) {
+            foreach (var b in _tempBlocks) {
                 var surface = b as IMyTextSurface;
                 if (surface != null) {
                     _screenList.Add(new ScreenConfig(surface, IsProximityBlock(b), IsForwardRangeBlock(b)));
@@ -195,7 +195,7 @@ namespace IngameScript {
                 }
             }
 
-            TmpBlocks.Clear();
+            _tempBlocks.Clear();
         }
 
         bool IsProximityBlock(IMyTerminalBlock b) => IsTagged(b, _config.ProximityTag);

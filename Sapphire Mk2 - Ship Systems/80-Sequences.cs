@@ -32,7 +32,7 @@ namespace IngameScript {
 
         IEnumerator<bool> SEQ_DisconnectConnector(string blockTag) {
             Debug("SEQ_DisconnectConnector: " + blockTag);
-            var c1 = myConnectors.Where(b => IsTagged(b, blockTag)).ToArray();
+            var c1 = _myConnectors.Where(b => IsTagged(b, blockTag)).ToArray();
 
             foreach (var b in c1) b.Disconnect();
             yield return true;
@@ -42,7 +42,7 @@ namespace IngameScript {
 
         IEnumerator<bool> SEQ_DisconnectMerge(string blockTag) {
             Debug("SEQ_DisconnectMerge: " + blockTag);
-            var c1 = myMerges.Where(b => IsTagged(b, blockTag)).ToArray();
+            var c1 = _myMerges.Where(b => IsTagged(b, blockTag)).ToArray();
 
             foreach (var b in c1) b.Enabled = false;
             yield return true;
@@ -50,7 +50,7 @@ namespace IngameScript {
 
         IEnumerator<bool> SEQ_AwaitConnectorClear(string blockTag) {
             Debug("SEQ_AwaitConnectorClear: " + blockTag);
-            var c1 = myConnectors.Where(b => IsTagged(b, blockTag)).ToArray();
+            var c1 = _myConnectors.Where(b => IsTagged(b, blockTag)).ToArray();
 
             while (c1.Any(b => b.Status != MyShipConnectorStatus.Unconnected))
                 yield return true;
@@ -59,7 +59,7 @@ namespace IngameScript {
 
         IEnumerator<bool> SEQ_EnableConnector(string blockTag) {
             Debug("SEQ_EnableConnector: " + blockTag);
-            var c1 = myConnectors.Where(b => IsTagged(b, blockTag)).ToArray();
+            var c1 = _myConnectors.Where(b => IsTagged(b, blockTag)).ToArray();
 
             foreach (var b in c1) b.Enabled = true;
             yield return true;
@@ -67,7 +67,7 @@ namespace IngameScript {
 
         IEnumerator<bool> SEQ_EnableMerge(string blockTag) {
             Debug("SEQ_EnableMerge: " + blockTag);
-            var c1 = myMerges.Where(b => IsTagged(b, blockTag)).ToArray();
+            var c1 = _myMerges.Where(b => IsTagged(b, blockTag)).ToArray();
 
             foreach (var b in c1) b.Enabled = true;
             yield return true;

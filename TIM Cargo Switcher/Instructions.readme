@@ -1,4 +1,4 @@
-﻿TIM Cargo Configuration Switcher v1.3
+﻿TIM Cargo Configuration Switcher v$VERSION$
 
 Changed the block name configuration for the Taleden's Inventory Manager script.
 Configurations are stored in the Custom Data for the block under a key name.

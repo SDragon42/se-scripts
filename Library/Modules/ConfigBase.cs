@@ -40,7 +40,9 @@ namespace IngameScript {
                 if (_lastConfigHash == tmpHashCode && !forceReload) return false;
                 _lastConfigHash = tmpHashCode;
                 _ini.Clear();
-                return _ini.TryParse(Block.CustomData);
+                // return _ini.TryParse(Block.CustomData);
+                if (!_ini.TryParse(Block.CustomData)) _ini.EndContent = Block.CustomData;
+                return true;
             }
 
             // Save the configuration to the block's CustomData.

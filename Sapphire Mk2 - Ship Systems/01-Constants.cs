@@ -21,9 +21,9 @@ using VRageMath;
 namespace IngameScript {
     partial class Program {
 
-        const double BlockReloadTime = 10;
-        const string tagPrefix = "DHLI";
-        const int DisconnectEnableDelayMs = 3000;
+        const double BLOCK_RELOAD_TIME = 10;
+        const string TAG_PREFIX = "DHLI";
+        const int DISCONNECT_ENABLE_DELAY = 3000; // Milliseconds delay before enabling disconnect mechanisms
         // Union Space Transit - UST
         // Shadow Dragon Transport - SDT
         // Dragon Heavy Lift Industries - DHLI
