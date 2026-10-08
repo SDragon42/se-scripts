@@ -95,17 +95,17 @@ namespace IngameScript {
 
                     startPos = shipController.GetPosition();
                     addSequenceRange(SequenceGrassHop,
-                        Delay(1.0),
+                        DelayEnumerator(1),
                         FlightTest_Init(),
-                        Delay(1.0),
+                        DelayEnumerator(1),
                         FlightTest_GearUnlock(),
                         FlightTest_FlyUp(flyDistance),
                         FlightTest_Hover(),
-                        Delay(5.0),
+                        DelayEnumerator(5),
                         FlightTest_DropTo(powerDescentDistance),
                         FlightTest_FlyDown(),
                         FlightTest_Shutdown(),
-                        Delay(0.5),
+                        DelayEnumerator(0.5),
                         FlightTest_GearLock()
                         );
 

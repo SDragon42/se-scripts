@@ -51,5 +51,12 @@ namespace IngameScript {
             }
         }
 
+        IEnumerator<bool> DelayEnumerator(double seconds) {
+            while (seconds > 0) {
+                yield return true;
+                seconds -= Runtime.TimeSinceLastRun.TotalSeconds;
+            }
+        }
+
     }
 }

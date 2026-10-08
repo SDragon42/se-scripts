@@ -23,29 +23,23 @@ namespace IngameScript {
 
         readonly List<IMyTerminalBlock> _tmp = new List<IMyTerminalBlock>();
 
-        readonly IDictionary<string, Action<string[]>> Commands = new Dictionary<string, Action<string[]>>();
-        readonly string Instructions;
+        readonly IDictionary<string, Action<string[]>> _commands = new Dictionary<string, Action<string[]>>();
+        readonly string _instructions;
 
         Action<string> Debug = (s) => { };
 
         public Program() {
             //Debug = Echo;
+            _commands.Add("basic", Cmd_BasicRename);
+            _commands.Add("test", Cmd_TestMethod);
+            _commands.Add("undefined", Cmd_GetUndefinedTypeNames);
 
-            Commands.Add("basic", Cmd_BasicRename);
-            Commands.Add("test", Cmd_TestMethod);
-            Commands.Add("undefined", Cmd_GetUndefinedTypeNames);
-
-            // Instructions
-            var sb = new StringBuilder();
-            sb.AppendLine("Script Commands");
-            foreach (var c in Commands.Keys) sb.AppendLine(c);
-            Instructions = sb.ToString();
-
-            Echo(Instructions);
+            _instructions = "Script Commands\n" + string.Join("\n", _commands.Keys);
+            Echo(_instructions);
         }
 
         public void Main(string argument) {
-            Echo(Instructions);
+            Echo(_instructions);
             Echo("");
             Echo($"CMD: {argument}");
 
@@ -54,8 +48,8 @@ namespace IngameScript {
 
             var cmd = parts[0];
             var options = parts.Skip(1).ToArray();
-            if (Commands.ContainsKey(cmd)) {
-                Commands[cmd]?.Invoke(options);
+            if (_commands.ContainsKey(cmd)) {
+                _commands[cmd]?.Invoke(options);
             } else {
                 Echo("** not recognized **");
             }

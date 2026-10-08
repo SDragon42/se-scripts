@@ -21,27 +21,25 @@ using VRageMath;
 namespace IngameScript {
     partial class Program : MyGridProgram {
 
-        // readonly MyIni Ini = new MyIni();
         readonly Config _config = new Config();
-        readonly IDictionary<string, Action> Commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
 
-        readonly StateMachineSets Operation = new StateMachineSets();
+        readonly StateMachineSets _operations = new StateMachineSets();
+
+        static readonly char[] _argSplit = new char[] { ' ' };
 
         public Program() {
             _config.Initialize(Me, GridTerminalSystem);
             _config.Load();
         }
-
+        
         public void Save() {
         }
-
-        static readonly char[] ArgSplit = new char[] { ' ' };
 
         public void Main(string argument, UpdateType updateSource) {
             Echo("Countdown Timer");
             _config.Load();
 
-            var argumentParts = argument.Split(ArgSplit, 2);
+            var argumentParts = argument.Split(_argSplit, 2);
             if (argumentParts.Length == 2) {
                 var cmd = argumentParts[0].ToLower();
                 var tag = argumentParts[1];
@@ -53,25 +51,24 @@ namespace IngameScript {
                 }
             }
 
-            Operation.RunAll();
+            _operations.RunAll();
 
-            if (Operation.HasTasks)
-                Runtime.UpdateFrequency = UpdateFrequency.Update10;
-            else
-                Runtime.UpdateFrequency = UpdateFrequency.None;
+            Runtime.UpdateFrequency = _operations.HasTasks
+                ? UpdateFrequency.Update10
+                : UpdateFrequency.None;
         }
 
         void Abort(string tag) {
-            if (!Operation.HasTask(tag)) return;
-            Operation.Remove(tag);
+            if (!_operations.HasTask(tag)) return;
+            _operations.Remove(tag);
             var displayBlocks = new List<IMyTextPanel>();
             GridTerminalSystem.GetBlocksOfType(displayBlocks, b => IsTagged(b, tag));
             displayBlocks.ForEach(d => d.WriteText(string.Empty));
         }
 
         void StartUndock(string tag) {
-            if (Operation.HasTask(tag)) return;
-            Operation.Add(tag, RunUndockSequence(tag), true);
+            if (_operations.HasTask(tag)) return;
+            _operations.Add(tag, RunUndockSequence(tag), true);
         }
 
         IEnumerator<bool> RunUndockSequence(string tag) {

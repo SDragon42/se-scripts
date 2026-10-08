@@ -160,13 +160,5 @@ namespace IngameScript {
             yield return true;
         }
 
-        IEnumerator<bool> Delay(double secondsToWait) {
-            while (secondsToWait > 0) {
-                secondsToWait -= this.Runtime.TimeSinceLastRun.TotalSeconds;
-                yield return true;
-            }
-            yield return true;
         }
-
-    }
 }
