@@ -1,0 +1,5 @@
+﻿R e a d m e
+-----------
+
+This is a helper script that can be used to show the arguments passed to a program block when it is run.
+Helpful for older grid builds that were made before a "label" could be assigned to the toolbar.
