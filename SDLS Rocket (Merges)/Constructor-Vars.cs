@@ -63,10 +63,7 @@ namespace IngameScript {
             Commands.Add(CMD_AwaitStaging, Command_AwaitStaging);
 
             // Instructions
-            var sb = new StringBuilder();
-            sb.AppendLine("Script Commands");
-            foreach (var c in Commands.Keys) sb.AppendLine(c);
-            Instructions = sb.ToString();
+            Instructions = "Script Commands:\n" + string.Join("\n", Commands.Keys);
 
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
 
