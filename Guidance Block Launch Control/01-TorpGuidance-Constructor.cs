@@ -56,10 +56,7 @@ namespace IngameScript {
             _torpedoSelection.Add(TorpedoSelectionMode.Furthest, SelectFurthestTorpedo);
 
             // Instructions
-            var sb = new StringBuilder();
-            sb.AppendLine("Script Commands");
-            foreach (var c in _commands.Keys) sb.AppendLine(c);
-            _instructions = sb.ToString();
+            _instructions = "Script Commands:\n" + string.Join("\n", _commands.Keys);
 
             Echo(SCRIPT_TITLE);
             Echo(_instructions);
