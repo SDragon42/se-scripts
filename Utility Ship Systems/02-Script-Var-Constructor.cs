@@ -74,10 +74,7 @@ namespace IngameScript {
             _commands.Add("scan-range", ScanAhead);
 
             // Instructions
-            var sb = new StringBuilder();
-            sb.AppendLine("Script Commands");
-            foreach (var c in _commands.Keys) sb.AppendLine(c);
-            _instructions = sb.ToString();
+            _instructions = "Script Commands:\n" + string.Join("\n", _commands.Keys);
         }
 
         void LoadBlocks() {
