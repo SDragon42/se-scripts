@@ -70,6 +70,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ship Proximity", "Ship Prox
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X-Show-Args", "X-Show-Args\X-Show-Args.csproj", "{C8E5AE16-4997-4EBC-80DB-D883416AECE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tunnel-Drill-Control", "Tunnel-Drill-Control\Tunnel-Drill-Control.csproj", "{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -392,6 +394,18 @@ Global
 		{C8E5AE16-4997-4EBC-80DB-D883416AECE1}.Release|x64.Build.0 = Release|x64
 		{C8E5AE16-4997-4EBC-80DB-D883416AECE1}.Release|x86.ActiveCfg = Release|Any CPU
 		{C8E5AE16-4997-4EBC-80DB-D883416AECE1}.Release|x86.Build.0 = Release|Any CPU
+		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Debug|Any CPU.Build.0 = Debug|x64
+		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Debug|x64.ActiveCfg = Debug|x64
+		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Debug|x64.Build.0 = Debug|x64
+		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Debug|x86.ActiveCfg = Debug|x64
+		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Debug|x86.Build.0 = Debug|x64
+		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Release|Any CPU.ActiveCfg = Release|x64
+		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Release|Any CPU.Build.0 = Release|x64
+		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Release|x64.ActiveCfg = Release|x64
+		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Release|x64.Build.0 = Release|x64
+		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Release|x86.ActiveCfg = Release|x64
+		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -425,5 +439,6 @@ Global
 		Library\Library.projitems*{c6710304-8644-4016-9b1b-b714ce42c621}*SharedItemsImports = 5
 		Library\Library.projitems*{c8e5ae16-4997-4ebc-80db-d883416aece1}*SharedItemsImports = 5
 		SDLS - Shared\SDLS - Shared.projitems*{e8301866-1579-412f-9a13-b374269bf63c}*SharedItemsImports = 13
+		Library\Library.projitems*{31e42aef-6d6a-4396-a97b-d3846b7eb3a2}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
