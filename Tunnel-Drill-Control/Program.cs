@@ -27,6 +27,38 @@ namespace IngameScript {
 
         // readonly RunningSymbol _runningSymbol = new RunningSymbol();
 
+        enum MyDrillState {
+            initializing = 0,
+            Stopped = 1,
+            Drilling = 2,
+            OnHold = 3
+        }
+
+        MyDrillState _drillState = MyDrillState.initializing;
+        private MyDrillState DrillState {
+            get { return _drillState; }
+            set { 
+                if (_drillState == value) {
+                    return;
+                }
+                _drillState = value; 
+                switch (_drillState) {
+                    case MyDrillState.Drilling:
+                        Runtime.UpdateFrequency = UpdateFrequency.Update100;
+                        StartDrilling();
+                        break;
+                    case MyDrillState.OnHold:
+                        Runtime.UpdateFrequency = UpdateFrequency.Update100;
+                        HoldDrilling();
+                        break;
+                    case MyDrillState.Stopped:
+                        Runtime.UpdateFrequency = UpdateFrequency.None;
+                        StopDrilling();
+                        break;
+                }
+            }
+        }
+
         readonly IDictionary<string, Action> _commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
         readonly string _instructions;
         readonly Configuration _config = new Configuration();
@@ -39,54 +71,67 @@ namespace IngameScript {
 
         public Program() {
             Runtime.UpdateFrequency = UpdateFrequency.Update100;
-            // _commands.Add("extend", Extend);
-            // _commands.Add("retract", Retract);
 
             _commands.Add("start", StartDrilling);
-            _commands.Add("hold", HoldDrilling);
             _commands.Add("stop", StopDrilling);
+            _commands.Add("hold", HoldDrilling);
 
             _instructions = "$TITLE$ v$VERSION$\nScript Commands:\n" + string.Join("\n", _commands.Keys);
 
             _config.Initialize(Me, GridTerminalSystem);
             _config.Load();
+
+            Load();
+        }
+
+        public void Load() {
+            var cfg = StateConfig.Load(Storage);
+            _drillState = cfg.State;
         }
 
         public void Save() {
+            var cfg = new StateConfig();
+            cfg.State = _drillState;
+
+            Storage = cfg.BuildStorageString();
         }
 
         public void Main(string argument, UpdateType updateSource) {
-            // Initialize the script and load configuration if necessary
             Echo(_instructions);
-            // Echo("Configure script in 'Custom Data'");
+            Echo("\n\nState: " + _drillState);
+            Echo("Configure script in 'Custom Data'");
 
-            // Load the configuration
             _config.Initialize(Me, GridTerminalSystem);
             _config.Load();
 
-            // Action command;
-            // _commands.TryGetValue(argument, out command);
-            // command?.Invoke();
             if (_commands.ContainsKey(argument)) {
                 _commands[argument]?.Invoke();
                 return;
-            }
+            }            
 
             LoadBlocks();
-            var cargo = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCargoContainer>(b => IsSameGrid(b, Me) && IsTagged(b, _config.TagName));
-            if (cargo == null) return;
 
-            // var percentFull = (float)cargo.GetInventory().CurrentVolume / (float)cargo.GetInventory().MaxVolume;
-            var percentFull = cargo.GetInventory().CurrentVolume.RawValue / (float)cargo.GetInventory().MaxVolume.RawValue;
-
-            if (percentFull >= _config.MaxCargoPercentage) StopDrilling();
-            if (percentFull <= _config.MinCargoPercentage) StartDrilling();
-
+            var cargoPercentFull = _cargoContainer.GetInventory().CurrentVolume.RawValue / (float)_cargoContainer.GetInventory().MaxVolume.RawValue;
+            switch (_drillState) {
+                case MyDrillState.Drilling:
+                    if (cargoPercentFull >= _config.MaxCargoPercentage) {
+                        DrillState = MyDrillState.OnHold;
+                        break;
+                    }
+                    
+                    var isFullyExtended = _pistons.All(p => p.CurrentPosition >= p.HighestPosition);
+                    if (isFullyExtended)
+                        DrillState = MyDrillState.Stopped;
+                    break;
+                case MyDrillState.OnHold:
+                    if (cargoPercentFull < _config.MinCargoPercentage)
+                        DrillState = MyDrillState.Drilling;
+                    break;
+            }
         }
 
         void LoadBlocks() {
             _pistons.Clear();
-            // GridTerminalSystem.GetBlocksOfType(_pistons, piston => IsSameGrid(piston, Me) && IsTagged(piston, _config.TagName));
             GridTerminalSystem.GetBlocksOfType(_OnOffBlocks, b => Me.IsSameConstructAs(b) && IsTagged(b, _config.TagName) && !(b is IMyPistonBase));
             var piston = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyPistonBase>(b => IsSameGrid(b, Me) && IsTagged(b, _config.TagName));
             var lastPiston = piston;
@@ -99,6 +144,8 @@ namespace IngameScript {
             }
 
             GridTerminalSystem.GetBlocksOfType(_drills, b => b.CubeGrid == lastPiston.TopGrid);
+
+            _cargoContainer = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCargoContainer>(b => IsSameGrid(b, Me) && IsTagged(b, _config.TagName));
         }
 
         void StartDrilling() {
@@ -107,6 +154,7 @@ namespace IngameScript {
             _pistons.ForEach(piston => piston.Velocity = velocity);
             _drills.ForEach(drill => drill.Enabled = true);
             _OnOffBlocks.ForEach(b => b.Enabled = true);
+            _drillState = MyDrillState.Drilling;
         }
 
         void StopDrilling() {
@@ -114,12 +162,14 @@ namespace IngameScript {
             _pistons.ForEach(piston => piston.Velocity = -_config.RetractionVelocity);
             _drills.ForEach(drill => drill.Enabled = false);
             _OnOffBlocks.ForEach(b => b.Enabled = false);
+            _drillState = MyDrillState.Stopped;
         }
         void HoldDrilling() {
             LoadBlocks();
             _pistons.ForEach(piston => piston.Velocity = 0);
             _drills.ForEach(drill => drill.Enabled = false);
             _OnOffBlocks.ForEach(b => b.Enabled = false);
+            _drillState = MyDrillState.OnHold;
         }
 
 
@@ -143,6 +193,32 @@ namespace IngameScript {
 
                 Save();
             }
+        }
+
+        class StateConfig {
+            public static StateConfig Load(string storage) {
+                var config = new StateConfig();
+
+                var ini = new MyIni();
+                if (!ini.TryParse(storage)) return config;
+
+                config.State = (MyDrillState)ini.Add(StateKey, config.State).ToInt32();
+
+                return config;
+            }
+
+            public string BuildStorageString() {
+                var ini = new MyIni();
+
+                ini.Add(StateKey, (int)State);
+
+                return ini.ToString();
+            }
+
+
+            static MyIniKey StateKey = new MyIniKey("Drill-Control", "State");
+            public MyDrillState State { get; set; } = MyDrillState.initializing;
+
         }
     }
 }
