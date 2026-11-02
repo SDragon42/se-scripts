@@ -24,25 +24,27 @@ namespace IngameScript {
 
         // double _timeLastBlockLoad = BLOCK_RELOAD_TIME * 2;
         // double _timeLastCleared = 0;
+        const float PISTON_BASE_LENGTH = 5.16f;
 
         // readonly RunningSymbol _runningSymbol = new RunningSymbol();
 
         enum MyDrillState {
-            initializing = 0,
+            Initializing = 0,
             Stopped = 1,
             Drilling = 2,
             OnHold = 3
         }
 
-        MyDrillState _drillState = MyDrillState.initializing;
-        private MyDrillState DrillState {
-            get { return _drillState; }
-            set { 
-                if (_drillState == value) {
+        MyDrillState _operatingMode_InternalUseOnly = MyDrillState.Initializing;
+        private MyDrillState OperatingMode {
+            get { return _operatingMode_InternalUseOnly; }
+            set {
+                if (_operatingMode_InternalUseOnly == value) {
                     return;
                 }
-                _drillState = value; 
-                switch (_drillState) {
+                _operatingMode_InternalUseOnly = value;
+                Log($"Mode -> {value}");
+                switch (value) {
                     case MyDrillState.Drilling:
                         Runtime.UpdateFrequency = UpdateFrequency.Update100;
                         StartDrilling();
@@ -52,7 +54,7 @@ namespace IngameScript {
                         HoldDrilling();
                         break;
                     case MyDrillState.Stopped:
-                        Runtime.UpdateFrequency = UpdateFrequency.None;
+                        Runtime.UpdateFrequency = UpdateFrequency.Once;
                         StopDrilling();
                         break;
                 }
@@ -63,11 +65,15 @@ namespace IngameScript {
         readonly string _instructions;
         readonly Configuration _config = new Configuration();
 
-        readonly List<IMyShipDrill> _drills = new List<IMyShipDrill>();
         readonly List<IMyFunctionalBlock> _OnOffBlocks = new List<IMyFunctionalBlock>();
+        readonly List<IMyCargoContainer> _cargoContainers = new List<IMyCargoContainer>();
         readonly List<IMyPistonBase> _pistons = new List<IMyPistonBase>();
-        IMyCargoContainer _cargoContainer;
-        // readonly List<IMyPistonBase> _pistonsTemp = new List<IMyPistonBase>();
+        readonly List<IMyShipDrill> _drills = new List<IMyShipDrill>();
+
+
+        StringBuilder _output = new StringBuilder();
+        Logging _logging = new Logging();
+
 
         public Program() {
             Runtime.UpdateFrequency = UpdateFrequency.Update100;
@@ -75,6 +81,7 @@ namespace IngameScript {
             _commands.Add("start", StartDrilling);
             _commands.Add("stop", StopDrilling);
             _commands.Add("hold", HoldDrilling);
+            _commands.Add("show", ShowPistons);
 
             _instructions = "$TITLE$ v$VERSION$\nScript Commands:\n" + string.Join("\n", _commands.Keys);
 
@@ -86,90 +93,169 @@ namespace IngameScript {
 
         public void Load() {
             var cfg = StateConfig.Load(Storage);
-            _drillState = cfg.State;
+            OperatingMode = cfg.State;
         }
 
         public void Save() {
             var cfg = new StateConfig();
-            cfg.State = _drillState;
+            cfg.State = OperatingMode;
 
             Storage = cfg.BuildStorageString();
         }
 
         public void Main(string argument, UpdateType updateSource) {
             Echo(_instructions);
-            Echo("\n\nState: " + _drillState);
+            Echo("\n\nState: " + OperatingMode);
             Echo("Configure script in 'Custom Data'");
+
 
             _config.Initialize(Me, GridTerminalSystem);
             _config.Load();
 
-            if (_commands.ContainsKey(argument)) {
-                _commands[argument]?.Invoke();
-                return;
-            }            
+            _output.Clear();
 
-            LoadBlocks();
+            try {
+                if (_commands.ContainsKey(argument)) {
+                    _commands[argument]?.Invoke();
+                }
 
-            var cargoPercentFull = _cargoContainer.GetInventory().CurrentVolume.RawValue / (float)_cargoContainer.GetInventory().MaxVolume.RawValue;
-            switch (_drillState) {
-                case MyDrillState.Drilling:
-                    if (cargoPercentFull >= _config.MaxCargoPercentage) {
-                        DrillState = MyDrillState.OnHold;
+                _output.AppendLine($"Operation: {OperatingMode}");
+
+                var cargoPercentFull = GetInventoryPercentFull(_cargoContainers);
+                switch (OperatingMode) {
+                    case MyDrillState.Drilling:
+                        var numPistonsToExtend = 0;
+                        var currentExtension = 0.0f;
+                        var totalExtension = 0.0f;
+                        foreach (var piston in _pistons) {
+                            if (piston.CurrentPosition < piston.HighestPosition)
+                                numPistonsToExtend++;
+                            currentExtension += piston.CurrentPosition + PISTON_BASE_LENGTH;
+                            totalExtension += piston.HighestPosition + PISTON_BASE_LENGTH;
+                        }
+
+                        // var numPistonsToExtend = _pistons.Count(p => p.CurrentPosition < p.HighestPosition);
+                        if (numPistonsToExtend == 0) {
+                            OperatingMode = MyDrillState.Stopped;
+                            Log("No pistons to extend, stopping drill.");
+                            break;
+                        }
+
+                        var velocity = _config.MaxDrillVelocity / numPistonsToExtend;
+                        _pistons.ForEach(piston => piston.Velocity = velocity);
+                        if (cargoPercentFull >= _config.MaxCargoPercentage) {
+                            Log("Cargo full, putting drill on hold.");
+                            OperatingMode = MyDrillState.OnHold;
+                            break;
+                        }
+
+                        _output.AppendLine($"Cargo: {cargoPercentFull * 100:N1} %");
+                        _output.AppendLine($"Pistons to Extend: {numPistonsToExtend}");
+                        _output.AppendLine($"Drill Velocity: {velocity:N4}");
+                        _output.AppendLine($"Extension: {currentExtension:N3}m -> {totalExtension:N3}m");
+                        // var isFullyExtended = _pistons.All(p => p.CurrentPosition >= p.HighestPosition);
                         break;
-                    }
-                    
-                    var isFullyExtended = _pistons.All(p => p.CurrentPosition >= p.HighestPosition);
-                    if (isFullyExtended)
-                        DrillState = MyDrillState.Stopped;
-                    break;
-                case MyDrillState.OnHold:
-                    if (cargoPercentFull < _config.MinCargoPercentage)
-                        DrillState = MyDrillState.Drilling;
-                    break;
+                    case MyDrillState.OnHold:
+                        if (cargoPercentFull < _config.MinCargoPercentage)
+                            OperatingMode = MyDrillState.Drilling;
+                        break;
+                }
+            } catch (Exception e) {
+                _output.AppendLine("Error: " + e.Message);
+                _output.AppendLine("StackTrace: " + e.StackTrace);
+            } finally {
+                Echo(_output.ToString() + "\n" + _logging.ToString());
+                if (Me.SurfaceCount > 0) {
+                    var surface = Me.GetSurface(0);
+                    surface.ContentType = ContentType.TEXT_AND_IMAGE;
+                    surface.WriteText(_output.ToString() + "\n" + _logging.ToString());
+                }
             }
         }
 
+        void Log(string message) => _logging.AppendLine(DateTime.Now.ToString("HH:mm:ss") + " - " + message);
+
         void LoadBlocks() {
-            _pistons.Clear();
             GridTerminalSystem.GetBlocksOfType(_OnOffBlocks, b => Me.IsSameConstructAs(b) && IsTagged(b, _config.TagName) && !(b is IMyPistonBase));
+
+            _pistons.Clear();
+            IMyPistonBase lastPiston = null;
             var piston = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyPistonBase>(b => IsSameGrid(b, Me) && IsTagged(b, _config.TagName));
-            var lastPiston = piston;
-            while (piston != null) {
+            if (piston != null) {
                 _pistons.Add(piston);
-                // if (!piston.IsAttached) break;
-                lastPiston = piston;
-                piston = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyPistonBase>(p => p.CubeGrid == piston.TopGrid);
-                if (piston != null) _pistons.Add(piston);
+                // lastPiston = piston;
+                var rootPistonName = piston.CustomName.Replace(_config.TagName, "").Trim();
+                var i = 0;
+                while (piston != null) {
+                    // if (!piston.IsAttached) break;
+                    lastPiston = piston;
+                    piston = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyPistonBase>(p => p.CubeGrid == piston.TopGrid);
+                    if (piston != null) {
+                        i++;
+                        piston.CustomName = $"{rootPistonName} {i:00}";
+                        _pistons.Add(piston);
+                    }
+                }
             }
 
-            GridTerminalSystem.GetBlocksOfType(_drills, b => b.CubeGrid == lastPiston.TopGrid);
+            _drills.Clear();
+            if (lastPiston != null)
+                GridTerminalSystem.GetBlocksOfType(_drills, b => b.CubeGrid == lastPiston.TopGrid);
 
-            _cargoContainer = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyCargoContainer>(b => IsSameGrid(b, Me) && IsTagged(b, _config.TagName));
+            GridTerminalSystem.GetBlocksOfType(_cargoContainers, b => IsSameGrid(b, Me) && IsTagged(b, _config.TagName));
+        }
+
+        // float GetCargoPercentFull() {
+        //     var totalVolume = 0.0;
+        //     var currentVolume = 0.0;
+        //     _cargoContainers.ForEach(c => {
+        //         totalVolume += c.GetInventory().MaxVolume.RawValue;
+        //         currentVolume += c.GetInventory().CurrentVolume.RawValue;
+        //     });
+        //     return (float)(currentVolume / totalVolume);
+        // }
+
+        float GetInventoryPercentFull(IList<IMyCargoContainer> blocks) => GetInventoryPercentFull(blocks.Cast<IMyTerminalBlock>());
+        float GetInventoryPercentFull(IList<IMyShipDrill> blocks) => GetInventoryPercentFull(blocks.Cast<IMyTerminalBlock>());
+        float GetInventoryPercentFull(IEnumerable<IMyTerminalBlock> blocks) {
+            var totalVolume = 0.0;
+            var currentVolume = 0.0;
+            foreach (var c in blocks) {
+                totalVolume += c.GetInventory().MaxVolume.RawValue;
+                currentVolume += c.GetInventory().CurrentVolume.RawValue;
+            };
+            return (float)(currentVolume / totalVolume);
         }
 
         void StartDrilling() {
             LoadBlocks();
-            var velocity = _config.MaxDrillVelocity / _pistons.Count;
-            _pistons.ForEach(piston => piston.Velocity = velocity);
+            _pistons.ForEach(piston => piston.Velocity = 0f);
             _drills.ForEach(drill => drill.Enabled = true);
             _OnOffBlocks.ForEach(b => b.Enabled = true);
-            _drillState = MyDrillState.Drilling;
+            OperatingMode = MyDrillState.Drilling;
         }
 
         void StopDrilling() {
             LoadBlocks();
-            _pistons.ForEach(piston => piston.Velocity = -_config.RetractionVelocity);
+            _pistons.ForEach(piston => piston.Velocity = _config.RetractionVelocity * (_config.RetractionVelocity > 0 ? -1 : 1));
             _drills.ForEach(drill => drill.Enabled = false);
             _OnOffBlocks.ForEach(b => b.Enabled = false);
-            _drillState = MyDrillState.Stopped;
+            OperatingMode = MyDrillState.Stopped;
         }
         void HoldDrilling() {
             LoadBlocks();
             _pistons.ForEach(piston => piston.Velocity = 0);
             _drills.ForEach(drill => drill.Enabled = false);
             _OnOffBlocks.ForEach(b => b.Enabled = false);
-            _drillState = MyDrillState.OnHold;
+            OperatingMode = MyDrillState.OnHold;
+        }
+
+        void ShowPistons() {
+            LoadBlocks();
+            for (var i = 0; i < _pistons.Count; i++) {
+                var piston = _pistons[i];
+                _output.AppendLine($"Piston[{i}]: {piston.CustomName} / {piston.EntityId}");
+            }
         }
 
 
@@ -217,7 +303,7 @@ namespace IngameScript {
 
 
             static MyIniKey StateKey = new MyIniKey("Drill-Control", "State");
-            public MyDrillState State { get; set; } = MyDrillState.initializing;
+            public MyDrillState State { get; set; } = MyDrillState.Initializing;
 
         }
     }
