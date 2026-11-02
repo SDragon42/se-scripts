@@ -20,13 +20,7 @@ using VRageMath;
 
 namespace IngameScript {
     public partial class Program : MyGridProgram {
-        // const double BLOCK_RELOAD_TIME = 10;
-
-        // double _timeLastBlockLoad = BLOCK_RELOAD_TIME * 2;
-        // double _timeLastCleared = 0;
         const float PISTON_BASE_LENGTH = 5.16f;
-
-        // readonly RunningSymbol _runningSymbol = new RunningSymbol();
 
         enum MyDrillState {
             Initializing = 0,
@@ -121,7 +115,7 @@ namespace IngameScript {
 
                 _output.AppendLine($"Operation: {OperatingMode}");
 
-                var cargoPercentFull = GetInventoryPercentFull(_cargoContainers);
+                var cargoPercentFull = GetInventoryFullPercentage(_cargoContainers);
                 switch (OperatingMode) {
                     case MyDrillState.Drilling:
                         var numPistonsToExtend = 0;
@@ -183,7 +177,6 @@ namespace IngameScript {
             var piston = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyPistonBase>(b => IsSameGrid(b, Me) && IsTagged(b, _config.TagName));
             if (piston != null) {
                 _pistons.Add(piston);
-                // lastPiston = piston;
                 var rootPistonName = piston.CustomName.Replace(_config.TagName, "").Trim();
                 var i = 0;
                 while (piston != null) {
@@ -205,19 +198,7 @@ namespace IngameScript {
             GridTerminalSystem.GetBlocksOfType(_cargoContainers, b => IsSameGrid(b, Me) && IsTagged(b, _config.TagName));
         }
 
-        // float GetCargoPercentFull() {
-        //     var totalVolume = 0.0;
-        //     var currentVolume = 0.0;
-        //     _cargoContainers.ForEach(c => {
-        //         totalVolume += c.GetInventory().MaxVolume.RawValue;
-        //         currentVolume += c.GetInventory().CurrentVolume.RawValue;
-        //     });
-        //     return (float)(currentVolume / totalVolume);
-        // }
-
-        float GetInventoryPercentFull(IList<IMyCargoContainer> blocks) => GetInventoryPercentFull(blocks.Cast<IMyTerminalBlock>());
-        float GetInventoryPercentFull(IList<IMyShipDrill> blocks) => GetInventoryPercentFull(blocks.Cast<IMyTerminalBlock>());
-        float GetInventoryPercentFull(IEnumerable<IMyTerminalBlock> blocks) {
+        float GetInventoryFullPercentage(IEnumerable<IMyTerminalBlock> blocks) {
             var totalVolume = 0.0;
             var currentVolume = 0.0;
             foreach (var c in blocks) {

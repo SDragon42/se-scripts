@@ -72,6 +72,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X-Show-Args", "X-Show-Args\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tunnel-Drill-Control", "Tunnel-Drill-Control\Tunnel-Drill-Control.csproj", "{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tunnel-Drill-Control-2", "Tunnel-Drill-Control-2\Tunnel-Drill-Control-2.csproj", "{7A996396-391F-4D26-BB44-1F84363EEC36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -406,6 +408,18 @@ Global
 		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Release|x64.Build.0 = Release|x64
 		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Release|x86.ActiveCfg = Release|x64
 		{31E42AEF-6D6A-4396-A97B-D3846B7EB3A2}.Release|x86.Build.0 = Release|x64
+		{7A996396-391F-4D26-BB44-1F84363EEC36}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{7A996396-391F-4D26-BB44-1F84363EEC36}.Debug|Any CPU.Build.0 = Debug|x64
+		{7A996396-391F-4D26-BB44-1F84363EEC36}.Debug|x64.ActiveCfg = Debug|x64
+		{7A996396-391F-4D26-BB44-1F84363EEC36}.Debug|x64.Build.0 = Debug|x64
+		{7A996396-391F-4D26-BB44-1F84363EEC36}.Debug|x86.ActiveCfg = Debug|x64
+		{7A996396-391F-4D26-BB44-1F84363EEC36}.Debug|x86.Build.0 = Debug|x64
+		{7A996396-391F-4D26-BB44-1F84363EEC36}.Release|Any CPU.ActiveCfg = Release|x64
+		{7A996396-391F-4D26-BB44-1F84363EEC36}.Release|Any CPU.Build.0 = Release|x64
+		{7A996396-391F-4D26-BB44-1F84363EEC36}.Release|x64.ActiveCfg = Release|x64
+		{7A996396-391F-4D26-BB44-1F84363EEC36}.Release|x64.Build.0 = Release|x64
+		{7A996396-391F-4D26-BB44-1F84363EEC36}.Release|x86.ActiveCfg = Release|x64
+		{7A996396-391F-4D26-BB44-1F84363EEC36}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
