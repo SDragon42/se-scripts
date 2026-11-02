@@ -21,9 +21,14 @@ namespace IngameScript {
 
     static class MyIniExtensions {
         // Added the INI key/value to the MyIni object if it doesn't already exist, and returns the MyIniValue instance.
-        public static MyIniValue Add<T>(this MyIni ini, string section, string name, T value, string comment = null) where T : struct => ini.Add(new MyIniKey(section, name), value.ToString(), comment);
+        public static MyIniValue Add<T>(this MyIni ini, string section, string name, T value, string comment = null) where T : struct => ini.Add(section, name, value.ToString(), comment);
         // Added the INI key/value to the MyIni object if it doesn't already exist, and returns the MyIniValue instance.
-        public static MyIniValue Add(this MyIni ini, string section, string name, string value, string comment = null) => ini.Add(new MyIniKey(section, name), value, comment);
+        // public static MyIniValue Add(this MyIni ini, string section, string name, string value, string comment = null) => ini.Add(new MyIniKey(section, name), value, comment);
+        public static MyIniValue Add(this MyIni ini, string section, string name, string value, string comment = null) {
+            if (!ini.ContainsKey(section, name)) ini.Set(section, name, value);
+            ini.SetComment(section, name, comment);
+            return ini.Get(section, name);
+        }
         // Added the INI key/value to the MyIni object if it doesn't already exist, and returns the MyIniValue instance.
         public static MyIniValue Add<T>(this MyIni ini, MyIniKey key, T value, string comment = null) where T : struct => ini.Add(key, value.ToString(), comment);
         // Added the INI key/value to the MyIni object if it doesn't already exist, and returns the MyIniValue instance.
@@ -33,7 +38,12 @@ namespace IngameScript {
             return ini.Get(key);
         }
 
-        public static MyIniValue? GetAndDelete(this MyIni ini, string section, string name) => ini.GetAndDelete(new MyIniKey(section, name));
+        public static MyIniValue? GetAndDelete(this MyIni ini, string section, string name) {
+            if (!ini.ContainsKey(section, name)) return null;
+            var value = ini.Get(section, name);
+            ini.Delete(section, name);
+            return value;
+        }
         public static MyIniValue? GetAndDelete(this MyIni ini, MyIniKey key) {
             if (!ini.ContainsKey(key)) return null;
             var value = ini.Get(key);
