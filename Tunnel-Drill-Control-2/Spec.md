@@ -12,6 +12,6 @@
     2. ***Any*** attached drill goes above the threshold.
   - Resume operation once the respective inventories from above drop below a configured threshold.
 - If the maximum possible extension is reached before the configured target distance:
-  1. Detach the tagged subgrid (rotor, hinge, or piston).
+  1. Detach the tagged sub-grid (rotor, hinge, or piston).
   2. Retract the last N pistons (configured), or all pistons if none is configured.
   

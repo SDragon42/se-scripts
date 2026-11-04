@@ -1,4 +1,5 @@
-﻿using Sandbox.Game.EntityComponents;
+﻿// <mdk sortorder="1" />
+using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
@@ -21,100 +22,120 @@ using VRageMath;
 namespace IngameScript {
     public partial class Program : MyGridProgram {
 
-        enum MyDrillState {
-            Initializing = 0,
-            Stopped = 1,
-            Drilling = 2,
-            OnHold = 3
-        }
-
+        // const UpdateFrequency RUNNING_FREQUENCY = UpdateFrequency.Update100;
+        // const UpdateFrequency INITIALIZATION_FREQUENCY = UpdateFrequency.Once;
+        // const UpdateType RUNNING_SYMBOL_UPDATE_TYPE = UpdateType.Update100;
+        
+        // Operation block references
+        readonly List<IMyFunctionalBlock> _OnOffBlocks = new List<IMyFunctionalBlock>();
+        readonly List<IMyCargoContainer> _cargoContainers = new List<IMyCargoContainer>();
+        readonly List<IMyPistonBase> _pistons = new List<IMyPistonBase>();
+        readonly List<IMyShipDrill> _drills = new List<IMyShipDrill>();
+        
+        
+        MyDrillState _currentState = MyDrillState.Initializing;
         readonly IDictionary<string, Action> _commands = new Dictionary<string, Action>(StringComparer.OrdinalIgnoreCase);
         readonly string _instructions;
         readonly Configuration _config = new Configuration();
 
-
+        readonly RunningSymbol _runningSymbol = new RunningSymbol();
         StateMachineQueue _operationQueue = new StateMachineQueue();
 
+        readonly MyIni _storageIni = new MyIni();
 
         public Program() {
-            _commands.Add("reset", () => {});
-            _commands.Add("start", StartDrilling);
-            _commands.Add("stop", StopDrilling);
-            _commands.Add("hold", HoldDrilling);
+            _commands.Add("reset", null);
+            _commands.Add("start", null);
+            _commands.Add("stop", null);
 
             // Initialize the configuration
             _config.Initialize(Me, GridTerminalSystem);
             _config.Load();
 
             // Load the current state from storage
-            var state = new StateConfig(Storage);
+            // var state = new StateConfig(Storage);
+            if (_storageIni.TryParse(Storage)) {
+                var version = _storageIni.Get("", "Version").ToString();
+                switch (version) {
+                    case "1":
+                        // Handle version 1 if needed
+                        var stateString = _storageIni.Get("", "State").ToString();
+                        break;
+                    default:
+                        // Unknown version, handle accordingly
+                        break;
+                }
+            }
         }
 
         public void Save() {
             // Save the current state to storage
-            var state = new StateConfig();
-            Storage = state.ToString();
+            _storageIni.Clear();
+            _storageIni.Add("", "Version", "1");
+            _storageIni.Add("", "State", _currentState);
+            Storage = _storageIni.ToString();
         }
 
         public void Main(string argument, UpdateType updateSource) {
+            Echo("Tunnel Drill Control" + (updateSource == UpdateType.Update100 ? " " + _runningSymbol.GetSymbol() : ""));
+            Echo($"Current State: {_currentState}");
+
+            _config.Load();
+
+            if (argument.Length > 0 && _commands.ContainsKey(argument)) 
+                _commands[argument]?.Invoke();
+
+            // Run the operation queue
             _operationQueue.Run();
         }
 
 
-        // #####################################################################
-        class Configuration : ConfigBase {
-            public string TagName { get; private set; } = "Tunnel-Drill";
-            public float ExtensionVelocity { get; private set; } = 0.08f;
-            public float RetractionVelocity { get; private set; } = 0.5f;
-            public float HoldCargoPercentage { get; private set; } = 0.95f;
-            public float ResumeCargoPercentage { get; private set; } = 0.5f;
+        void LoadBlocks() {
+            // In Operations On/Off blocks
+            GridTerminalSystem.GetBlocksOfType(_OnOffBlocks, b => IsMine(b) && !(b is IMyPistonBase));
 
-            const string SECTION_NAME = "Tunnel-Drill";
-            public void Load() {
-                if (!LoadIni()) return;
-
-                _ini.AddSection(SECTION_NAME);
-                _ini.SetSectionComment(SECTION_NAME, "Configuration for the tunnel drill");
-
-                TagName = _ini.Add(SECTION_NAME, "TagName", TagName).ToString();
-                ExtensionVelocity = _ini.Add(SECTION_NAME, "ExtensionVelocity", ExtensionVelocity).ToSingle();
-                RetractionVelocity = _ini.Add(SECTION_NAME, "RetractionVelocity", RetractionVelocity).ToSingle();
-                HoldCargoPercentage = Math.Min(1f, _ini.Add(SECTION_NAME, "HoldCargoPercentage", HoldCargoPercentage).ToSingle());
-                ResumeCargoPercentage = Math.Max(0f, _ini.Add(SECTION_NAME, "ResumeCargoPercentage", ResumeCargoPercentage).ToSingle());
-
-                // Ensure ResumeCargoPercentage is less than HoldCargoPercentage
-                if (ResumeCargoPercentage >= HoldCargoPercentage) {
-                    ResumeCargoPercentage = Math.Max(0f, HoldCargoPercentage - 0.2f);
+            // Piston Blocks
+            _pistons.Clear();
+            IMyPistonBase previousPiston = null;
+            var piston = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyPistonBase>(IsMine);
+            if (piston != null) {
+                _pistons.Add(piston);
+                var rootPistonName = piston.CustomName.Replace(_config.TagName, "").Trim();
+                var i = 0;
+                // Traverse the piston chain and rename them sequentially
+                while (piston != null) {
+                    previousPiston = piston;
+                    piston = GridTerminalSystem.GetBlockOfTypeWithFirst<IMyPistonBase>(b => piston.TopGrid == b.CubeGrid);
+                    if (piston != null) {
+                        i++;
+                        piston.CustomName = $"{rootPistonName} {i:00}";
+                        _pistons.Add(piston);
+                    }
                 }
-                
-                Save();
             }
+
+            // Drill Blocks
+            _drills.Clear();
+            if (previousPiston != null)
+                GridTerminalSystem.GetBlocksOfType(_drills, b => b.CubeGrid == previousPiston.TopGrid);
+
+            // Cargo Container Blocks
+            GridTerminalSystem.GetBlocksOfType(_cargoContainers, IsMine);
         }
 
-        // #####################################################################
-        class StateConfig {
-
-            public MyDrillState State { get; set; } = MyDrillState.Initializing;
+        bool IsMine(IMyTerminalBlock b) => b.IsSameConstructAs(Me) && IsTagged(b, _config.TagName);
 
 
-            readonly MyIniKey StateKey = new MyIniKey("Drill-Control", "State");
+        void CommandReset() {
+            // Implement reset logic here
+        }
 
-            public StateConfig() { }
-            public StateConfig(string storage) {
-                var ini = new MyIni();
-                if (!ini.TryParse(storage)) return;
+        void CommandStart() {
+            // Implement start logic here
+        }
 
-                // State = (MyDrillState)ini.Add(StateKey, State).ToInt32();
-            }
-
-            public override string ToString() {
-                var ini = new MyIni();
-
-                // ini.Add(StateKey, (int)State);
-
-                return ini.ToString();
-            }
-
+        void CommandStop() {
+            // Implement stop logic here
         }
 
     }
