@@ -29,11 +29,10 @@ namespace IngameScript {
             int displayIndex;
 
 
-            public DebugLogging(MyGridProgram thisObj, string displayName = null, int displayIndex = 0) {
+            public DebugLogging(MyGridProgram thisObj, string displayName = null, int displayIndex = 0) : base(0) {
                 gridProg = thisObj;
                 this.displayName = string.IsNullOrWhiteSpace(displayName) ? DefaultDebugPanelName : displayName;
                 this.displayIndex = displayIndex >= 0 ? displayIndex : 0;
-                MaxTextLinesToKeep = -1;
             }
 
 
@@ -52,14 +51,20 @@ namespace IngameScript {
             }
             void WriteToDisplays(string text) {
                 if (!Enabled) return;
-                var b = gridProg.GridTerminalSystem.GetBlockWithName(displayName);
-                if (b == null) return;
-                if (!b.IsSameConstructAs(gridProg.Me)) return;
-                var d = b as IMyTextSurfaceProvider;
-                if (d == null) return;
-                if (displayIndex > d.SurfaceCount - 1)
-                    displayIndex = d.SurfaceCount - 1;
-                var surface = d.GetSurface(displayIndex);
+                
+                IMyTextSurfaceProvider b = null;
+                if (!string.IsNullOrWhiteSpace(displayName)) {
+                    b = gridProg.GridTerminalSystem.GetBlockWithName(displayName) as IMyTextSurfaceProvider;
+                }
+                if (b == null) {
+                    b = gridProg.Me;
+                }
+
+                displayIndex = Math.Min(displayIndex, b.SurfaceCount - 1);
+                displayIndex = Math.Max(displayIndex, 0);
+                var surface = b.GetSurface(displayIndex);
+
+                if (surface == null) return;
                 surface.ContentType = ContentType.TEXT_AND_IMAGE;
                 surface.WriteText(text);
             }

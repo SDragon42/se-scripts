@@ -1,4 +1,4 @@
-// <mdk sortorder="90" />
+// <mdk sortorder="80" />
 using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
@@ -30,7 +30,7 @@ namespace IngameScript {
             public float ResumeInventoryPercentage { get; private set; } = 0.5f;
 
             const string SECTION_NAME = "Tunnel-Drill";
-            
+
             public void Load() {
                 if (!LoadIni()) return;
 
@@ -38,8 +38,8 @@ namespace IngameScript {
                 _ini.SetSectionComment(SECTION_NAME, "Configuration for the tunnel drill");
 
                 TagName = _ini.Add(SECTION_NAME, "TagName", TagName).ToString();
-                ExtensionVelocity = _ini.Add(SECTION_NAME, "ExtensionVelocity", ExtensionVelocity).ToSingle();
-                RetractionVelocity = _ini.Add(SECTION_NAME, "RetractionVelocity", RetractionVelocity).ToSingle();
+                ExtensionVelocity = Math.Abs(_ini.Add(SECTION_NAME, "ExtensionVelocity", ExtensionVelocity).ToSingle());
+                RetractionVelocity = Math.Abs(_ini.Add(SECTION_NAME, "RetractionVelocity", RetractionVelocity).ToSingle());
                 HoldInventoryPercentage = Math.Min(1f, _ini.Add(SECTION_NAME, "HoldInventoryPercentage", HoldInventoryPercentage).ToSingle());
                 ResumeInventoryPercentage = Math.Max(0f, _ini.Add(SECTION_NAME, "ResumeInventoryPercentage", ResumeInventoryPercentage).ToSingle());
 
@@ -47,7 +47,7 @@ namespace IngameScript {
                 if (ResumeInventoryPercentage >= HoldInventoryPercentage) {
                     ResumeInventoryPercentage = Math.Max(0f, HoldInventoryPercentage - 0.2f);
                 }
-                
+
                 Save();
             }
         }

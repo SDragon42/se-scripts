@@ -29,26 +29,26 @@ namespace IngameScript {
                 MaxTextLinesToKeep = maxLines2Keep;
             }
 
-            string LineBuffer = string.Empty;
+            string _lineBuffer = string.Empty;
 
             public bool Enabled { get; set; }
 
-            int maxLines;
+            int _maxTextLinesToKeep;
             public int MaxTextLinesToKeep {
-                get { return maxLines; }
-                set { maxLines = value > 0 ? value : 0; }
+                get { return _maxTextLinesToKeep; }
+                set { _maxTextLinesToKeep = Math.Max(value, 0); }
             }
 
 
             public virtual void Clear() {
                 if (!Enabled) return;
                 Lines.Clear();
-                LineBuffer = string.Empty;
+                _lineBuffer = string.Empty;
             }
 
             public void Append(string text, params object[] args) {
                 if (!Enabled) return;
-                LineBuffer += string.Format(text, args);
+                _lineBuffer += string.Format(text, args);
             }
 
             public void AppendLine() {
@@ -57,14 +57,14 @@ namespace IngameScript {
             public void AppendLine(string text, params object[] args) {
                 if (!Enabled) return;
                 Append(text, args);
-                Lines.Add(LineBuffer);
-                LineBuffer = string.Empty;
+                Lines.Add(_lineBuffer);
+                _lineBuffer = string.Empty;
                 TrimLines();
             }
 
             void TrimLines() {
-                if (maxLines <= 0) return;
-                while (Lines.Count > maxLines)
+                if (MaxTextLinesToKeep <= 0) return;
+                while (Lines.Count > MaxTextLinesToKeep)
                     Lines.RemoveAt(0);
             }
 
@@ -73,8 +73,8 @@ namespace IngameScript {
             public override string ToString() {
                 var sb = new StringBuilder();
                 foreach (var line in Lines) sb.AppendLine(line);
-                if (!string.IsNullOrWhiteSpace(LineBuffer))
-                    sb.AppendLine(LineBuffer);
+                if (!string.IsNullOrWhiteSpace(_lineBuffer))
+                    sb.AppendLine(_lineBuffer);
                 return sb.ToString();
             }
         }

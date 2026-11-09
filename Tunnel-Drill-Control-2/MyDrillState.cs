@@ -1,4 +1,4 @@
-// <mdk sortorder="100" />
+// <mdk sortorder="90" />
 using Sandbox.Game.EntityComponents;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
@@ -24,10 +24,11 @@ namespace IngameScript {
 
         enum MyDrillState {
             Initializing = 0,
-            Ready = 1,
-            Drilling = 2,
-            Stopped = 3,
-            Resetting = 4
+            Resetting = 5,
+            Ready = 10,
+            Drilling = 20,
+            Holding = 30,
+            Stopped = 31,
         }
 
     }
