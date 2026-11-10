@@ -42,6 +42,9 @@ namespace IngameScript {
         readonly StateMachineQueue _operationQueue = new StateMachineQueue();
         readonly DebugLogging _debug;
 
+        double _cargoInventoryPercentage;
+        double _drillInventoryPercentage;
+
 
         readonly MyIni _storageIni = new MyIni();
         const string STORAGE_SECTION = "DrillControl";
@@ -84,10 +87,7 @@ namespace IngameScript {
             Storage = _storageIni.ToString();
         }
 
-        private void Debug(string message) {
-            if (_debug != null) _debug.AppendLine(message);
-            // Echo(message);
-        }
+        private void Debug(string message) => _debug?.AppendLine(message);
 
         public void Main(string argument, UpdateType updateSource) {
             Echo("$TITLE$ v$VERSION$ " + (updateSource == UpdateType.Update100 ? " " + _runningSymbol.GetSymbol() : ""));
@@ -101,6 +101,9 @@ namespace IngameScript {
                 if (argument.Length > 0 && _commands.ContainsKey(argument))
                     _commands[argument]?.Invoke();
 
+                _cargoInventoryPercentage = GetInventoryFullPercentage(_cargoContainers);
+                _drillInventoryPercentage = GetInventoryFullPercentage(_drills);
+
                 // Run the operation queue
                 var result = _operationQueue.Run();
                 Runtime.UpdateFrequency = result ? UpdateFrequency.Update10 : UpdateFrequency.Once;
@@ -109,7 +112,18 @@ namespace IngameScript {
                 Debug($"Exception: {exc.Message}");
             } finally {
                 _debug.UpdateDisplay();
+                UpdateProgDisplay();
             }
+        }
+
+        float GetInventoryFullPercentage(IEnumerable<IMyTerminalBlock> blocks) {
+            var totalVolume = 0.0;
+            var currentVolume = 0.0;
+            foreach (var c in blocks) {
+                totalVolume += c.GetInventory().MaxVolume.RawValue;
+                currentVolume += c.GetInventory().CurrentVolume.RawValue;
+            };
+            return totalVolume != 0 ? (float)(currentVolume / totalVolume) : 0;
         }
 
         void CommandReset() {
@@ -151,6 +165,8 @@ namespace IngameScript {
             _operationQueue.Clear();
             _operationQueue.Add(Action_StopMovement());
             _operationQueue.Add(Action_SetStatus(MyDrillState.Holding));
+            // _operationQueue.Add();
+            _operationQueue.Add(Action_RunCommand(CommandStart));
         }
 
         void CommandStop() {
@@ -163,6 +179,16 @@ namespace IngameScript {
             _operationQueue.Add(Action_RetractPistons()); // TODO: Retract pistons back to a configured distance.
             _operationQueue.Add(Action_WaitForRetractionCompleted());
             _operationQueue.Add(Action_SetStatus(MyDrillState.Ready));
+        }
+
+        StringBuilder _progDisplay = new StringBuilder();
+        void UpdateProgDisplay() {
+            _progDisplay.Clear();
+            _progDisplay.AppendLine($"State: {_currentState}");
+            _progDisplay.AppendLine($"Cargo %: {_cargoInventoryPercentage * 100:N1}");
+            _progDisplay.AppendLine($"Drill %: {_drillInventoryPercentage * 100:N1}");
+            // Add more status information as needed.
+            // _debug.UpdateDisplay();
         }
 
     }

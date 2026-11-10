@@ -63,6 +63,10 @@ namespace IngameScript {
             Debug("Action_DrillingLoop invoked.");
             while (true) {
                 // Debug("Starting drilling loop iteration.");
+                if (_cargoInventoryPercentage >= _config.HoldInventoryPercentage || _drillInventoryPercentage >= _config.HoldInventoryPercentage) {
+                    Action_RunCommand(CommandHold);
+                    yield break; // Exit the drilling loop if we are holding due to inventory limits
+                }
                 StartAllDrills();
                 var isExtending = ExtendPistonChain();
                 // Debug($"isExtending: {isExtending}");
