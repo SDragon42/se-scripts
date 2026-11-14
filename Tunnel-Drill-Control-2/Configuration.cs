@@ -23,11 +23,13 @@ namespace IngameScript {
     public partial class Program : MyGridProgram {
 
         class Configuration : ConfigBase {
-            public string TagName { get; private set; } = "Tunnel-Drill";
+            public string TagName { get; private set; } = "[Tunnel-Drill]";
             public float ExtensionVelocity { get; private set; } = 0.08f;
             public float RetractionVelocity { get; private set; } = 0.5f;
             public float HoldInventoryPercentage { get; private set; } = 0.95f;
             public float ResumeInventoryPercentage { get; private set; } = 0.5f;
+            // public float CompletedRetractionDistance { get; private set; } = 10f;
+            public int NumberOfPistonsToRetract { get; private set; } = 1;
 
             const string SECTION_NAME = "Tunnel-Drill";
 
@@ -42,6 +44,8 @@ namespace IngameScript {
                 RetractionVelocity = Math.Abs(_ini.Add(SECTION_NAME, "RetractionVelocity", RetractionVelocity).ToSingle());
                 HoldInventoryPercentage = Math.Min(1f, _ini.Add(SECTION_NAME, "HoldInventoryPercentage", HoldInventoryPercentage).ToSingle());
                 ResumeInventoryPercentage = Math.Max(0f, _ini.Add(SECTION_NAME, "ResumeInventoryPercentage", ResumeInventoryPercentage).ToSingle());
+                // CompletedRetractionDistance = Math.Max(0f, _ini.Add(SECTION_NAME, "CompletedRetractionDistance", CompletedRetractionDistance).ToSingle());
+                NumberOfPistonsToRetract = Math.Max(1, _ini.Add(SECTION_NAME, "NumberOfPistonsToRetract", NumberOfPistonsToRetract).ToInt32());
 
                 // Ensure ResumeCargoPercentage is less than HoldCargoPercentage
                 if (ResumeInventoryPercentage >= HoldInventoryPercentage) {

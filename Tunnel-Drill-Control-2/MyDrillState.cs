@@ -23,12 +23,11 @@ namespace IngameScript {
     public partial class Program : MyGridProgram {
 
         enum MyDrillState {
-            Initializing = 0,
-            Resetting = 5,
+            Resetting = 0,
             Ready = 10,
             Drilling = 20,
             Holding = 30,
-            Stopped = 31,
+            Stopped = 40,
         }
 
     }

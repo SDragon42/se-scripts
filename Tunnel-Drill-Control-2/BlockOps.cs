@@ -23,9 +23,6 @@ namespace IngameScript {
     public partial class Program : MyGridProgram {
 
         void LoadBlocks() {
-            // In Operations On/Off blocks
-            GridTerminalSystem.GetBlocksOfType(_OnOffBlocks, b => IsMine(b) && !(b is IMyPistonBase));
-
             // Piston Blocks
             _pistons.Clear();
             IMyPistonBase previousPiston = null;
@@ -33,7 +30,7 @@ namespace IngameScript {
             if (piston != null) {
                 _pistons.Add(piston);
                 var rootPistonName = piston.CustomName.Replace(_config.TagName, "").Trim();
-                var i = 0;
+                var i = 1;
                 // Traverse the piston chain and rename them sequentially
                 while (piston != null) {
                     previousPiston = piston;
@@ -53,6 +50,9 @@ namespace IngameScript {
 
             // Cargo Container Blocks
             GridTerminalSystem.GetBlocksOfType(_cargoContainers, IsMine);
+
+            // In-Operation blocks
+            GridTerminalSystem.GetBlocksOfType(_warningLights, b => IsMine(b));
         }
 
 
@@ -70,7 +70,6 @@ namespace IngameScript {
                 var piston = _pistons[i];
                 if (!IsExtended(piston)) {
                     if (piston.Velocity != _config.ExtensionVelocity) Debug($"Extending piston: {piston.CustomName}");
-                    // Debug($"{piston.CustomName}: {piston.CurrentPosition} / {piston.MaxLimit}");
                     piston.Velocity = _config.ExtensionVelocity;
                     return true;
                 }
@@ -79,6 +78,29 @@ namespace IngameScript {
             Debug("All pistons fully extended.");
             return false;
         }
+        bool RetractPistonChain(int numberOfPistons = int.MaxValue) {
+            var i = 0;
+            while (i < _pistons.Count) {
+                var piston = _pistons[i];
+                if (!IsRetracted(piston)) {
+                    if (piston.Velocity != -_config.RetractionVelocity) Debug($"Retracting piston: {piston.CustomName}");
+                    piston.Velocity = -_config.RetractionVelocity;
+                    return true;
+                }
+                i++;
+                if (i >= numberOfPistons) break;
+            }
+            Debug("All pistons fully retracted.");
+            return false;
+        }
+
+        const float PISTON_BASE_LENGTH = 5.16f;
+
+        float GetCurrentPistonExtension() => _pistons.Sum(p => p.CurrentPosition + PISTON_BASE_LENGTH);
+
+        float GetMinPistonExtension() => _pistons.Count * PISTON_BASE_LENGTH;
+
+        float GetMaxPistonExtension() => _pistons.Count * (PISTON_BASE_LENGTH + 10f);
 
     }
 }
